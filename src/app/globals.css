@@ -4,25 +4,35 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Paleta Trilha — a mesma marca em duas intensidades:
+   "mata" (sóbria, painel) e "broto" (vibrante, aluno). */
+@theme {
+  --color-mata: #0f6e50;
+  --color-mata-escura: #0a523b;
+  --color-mata-clara: #e4f1ec;
+  --color-broto: #1dbe7f;
+  --color-broto-escuro: #12925f;
+  --color-ceu: #e3f4fb;
+  --color-ceu-forte: #bfe6f6;
+  --color-sol: #ffc23d;
+  --color-sol-escuro: #e0a01a;
+  --color-coral: #ff7a59;
+  --color-coral-claro: #ffe6de;
+  --color-papel: #f6f7f5;
+  --color-grafite: #1e2a25;
+  --color-pedra: #5d6b65;
+  --color-atencao: #b7791f;
+  --color-atencao-clara: #fbf1dd;
+  --color-alerta: #b83a26;
+  --color-alerta-clara: #f8e3df;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
+  --font-sans: var(--font-atkinson);
+  --font-display: var(--font-baloo);
+  --font-heading: var(--font-atkinson);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -49,72 +59,25 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #ffffff;
+  --foreground: #1e2a25;
+  --card: #ffffff;
+  --card-foreground: #1e2a25;
+  --popover: #ffffff;
+  --popover-foreground: #1e2a25;
+  --primary: #0f6e50;
+  --primary-foreground: #ffffff;
+  --secondary: #eef1ee;
+  --secondary-foreground: #1e2a25;
+  --muted: #eef1ee;
+  --muted-foreground: #5d6b65;
+  --accent: #e4f1ec;
+  --accent-foreground: #0a523b;
+  --destructive: #b83a26;
+  --border: #dde3df;
+  --input: #cfd7d2;
+  --ring: #0f6e50;
+  --radius: 0.5rem;
 }
 
 @layer base {
@@ -126,5 +89,38 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* Movimento do lado do aluno — sempre em resposta a uma ação. */
+@keyframes pulo {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-14px); }
+  60% { transform: translateY(-14px) rotate(-6deg); }
+}
+@keyframes brilho {
+  0% { transform: translate(0, 0) scale(0.4); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(1); opacity: 0; }
+}
+@keyframes sobe {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes balanca {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.animate-pulo { animation: pulo 0.6s ease-out; }
+.animate-sobe { animation: sobe 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.animate-balanca { animation: balanca 0.3s ease-in-out 2; }
+.animate-brilho { animation: brilho 0.9s ease-out forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulo,
+  .animate-sobe,
+  .animate-balanca,
+  .animate-brilho {
+    animation: none;
   }
 }

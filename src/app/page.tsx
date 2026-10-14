@@ -1,69 +1,76 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Logo, Marcas, Sabia } from "@/components/marca";
+import { classesBotaoGrande } from "@/components/aluno/botao-grande";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import type { Status } from "@/lib/types";
+
+const exemplo: { nome: string; status: Status }[] = [
+  { nome: "Adição e subtração", status: "ok" },
+  { nome: "Multiplicação", status: "atencao" },
+  { nome: "Frações simples", status: "alerta" },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <main className="grid flex-1 lg:grid-cols-[1.1fr_1fr]">
+      {/* Lado do aluno */}
+      <section className="relative flex flex-col overflow-hidden bg-ceu px-4 py-6 sm:px-10 sm:py-8">
+        <Logo vibrante className="text-grafite" />
+        <div className="flex flex-1 flex-col items-center justify-center gap-6 py-12 text-center">
+          <Sabia humor="feliz" className="size-36 sm:size-44" />
+          <h1 className="max-w-[14ch] font-display text-5xl leading-[0.95] font-extrabold text-grafite sm:text-6xl">
+            Bora fazer a trilha de hoje?
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="max-w-[30ch] font-display text-xl font-medium text-pedra">
+            Seu professor tem o código da turma. É só digitar e começar.
           </p>
+          <Link href="/aluno" className={classesBotaoGrande("broto", "mt-2")}>
+            Sou aluno
+          </Link>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        {/* trilha decorativa ao pé da página */}
+        <svg viewBox="0 0 600 80" className="pointer-events-none absolute inset-x-0 bottom-0 h-20 w-full" aria-hidden preserveAspectRatio="none">
+          <path d="M-10 70 C120 20 220 80 330 40 S520 10 610 30" fill="none" stroke="#fff" strokeWidth="6" strokeLinecap="round" strokeDasharray="1 16" />
+        </svg>
+      </section>
+
+      {/* Lado do adulto */}
+      <section className="flex flex-col justify-center bg-papel px-4 py-14 sm:px-10 lg:px-16">
+        <div className="max-w-md">
+          <h2 className="text-3xl leading-tight font-bold text-grafite sm:text-4xl">
+            Veja em que cada aluno precisa de ajuda, e o que fazer a respeito.
+          </h2>
+          <p className="mt-4 text-lg leading-relaxed text-pedra">
+            Para responsáveis e professores. A Trilha acompanha as atividades de cada criança,
+            aponta as habilidades que pedem atenção e sugere como apoiar em casa ou na sala.
+          </p>
+
+          <div className="mt-8 rounded-lg border bg-white p-4" aria-label="Exemplo do painel">
+            <p className="text-sm font-semibold text-grafite">Bruno F.</p>
+            <ul className="mt-3 space-y-2">
+              {exemplo.map((h) => (
+                <li key={h.nome} className="flex items-center justify-between text-sm text-pedra">
+                  {h.nome}
+                  <Marcas status={h.status} />
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/entrar" className={cn(buttonVariants({ size: "lg" }), "h-11 px-5 text-base")}>
+              Entrar
+            </Link>
+            <Link
+              href="/cadastro"
+              className={cn(buttonVariants({ size: "lg", variant: "outline" }), "h-11 px-5 text-base")}
+            >
+              Criar conta
+            </Link>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }
