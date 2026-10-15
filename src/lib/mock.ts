@@ -63,9 +63,20 @@ interface SessaoMock {
   usadas: Set<string>;
   adaptacao: EstadoAdaptacao;
   respostas: { perguntaId: string; habilidadeId: string; nivel: Nivel; correta: boolean }[];
+  concluida?: boolean;
+}
+
+// Uma linha por sessão concluída: desempenho (0–100) em cada habilidade trabalhada.
+// O histórico só cresce — nenhuma sessão sobrescreve a anterior.
+interface RegistroSessao {
+  data: string;
+  desempenho: Record<string, number>;
 }
 
 interface EstadoMock {
+  registros: Map<string, RegistroSessao[]>; // alunoId -> sessões, em ordem
+  statusAtual: Map<string, Status>; // "alunoId:habilidadeId" -> status recalculado após sessões novas
+  ultimaAtividade: Map<string, string>; // alunoId -> data da última sessão feita na demo
   ativas: Set<string>;
   disciplinasAtivas: Set<string>;
   sessoes: Map<string, SessaoMock>;
@@ -82,6 +93,9 @@ const PINS_INICIAIS: Record<string, string> = {
 
 function estadoInicial(): EstadoMock {
   return {
+    registros: new Map(),
+    statusAtual: new Map(),
+    ultimaAtividade: new Map(),
     ativas: new Set(HABILIDADES.filter((h) => h.id !== "por-producao").map((h) => h.id)),
     disciplinasAtivas: new Set(DISCIPLINAS.map((d) => d.id)),
     sessoes: new Map(),
@@ -92,7 +106,7 @@ function estadoInicial(): EstadoMock {
 }
 
 // Suba VERSAO ao mudar o formato ou os dados iniciais: em dev, o estado antigo é descartado.
-const VERSAO = 4;
+const VERSAO = 5;
 const g = globalThis as typeof globalThis & { __trilhaMock?: EstadoMock & { versao: number } };
 if (g.__trilhaMock?.versao !== VERSAO) g.__trilhaMock = { ...estadoInicial(), versao: VERSAO };
 const estado: EstadoMock = g.__trilhaMock;
@@ -139,22 +153,25 @@ const TEXTOS: Record<string, string> = {
     "Entende cumprimentos, mas ainda não reconhece perguntas sobre si mesmo (\"How old are you?\"). Diálogos curtos em dupla, com as mesmas três perguntas toda semana, criam a segurança para responder sem traduzir.",
 };
 
-function habilidadesDe(status: string): HabilidadeStatus[] {
+// `alunoId` aplica o status recalculado pelas sessões feitas na demo, quando houver.
+function habilidadesDe(status: string, alunoId?: string): HabilidadeStatus[] {
   const disciplinasAtivas = new Set(DISCIPLINAS.filter((d) => estado.disciplinasAtivas.has(d.id)).map((d) => d.nome));
   return HABILIDADES.map((h, i) => ({
     habilidadeId: h.id,
     nome: h.nome,
     disciplina: h.disciplina,
-    status: STATUS[status[i]],
+    status: estado.statusAtual.get(`${alunoId}:${h.id}`) ?? STATUS[status[i]],
   })).filter((h) => estado.ativas.has(h.habilidadeId) && disciplinasAtivas.has(h.disciplina));
 }
 
+const ultimaDe = (a: (typeof ALUNOS)[number]) => estado.ultimaAtividade.get(a.id) ?? a.ultima;
+
 function resumo(a: (typeof ALUNOS)[number]): AlunoResumo {
-  return { id: a.id, nome: a.nome, turma: TURMA.nome, ultimaAtividade: a.ultima, habilidades: habilidadesDe(a.status) };
+  return { id: a.id, nome: a.nome, turma: TURMA.nome, ultimaAtividade: ultimaDe(a), habilidades: habilidadesDe(a.status, a.id) };
 }
 
 function detalhe(a: (typeof ALUNOS)[number]): AlunoDetalhe {
-  const habilidades = habilidadesDe(a.status);
+  const habilidades = habilidadesDe(a.status, a.id);
   const recomendacoes: Recomendacao[] = habilidades
     .filter((h) => h.status === "alerta" || (h.status === "atencao" && TEXTOS[h.habilidadeId]))
     .map((h) => ({
@@ -162,28 +179,94 @@ function detalhe(a: (typeof ALUNOS)[number]): AlunoDetalhe {
       habilidade: h.nome,
       status: h.status,
       texto: TEXTOS[h.habilidadeId] ?? "Recomendação em preparação.",
-      geradaEm: a.ultima ?? "2026-10-13",
+      geradaEm: ultimaDe(a) ?? "2026-10-13",
     }));
   return { ...resumo(a), recomendacoes };
 }
 
-function historico(a: (typeof ALUNOS)[number]): HistoricoHabilidade[] {
-  const semanas = ["2026-08-24", "2026-08-31", "2026-09-07", "2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12"];
+/**
+ * Sessões de exemplo anteriores à demo, coerentes com o status de cada habilidade.
+ * Bruno (a2) é o aluno de exemplo com sessões mais frequentes (duas por semana).
+ */
+function sessoesIniciais(a: (typeof ALUNOS)[number]): RegistroSessao[] {
+  if (!a.ultima) return []; // quem nunca fez atividade não tem histórico
+  const datas: string[] = [];
+  const passo = a.id === "a2" ? [3, 4] : [7];
+  for (let d = new Date("2026-08-24T00:00:00Z"), i = 0; d <= new Date(`${a.ultima}T00:00:00Z`); i++) {
+    datas.push(d.toISOString().slice(0, 10));
+    d = new Date(d.getTime() + passo[i % passo.length] * 86_400_000);
+  }
   const alvo: Record<Status, number> = { ok: 82, atencao: 61, alerta: 42 };
-  return habilidadesDe(a.status).map((h, hi) => {
-    const fim = alvo[h.status];
-    const inicio = h.status === "ok" ? 58 + (hi % 3) * 6 : h.status === "atencao" ? 55 : 60;
-    return {
-      habilidadeId: h.habilidadeId,
-      nome: h.nome,
-      disciplina: h.disciplina,
-      pontos: semanas.map((data, i) => {
-        const t = i / (semanas.length - 1);
-        const ruido = ((hi * 7 + i * 13) % 9) - 4;
-        return { data, desempenho: Math.max(0, Math.min(100, Math.round(inicio + (fim - inicio) * t + ruido))) };
-      }),
-    };
+  return datas.map((data, i) => {
+    const t = i / Math.max(datas.length - 1, 1);
+    const desempenho: Record<string, number> = {};
+    HABILIDADES.forEach((h, hi) => {
+      const status = STATUS[a.status[hi]];
+      const inicio = status === "ok" ? 58 + (hi % 3) * 6 : status === "atencao" ? 55 : 60;
+      const ruido = ((hi * 7 + i * 13) % 9) - 4;
+      desempenho[h.id] = Math.max(0, Math.min(100, Math.round(inicio + (alvo[status] - inicio) * t + ruido)));
+    });
+    return { data, desempenho };
   });
+}
+
+function registrosDe(a: (typeof ALUNOS)[number]) {
+  let r = estado.registros.get(a.id);
+  if (!r) estado.registros.set(a.id, (r = sessoesIniciais(a)));
+  return r;
+}
+
+/** Série de uma habilidade: todas as sessões, uma por dia (média quando houve mais de uma no mesmo dia). */
+function serie(a: (typeof ALUNOS)[number], habilidadeId: string) {
+  const porDia = new Map<string, number[]>();
+  for (const r of registrosDe(a)) {
+    const v = r.desempenho[habilidadeId];
+    if (v !== undefined) porDia.set(r.data, [...(porDia.get(r.data) ?? []), v]);
+  }
+  return [...porDia]
+    .sort(([x], [y]) => x.localeCompare(y))
+    .map(([data, vs]) => ({ data, desempenho: Math.round(vs.reduce((s, v) => s + v, 0) / vs.length) }));
+}
+
+function historico(a: (typeof ALUNOS)[number]): HistoricoHabilidade[] {
+  return habilidadesDe(a.status, a.id).map((h) => ({
+    habilidadeId: h.habilidadeId,
+    nome: h.nome,
+    disciplina: h.disciplina,
+    pontos: serie(a, h.habilidadeId),
+  }));
+}
+
+// Pontuação de exemplo por resposta: acertar uma difícil vale mais; errar uma difícil pesa menos.
+const PONTOS_RESPOSTA: Record<Nivel, { certa: number; errada: number }> = {
+  facil: { certa: 60, errada: 0 },
+  medio: { certa: 80, errada: 20 },
+  dificil: { certa: 100, errada: 40 },
+};
+
+/** Acrescenta a sessão concluída ao histórico do aluno e recalcula o status das habilidades tocadas. */
+function registrarSessao(s: SessaoMock) {
+  const aluno = ALUNOS.find((a) => a.id === s.alunoId);
+  if (!aluno || s.respostas.length === 0) return;
+  const hoje = new Date().toISOString().slice(0, 10);
+
+  const pontos = new Map<string, number[]>();
+  for (const r of s.respostas) {
+    const p = PONTOS_RESPOSTA[r.nivel][r.correta ? "certa" : "errada"];
+    pontos.set(r.habilidadeId, [...(pontos.get(r.habilidadeId) ?? []), p]);
+  }
+  const desempenho = Object.fromEntries(
+    [...pontos].map(([id, ps]) => [id, Math.round(ps.reduce((a, b) => a + b, 0) / ps.length)]),
+  );
+  registrosDe(aluno).push({ data: hoje, desempenho });
+  estado.ultimaAtividade.set(aluno.id, hoje);
+
+  // Status = média dos 3 últimos dias com atividade na habilidade
+  for (const id of pontos.keys()) {
+    const ultimos = serie(aluno, id).slice(-3);
+    const media = ultimos.reduce((s, p) => s + p.desempenho, 0) / ultimos.length;
+    estado.statusAtual.set(`${aluno.id}:${id}`, media >= 70 ? "ok" : media >= 55 ? "atencao" : "alerta");
+  }
 }
 
 function config(): TurmaConfig {
@@ -387,6 +470,10 @@ function rotear(path: string, method: string, body: unknown): unknown {
 
   if (partes[0] === "sessoes" && partes[2] === "concluir") {
     const s = estado.sessoes.get(partes[1]);
+    if (s && !s.concluida) {
+      s.concluida = true;
+      registrarSessao(s);
+    }
     const acertos = s?.acertos ?? 0;
     const total = s?.total ?? PERGUNTAS_POR_SESSAO;
     const r: ResultadoSessao = {

@@ -74,7 +74,7 @@ export function GraficoEvolucao({ historico }: { historico: HistoricoHabilidade 
           className="pointer-events-none absolute top-0 z-10 -translate-x-1/2 -translate-y-full rounded-md bg-grafite px-2 py-1 text-xs whitespace-nowrap text-white"
           style={{ left: `${(x(ativo) / W) * 100}%` }}
         >
-          Semana de {dataLonga(ps[ativo].data)}: <strong>{ps[ativo].desempenho}</strong>
+          {dataLonga(ps[ativo].data)}: <strong>{ps[ativo].desempenho}</strong>
         </div>
       )}
     </div>

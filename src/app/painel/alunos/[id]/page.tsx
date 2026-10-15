@@ -31,6 +31,8 @@ export default async function AlunoPage({ params }: PageProps<"/painel/alunos/[i
   const graficos = [...historico].sort(
     (a, b) => ORDEM[statusPor.get(a.habilidadeId) ?? "ok"] - ORDEM[statusPor.get(b.habilidadeId) ?? "ok"],
   );
+  // Cada habilidade acumula pontos só nos dias em que foi trabalhada: a tabela usa a união das datas.
+  const datas = [...new Set(graficos.flatMap((h) => h.pontos.map((p) => p.data)))].sort();
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -87,7 +89,10 @@ export default async function AlunoPage({ params }: PageProps<"/painel/alunos/[i
         <h2 id="evolucao" className="text-xl font-bold text-grafite">
           Evolução por habilidade
         </h2>
-        <p className="mt-1 max-w-prose text-pedra">Desempenho semanal nas atividades, de 0 a 100.</p>
+        <p className="mt-1 max-w-prose text-pedra">
+          Desempenho em cada dia de atividade, de 0 a 100. Cada sessão nova se soma ao histórico
+          {datas.length > 0 && ` (${datas.length} ${datas.length === 1 ? "dia registrado" : "dias registrados"})`}.
+        </p>
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {graficos.map((h) => (
             <figure key={h.habilidadeId} className="rounded-lg border bg-white p-4">
@@ -110,9 +115,9 @@ export default async function AlunoPage({ params }: PageProps<"/painel/alunos/[i
               <thead>
                 <tr className="border-b text-left text-pedra">
                   <th className="px-4 py-2 font-semibold">Habilidade</th>
-                  {graficos[0]?.pontos.map((p) => (
-                    <th key={p.data} className="px-3 py-2 text-right font-semibold whitespace-nowrap">
-                      {dataCurta(p.data)}
+                  {datas.map((data) => (
+                    <th key={data} className="px-3 py-2 text-right font-semibold whitespace-nowrap">
+                      {dataCurta(data)}
                     </th>
                   ))}
                 </tr>
@@ -123,9 +128,9 @@ export default async function AlunoPage({ params }: PageProps<"/painel/alunos/[i
                     <th scope="row" className="px-4 py-2 text-left font-semibold whitespace-nowrap text-grafite">
                       {h.nome}
                     </th>
-                    {h.pontos.map((p) => (
-                      <td key={p.data} className="px-3 py-2 text-right tabular-nums">
-                        {p.desempenho}
+                    {datas.map((data) => (
+                      <td key={data} className="px-3 py-2 text-right tabular-nums">
+                        {h.pontos.find((p) => p.data === data)?.desempenho ?? <span className="text-pedra">–</span>}
                       </td>
                     ))}
                   </tr>
