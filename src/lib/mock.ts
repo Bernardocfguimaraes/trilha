@@ -1,14 +1,18 @@
 // Respostas de exemplo usadas apenas enquanto NEXT_PUBLIC_API_URL não está definida.
 // Simula o backend para desenvolver a interface — não é lógica de produção.
 import { ApiError } from "./api";
+import { BANCO, type PerguntaBanco } from "./mock-perguntas";
 import type {
   AlunoCadastro,
   AlunoDetalhe,
   AlunoResumo,
   HabilidadeStatus,
   HistoricoHabilidade,
+  Nivel,
   PedidoPin,
   PedidoSessao,
+  PedidoTurmaConfig,
+  Pergunta,
   Recomendacao,
   ResultadoPin,
   ResultadoResposta,
@@ -29,13 +33,30 @@ const HABILIDADES = [
   { id: "por-leitura", nome: "Leitura e compreensão", disciplina: "Português", descricao: "Localizar informações e entender a ideia principal de um texto curto." },
   { id: "por-ortografia", nome: "Ortografia", disciplina: "Português", descricao: "Uso de s/ss/ç, r/rr e acentuação de palavras comuns." },
   { id: "por-producao", nome: "Produção de texto", disciplina: "Português", descricao: "Escrever frases completas com início, meio e fim." },
+  { id: "geo-orientacao", nome: "Orientação e mapas", disciplina: "Geografia", descricao: "Pontos cardeais, legenda e escala em mapas simples." },
+  { id: "geo-paisagem", nome: "Paisagem e lugar", disciplina: "Geografia", descricao: "Elementos naturais e construídos; campo e cidade." },
+  { id: "cie-seres-vivos", nome: "Seres vivos", disciplina: "Ciências", descricao: "Características de plantas e animais e cadeias alimentares." },
+  { id: "cie-materia", nome: "Água e materiais", disciplina: "Ciências", descricao: "Estados físicos da água e propriedades dos materiais." },
+  { id: "ing-vocabulario", nome: "Vocabulário", disciplina: "Inglês", descricao: "Cores, números, animais e alimentos." },
+  { id: "ing-frases", nome: "Frases do dia a dia", disciplina: "Inglês", descricao: "Cumprimentos e perguntas simples sobre si mesmo." },
 ];
+
+// Ordem em que as disciplinas aparecem para o aluno
+const DISCIPLINAS = [
+  { id: "por", nome: "Português" },
+  { id: "mat", nome: "Matemática" },
+  { id: "geo", nome: "Geografia" },
+  { id: "cie", nome: "Ciências" },
+  { id: "ing", nome: "Inglês" },
+];
+const nomeDisciplina = (id: string) => DISCIPLINAS.find((d) => d.id === id)?.nome;
 
 // Estado mutável do mock. Fica em globalThis para que o route handler /api/mock
 // (chamadas do navegador) e os Server Components vejam os mesmos dados.
 interface EstadoMock {
   ativas: Set<string>;
-  sessoes: Map<string, { acertos: number; alunoId: string }>;
+  disciplinasAtivas: Set<string>;
+  sessoes: Map<string, { acertos: number; alunoId: string; total: number }>;
   pins: Map<string, string>; // alunoId -> PIN
   acessos: Map<string, string>; // credencial de acesso -> alunoId
   tentativas: Map<string, { erros: number; bloqueadoAte: number }>;
@@ -50,6 +71,7 @@ const PINS_INICIAIS: Record<string, string> = {
 function estadoInicial(): EstadoMock {
   return {
     ativas: new Set(HABILIDADES.filter((h) => h.id !== "por-producao").map((h) => h.id)),
+    disciplinasAtivas: new Set(DISCIPLINAS.map((d) => d.id)),
     sessoes: new Map(),
     pins: new Map(Object.entries(PINS_INICIAIS)),
     acessos: new Map(),
@@ -57,22 +79,25 @@ function estadoInicial(): EstadoMock {
   };
 }
 
-// O spread preserva o que já existe e completa campos novos quando o arquivo muda em dev.
-const g = globalThis as typeof globalThis & { __trilhaMock?: EstadoMock };
-const estado: EstadoMock = (g.__trilhaMock = { ...estadoInicial(), ...g.__trilhaMock });
+// Suba VERSAO ao mudar o formato ou os dados iniciais: em dev, o estado antigo é descartado.
+const VERSAO = 3;
+const g = globalThis as typeof globalThis & { __trilhaMock?: EstadoMock & { versao: number } };
+if (g.__trilhaMock?.versao !== VERSAO) g.__trilhaMock = { ...estadoInicial(), versao: VERSAO };
+const estado: EstadoMock = g.__trilhaMock;
 
-// Status por aluno, na ordem de HABILIDADES (o: ok, a: atenção, x: alerta)
+// Status por aluno, na ordem de HABILIDADES (o: ok, a: atenção, x: alerta),
+// agrupados por disciplina: Matemática + Português + Geografia + Ciências + Inglês
 const ALUNOS: { id: string; nome: string; ultima: string | null; status: string }[] = [
-  { id: "a1", nome: "Ana Clara Souza", ultima: "2026-10-13", status: "ooaooao" },
-  { id: "a2", nome: "Bruno Ferreira", ultima: "2026-10-13", status: "oaxxooo" },
-  { id: "a3", nome: "Caio Nascimento", ultima: "2026-10-10", status: "ooooooo" },
-  { id: "a4", nome: "Daniela Rocha", ultima: "2026-10-12", status: "oooaxao" },
-  { id: "a5", nome: "Enzo Martins", ultima: "2026-10-13", status: "aaoaooo" },
-  { id: "a6", nome: "Fernanda Lima", ultima: "2026-10-09", status: "oooooao" },
-  { id: "a7", nome: "Gabriel Alves", ultima: null, status: "ooooooo" },
-  { id: "a8", nome: "Helena Costa", ultima: "2026-10-11", status: "xaoxoao" },
-  { id: "a9", nome: "Isadora Pereira", ultima: "2026-10-13", status: "oooooao" },
-  { id: "a10", nome: "João Pedro Dias", ultima: "2026-10-12", status: "ooaooxo" },
+  { id: "a1", nome: "Ana Clara Souza", ultima: "2026-10-13", status: "ooao" + "oao" + "oa" + "oo" + "oo" },
+  { id: "a2", nome: "Bruno Ferreira", ultima: "2026-10-13", status: "oaxx" + "ooo" + "oo" + "ao" + "ao" },
+  { id: "a3", nome: "Caio Nascimento", ultima: "2026-10-10", status: "oooo" + "ooo" + "oo" + "oo" + "oo" },
+  { id: "a4", nome: "Daniela Rocha", ultima: "2026-10-12", status: "oooa" + "xao" + "ao" + "oo" + "ox" },
+  { id: "a5", nome: "Enzo Martins", ultima: "2026-10-13", status: "aaoa" + "ooo" + "oo" + "xo" + "oo" },
+  { id: "a6", nome: "Fernanda Lima", ultima: "2026-10-09", status: "oooo" + "oao" + "oo" + "oa" + "oo" },
+  { id: "a7", nome: "Gabriel Alves", ultima: null, status: "oooo" + "ooo" + "oo" + "oo" + "oo" },
+  { id: "a8", nome: "Helena Costa", ultima: "2026-10-11", status: "xaox" + "oao" + "ao" + "oa" + "oo" },
+  { id: "a9", nome: "Isadora Pereira", ultima: "2026-10-13", status: "oooo" + "oao" + "oo" + "oo" + "oa" },
+  { id: "a10", nome: "João Pedro Dias", ultima: "2026-10-12", status: "ooao" + "oxo" + "xo" + "oo" + "oo" },
 ];
 
 const STATUS: Record<string, Status> = { o: "ok", a: "atencao", x: "alerta" };
@@ -88,15 +113,28 @@ const TEXTOS: Record<string, string> = {
     "A leitura está fluente, mas as respostas sobre a ideia principal do texto indicam que a compreensão ainda fica na superfície. Depois de cada leitura curta, peça que a criança conte a história com as próprias palavras e diga qual parte achou mais importante e por quê.",
   "por-ortografia":
     "Os erros se concentram em s, ss e ç. Um caderno de palavras \"que enganam\", montado pela própria criança, e ditados curtos com palavras do dia a dia ajudam a fixar o padrão sem transformar o treino em punição.",
+  "geo-orientacao":
+    "Os pontos cardeais ainda são decorados, mas não usados: a criança acerta \"onde o sol nasce\" e erra quando precisa se orientar a partir do próprio corpo. Brincadeiras de caça ao tesouro no pátio, com pistas do tipo \"dez passos para o norte\", e desenhar o caminho de casa até a escola ajudam a transformar a regra em referência.",
+  "geo-paisagem":
+    "Distingue bem o natural do construído, mas ainda não relaciona as mudanças na paisagem com as consequências. Comparar duas fotos do mesmo lugar em épocas diferentes e perguntar \"o que mudou e o que isso causou?\" é um bom exercício.",
+  "cie-seres-vivos":
+    "Reconhece os seres vivos, mas a cadeia alimentar ainda é confusa: inverte quem come quem. Montar a cadeia com cartões recortados (sol → planta → animal) e brincar de \"quem depende de quem\" costuma resolver em poucas semanas.",
+  "cie-materia":
+    "Os estados físicos da água estão claros no gelo e no vapor, mas a condensação ainda não. Um copo de água gelada na mesa da sala e a pergunta \"de onde vieram essas gotinhas?\" rendem uma boa conversa de cinco minutos.",
+  "ing-vocabulario":
+    "O vocabulário de cores e animais está consolidado; números acima de dez ainda geram dúvida. Cantar a contagem em inglês durante rotinas (fila, organização da sala) ajuda sem tomar tempo de aula.",
+  "ing-frases":
+    "Entende cumprimentos, mas ainda não reconhece perguntas sobre si mesmo (\"How old are you?\"). Diálogos curtos em dupla, com as mesmas três perguntas toda semana, criam a segurança para responder sem traduzir.",
 };
 
 function habilidadesDe(status: string): HabilidadeStatus[] {
+  const disciplinasAtivas = new Set(DISCIPLINAS.filter((d) => estado.disciplinasAtivas.has(d.id)).map((d) => d.nome));
   return HABILIDADES.map((h, i) => ({
     habilidadeId: h.id,
     nome: h.nome,
     disciplina: h.disciplina,
     status: STATUS[status[i]],
-  })).filter((h) => estado.ativas.has(h.habilidadeId));
+  })).filter((h) => estado.ativas.has(h.habilidadeId) && disciplinasAtivas.has(h.disciplina));
 }
 
 function resumo(a: (typeof ALUNOS)[number]): AlunoResumo {
@@ -137,9 +175,12 @@ function historico(a: (typeof ALUNOS)[number]): HistoricoHabilidade[] {
 }
 
 function config(): TurmaConfig {
-  const disciplinas = ["Matemática", "Português"].map((nome) => ({
-    id: nome === "Matemática" ? "mat" : "por",
+  // Ordem do painel: Matemática e Português primeiro, como já era, depois as demais
+  const ordem = ["mat", "por", "geo", "cie", "ing"];
+  const disciplinas = ordem.map((id) => nomeDisciplina(id)!).map((nome, i) => ({
+    id: ordem[i],
     nome,
+    ativa: estado.disciplinasAtivas.has(ordem[i]),
     habilidades: HABILIDADES.filter((h) => h.disciplina === nome).map((h) => ({
       id: h.id,
       nome: h.nome,
@@ -150,14 +191,46 @@ function config(): TurmaConfig {
   return { turma: TURMA, ciclo: "4º bimestre de 2026", disciplinas };
 }
 
-const PERGUNTAS = [
-  { id: "p1", disciplina: "Matemática", enunciado: "Quantas maçãs tem ao todo?", apoio: "🍎🍎🍎🍎🍎🍎🍎 + 🍎🍎🍎🍎🍎", opcoes: ["11", "12", "13", "10"], certa: 1 },
-  { id: "p2", disciplina: "Português", enunciado: "Qual palavra está escrita certinho?", opcoes: ["cabeça", "cabessa", "cabesa", "cabeca"], certa: 0 },
-  { id: "p3", disciplina: "Matemática", enunciado: "Lia tem 3 caixas com 4 lápis em cada uma. Quantos lápis ela tem?", apoio: "✏️✏️✏️✏️   ✏️✏️✏️✏️   ✏️✏️✏️✏️", opcoes: ["7", "10", "12", "16"], certa: 2 },
-  { id: "p4", disciplina: "Português", enunciado: "\"O gato subiu no telhado porque viu um passarinho.\" Por que o gato subiu?", opcoes: ["Porque estava com frio", "Porque viu um passarinho", "Porque queria dormir", "Porque a porta fechou"], certa: 1 },
-  { id: "p5", disciplina: "Matemática", enunciado: "Qual pedaço é a metade da pizza?", apoio: "🍕", opcoes: ["1 de 2 pedaços", "1 de 3 pedaços", "1 de 4 pedaços", "2 de 3 pedaços"], certa: 0 },
-  { id: "p6", disciplina: "Matemática", enunciado: "Quanto é 45 − 18?", opcoes: ["33", "27", "23", "37"], certa: 1 },
-];
+const PERGUNTAS_POR_SESSAO = 6;
+const NIVEIS: Nivel[] = ["facil", "medio", "dificil"];
+
+/** Habilidades que entram numa sessão: ativas, de disciplina ativa e (se pedida) da disciplina escolhida. */
+function habilidadesDaSessao(disciplinaId?: string) {
+  return HABILIDADES.filter((h) => {
+    const disc = DISCIPLINAS.find((d) => d.nome === h.disciplina)!;
+    return (
+      estado.ativas.has(h.id) &&
+      estado.disciplinasAtivas.has(disc.id) &&
+      (!disciplinaId || disc.id === disciplinaId) &&
+      BANCO.some((p) => p.habilidadeId === h.id)
+    );
+  }).map((h) => h.id);
+}
+
+/**
+ * Próxima pergunta não usada: de preferência no nível pedido e na habilidade da vez
+ * (as habilidades se revezam); se faltar, a de nível mais próximo.
+ */
+function escolherPergunta(habilidades: string[], nivel: Nivel, usadas: Set<string>, vez: number) {
+  const alvo = habilidades[vez % habilidades.length];
+  const custo = (p: PerguntaBanco) =>
+    Math.abs(NIVEIS.indexOf(p.nivel) - NIVEIS.indexOf(nivel)) * 10 + (p.habilidadeId === alvo ? 0 : 1) + Math.random() * 0.5;
+  return BANCO.filter((p) => habilidades.includes(p.habilidadeId) && !usadas.has(p.id))
+    .map((p) => ({ p, c: custo(p) }))
+    .sort((a, b) => a.c - b.c)[0]?.p;
+}
+
+function paraCliente(p: PerguntaBanco): Pergunta {
+  return {
+    id: p.id,
+    disciplina: HABILIDADES.find((h) => h.id === p.habilidadeId)!.disciplina,
+    habilidadeId: p.habilidadeId,
+    nivel: p.nivel,
+    enunciado: p.enunciado,
+    apoio: p.apoio,
+    opcoes: p.opcoes.map((texto, i) => ({ id: `${p.id}-${i}`, texto })),
+  };
+}
 
 const ELOGIOS = ["Isso aí!", "Mandou bem!", "Acertou!", "Muito bem!"];
 
@@ -217,7 +290,11 @@ function rotear(path: string, method: string, body: unknown): unknown {
   }
 
   if (path === "/turma/configuracao") {
-    if (method === "PUT") estado.ativas = new Set((body as { habilidadesAtivas: string[] }).habilidadesAtivas);
+    if (method === "PUT") {
+      const pedido = body as PedidoTurmaConfig;
+      estado.ativas = new Set(pedido.habilidadesAtivas);
+      if (pedido.disciplinasAtivas) estado.disciplinasAtivas = new Set(pedido.disciplinasAtivas);
+    }
     return config();
   }
 
@@ -227,6 +304,7 @@ function rotear(path: string, method: string, body: unknown): unknown {
       codigo: TURMA.codigo,
       nome: TURMA.nome,
       alunos: ALUNOS.map((a) => ({ id: a.id, nome: a.nome.split(" ")[0] + " " + a.nome.split(" ").at(-1)![0] + "." })),
+      disciplinas: DISCIPLINAS.filter((d) => habilidadesDaSessao(d.id).length > 0),
     };
     return publica;
   }
@@ -237,24 +315,28 @@ function rotear(path: string, method: string, body: unknown): unknown {
     if (!pedido.acesso || estado.acessos.get(pedido.acesso) !== pedido.alunoId) {
       throw new ApiError(401, "Confirme o PIN do aluno antes de começar");
     }
+    const habilidades = habilidadesDaSessao(pedido.disciplinaId);
+    if (habilidades.length === 0) throw new ApiError(404, "Nenhuma habilidade ativa nesta disciplina");
+
+    const usadas = new Set<string>();
+    const perguntas: PerguntaBanco[] = [];
+    for (let i = 0; i < PERGUNTAS_POR_SESSAO; i++) {
+      const p = escolherPergunta(habilidades, "medio", usadas, i);
+      if (!p) break;
+      usadas.add(p.id);
+      perguntas.push(p);
+    }
+
     const sessaoId = `s${Date.now()}`;
-    estado.sessoes.set(sessaoId, { acertos: 0, alunoId: pedido.alunoId });
-    const sessao: Sessao = {
-      sessaoId,
-      perguntas: PERGUNTAS.map((p) => ({
-        id: p.id,
-        disciplina: p.disciplina,
-        enunciado: p.enunciado,
-        apoio: p.apoio,
-        opcoes: p.opcoes.map((texto, i) => ({ id: `${p.id}-${i}`, texto })),
-      })),
-    };
+    estado.sessoes.set(sessaoId, { acertos: 0, alunoId: pedido.alunoId, total: perguntas.length });
+    const sessao: Sessao = { sessaoId, perguntas: perguntas.map(paraCliente) };
     return sessao;
   }
 
   if (partes[0] === "sessoes" && partes[2] === "respostas") {
     const { perguntaId, opcaoId } = body as { perguntaId: string; opcaoId: string };
-    const p = PERGUNTAS.find((q) => q.id === perguntaId)!;
+    const p = BANCO.find((q) => q.id === perguntaId);
+    if (!p) throw new ApiError(404, "Pergunta não encontrada");
     const certaId = `${p.id}-${p.certa}`;
     const correta = opcaoId === certaId;
     const s = estado.sessoes.get(partes[1]);
@@ -270,11 +352,13 @@ function rotear(path: string, method: string, body: unknown): unknown {
   }
 
   if (partes[0] === "sessoes" && partes[2] === "concluir") {
-    const acertos = estado.sessoes.get(partes[1])?.acertos ?? 0;
+    const s = estado.sessoes.get(partes[1]);
+    const acertos = s?.acertos ?? 0;
+    const total = s?.total ?? PERGUNTAS_POR_SESSAO;
     const r: ResultadoSessao = {
       estrelas: acertos,
-      total: PERGUNTAS.length,
-      mensagem: acertos >= 5 ? "Você chegou ao fim da trilha voando!" : "Você chegou ao fim da trilha!",
+      total,
+      mensagem: acertos >= total - 1 ? "Você chegou ao fim da trilha voando!" : "Você chegou ao fim da trilha!",
     };
     return r;
   }

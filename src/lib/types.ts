@@ -58,9 +58,16 @@ export interface HabilidadeConfig {
 }
 
 export interface DisciplinaConfig {
-  id: string;
+  id: string; // "por" | "mat" | "geo" | "cie" | "ing"
   nome: string;
+  ativa: boolean; // desligada: some para os alunos e sai do diagnóstico
   habilidades: HabilidadeConfig[];
+}
+
+// Corpo de PUT /turma/configuracao
+export interface PedidoTurmaConfig {
+  habilidadesAtivas: string[];
+  disciplinasAtivas?: string[]; // ausente = mantém as disciplinas como estão
 }
 
 export interface TurmaConfig {
@@ -76,10 +83,16 @@ export interface AlunoPublico {
   nome: string;
 }
 
+export interface DisciplinaPublica {
+  id: string;
+  nome: string;
+}
+
 export interface TurmaPublica {
   codigo: string;
   nome: string;
   alunos: AlunoPublico[]; // lista pública: só id e nome, nunca o PIN
+  disciplinas: DisciplinaPublica[]; // só as que o professor ativou (e têm habilidade ativa)
 }
 
 // Identificação do aluno por PIN de 4 dígitos (POST /acesso/pin)
@@ -99,6 +112,7 @@ export interface PedidoSessao {
   codigo: string;
   alunoId: string;
   acesso?: string;
+  disciplinaId?: string; // ausente = todas as disciplinas ativas
 }
 
 // Lado do professor: cadastro do aluno com o PIN visível
@@ -113,9 +127,14 @@ export interface Opcao {
   texto: string;
 }
 
+// Dificuldade da pergunta. Usada pela adaptação; nunca é mostrada ao aluno.
+export type Nivel = "facil" | "medio" | "dificil";
+
 export interface Pergunta {
   id: string;
   disciplina: string;
+  habilidadeId: string;
+  nivel: Nivel;
   enunciado: string;
   apoio?: string; // texto visual de apoio, ex.: "🍎🍎🍎 + 🍎🍎"
   opcoes: Opcao[];

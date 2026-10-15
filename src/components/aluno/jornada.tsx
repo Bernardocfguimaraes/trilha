@@ -4,10 +4,18 @@ import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Volume2, X } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
-import type { AlunoPublico, Pergunta, ResultadoResposta, ResultadoSessao, TurmaPublica } from "@/lib/types";
+import type {
+  AlunoPublico,
+  DisciplinaPublica,
+  Pergunta,
+  ResultadoResposta,
+  ResultadoSessao,
+  TurmaPublica,
+} from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Sabia } from "@/components/marca";
 import { BotaoGrande, classesBotaoGrande } from "./botao-grande";
+import { CartaoDisciplina, IconeDisciplina } from "./disciplinas";
 import { EntradaPin } from "./entrada-pin";
 import { Estrela, TrilhaProgresso, type Marco } from "./trilha-progresso";
 
@@ -15,8 +23,16 @@ import { Estrela, TrilhaProgresso, type Marco } from "./trilha-progresso";
 type Etapa =
   | { tipo: "quem" }
   | { tipo: "pin"; aluno: AlunoPublico }
-  | { tipo: "inicio"; aluno: AlunoPublico; acesso: string }
-  | { tipo: "pergunta"; aluno: AlunoPublico; acesso: string; sessaoId: string; perguntas: Pergunta[] }
+  | { tipo: "disciplina"; aluno: AlunoPublico; acesso: string }
+  | { tipo: "inicio"; aluno: AlunoPublico; acesso: string; disciplina: DisciplinaPublica }
+  | {
+      tipo: "pergunta";
+      aluno: AlunoPublico;
+      acesso: string;
+      disciplina: DisciplinaPublica;
+      sessaoId: string;
+      perguntas: Pergunta[];
+    }
   | { tipo: "fim"; aluno: AlunoPublico; acesso: string; resultado: ResultadoSessao; marcos: Marco[] };
 
 const CORES_AVATAR = ["bg-broto", "bg-sol", "bg-coral", "bg-[#4bb3e6]", "bg-[#9b7fe6]"];
@@ -26,12 +42,12 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState(false);
 
-  async function comecar(aluno: AlunoPublico, acesso: string) {
+  async function comecar(aluno: AlunoPublico, acesso: string, disciplina: DisciplinaPublica) {
     setCarregando(true);
     setErro(false);
     try {
-      const sessao = await api.iniciarSessao(turma.codigo, aluno.id, { acesso });
-      setEtapa({ tipo: "pergunta", aluno, acesso, sessaoId: sessao.sessaoId, perguntas: sessao.perguntas });
+      const sessao = await api.iniciarSessao(turma.codigo, aluno.id, { acesso, disciplinaId: disciplina.id });
+      setEtapa({ tipo: "pergunta", aluno, acesso, disciplina, sessaoId: sessao.sessaoId, perguntas: sessao.perguntas });
     } catch (e) {
       // PIN trocado pelo professor no meio do caminho: pede o número de novo.
       if (e instanceof ApiError && e.status === 401) setEtapa({ tipo: "pin", aluno });
@@ -78,19 +94,57 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
     return (
       <ConfirmarPin
         aluno={etapa.aluno}
-        onEntrar={(acesso) => setEtapa({ tipo: "inicio", aluno: etapa.aluno, acesso })}
+        onEntrar={(acesso) => setEtapa({ tipo: "disciplina", aluno: etapa.aluno, acesso })}
         onVoltar={() => setEtapa({ tipo: "quem" })}
       />
     );
   }
 
-  if (etapa.tipo === "inicio") {
+  if (etapa.tipo === "disciplina") {
     const primeiroNome = etapa.aluno.nome.split(" ")[0];
     return (
+      <Tela>
+        <div className="flex items-center gap-4">
+          <Sabia humor="feliz" className="size-20 shrink-0" />
+          <h1 className="font-display text-4xl leading-none font-extrabold text-grafite">
+            O que vamos estudar, {primeiroNome}?
+          </h1>
+        </div>
+        {turma.disciplinas.length === 0 ? (
+          <p className="mt-8 rounded-2xl bg-white px-5 py-4 font-display text-xl font-semibold text-grafite">
+            Seu professor ainda não liberou nenhuma matéria. Volte daqui a pouco!
+          </p>
+        ) : (
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+            {turma.disciplinas.map((d) => (
+              <li key={d.id}>
+                <CartaoDisciplina
+                  disciplina={d}
+                  onEscolher={() => setEtapa({ tipo: "inicio", aluno: etapa.aluno, acesso: etapa.acesso, disciplina: d })}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+        <button
+          onClick={() => setEtapa({ tipo: "quem" })}
+          className="mx-auto mt-8 rounded-lg px-3 py-2 font-display text-lg font-semibold text-pedra underline-offset-4 hover:underline"
+        >
+          Não sou {primeiroNome}
+        </button>
+      </Tela>
+    );
+  }
+
+  if (etapa.tipo === "inicio") {
+    return (
       <Tela centro>
-        <Sabia humor="feliz" className="size-40" />
+        <div className="relative">
+          <Sabia humor="feliz" className="size-40" />
+          <IconeDisciplina id={etapa.disciplina.id} className="absolute -right-6 -bottom-2 size-16 -rotate-6" />
+        </div>
         <h1 className="mt-4 font-display text-5xl leading-[0.95] font-extrabold text-grafite">
-          Oi, {primeiroNome}!
+          Vamos de {etapa.disciplina.nome}!
         </h1>
         <p className="mt-3 max-w-[24ch] font-display text-2xl font-medium text-pedra">
           Hoje a trilha tem algumas perguntas. Vamos juntos?
@@ -100,14 +154,14 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
             A trilha não carregou. Aperte o botão de novo.
           </p>
         )}
-        <BotaoGrande className="mt-8 w-full max-w-xs" disabled={carregando} onClick={() => comecar(etapa.aluno, etapa.acesso)}>
+        <BotaoGrande className="mt-8 w-full max-w-xs" disabled={carregando} onClick={() => comecar(etapa.aluno, etapa.acesso, etapa.disciplina)}>
           {carregando ? "Abrindo…" : "Começar"}
         </BotaoGrande>
         <button
-          onClick={() => setEtapa({ tipo: "quem" })}
+          onClick={() => setEtapa({ tipo: "disciplina", aluno: etapa.aluno, acesso: etapa.acesso })}
           className="mt-5 rounded-lg px-3 py-2 font-display text-lg font-semibold text-pedra underline-offset-4 hover:underline"
         >
-          Não sou {primeiroNome}
+          Escolher outra matéria
         </button>
       </Tela>
     );
@@ -149,6 +203,13 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
       <Link href="/aluno" className={classesBotaoGrande("broto", "mt-8 w-full max-w-xs")}>
         Terminar
       </Link>
+      <BotaoGrande
+        cor="branco"
+        className="mt-4 w-full max-w-xs"
+        onClick={() => setEtapa({ tipo: "disciplina", aluno: etapa.aluno, acesso: etapa.acesso })}
+      >
+        Outra matéria
+      </BotaoGrande>
     </Tela>
   );
 }

@@ -5,6 +5,7 @@ import type {
   HistoricoHabilidade,
   PedidoPin,
   PedidoSessao,
+  PedidoTurmaConfig,
   ResultadoPin,
   ResultadoResposta,
   ResultadoSessao,
@@ -63,10 +64,10 @@ export const api = {
   historico: (id: string, token?: string | null) =>
     request<HistoricoHabilidade[]>(`/alunos/${id}/historico`, { token }),
   turmaConfig: (token?: string | null) => request<TurmaConfig>("/turma/configuracao", { token }),
-  salvarTurmaConfig: (habilidadesAtivas: string[], token?: string | null) =>
+  salvarTurmaConfig: (habilidadesAtivas: string[], token?: string | null, disciplinasAtivas?: string[]) =>
     request<TurmaConfig>("/turma/configuracao", {
       method: "PUT",
-      body: { habilidadesAtivas },
+      body: { habilidadesAtivas, disciplinasAtivas } satisfies PedidoTurmaConfig,
       token,
     }),
 

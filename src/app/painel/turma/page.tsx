@@ -17,8 +17,8 @@ export default async function TurmaPage() {
       <header>
         <h1 className="text-3xl font-bold text-grafite">{config.turma.nome}</h1>
         <p className="mt-2 max-w-prose text-lg text-pedra">
-          Escolha as habilidades trabalhadas no {config.ciclo}. As atividades dos alunos e o diagnóstico passam a
-          considerar só as habilidades ativas.
+          Escolha as disciplinas e habilidades trabalhadas no {config.ciclo}. As atividades dos alunos e o
+          diagnóstico passam a considerar só o que estiver ativo.
         </p>
       </header>
       <div className="mt-8">

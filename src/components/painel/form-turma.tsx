@@ -6,14 +6,29 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { api } from "@/lib/api";
 import type { TurmaConfig } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 export function FormTurma({ config, token }: { config: TurmaConfig; token: string | null }) {
   const inicial = config.disciplinas.flatMap((d) => d.habilidades.filter((h) => h.ativa).map((h) => h.id));
   const [salvas, setSalvas] = useState(() => new Set(inicial));
   const [ativas, setAtivas] = useState(() => new Set(inicial));
   const [estado, setEstado] = useState<"livre" | "salvando" | "salvo" | "erro">("livre");
+  const disciplinasIniciais = config.disciplinas.filter((d) => d.ativa).map((d) => d.id);
+  const [disciplinasSalvas, setDisciplinasSalvas] = useState(() => new Set(disciplinasIniciais));
+  const [disciplinas, setDisciplinas] = useState(() => new Set(disciplinasIniciais));
 
-  const alterado = ativas.size !== salvas.size || [...ativas].some((id) => !salvas.has(id));
+  const difere = (a: Set<string>, b: Set<string>) => a.size !== b.size || [...a].some((id) => !b.has(id));
+  const alterado = difere(ativas, salvas) || difere(disciplinas, disciplinasSalvas);
+
+  function alternarDisciplina(id: string, ligada: boolean) {
+    setEstado("livre");
+    setDisciplinas((s) => {
+      const n = new Set(s);
+      if (ligada) n.add(id);
+      else n.delete(id);
+      return n;
+    });
+  }
 
   function alternar(id: string, ligada: boolean) {
     setEstado("livre");
@@ -28,8 +43,9 @@ export function FormTurma({ config, token }: { config: TurmaConfig; token: strin
   async function salvar() {
     setEstado("salvando");
     try {
-      await api.salvarTurmaConfig([...ativas], token);
+      await api.salvarTurmaConfig([...ativas], token, [...disciplinas]);
       setSalvas(new Set(ativas));
+      setDisciplinasSalvas(new Set(disciplinas));
       setEstado("salvo");
     } catch {
       setEstado("erro");
@@ -40,17 +56,27 @@ export function FormTurma({ config, token }: { config: TurmaConfig; token: strin
     <div className="space-y-8">
       {config.disciplinas.map((d) => {
         const ligadas = d.habilidades.filter((h) => ativas.has(h.id)).length;
+        const disciplinaLigada = disciplinas.has(d.id);
         return (
           <section key={d.id} aria-labelledby={`disc-${d.id}`} className="rounded-lg border bg-white">
-            <header className="flex items-baseline justify-between border-b px-5 py-4">
-              <h2 id={`disc-${d.id}`} className="text-lg font-bold text-grafite">
-                {d.nome}
-              </h2>
-              <p className="text-sm text-pedra">
-                {ligadas} de {d.habilidades.length} ativas
-              </p>
+            <header className="flex items-center justify-between gap-4 border-b px-5 py-4">
+              <div>
+                <h2 id={`disc-${d.id}`} className="text-lg font-bold text-grafite">
+                  {d.nome}
+                </h2>
+                <p className="text-sm text-pedra">
+                  {disciplinaLigada
+                    ? `${ligadas} de ${d.habilidades.length} habilidades ativas`
+                    : "Desligada: não aparece para os alunos nem no diagnóstico"}
+                </p>
+              </div>
+              <Switch
+                checked={disciplinaLigada}
+                onCheckedChange={(v) => alternarDisciplina(d.id, v)}
+                aria-label={`${disciplinaLigada ? "Desativar" : "Ativar"} ${d.nome}`}
+              />
             </header>
-            <ul className="divide-y">
+            <ul className={cn("divide-y", !disciplinaLigada && "opacity-50")} inert={!disciplinaLigada}>
               {d.habilidades.map((h) => (
                 <li key={h.id}>
                   <label className="flex cursor-pointer items-start justify-between gap-6 px-5 py-4 hover:bg-papel">
@@ -73,12 +99,12 @@ export function FormTurma({ config, token }: { config: TurmaConfig; token: strin
 
       <div className="sticky bottom-0 -mx-4 flex flex-wrap items-center gap-4 border-t bg-papel/95 px-4 py-4 backdrop-blur sm:mx-0 sm:px-0">
         <Button onClick={salvar} disabled={!alterado || estado === "salvando"} className="h-10 px-5 text-base">
-          {estado === "salvando" ? "Salvando…" : "Salvar habilidades"}
+          {estado === "salvando" ? "Salvando…" : "Salvar configuração"}
         </Button>
         <p role="status" className="text-sm">
           {estado === "salvo" && !alterado && (
             <span className="inline-flex items-center gap-1.5 font-semibold text-mata">
-              <Check className="size-4" /> Habilidades salvas. As próximas atividades já seguem esta seleção.
+              <Check className="size-4" /> Configuração salva. As próximas atividades já seguem esta seleção.
             </span>
           )}
           {estado === "erro" && (
