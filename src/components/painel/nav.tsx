@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LogOut, Settings2, Users } from "lucide-react";
+import { LogOut, MessagesSquare, Settings2, Users } from "lucide-react";
 import { createClient, supabaseConfigurado } from "@/lib/supabase/client";
 import type { Papel } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -17,7 +17,15 @@ export function NavPainel({ papel }: { papel: Papel }) {
       ativo: pathname === "/painel" || pathname.startsWith("/painel/alunos"),
     },
     ...(papel === "professor"
-      ? [{ href: "/painel/turma", rotulo: "Turma", icone: Settings2, ativo: pathname.startsWith("/painel/turma") }]
+      ? [
+          {
+            href: "/painel/conversa",
+            rotulo: "Conversa",
+            icone: MessagesSquare,
+            ativo: pathname.startsWith("/painel/conversa"),
+          },
+          { href: "/painel/turma", rotulo: "Turma", icone: Settings2, ativo: pathname.startsWith("/painel/turma") },
+        ]
       : []),
   ];
 

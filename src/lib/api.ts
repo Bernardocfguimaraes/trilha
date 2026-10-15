@@ -3,6 +3,8 @@ import type {
   AlunoDetalhe,
   AlunoResumo,
   HistoricoHabilidade,
+  MensagemChat,
+  PedidoChatTurma,
   PedidoPin,
   PedidoSessao,
   PedidoTurmaConfig,
@@ -71,6 +73,13 @@ export const api = {
       token,
     }),
 
+  // Resposta gerada no backend (LLM sobre os dados da turma). Sem backend, o mock devolve exemplos.
+  chatTurma: (turmaId: string, pergunta: string, historico: MensagemChat[] = [], token?: string | null) =>
+    request<MensagemChat>(`/turmas/${encodeURIComponent(turmaId)}/chat`, {
+      method: "POST",
+      body: { pergunta, historico } satisfies PedidoChatTurma,
+      token,
+    }),
   alunosTurma: (token?: string | null) => request<AlunoCadastro[]>("/turma/alunos", { token }),
   regenerarPin: (alunoId: string, token?: string | null) =>
     request<AlunoCadastro>(`/turma/alunos/${alunoId}/pin`, { method: "POST", token }),

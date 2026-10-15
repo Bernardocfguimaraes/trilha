@@ -76,6 +76,22 @@ export interface TurmaConfig {
   disciplinas: DisciplinaConfig[];
 }
 
+// Conversa do professor sobre a turma (POST /turmas/{turmaId}/chat).
+// A resposta real vem do backend (LLM com os dados da turma); o frontend só exibe.
+export type AutorMensagem = "professor" | "assistente";
+
+export interface MensagemChat {
+  id: string;
+  autor: AutorMensagem;
+  texto: string;
+  enviadaEm: string; // ISO
+}
+
+export interface PedidoChatTurma {
+  pergunta: string;
+  historico: MensagemChat[]; // conversa até aqui, para o backend manter o contexto
+}
+
 // Lado do aluno
 
 export interface AlunoPublico {

@@ -2,6 +2,7 @@
 // Simula o backend para desenvolver a interface — não é lógica de produção.
 import { estadoInicialAdaptacao, NIVEIS, registrarResposta } from "./adaptacao";
 import { ApiError } from "./api";
+import { responderChat, type RetratoTurma } from "./mock-chat";
 import { BANCO, type PerguntaBanco } from "./mock-perguntas";
 import type {
   AlunoCadastro,
@@ -10,7 +11,9 @@ import type {
   EstadoAdaptacao,
   HabilidadeStatus,
   HistoricoHabilidade,
+  MensagemChat,
   Nivel,
+  PedidoChatTurma,
   PedidoPin,
   PedidoSessao,
   PedidoTurmaConfig,
@@ -358,8 +361,47 @@ function validarPin({ alunoId, pin }: PedidoPin): ResultadoPin {
   return { valido: true, acesso, bloqueado: false };
 }
 
+/** Retrato da turma fake que alimenta as respostas de exemplo do chat. */
+function retratoTurma(): RetratoTurma {
+  const curto = (nome: string) => nome.split(" ")[0] + " " + nome.split(" ").at(-1)![0] + ".";
+  const porAluno = ALUNOS.map((a) => ({ a, habilidades: habilidadesDe(a.status, a.id) }));
+  const ativas = porAluno[0]?.habilidades ?? [];
+  const semanaPassada = new Date(Date.now() - 7 * 86_400_000).toISOString().slice(0, 10);
+  return {
+    turma: TURMA.nome,
+    habilidades: ativas.map((h) => ({
+      id: h.habilidadeId,
+      nome: h.nome,
+      disciplina: h.disciplina,
+      alerta: porAluno.filter((x) => x.habilidades.some((y) => y.habilidadeId === h.habilidadeId && y.status === "alerta")).map((x) => curto(x.a.nome)),
+      atencao: porAluno.filter((x) => x.habilidades.some((y) => y.habilidadeId === h.habilidadeId && y.status === "atencao")).map((x) => curto(x.a.nome)),
+    })),
+    evolucao: ALUNOS.filter((a) => registrosDe(a).length > 1).map((a) => {
+      const media = (ps: { desempenho: number }[]) => ps.reduce((s, p) => s + p.desempenho, 0) / Math.max(ps.length, 1);
+      const series = ativas.map((h) => serie(a, h.habilidadeId)).filter((s) => s.length > 1);
+      const inicio = media(series.flatMap((s) => s.slice(0, 2)));
+      const fim = media(series.flatMap((s) => s.slice(-2)));
+      return { aluno: curto(a.nome), variacao: Math.round(fim - inicio) };
+    }),
+    semAtividade: ALUNOS.filter((a) => (ultimaDe(a) ?? "") < semanaPassada).map((a) => curto(a.nome)),
+  };
+}
+
 function rotear(path: string, method: string, body: unknown): unknown {
   const partes = path.split("/").filter(Boolean);
+
+  // Chat da turma: placeholder. A resposta real vem do backend (LLM sobre os dados da turma).
+  if (partes[0] === "turmas" && partes[2] === "chat" && method === "POST") {
+    if (partes[1] !== TURMA.id) throw new ApiError(404, "Turma não encontrada");
+    const { pergunta } = body as PedidoChatTurma;
+    const mensagem: MensagemChat = {
+      id: `m${Date.now()}`,
+      autor: "assistente",
+      texto: responderChat(pergunta, retratoTurma()),
+      enviadaEm: new Date().toISOString(),
+    };
+    return mensagem;
+  }
 
   if (path === "/acesso/pin" && method === "POST") return validarPin(body as PedidoPin);
 
@@ -488,6 +530,8 @@ function rotear(path: string, method: string, body: unknown): unknown {
 }
 
 export async function mockRequest<T>(path: string, method: string, body: unknown): Promise<T> {
-  await new Promise((r) => setTimeout(r, 150));
+  // O chat demora um pouco mais, como uma resposta de LLM de verdade
+  const espera = path.endsWith("/chat") ? 900 + Math.random() * 900 : 150;
+  await new Promise((r) => setTimeout(r, espera));
   return structuredClone(rotear(path, method, body)) as T;
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MessagesSquare } from "lucide-react";
 import { Marcas, StatusSelo, rotuloStatus } from "@/components/marca";
 import { api } from "@/lib/api";
 import { dataCurta } from "@/lib/formato";
@@ -57,6 +58,15 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
                 .filter(Boolean)
                 .join(" e ") + "."}
         </p>
+        {professor && (
+          <Link
+            href="/painel/conversa"
+            className="mt-3 inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-mata outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            <MessagesSquare className="size-4" />
+            Perguntar sobre a turma
+          </Link>
+        )}
       </header>
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
