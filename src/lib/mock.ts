@@ -1,11 +1,13 @@
 // Respostas de exemplo usadas apenas enquanto NEXT_PUBLIC_API_URL não está definida.
 // Simula o backend para desenvolver a interface — não é lógica de produção.
+import { estadoInicialAdaptacao, NIVEIS, registrarResposta } from "./adaptacao";
 import { ApiError } from "./api";
 import { BANCO, type PerguntaBanco } from "./mock-perguntas";
 import type {
   AlunoCadastro,
   AlunoDetalhe,
   AlunoResumo,
+  EstadoAdaptacao,
   HabilidadeStatus,
   HistoricoHabilidade,
   Nivel,
@@ -53,10 +55,20 @@ const nomeDisciplina = (id: string) => DISCIPLINAS.find((d) => d.id === id)?.nom
 
 // Estado mutável do mock. Fica em globalThis para que o route handler /api/mock
 // (chamadas do navegador) e os Server Components vejam os mesmos dados.
+interface SessaoMock {
+  acertos: number;
+  alunoId: string;
+  total: number;
+  habilidades: string[];
+  usadas: Set<string>;
+  adaptacao: EstadoAdaptacao;
+  respostas: { perguntaId: string; habilidadeId: string; nivel: Nivel; correta: boolean }[];
+}
+
 interface EstadoMock {
   ativas: Set<string>;
   disciplinasAtivas: Set<string>;
-  sessoes: Map<string, { acertos: number; alunoId: string; total: number }>;
+  sessoes: Map<string, SessaoMock>;
   pins: Map<string, string>; // alunoId -> PIN
   acessos: Map<string, string>; // credencial de acesso -> alunoId
   tentativas: Map<string, { erros: number; bloqueadoAte: number }>;
@@ -80,7 +92,7 @@ function estadoInicial(): EstadoMock {
 }
 
 // Suba VERSAO ao mudar o formato ou os dados iniciais: em dev, o estado antigo é descartado.
-const VERSAO = 3;
+const VERSAO = 4;
 const g = globalThis as typeof globalThis & { __trilhaMock?: EstadoMock & { versao: number } };
 if (g.__trilhaMock?.versao !== VERSAO) g.__trilhaMock = { ...estadoInicial(), versao: VERSAO };
 const estado: EstadoMock = g.__trilhaMock;
@@ -192,7 +204,6 @@ function config(): TurmaConfig {
 }
 
 const PERGUNTAS_POR_SESSAO = 6;
-const NIVEIS: Nivel[] = ["facil", "medio", "dificil"];
 
 /** Habilidades que entram numa sessão: ativas, de disciplina ativa e (se pedida) da disciplina escolhida. */
 function habilidadesDaSessao(disciplinaId?: string) {
@@ -318,17 +329,28 @@ function rotear(path: string, method: string, body: unknown): unknown {
     const habilidades = habilidadesDaSessao(pedido.disciplinaId);
     if (habilidades.length === 0) throw new ApiError(404, "Nenhuma habilidade ativa nesta disciplina");
 
-    const usadas = new Set<string>();
+    // A lista sai toda no nível inicial; a partir da 2ª, cada resposta traz a `proxima`
+    // no nível ajustado, que substitui a da lista. Só a 1ª conta como usada agora.
+    const adaptacao = estadoInicialAdaptacao();
+    const reservadas = new Set<string>();
     const perguntas: PerguntaBanco[] = [];
     for (let i = 0; i < PERGUNTAS_POR_SESSAO; i++) {
-      const p = escolherPergunta(habilidades, "medio", usadas, i);
+      const p = escolherPergunta(habilidades, adaptacao.nivel, reservadas, i);
       if (!p) break;
-      usadas.add(p.id);
+      reservadas.add(p.id);
       perguntas.push(p);
     }
 
     const sessaoId = `s${Date.now()}`;
-    estado.sessoes.set(sessaoId, { acertos: 0, alunoId: pedido.alunoId, total: perguntas.length });
+    estado.sessoes.set(sessaoId, {
+      acertos: 0,
+      alunoId: pedido.alunoId,
+      total: perguntas.length,
+      habilidades,
+      usadas: new Set([perguntas[0].id]),
+      adaptacao,
+      respostas: [],
+    });
     const sessao: Sessao = { sessaoId, perguntas: perguntas.map(paraCliente) };
     return sessao;
   }
@@ -348,6 +370,18 @@ function rotear(path: string, method: string, body: unknown): unknown {
         ? ELOGIOS[Math.floor(Math.random() * ELOGIOS.length)]
         : `Quase! A resposta é ${p.opcoes[p.certa]}.`,
     };
+    if (s && !s.respostas.some((q) => q.perguntaId === p.id)) {
+      s.usadas.add(p.id);
+      s.respostas.push({ perguntaId: p.id, habilidadeId: p.habilidadeId, nivel: p.nivel, correta });
+      s.adaptacao = registrarResposta(s.adaptacao, correta);
+      if (s.respostas.length < s.total) {
+        const proxima = escolherPergunta(s.habilidades, s.adaptacao.nivel, s.usadas, s.respostas.length);
+        if (proxima) {
+          s.usadas.add(proxima.id);
+          r.proxima = paraCliente(proxima);
+        }
+      }
+    }
     return r;
   }
 

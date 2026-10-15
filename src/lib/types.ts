@@ -149,6 +149,16 @@ export interface ResultadoResposta {
   correta: boolean;
   mensagem: string;
   opcaoCorretaId: string;
+  // Próxima pergunta, já no nível escolhido pela adaptação. Quando vem, substitui a
+  // próxima da lista da sessão; ausente na última pergunta.
+  proxima?: Pergunta;
+}
+
+// Estado da dificuldade adaptativa dentro de uma sessão (ver src/lib/adaptacao.ts)
+export interface EstadoAdaptacao {
+  nivel: Nivel;
+  acertosSeguidos: number;
+  errosSeguidos: number;
 }
 
 export interface ResultadoSessao {

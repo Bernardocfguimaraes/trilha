@@ -300,6 +300,9 @@ function Quiz({
   onSair: () => void;
   onFim: (r: ResultadoSessao, marcos: Marco[]) => void;
 }) {
+  // A lista começa como veio da sessão; a adaptação de dificuldade (backend/mock) pode
+  // trocar a próxima pergunta a cada resposta, via `proxima`.
+  const [lista, setLista] = useState(perguntas);
   const [indice, setIndice] = useState(0);
   const [escolha, setEscolha] = useState<string | null>(null);
   const [resultado, setResultado] = useState<ResultadoResposta | null>(null);
@@ -308,7 +311,7 @@ function Quiz({
   const [erro, setErro] = useState(false);
   const fala = useFala();
 
-  const pergunta = perguntas[indice];
+  const pergunta = lista[indice];
   const estrelas = marcos.filter((m) => m === "acerto").length;
   const curtas = pergunta.opcoes.every((o) => o.texto.length <= 8);
 
@@ -323,6 +326,8 @@ function Quiz({
       const r = await api.responder(sessaoId, pergunta.id, escolha);
       setResultado(r);
       setMarcos((ms) => ms.map((m, i) => (i === indice ? (r.correta ? "acerto" : "erro") : m)));
+      const proxima = r.proxima;
+      if (proxima && indice + 1 < lista.length) setLista((l) => l.map((p, i) => (i === indice + 1 ? proxima : p)));
     } catch {
       setErro(true);
     } finally {
