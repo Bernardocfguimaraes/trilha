@@ -28,12 +28,14 @@ interface Opcoes {
 
 async function request<T>(path: string, { method = "GET", body, token }: Opcoes = {}): Promise<T> {
   // Sem NEXT_PUBLIC_API_URL, usamos respostas de exemplo para desenvolver a interface.
-  if (!API_URL) {
+  // No servidor o mock roda direto; no navegador ele passa por /api/mock, para que
+  // painel e aluno enxerguem o mesmo estado (config salva, sessões, PINs).
+  if (!API_URL && typeof window === "undefined") {
     const { mockRequest } = await import("./mock");
     return mockRequest<T>(path, method, body);
   }
 
-  const res = await fetch(`${API_URL}${path}`, {
+  const res = await fetch(`${API_URL ?? "/api/mock"}${path}`, {
     method,
     headers: {
       "Content-Type": "application/json",

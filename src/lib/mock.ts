@@ -27,7 +27,18 @@ const HABILIDADES = [
   { id: "por-producao", nome: "Produção de texto", disciplina: "Português", descricao: "Escrever frases completas com início, meio e fim." },
 ];
 
-let ativas = new Set(HABILIDADES.filter((h) => h.id !== "por-producao").map((h) => h.id));
+// Estado mutável do mock. Fica em globalThis para que o route handler /api/mock
+// (chamadas do navegador) e os Server Components vejam os mesmos dados.
+interface EstadoMock {
+  ativas: Set<string>;
+  sessoes: Map<string, { acertos: number }>;
+}
+
+const g = globalThis as typeof globalThis & { __trilhaMock?: EstadoMock };
+const estado: EstadoMock = (g.__trilhaMock ??= {
+  ativas: new Set(HABILIDADES.filter((h) => h.id !== "por-producao").map((h) => h.id)),
+  sessoes: new Map(),
+});
 
 // Status por aluno, na ordem de HABILIDADES (o: ok, a: atenção, x: alerta)
 const ALUNOS: { id: string; nome: string; ultima: string | null; status: string }[] = [
@@ -64,7 +75,7 @@ function habilidadesDe(status: string): HabilidadeStatus[] {
     nome: h.nome,
     disciplina: h.disciplina,
     status: STATUS[status[i]],
-  })).filter((h) => ativas.has(h.habilidadeId));
+  })).filter((h) => estado.ativas.has(h.habilidadeId));
 }
 
 function resumo(a: (typeof ALUNOS)[number]): AlunoResumo {
@@ -112,7 +123,7 @@ function config(): TurmaConfig {
       id: h.id,
       nome: h.nome,
       descricao: h.descricao,
-      ativa: ativas.has(h.id),
+      ativa: estado.ativas.has(h.id),
     })),
   }));
   return { turma: TURMA, ciclo: "4º bimestre de 2026", disciplinas };
@@ -126,8 +137,6 @@ const PERGUNTAS = [
   { id: "p5", disciplina: "Matemática", enunciado: "Qual pedaço é a metade da pizza?", apoio: "🍕", opcoes: ["1 de 2 pedaços", "1 de 3 pedaços", "1 de 4 pedaços", "2 de 3 pedaços"], certa: 0 },
   { id: "p6", disciplina: "Matemática", enunciado: "Quanto é 45 − 18?", opcoes: ["33", "27", "23", "37"], certa: 1 },
 ];
-
-const sessoes = new Map<string, { acertos: number }>();
 
 const ELOGIOS = ["Isso aí!", "Mandou bem!", "Acertou!", "Muito bem!"];
 
@@ -143,7 +152,7 @@ function rotear(path: string, method: string, body: unknown): unknown {
   }
 
   if (path === "/turma/configuracao") {
-    if (method === "PUT") ativas = new Set((body as { habilidadesAtivas: string[] }).habilidadesAtivas);
+    if (method === "PUT") estado.ativas = new Set((body as { habilidadesAtivas: string[] }).habilidadesAtivas);
     return config();
   }
 
@@ -159,7 +168,7 @@ function rotear(path: string, method: string, body: unknown): unknown {
 
   if (path === "/sessoes" && method === "POST") {
     const sessaoId = `s${Date.now()}`;
-    sessoes.set(sessaoId, { acertos: 0 });
+    estado.sessoes.set(sessaoId, { acertos: 0 });
     const sessao: Sessao = {
       sessaoId,
       perguntas: PERGUNTAS.map((p) => ({
@@ -178,7 +187,7 @@ function rotear(path: string, method: string, body: unknown): unknown {
     const p = PERGUNTAS.find((q) => q.id === perguntaId)!;
     const certaId = `${p.id}-${p.certa}`;
     const correta = opcaoId === certaId;
-    const s = sessoes.get(partes[1]);
+    const s = estado.sessoes.get(partes[1]);
     if (s && correta) s.acertos++;
     const r: ResultadoResposta = {
       correta,
@@ -191,7 +200,7 @@ function rotear(path: string, method: string, body: unknown): unknown {
   }
 
   if (partes[0] === "sessoes" && partes[2] === "concluir") {
-    const acertos = sessoes.get(partes[1])?.acertos ?? 0;
+    const acertos = estado.sessoes.get(partes[1])?.acertos ?? 0;
     const r: ResultadoSessao = {
       estrelas: acertos,
       total: PERGUNTAS.length,
