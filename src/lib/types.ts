@@ -79,7 +79,33 @@ export interface AlunoPublico {
 export interface TurmaPublica {
   codigo: string;
   nome: string;
-  alunos: AlunoPublico[];
+  alunos: AlunoPublico[]; // lista pública: só id e nome, nunca o PIN
+}
+
+// Identificação do aluno por PIN de 4 dígitos (POST /acesso/pin)
+export interface PedidoPin {
+  alunoId: string;
+  pin: string;
+}
+
+export interface ResultadoPin {
+  valido: boolean;
+  acesso: string | null; // credencial curta exigida para abrir sessões como esse aluno
+  bloqueado: boolean; // muitas tentativas erradas seguidas; o aluno precisa esperar ou chamar o professor
+}
+
+// Corpo de POST /sessoes
+export interface PedidoSessao {
+  codigo: string;
+  alunoId: string;
+  acesso?: string;
+}
+
+// Lado do professor: cadastro do aluno com o PIN visível
+export interface AlunoCadastro {
+  id: string;
+  nome: string;
+  pin: string;
 }
 
 export interface Opcao {

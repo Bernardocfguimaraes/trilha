@@ -2,11 +2,15 @@
 // Simula o backend para desenvolver a interface — não é lógica de produção.
 import { ApiError } from "./api";
 import type {
+  AlunoCadastro,
   AlunoDetalhe,
   AlunoResumo,
   HabilidadeStatus,
   HistoricoHabilidade,
+  PedidoPin,
+  PedidoSessao,
   Recomendacao,
+  ResultadoPin,
   ResultadoResposta,
   ResultadoSessao,
   Sessao,
@@ -31,14 +35,31 @@ const HABILIDADES = [
 // (chamadas do navegador) e os Server Components vejam os mesmos dados.
 interface EstadoMock {
   ativas: Set<string>;
-  sessoes: Map<string, { acertos: number }>;
+  sessoes: Map<string, { acertos: number; alunoId: string }>;
+  pins: Map<string, string>; // alunoId -> PIN
+  acessos: Map<string, string>; // credencial de acesso -> alunoId
+  tentativas: Map<string, { erros: number; bloqueadoAte: number }>;
 }
 
+// PINs fake. Ana (a1) usa 1234; os demais aparecem em Painel > Turma.
+const PINS_INICIAIS: Record<string, string> = {
+  a1: "1234", a2: "2580", a3: "3141", a4: "4072", a5: "5319",
+  a6: "6248", a7: "7105", a8: "8463", a9: "9026", a10: "1357",
+};
+
+function estadoInicial(): EstadoMock {
+  return {
+    ativas: new Set(HABILIDADES.filter((h) => h.id !== "por-producao").map((h) => h.id)),
+    sessoes: new Map(),
+    pins: new Map(Object.entries(PINS_INICIAIS)),
+    acessos: new Map(),
+    tentativas: new Map(),
+  };
+}
+
+// O spread preserva o que já existe e completa campos novos quando o arquivo muda em dev.
 const g = globalThis as typeof globalThis & { __trilhaMock?: EstadoMock };
-const estado: EstadoMock = (g.__trilhaMock ??= {
-  ativas: new Set(HABILIDADES.filter((h) => h.id !== "por-producao").map((h) => h.id)),
-  sessoes: new Map(),
-});
+const estado: EstadoMock = (g.__trilhaMock = { ...estadoInicial(), ...g.__trilhaMock });
 
 // Status por aluno, na ordem de HABILIDADES (o: ok, a: atenção, x: alerta)
 const ALUNOS: { id: string; nome: string; ultima: string | null; status: string }[] = [
@@ -140,8 +161,52 @@ const PERGUNTAS = [
 
 const ELOGIOS = ["Isso aí!", "Mandou bem!", "Acertou!", "Muito bem!"];
 
+const cadastro = (a: (typeof ALUNOS)[number]): AlunoCadastro => ({ id: a.id, nome: a.nome, pin: estado.pins.get(a.id)! });
+
+function novoPin(anterior?: string) {
+  let pin: string;
+  do pin = String(Math.floor(Math.random() * 10000)).padStart(4, "0");
+  while (pin === anterior || new Set(pin).size === 1); // evita repetir o anterior e 0000, 1111…
+  return pin;
+}
+
+const MAX_ERROS_PIN = 5;
+const ESPERA_BLOQUEIO_MS = 60_000;
+
+function validarPin({ alunoId, pin }: PedidoPin): ResultadoPin {
+  if (!ALUNOS.some((a) => a.id === alunoId)) throw new ApiError(404, "Aluno não encontrado");
+  const t = estado.tentativas.get(alunoId) ?? { erros: 0, bloqueadoAte: 0 };
+  if (t.bloqueadoAte > Date.now()) return { valido: false, acesso: null, bloqueado: true };
+
+  if (estado.pins.get(alunoId) !== pin) {
+    t.erros++;
+    if (t.erros >= MAX_ERROS_PIN) Object.assign(t, { erros: 0, bloqueadoAte: Date.now() + ESPERA_BLOQUEIO_MS });
+    estado.tentativas.set(alunoId, t);
+    return { valido: false, acesso: null, bloqueado: t.bloqueadoAte > Date.now() };
+  }
+
+  estado.tentativas.delete(alunoId);
+  const acesso = `acesso-${alunoId}-${crypto.randomUUID()}`;
+  estado.acessos.set(acesso, alunoId);
+  return { valido: true, acesso, bloqueado: false };
+}
+
 function rotear(path: string, method: string, body: unknown): unknown {
   const partes = path.split("/").filter(Boolean);
+
+  if (path === "/acesso/pin" && method === "POST") return validarPin(body as PedidoPin);
+
+  if (path === "/turma/alunos" && method === "GET") return ALUNOS.map(cadastro);
+
+  if (partes[0] === "turma" && partes[1] === "alunos" && partes[3] === "pin" && method === "POST") {
+    const aluno = ALUNOS.find((a) => a.id === partes[2]);
+    if (!aluno) throw new ApiError(404, "Aluno não encontrado");
+    estado.pins.set(aluno.id, novoPin(estado.pins.get(aluno.id)));
+    estado.tentativas.delete(aluno.id);
+    // O PIN antigo deixa de valer, inclusive para quem já tinha entrado com ele.
+    for (const [acesso, alunoId] of estado.acessos) if (alunoId === aluno.id) estado.acessos.delete(acesso);
+    return cadastro(aluno);
+  }
 
   if (method === "GET" && path === "/alunos") return ALUNOS.map(resumo);
 
@@ -167,8 +232,13 @@ function rotear(path: string, method: string, body: unknown): unknown {
   }
 
   if (path === "/sessoes" && method === "POST") {
+    const pedido = body as PedidoSessao;
+    // Sem a credencial do PIN, ninguém abre sessão em nome de outro aluno.
+    if (!pedido.acesso || estado.acessos.get(pedido.acesso) !== pedido.alunoId) {
+      throw new ApiError(401, "Confirme o PIN do aluno antes de começar");
+    }
     const sessaoId = `s${Date.now()}`;
-    estado.sessoes.set(sessaoId, { acertos: 0 });
+    estado.sessoes.set(sessaoId, { acertos: 0, alunoId: pedido.alunoId });
     const sessao: Sessao = {
       sessaoId,
       perguntas: PERGUNTAS.map((p) => ({

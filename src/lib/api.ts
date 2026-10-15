@@ -1,7 +1,11 @@
 import type {
+  AlunoCadastro,
   AlunoDetalhe,
   AlunoResumo,
   HistoricoHabilidade,
+  PedidoPin,
+  PedidoSessao,
+  ResultadoPin,
   ResultadoResposta,
   ResultadoSessao,
   Sessao,
@@ -66,11 +70,17 @@ export const api = {
       token,
     }),
 
-  // Aluno (sem conta: entra pelo código da turma)
+  alunosTurma: (token?: string | null) => request<AlunoCadastro[]>("/turma/alunos", { token }),
+  regenerarPin: (alunoId: string, token?: string | null) =>
+    request<AlunoCadastro>(`/turma/alunos/${alunoId}/pin`, { method: "POST", token }),
+
+  // Aluno (sem conta: entra pelo código da turma e confirma quem é com o PIN)
   turmaPublica: (codigo: string) =>
     request<TurmaPublica>(`/turmas/${encodeURIComponent(codigo)}`),
-  iniciarSessao: (codigo: string, alunoId: string) =>
-    request<Sessao>("/sessoes", { method: "POST", body: { codigo, alunoId } }),
+  validarPin: (alunoId: string, pin: string) =>
+    request<ResultadoPin>("/acesso/pin", { method: "POST", body: { alunoId, pin } satisfies PedidoPin }),
+  iniciarSessao: (codigo: string, alunoId: string, opcoes: Omit<PedidoSessao, "codigo" | "alunoId"> = {}) =>
+    request<Sessao>("/sessoes", { method: "POST", body: { codigo, alunoId, ...opcoes } satisfies PedidoSessao }),
   responder: (sessaoId: string, perguntaId: string, opcaoId: string) =>
     request<ResultadoResposta>(`/sessoes/${sessaoId}/respostas`, {
       method: "POST",

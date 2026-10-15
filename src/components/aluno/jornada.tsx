@@ -3,18 +3,21 @@
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Volume2, X } from "lucide-react";
-import { api } from "@/lib/api";
+import { api, ApiError } from "@/lib/api";
 import type { AlunoPublico, Pergunta, ResultadoResposta, ResultadoSessao, TurmaPublica } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Sabia } from "@/components/marca";
 import { BotaoGrande, classesBotaoGrande } from "./botao-grande";
+import { EntradaPin } from "./entrada-pin";
 import { Estrela, TrilhaProgresso, type Marco } from "./trilha-progresso";
 
+// `acesso` é a credencial devolvida pelo PIN; sem ela o backend não abre sessão.
 type Etapa =
   | { tipo: "quem" }
-  | { tipo: "inicio"; aluno: AlunoPublico }
-  | { tipo: "pergunta"; aluno: AlunoPublico; sessaoId: string; perguntas: Pergunta[] }
-  | { tipo: "fim"; aluno: AlunoPublico; resultado: ResultadoSessao; marcos: Marco[] };
+  | { tipo: "pin"; aluno: AlunoPublico }
+  | { tipo: "inicio"; aluno: AlunoPublico; acesso: string }
+  | { tipo: "pergunta"; aluno: AlunoPublico; acesso: string; sessaoId: string; perguntas: Pergunta[] }
+  | { tipo: "fim"; aluno: AlunoPublico; acesso: string; resultado: ResultadoSessao; marcos: Marco[] };
 
 const CORES_AVATAR = ["bg-broto", "bg-sol", "bg-coral", "bg-[#4bb3e6]", "bg-[#9b7fe6]"];
 
@@ -23,14 +26,16 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState(false);
 
-  async function comecar(aluno: AlunoPublico) {
+  async function comecar(aluno: AlunoPublico, acesso: string) {
     setCarregando(true);
     setErro(false);
     try {
-      const sessao = await api.iniciarSessao(turma.codigo, aluno.id);
-      setEtapa({ tipo: "pergunta", aluno, sessaoId: sessao.sessaoId, perguntas: sessao.perguntas });
-    } catch {
-      setErro(true);
+      const sessao = await api.iniciarSessao(turma.codigo, aluno.id, { acesso });
+      setEtapa({ tipo: "pergunta", aluno, acesso, sessaoId: sessao.sessaoId, perguntas: sessao.perguntas });
+    } catch (e) {
+      // PIN trocado pelo professor no meio do caminho: pede o número de novo.
+      if (e instanceof ApiError && e.status === 401) setEtapa({ tipo: "pin", aluno });
+      else setErro(true);
     } finally {
       setCarregando(false);
     }
@@ -48,7 +53,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
           {turma.alunos.map((a, i) => (
             <li key={a.id}>
               <button
-                onClick={() => setEtapa({ tipo: "inicio", aluno: a })}
+                onClick={() => setEtapa({ tipo: "pin", aluno: a })}
                 className="flex w-full flex-col items-center gap-2 rounded-2xl bg-white p-4 shadow-[0_4px_0_var(--color-ceu-forte)] ring-2 ring-ceu-forte transition-transform outline-none focus-visible:ring-4 focus-visible:ring-grafite/40 active:translate-y-1 active:shadow-none"
               >
                 <span
@@ -69,6 +74,16 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
     );
   }
 
+  if (etapa.tipo === "pin") {
+    return (
+      <ConfirmarPin
+        aluno={etapa.aluno}
+        onEntrar={(acesso) => setEtapa({ tipo: "inicio", aluno: etapa.aluno, acesso })}
+        onVoltar={() => setEtapa({ tipo: "quem" })}
+      />
+    );
+  }
+
   if (etapa.tipo === "inicio") {
     const primeiroNome = etapa.aluno.nome.split(" ")[0];
     return (
@@ -85,7 +100,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
             A trilha não carregou. Aperte o botão de novo.
           </p>
         )}
-        <BotaoGrande className="mt-8 w-full max-w-xs" disabled={carregando} onClick={() => comecar(etapa.aluno)}>
+        <BotaoGrande className="mt-8 w-full max-w-xs" disabled={carregando} onClick={() => comecar(etapa.aluno, etapa.acesso)}>
           {carregando ? "Abrindo…" : "Começar"}
         </BotaoGrande>
         <button
@@ -104,7 +119,9 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
         sessaoId={etapa.sessaoId}
         perguntas={etapa.perguntas}
         onSair={() => setEtapa({ tipo: "quem" })}
-        onFim={(resultado, marcos) => setEtapa({ tipo: "fim", aluno: etapa.aluno, resultado, marcos })}
+        onFim={(resultado, marcos) =>
+          setEtapa({ tipo: "fim", aluno: etapa.aluno, acesso: etapa.acesso, resultado, marcos })
+        }
       />
     );
   }
@@ -132,6 +149,66 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
       <Link href="/aluno" className={classesBotaoGrande("broto", "mt-8 w-full max-w-xs")}>
         Terminar
       </Link>
+    </Tela>
+  );
+}
+
+type ErroPin = "errado" | "bloqueado" | "rede" | null;
+
+const MENSAGENS_PIN: Record<Exclude<ErroPin, null>, string> = {
+  errado: "Esse não é o seu número secreto. Tente de novo!",
+  bloqueado: "Foram muitas tentativas. Espere um minutinho ou chame seu professor para ajudar.",
+  rede: "Não deu para conferir agora. Digite de novo.",
+};
+
+function ConfirmarPin({
+  aluno,
+  onEntrar,
+  onVoltar,
+}: {
+  aluno: AlunoPublico;
+  onEntrar: (acesso: string) => void;
+  onVoltar: () => void;
+}) {
+  const [conferindo, setConferindo] = useState(false);
+  const [erroPin, setErroPin] = useState<ErroPin>(null);
+  const [tentativa, setTentativa] = useState(0);
+  const primeiroNome = aluno.nome.split(" ")[0];
+
+  async function conferir(pin: string) {
+    setConferindo(true);
+    setErroPin(null);
+    try {
+      const r = await api.validarPin(aluno.id, pin);
+      if (r.valido && r.acesso) return onEntrar(r.acesso);
+      setErroPin(r.bloqueado ? "bloqueado" : "errado");
+    } catch {
+      setErroPin("rede");
+    }
+    setTentativa((t) => t + 1);
+    setConferindo(false);
+  }
+
+  return (
+    <Tela centro>
+      <Sabia humor={erroPin ? "triste" : "pensando"} className="size-24" />
+      <h1 className="mt-3 font-display text-4xl leading-none font-extrabold text-grafite">Oi, {primeiroNome}!</h1>
+      <p className="mt-2 max-w-[22ch] font-display text-2xl font-medium text-pedra">Digite o seu número secreto.</p>
+
+      <div className="mt-6 flex w-full justify-center">
+        <EntradaPin key={tentativa} onCompleto={conferir} desabilitado={conferindo} errou={!!erroPin} />
+      </div>
+
+      <p role="alert" className="mt-5 min-h-8 max-w-sm font-display text-xl font-semibold text-grafite">
+        {conferindo ? "Conferindo…" : erroPin && <span className="inline-block rounded-xl bg-coral-claro px-4 py-2">{MENSAGENS_PIN[erroPin]}</span>}
+      </p>
+
+      <button
+        onClick={onVoltar}
+        className="mt-2 rounded-lg px-3 py-2 font-display text-lg font-semibold text-pedra underline-offset-4 hover:underline"
+      >
+        Não sou {primeiroNome}
+      </button>
     </Tela>
   );
 }
