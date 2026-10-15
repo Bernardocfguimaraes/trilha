@@ -1,3 +1,5 @@
-fastapi==0.115.5
-uvicorn[standard]==0.32.1
-pydantic==2.10.3
+# Versões mínimas (sem fixar), para pegar wheels prontas em qualquer Python recente
+# e evitar compilar no Windows. Se precisar travar versões depois, dá pra fixar.
+fastapi>=0.115
+uvicorn>=0.30
+pydantic>=2.8
