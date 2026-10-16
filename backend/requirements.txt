@@ -3,3 +3,7 @@
 fastapi>=0.115
 uvicorn>=0.30
 pydantic>=2.8
+# Passo 2 — persistência no Postgres (Supabase). Só são usados quando DATABASE_URL existe.
+sqlalchemy>=2.0
+psycopg[binary]>=3.1
+python-dotenv>=1.0

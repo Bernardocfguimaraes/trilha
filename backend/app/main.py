@@ -15,10 +15,17 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
 
-from . import estado
+from . import bd
 from .dados import TURMA
 from .esquemas import PedidoChatTurma, PedidoPin, PedidoResposta, PedidoSessao, PedidoTurmaConfig
 from .estado import ApiErro
+
+# Com DATABASE_URL definido, os dados vêm do Postgres (app/repo.py); sem ele, do estado
+# em memória (app/estado.py). Os dois expõem exatamente as mesmas funções.
+if bd.tem_banco():
+    from . import repo as fonte
+else:
+    from . import estado as fonte
 
 app = FastAPI(title="Trilha API", version="0.1.0")
 
@@ -47,68 +54,68 @@ def saude():
 
 @app.get("/alunos")
 def get_alunos():
-    return estado.lista_alunos_resumo()
+    return fonte.lista_alunos_resumo()
 
 
 @app.get("/alunos/{aluno_id}")
 def get_aluno(aluno_id: str):
-    return estado.aluno_detalhe(aluno_id)
+    return fonte.aluno_detalhe(aluno_id)
 
 
 @app.get("/alunos/{aluno_id}/historico")
 def get_historico(aluno_id: str):
-    return estado.aluno_historico(aluno_id)
+    return fonte.aluno_historico(aluno_id)
 
 
 @app.get("/turma/configuracao")
 def get_config():
-    return estado.config()
+    return fonte.config()
 
 
 @app.put("/turma/configuracao")
 def put_config(pedido: PedidoTurmaConfig):
-    return estado.salvar_config(pedido.habilidadesAtivas, pedido.disciplinasAtivas)
+    return fonte.salvar_config(pedido.habilidadesAtivas, pedido.disciplinasAtivas)
 
 
 @app.get("/turma/alunos")
 def get_turma_alunos():
-    return estado.lista_cadastros()
+    return fonte.lista_cadastros()
 
 
 @app.post("/turma/alunos/{aluno_id}/pin")
 def post_regenerar_pin(aluno_id: str):
-    return estado.regenerar_pin(aluno_id)
+    return fonte.regenerar_pin(aluno_id)
 
 
 @app.post("/turmas/{turma_id}/chat")
 def post_chat(turma_id: str, pedido: PedidoChatTurma):
     if turma_id != TURMA["id"]:
         return JSONResponse("Turma não encontrada", status_code=404)
-    return estado.responder_chat_turma(pedido.pergunta)
+    return fonte.responder_chat_turma(pedido.pergunta)
 
 
 # --- Aluno (entra pelo código da turma + PIN) ------------------------------
 
 @app.get("/turmas/{codigo}")
 def get_turma_publica(codigo: str):
-    return estado.turma_publica(codigo)
+    return fonte.turma_publica(codigo)
 
 
 @app.post("/acesso/pin")
 def post_pin(pedido: PedidoPin):
-    return estado.validar_pin(pedido.alunoId, pedido.pin)
+    return fonte.validar_pin(pedido.alunoId, pedido.pin)
 
 
 @app.post("/sessoes")
 def post_sessao(pedido: PedidoSessao):
-    return estado.iniciar_sessao(pedido.codigo, pedido.alunoId, pedido.acesso, pedido.disciplinaId)
+    return fonte.iniciar_sessao(pedido.codigo, pedido.alunoId, pedido.acesso, pedido.disciplinaId)
 
 
 @app.post("/sessoes/{sessao_id}/respostas")
 def post_resposta(sessao_id: str, pedido: PedidoResposta):
-    return estado.responder(sessao_id, pedido.perguntaId, pedido.opcaoId)
+    return fonte.responder(sessao_id, pedido.perguntaId, pedido.opcaoId)
 
 
 @app.post("/sessoes/{sessao_id}/concluir")
 def post_concluir(sessao_id: str):
-    return estado.concluir_sessao(sessao_id)
+    return fonte.concluir_sessao(sessao_id)

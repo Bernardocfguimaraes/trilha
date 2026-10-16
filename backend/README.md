@@ -2,12 +2,33 @@
 
 API que preenche o contrato que o frontend já consome (`src/lib/api.ts` e `src/lib/types.ts`).
 
-## Estado atual (passo 1)
+## Estado atual (passo 2)
 
-Todos os endpoints respondem contra um **estado em memória** (`app/estado.py`) que espelha,
-regra por regra, o mock do frontend. Isso prova a integração ponta a ponta antes de ligar o
-banco real. Ainda **não** tem: persistência (Supabase), diagnóstico com ML clássico e
-LLM real no chat/recomendações — esses são os próximos passos.
+O backend funciona em **dois modos**, escolhidos pela variável `DATABASE_URL`:
+
+- **Sem `DATABASE_URL`** → estado em memória (`app/estado.py`), que espelha o mock do
+  frontend. Reinicia do zero a cada restart. É o modo do passo 1.
+- **Com `DATABASE_URL`** → persistência no **Postgres do Supabase** (`app/repo.py`). Os
+  dados (alunos, PINs, status, histórico, config da turma) sobrevivem a restart.
+
+Os dois modos expõem exatamente os mesmos endpoints; o `main.py` e o frontend não mudam.
+Ainda **não** tem: diagnóstico com ML clássico e LLM real no chat/recomendações — próximos passos.
+
+## Passo 2 — Ligar o Supabase
+
+1. Crie um projeto em supabase.com (New project), defina a senha do banco e a região.
+2. Copie a connection string: **Settings → Database → Connection string → URI**.
+3. Em `backend/`, copie `.env.example` para `.env` e cole a string em `DATABASE_URL`
+   (troque `[YOUR-PASSWORD]` pela senha do banco). O `.env` não vai para o git.
+4. Crie as tabelas e popule a demo:
+   ```bash
+   python -m app.seed
+   ```
+   (Idempotente: derruba e recria as tabelas. Rode de novo para resetar a demo.)
+5. Suba a API normalmente (`uvicorn app.main:app --reload --port 8000`). Agora os dados
+   são lidos e gravados no Supabase.
+
+Para voltar ao modo em memória, basta esvaziar/comentar `DATABASE_URL` no `.env`.
 
 ## Rodar local
 
@@ -57,9 +78,13 @@ e reinicie o `next dev`. Sem essa variável, nada muda — o mock continua valen
 
 ```
 app/
-  main.py        rotas FastAPI + CORS
+  main.py        rotas FastAPI + CORS; escolhe estado (memória) ou repo (banco)
   esquemas.py    corpos de requisição (Pydantic)
-  estado.py      estado em memória + regras (vira Supabase depois)
+  estado.py      estado em memória + regras (modo sem banco)
+  repo.py        mesma interface, lendo/gravando no Postgres (modo com banco)
+  bd.py          conexão com o Postgres (lê DATABASE_URL do .env)
+  modelos.py     tabelas SQLAlchemy
+  seed.py        cria as tabelas e popula a demo (python -m app.seed)
   dados.py       seed: turma, habilidades, alunos, PINs, banco de perguntas
   adaptacao.py   dificuldade adaptativa (mesma regra do frontend)
   chat.py        placeholder do chat (vira LLM depois)
