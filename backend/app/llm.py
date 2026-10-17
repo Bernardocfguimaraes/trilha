@@ -18,6 +18,11 @@ import urllib.request
 API_KEY = os.environ.get("LLM_API_KEY")
 BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.groq.com/openai/v1").rstrip("/")
 MODEL = os.environ.get("LLM_MODEL", "llama-3.3-70b-versatile")
+# Modelos "thinking" (ex.: Gemini 2.5+/3.x Flash) gastam tokens de raciocínio ANTES da
+# resposta, e esses tokens contam no max_tokens — o que cortava as frases no meio e deixava
+# tudo lento. "none" desliga o raciocínio nesses modelos; provedores sem esse recurso ignoram.
+# Vazio ("") remove o campo da requisição. Ajuste por LLM_REASONING_EFFORT no .env, se precisar.
+REASONING_EFFORT = os.environ.get("LLM_REASONING_EFFORT", "none")
 TIMEOUT = 30
 
 
@@ -36,6 +41,8 @@ def gerar(sistema: str, mensagens: list[dict], temperatura: float = 0.4, max_tok
         "temperature": temperatura,
         "max_tokens": max_tokens,
     }
+    if REASONING_EFFORT:
+        corpo["reasoning_effort"] = REASONING_EFFORT
     req = urllib.request.Request(
         f"{BASE_URL}/chat/completions",
         data=json.dumps(corpo).encode("utf-8"),

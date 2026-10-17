@@ -35,7 +35,7 @@ def texto_para(habilidade_id: str, habilidade_nome: str, disciplina: str, status
             f"A criança está com {nivel} nesta habilidade. "
             f"Escreva a recomendação para quem acompanha a criança."
         )
-        texto = llm.gerar(_SISTEMA, [{"role": "user", "content": prompt}], max_tokens=300)
+        texto = llm.gerar(_SISTEMA, [{"role": "user", "content": prompt}], max_tokens=500)
 
     if not texto:  # fallback: texto pronto (ou genérico se não houver)
         texto = TEXTOS.get(habilidade_id, "Recomendação em preparação.")
