@@ -11,7 +11,7 @@ import random
 import uuid
 from datetime import datetime, timedelta, timezone
 
-from . import chat
+from . import chat, diagnostico
 from .adaptacao import NIVEIS, estado_inicial_adaptacao, registrar_resposta
 from .dados import (
     ALUNOS,
@@ -198,11 +198,22 @@ def _registrar_sessao(s: dict) -> None:
     desempenho = {hid: _arred(sum(ps) / len(ps)) for hid, ps in pontos.items()}
     _registros_de(aluno).append({"data": hoje, "desempenho": desempenho})
     estado.ultima_atividade[aluno["id"]] = hoje
-    # Status = média dos 3 últimos dias com atividade na habilidade
+    # Status recalculado pelo diagnóstico de ML (passo 3), a partir da série da habilidade.
     for hid in pontos.keys():
-        ultimos = _serie(aluno, hid)[-3:]
-        media = sum(p["desempenho"] for p in ultimos) / len(ultimos)
-        estado.status_atual[f"{aluno['id']}:{hid}"] = "ok" if media >= 70 else "atencao" if media >= 55 else "alerta"
+        estado.status_atual[f"{aluno['id']}:{hid}"] = diagnostico.classificar(_serie(aluno, hid))
+
+
+def reavaliar_diagnostico() -> dict:
+    """Re-diagnostica todos os alunos a partir do histórico, usando o modelo de ML.
+    Útil para a demo: mostra o modelo classificando a turma inteira de uma vez."""
+    atualizados = 0
+    for a in ALUNOS:
+        for h in HABILIDADES:
+            s = _serie(a, h["id"])
+            if s:
+                estado.status_atual[f"{a['id']}:{h['id']}"] = diagnostico.classificar(s)
+                atualizados += 1
+    return {"reavaliados": atualizados, "modelo": "ml" if diagnostico.tem_modelo() else "regra"}
 
 
 # --- Configuração da turma --------------------------------------------------

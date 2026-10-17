@@ -1,0 +1,5 @@
+# Dependências SÓ para treinar o modelo (python -m ml.treinar).
+# O backend em produção NÃO precisa delas — ele lê app/modelo_diagnostico.json
+# e classifica em Python puro (ver app/diagnostico.py).
+scikit-learn>=1.4
+numpy>=1.26

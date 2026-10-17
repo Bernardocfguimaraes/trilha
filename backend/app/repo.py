@@ -15,7 +15,7 @@ from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import delete, select
 
-from . import bd, chat
+from . import bd, chat, diagnostico
 from .adaptacao import estado_inicial_adaptacao, registrar_resposta
 from .dados import BANCO, TEXTOS
 from .estado import (  # helpers puros + constantes, reusados para não divergir
@@ -346,17 +346,37 @@ def _registrar_sessao(sess: dict) -> None:
             s.add(Historico(aluno_id=a.id, habilidade_id=hid, data=hoje, desempenho=_arred(sum(ps) / len(ps))))
         a.ultima_atividade = hoje
         s.commit()
-        # Recalcula status das habilidades tocadas pela média dos 3 últimos dias.
+        # Recalcula status das habilidades tocadas pelo diagnóstico de ML (passo 3).
         for hid in pontos.keys():
-            ultimos = _serie(s, a.id, hid)[-3:]
-            media = sum(p["desempenho"] for p in ultimos) / len(ultimos)
-            novo = "ok" if media >= 70 else "atencao" if media >= 55 else "alerta"
+            novo = diagnostico.classificar(_serie(s, a.id, hid))
             st = s.get(AlunoHabilidadeStatus, {"aluno_id": a.id, "habilidade_id": hid})
             if st:
                 st.status = novo
             else:
                 s.add(AlunoHabilidadeStatus(aluno_id=a.id, habilidade_id=hid, status=novo))
         s.commit()
+
+
+def reavaliar_diagnostico() -> dict:
+    """Re-diagnostica todos os alunos a partir do histórico no banco, usando o modelo de ML."""
+    atualizados = 0
+    with bd.SessionLocal() as s:
+        alunos = s.execute(select(Aluno)).scalars().all()
+        habs = s.execute(select(Habilidade)).scalars().all()
+        for a in alunos:
+            for h in habs:
+                serie = _serie(s, a.id, h.id)
+                if not serie:
+                    continue
+                novo = diagnostico.classificar(serie)
+                st = s.get(AlunoHabilidadeStatus, {"aluno_id": a.id, "habilidade_id": h.id})
+                if st:
+                    st.status = novo
+                else:
+                    s.add(AlunoHabilidadeStatus(aluno_id=a.id, habilidade_id=h.id, status=novo))
+                atualizados += 1
+        s.commit()
+    return {"reavaliados": atualizados, "modelo": "ml" if diagnostico.tem_modelo() else "regra"}
 
 
 def responder_chat_turma(pergunta: str) -> dict:

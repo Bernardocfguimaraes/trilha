@@ -1,0 +1,49 @@
+=== Diagnóstico de dificuldade — treino ===
+Amostras: 4000 (treino 3000, teste 1000)
+Features: ['media', 'recente', 'inicial', 'tendencia', 'desvio', 'minimo', 'n_dias']
+
+--- Árvore de Decisão ---
+Acurácia (teste): 0.747
+Matriz de confusão (linhas=real, colunas=previsto) ordem ['alerta', 'atencao', 'ok']:
+[[391  48  16]
+ [ 67  62  59]
+ [ 32  31 294]]
+              precision    recall  f1-score   support
+
+      alerta       0.80      0.86      0.83       455
+     atencao       0.44      0.33      0.38       188
+          ok       0.80      0.82      0.81       357
+
+    accuracy                           0.75      1000
+   macro avg       0.68      0.67      0.67      1000
+weighted avg       0.73      0.75      0.74      1000
+
+--- Random Forest ---
+Acurácia (teste): 0.755
+Matriz de confusão (linhas=real, colunas=previsto) ordem ['alerta', 'atencao', 'ok']:
+[[409  30  16]
+ [ 74  55  59]
+ [ 21  45 291]]
+              precision    recall  f1-score   support
+
+      alerta       0.81      0.90      0.85       455
+     atencao       0.42      0.29      0.35       188
+          ok       0.80      0.82      0.80       357
+
+    accuracy                           0.76      1000
+   macro avg       0.68      0.67      0.67      1000
+weighted avg       0.73      0.76      0.74      1000
+
+Importância das features (Random Forest):
+  recente      0.255
+  tendencia    0.216
+  media        0.181
+  minimo       0.127
+  inicial      0.105
+  desvio       0.079
+  n_dias       0.038
+
+Baseline (regra de limiar na média recente): acurácia 0.659
+Random Forest sobre o baseline: +0.096
+
+Modelo exportado para app/modelo_diagnostico.json (200 árvores).

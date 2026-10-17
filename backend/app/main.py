@@ -82,6 +82,12 @@ def get_turma_alunos():
     return fonte.lista_cadastros()
 
 
+@app.post("/diagnostico/reavaliar")
+def post_reavaliar():
+    # Re-roda o diagnóstico de ML sobre o histórico de toda a turma.
+    return fonte.reavaliar_diagnostico()
+
+
 @app.post("/turma/alunos/{aluno_id}/pin")
 def post_regenerar_pin(aluno_id: str):
     return fonte.regenerar_pin(aluno_id)
