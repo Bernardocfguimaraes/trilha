@@ -62,6 +62,31 @@ o diagnóstico cai na regra de limiar antiga — nada quebra.
 O endpoint `POST /diagnostico/reavaliar` re-roda o modelo sobre o histórico de toda a turma
 (útil para demonstrar o ML classificando a turma de uma vez).
 
+## Passo 4 — LLM nas recomendações e no chat
+
+Dois pontos deixaram de usar texto pronto e passaram a ser gerados por um LLM:
+
+- **Recomendações** (`app/recomendacoes.py`) — o texto pedagógico que aparece quando um
+  aluno está em alerta/atenção. Só gera para quem está em alerta/atenção e **cacheia por
+  (habilidade, status)** — é o controle de custo que o professor pediu (não chama o LLM à toa).
+- **Chat da turma** (`app/chat.py`, `responder_llm`) — vira conversa de verdade: o LLM recebe
+  um retrato real da turma (quem está em alerta/atenção, evolução, quem sumiu) e o histórico
+  da conversa. Sem LLM, cai no responder por palavra-chave.
+
+**Funciona com ou sem LLM.** Sem `LLM_API_KEY`, tudo usa os textos prontos (fallback) e nada
+quebra. Com a chave, gera de verdade. Qualquer erro (cota, rede, timeout) também cai no fallback.
+
+**Configurar (grátis).** Crie uma chave no Groq (https://console.groq.com → API Keys) e no
+`.env` do backend:
+```
+LLM_API_KEY=coloque_a_chave_aqui
+LLM_BASE_URL=https://api.groq.com/openai/v1
+LLM_MODEL=llama-3.3-70b-versatile
+```
+O cliente (`app/llm.py`) fala com qualquer provedor compatível com a API da OpenAI — para usar
+Gemini/Together/outro, basta trocar `LLM_BASE_URL` e `LLM_MODEL`. Nenhuma dependência nova:
+a chamada usa a biblioteca padrão. Confira o nome do modelo atual na lista do provedor.
+
 ## Rodar local
 
 Precisa de Python 3.11+.
@@ -120,7 +145,9 @@ app/
   seed.py        cria as tabelas e popula a demo (python -m app.seed)
   dados.py       seed: turma, habilidades, alunos, PINs, banco de perguntas
   adaptacao.py   dificuldade adaptativa (mesma regra do frontend)
-  chat.py        placeholder do chat (vira LLM depois)
+  chat.py        chat da turma: caminho LLM + fallback por palavra-chave
+  llm.py         cliente de LLM (compatível com OpenAI; stdlib; fallback gracioso)
+  recomendacoes.py  texto de recomendação via LLM, com cache e fallback
   diag_features.py  features do diagnóstico (stdlib; treino e inferência usam a mesma)
   diagnostico.py    inferência do ML em Python puro (lê modelo_diagnostico.json; fallback regra)
   modelo_diagnostico.json  Random Forest exportado (gerado por ml/treinar.py)

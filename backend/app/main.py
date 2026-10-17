@@ -97,7 +97,8 @@ def post_regenerar_pin(aluno_id: str):
 def post_chat(turma_id: str, pedido: PedidoChatTurma):
     if turma_id != TURMA["id"]:
         return JSONResponse("Turma não encontrada", status_code=404)
-    return fonte.responder_chat_turma(pedido.pergunta)
+    historico = [m.model_dump() for m in pedido.historico]
+    return fonte.responder_chat_turma(pedido.pergunta, historico)
 
 
 # --- Aluno (entra pelo código da turma + PIN) ------------------------------

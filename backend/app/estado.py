@@ -12,6 +12,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 
 from . import chat, diagnostico
+from . import recomendacoes as rec
 from .adaptacao import NIVEIS, estado_inicial_adaptacao, registrar_resposta
 from .dados import (
     ALUNOS,
@@ -122,7 +123,7 @@ def detalhe(a: dict) -> dict:
                 "habilidadeId": h["habilidadeId"],
                 "habilidade": h["nome"],
                 "status": h["status"],
-                "texto": TEXTOS.get(h["habilidadeId"], "Recomendação em preparação."),
+                "texto": rec.texto_para(h["habilidadeId"], h["nome"], h["disciplina"], h["status"]),
                 "geradaEm": _ultima_de(a) or "2026-10-13",
             })
     return {**resumo(a), "recomendacoes": recomendacoes}
@@ -359,11 +360,13 @@ def _retrato_turma() -> chat.RetratoTurma:
     }
 
 
-def responder_chat_turma(pergunta: str) -> dict:
+def responder_chat_turma(pergunta: str, historico: list[dict] | None = None) -> dict:
+    retrato = _retrato_turma()
+    texto = chat.responder_llm(pergunta, retrato, historico) or chat.responder_chat(pergunta, retrato)
     return {
         "id": f"m{_agora_ms()}",
         "autor": "assistente",
-        "texto": chat.responder_chat(pergunta, _retrato_turma()),
+        "texto": texto,
         "enviadaEm": datetime.now(timezone.utc).isoformat(),
     }
 

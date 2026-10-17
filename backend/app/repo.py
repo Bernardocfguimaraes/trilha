@@ -16,6 +16,7 @@ from datetime import datetime, timedelta, timezone
 from sqlalchemy import delete, select
 
 from . import bd, chat, diagnostico
+from . import recomendacoes as rec
 from .adaptacao import estado_inicial_adaptacao, registrar_resposta
 from .dados import BANCO, TEXTOS
 from .estado import (  # helpers puros + constantes, reusados para não divergir
@@ -143,7 +144,7 @@ def aluno_detalhe(aluno_id: str) -> dict:
                     "habilidadeId": h["habilidadeId"],
                     "habilidade": h["nome"],
                     "status": h["status"],
-                    "texto": TEXTOS.get(h["habilidadeId"], "Recomendação em preparação."),
+                    "texto": rec.texto_para(h["habilidadeId"], h["nome"], h["disciplina"], h["status"]),
                     "geradaEm": a.ultima_atividade or "2026-10-13",
                 })
         return {**_resumo(s, a), "recomendacoes": recomendacoes}
@@ -379,7 +380,7 @@ def reavaliar_diagnostico() -> dict:
     return {"reavaliados": atualizados, "modelo": "ml" if diagnostico.tem_modelo() else "regra"}
 
 
-def responder_chat_turma(pergunta: str) -> dict:
+def responder_chat_turma(pergunta: str, historico: list[dict] | None = None) -> dict:
     with bd.SessionLocal() as s:
         turma = _turma(s)
         ctx = _contexto(s)
@@ -413,9 +414,10 @@ def responder_chat_turma(pergunta: str) -> dict:
             "evolucao": evolucao,
             "semAtividade": [_curto(a.nome) for a in alunos if (a.ultima_atividade or "") < semana_passada],
         }
+    texto = chat.responder_llm(pergunta, retrato, historico) or chat.responder_chat(pergunta, retrato)
     return {
         "id": f"m{_agora_ms()}",
         "autor": "assistente",
-        "texto": chat.responder_chat(pergunta, retrato),
+        "texto": texto,
         "enviadaEm": datetime.now(timezone.utc).isoformat(),
     }

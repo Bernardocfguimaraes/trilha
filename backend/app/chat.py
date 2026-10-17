@@ -10,6 +10,8 @@ import re
 import unicodedata
 from typing import TypedDict
 
+from . import llm
+
 
 class HabilidadeRetrato(TypedDict):
     id: str
@@ -158,6 +160,51 @@ def _geral(r: RetratoTurma) -> str:
         "• Quem precisa de mais atenção?",
         "• Quem evoluiu neste bimestre?",
     ])
+
+
+_SISTEMA_CHAT = (
+    "Você é um assistente pedagógico que conversa com o PROFESSOR sobre a turma dele. "
+    "Responda em português, de forma objetiva e prática, apoiando decisões de ensino. "
+    "Use SOMENTE os dados da turma fornecidos abaixo — não invente nomes, números ou alunos. "
+    "Quando sugerir atividade, seja concreto e breve. Sem markdown pesado."
+)
+
+
+def _resumo_para_llm(r: RetratoTurma) -> str:
+    """Serializa o retrato da turma em texto compacto para o LLM se basear em dados reais."""
+    linhas = [f"Turma: {r['turma']}"]
+    for h in _ranking(r):
+        linhas.append(
+            f"- {h['nome']} ({h['disciplina']}): {len(h['alerta'])} em alerta"
+            + (f" [{', '.join(h['alerta'])}]" if h["alerta"] else "")
+            + f", {len(h['atencao'])} em atenção"
+            + (f" [{', '.join(h['atencao'])}]" if h["atencao"] else "")
+        )
+    if not _ranking(r):
+        linhas.append("- Nenhuma habilidade em alerta ou atenção no momento.")
+    if r["semAtividade"]:
+        linhas.append(f"Sem atividade nos últimos 7 dias: {', '.join(r['semAtividade'])}")
+    subiram = [f"{e['aluno']} (+{e['variacao']})" for e in r["evolucao"] if e["variacao"] >= 5]
+    cairam = [f"{e['aluno']} ({e['variacao']})" for e in r["evolucao"] if e["variacao"] <= -5]
+    if subiram:
+        linhas.append("Avançaram: " + ", ".join(subiram))
+    if cairam:
+        linhas.append("Recuaram: " + ", ".join(cairam))
+    return "\n".join(linhas)
+
+
+def responder_llm(pergunta: str, r: RetratoTurma, historico: list[dict] | None = None) -> str | None:
+    """Resposta do chat via LLM, com o retrato da turma no sistema e o histórico da conversa.
+    Devolve None se o LLM não estiver disponível ou falhar (o chamador usa o fallback)."""
+    if not llm.disponivel():
+        return None
+    sistema = _SISTEMA_CHAT + "\n\nDados atuais da turma:\n" + _resumo_para_llm(r)
+    mensagens = []
+    for m in historico or []:
+        papel = "assistant" if m.get("autor") == "assistente" else "user"
+        mensagens.append({"role": papel, "content": m.get("texto", "")})
+    mensagens.append({"role": "user", "content": pergunta})
+    return llm.gerar(sistema, mensagens, max_tokens=600)
 
 
 def responder_chat(pergunta: str, r: RetratoTurma) -> str:
