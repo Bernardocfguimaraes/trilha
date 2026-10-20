@@ -46,7 +46,11 @@ def gerar(sistema: str, mensagens: list[dict], temperatura: float = 0.4, max_tok
     req = urllib.request.Request(
         f"{BASE_URL}/chat/completions",
         data=json.dumps(corpo).encode("utf-8"),
-        headers={"Content-Type": "application/json", "Authorization": f"Bearer {API_KEY}"},
+                headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {API_KEY}",
+            "User-Agent": "trilha-backend/1.0",
+        },
         method="POST",
     )
     try:

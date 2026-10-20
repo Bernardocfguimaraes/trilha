@@ -204,7 +204,7 @@ def responder_llm(pergunta: str, r: RetratoTurma, historico: list[dict] | None =
         papel = "assistant" if m.get("autor") == "assistente" else "user"
         mensagens.append({"role": papel, "content": m.get("texto", "")})
     mensagens.append({"role": "user", "content": pergunta})
-    return llm.gerar(sistema, mensagens, max_tokens=600)
+    return llm.gerar(sistema, mensagens, max_tokens=1200)
 
 
 def responder_chat(pergunta: str, r: RetratoTurma) -> str:
