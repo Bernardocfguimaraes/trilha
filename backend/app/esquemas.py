@@ -44,3 +44,8 @@ class MensagemChat(BaseModel):
 class PedidoChatTurma(BaseModel):
     pergunta: str
     historico: list[MensagemChat] = []
+
+
+class PedidoExercicio(BaseModel):
+    habilidadeId: str
+    nivel: Nivel = "medio"

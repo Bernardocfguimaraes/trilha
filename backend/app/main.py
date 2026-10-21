@@ -15,9 +15,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
 
-from . import bd
+from . import bd, exercicios
 from .dados import TURMA
-from .esquemas import PedidoChatTurma, PedidoPin, PedidoResposta, PedidoSessao, PedidoTurmaConfig
+from .esquemas import (
+    PedidoChatTurma,
+    PedidoExercicio,
+    PedidoPin,
+    PedidoResposta,
+    PedidoSessao,
+    PedidoTurmaConfig,
+)
 from .estado import ApiErro
 
 # Com DATABASE_URL definido, os dados vêm do Postgres (app/repo.py); sem ele, do estado
@@ -99,6 +106,15 @@ def post_chat(turma_id: str, pedido: PedidoChatTurma):
         return JSONResponse("Turma não encontrada", status_code=404)
     historico = [m.model_dump() for m in pedido.historico]
     return fonte.responder_chat_turma(pedido.pergunta, historico)
+
+
+@app.post("/exercicios/gerar")
+def post_exercicio(pedido: PedidoExercicio):
+    # Gera um exercício de reforço (via LLM, com fallback no banco curado).
+    try:
+        return exercicios.gerar_exercicio(pedido.habilidadeId, pedido.nivel)
+    except ValueError as e:
+        return JSONResponse(str(e), status_code=404)
 
 
 # --- Aluno (entra pelo código da turma + PIN) ------------------------------
