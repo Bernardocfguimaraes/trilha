@@ -13,11 +13,14 @@ from __future__ import annotations
 
 import json
 import random
+import re
 
 from . import llm
 from .dados import BANCO, HABILIDADES
 
 NIVEIS = ("facil", "medio", "dificil")
+
+_RE_FRACAO = re.compile(r"^-?\d+/\d+$")
 
 _SISTEMA = (
     "Você cria exercícios para crianças do ensino fundamental (anos iniciais, 8 a 10 anos). "
@@ -58,6 +61,40 @@ def _extrair_json(texto: str) -> dict | None:
         return None
 
 
+def _valor_numerico(opcao: str) -> float | None:
+    """Converte a opção em número quando ela é número, fração, decimal ou porcentagem.
+    Devolve None quando não é numérica (ex.: "a metade", "cat"). Serve para pegar duas
+    opções de mesmo valor escritas de formas diferentes (2/4 e 1/2, 0,5 e 1/2, 50% e 1/2)."""
+    s = opcao.strip().lower().replace("r$", "").replace("$", "").replace(" ", "")
+    if not s:
+        return None
+    porcento = s.endswith("%")
+    if porcento:
+        s = s[:-1]
+    if _RE_FRACAO.match(s):
+        num, den = s.split("/")
+        denominador = int(den)
+        if denominador == 0:
+            return None
+        valor = int(num) / denominador
+    else:
+        try:
+            valor = float(s.replace(",", "."))
+        except ValueError:
+            return None
+    return valor / 100 if porcento else valor
+
+
+def _tem_opcoes_equivalentes(opcoes: list[str]) -> bool:
+    """True se duas opções tiverem o MESMO valor numérico (ex.: 2/4 e 1/2)."""
+    numericas = [v for v in (_valor_numerico(o) for o in opcoes) if v is not None]
+    for i in range(len(numericas)):
+        for j in range(i + 1, len(numericas)):
+            if abs(numericas[i] - numericas[j]) < 1e-9:
+                return True
+    return False
+
+
 def _valido(dados: dict) -> bool:
     """Checa o formato antes de deixar passar para a criança."""
     if not isinstance(dados, dict):
@@ -71,7 +108,9 @@ def _valido(dados: dict) -> bool:
         return False
     if any(not isinstance(o, str) or not o.strip() for o in opcoes):
         return False
-    if len({o.strip().lower() for o in opcoes}) != 4:  # todas distintas
+    if len({o.strip().lower() for o in opcoes}) != 4:  # todas distintas (texto)
+        return False
+    if _tem_opcoes_equivalentes(opcoes):  # distintas também em valor (2/4 vs 1/2)
         return False
     if not isinstance(indice, int) or isinstance(indice, bool) or not 0 <= indice <= 3:
         return False
@@ -113,17 +152,19 @@ def gerar_exercicio(habilidade_id: str, nivel: str = "medio") -> dict:
             f"Descrição: {hab['descricao']} "
             f"Gere uma questão de {_NIVEL_DESC[nivel]} sobre essa habilidade."
         )
-        bruto = llm.gerar(_SISTEMA, [{"role": "user", "content": prompt}], max_tokens=800)
-        dados = _extrair_json(bruto or "")
-        if dados and _valido(dados):
-            gerado = {
-                "enunciado": dados["enunciado"].strip(),
-                "opcoes": [o.strip() for o in dados["opcoes"]],
-                "indiceCorreta": dados["indiceCorreta"],
-                "explicacao": str(dados.get("explicacao", "")).strip(),
-                "apoio": None,
-                "origem": "ia",
-            }
+        for _ in range(3):  # re-tenta: descartamos saídas inválidas (ex.: opções equivalentes)
+            bruto = llm.gerar(_SISTEMA, [{"role": "user", "content": prompt}], max_tokens=800)
+            dados = _extrair_json(bruto or "")
+            if dados and _valido(dados):
+                gerado = {
+                    "enunciado": dados["enunciado"].strip(),
+                    "opcoes": [o.strip() for o in dados["opcoes"]],
+                    "indiceCorreta": dados["indiceCorreta"],
+                    "explicacao": str(dados.get("explicacao", "")).strip(),
+                    "apoio": None,
+                    "origem": "ia",
+                }
+                break
 
     if gerado is None:  # fallback: banco curado
         base = _do_banco(habilidade_id, nivel)
