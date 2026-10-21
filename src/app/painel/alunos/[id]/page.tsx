@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { StatusSelo } from "@/components/marca";
 import { GraficoEvolucao } from "@/components/painel/grafico-evolucao";
+import { ExercicioReforco } from "@/components/painel/exercicio-reforco";
 import { api, ApiError } from "@/lib/api";
 import { dataCurta, dataLonga } from "@/lib/formato";
 import { getUsuario } from "@/lib/supabase/server";
@@ -79,6 +80,7 @@ export default async function AlunoPage({ params }: PageProps<"/painel/alunos/[i
                 </div>
                 <p className="mt-3 max-w-prose text-[1.0625rem] leading-relaxed text-grafite">{r.texto}</p>
                 <p className="mt-3 text-sm text-pedra">Gerada em {dataLonga(r.geradaEm)}</p>
+                <ExercicioReforco habilidadeId={r.habilidadeId} status={r.status} />
               </article>
             ))}
           </div>

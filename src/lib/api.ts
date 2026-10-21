@@ -2,9 +2,12 @@ import type {
   AlunoCadastro,
   AlunoDetalhe,
   AlunoResumo,
+  Exercicio,
   HistoricoHabilidade,
   MensagemChat,
+  Nivel,
   PedidoChatTurma,
+  PedidoExercicio,
   PedidoPin,
   PedidoSessao,
   PedidoTurmaConfig,
@@ -78,6 +81,13 @@ export const api = {
     request<MensagemChat>(`/turmas/${encodeURIComponent(turmaId)}/chat`, {
       method: "POST",
       body: { pergunta, historico } satisfies PedidoChatTurma,
+      token,
+    }),
+  // Gera um exercício de reforço para a habilidade (via LLM no backend, com fallback no banco).
+  gerarExercicio: (habilidadeId: string, nivel: Nivel = "facil", token?: string | null) =>
+    request<Exercicio>("/exercicios/gerar", {
+      method: "POST",
+      body: { habilidadeId, nivel } satisfies PedidoExercicio,
       token,
     }),
   alunosTurma: (token?: string | null) => request<AlunoCadastro[]>("/turma/alunos", { token }),

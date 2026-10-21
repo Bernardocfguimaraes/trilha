@@ -92,6 +92,27 @@ export interface PedidoChatTurma {
   historico: MensagemChat[]; // conversa até aqui, para o backend manter o contexto
 }
 
+// Exercício de reforço gerado sob demanda (POST /exercicios/gerar).
+// O backend gera via LLM e valida; se falhar ou a IA não estiver disponível, devolve
+// uma questão do banco curado. `origem` diz de onde veio.
+export interface PedidoExercicio {
+  habilidadeId: string;
+  nivel?: Nivel;
+}
+
+export interface Exercicio {
+  habilidadeId: string;
+  habilidade: string;
+  disciplina: string;
+  nivel: Nivel;
+  enunciado: string;
+  opcoes: string[];
+  indiceCorreta: number; // posição da opção correta (0 a 3)
+  explicacao: string;
+  apoio: string | null; // apoio visual (emoji), quando vem do banco
+  origem: "ia" | "banco";
+}
+
 // Lado do aluno
 
 export interface AlunoPublico {
