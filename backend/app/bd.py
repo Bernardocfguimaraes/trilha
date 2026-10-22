@@ -36,7 +36,13 @@ engine = None
 SessionLocal = None
 
 if DATABASE_URL:
-    engine = create_engine(_normaliza(DATABASE_URL), pool_pre_ping=True, future=True)
+    # connect_timeout: se a porta estiver bloqueada pela rede, falha rápido em vez de pendurar.
+    engine = create_engine(
+        _normaliza(DATABASE_URL),
+        pool_pre_ping=True,
+        future=True,
+        connect_args={"connect_timeout": 10},
+    )
     SessionLocal = sessionmaker(bind=engine, expire_on_commit=False, future=True)
 
 
