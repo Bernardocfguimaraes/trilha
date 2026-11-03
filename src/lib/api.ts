@@ -90,6 +90,20 @@ export const api = {
       body: { habilidadeId, nivel } satisfies PedidoExercicio,
       token,
     }),
+
+  // STT: envia um áudio curto (multipart) e recebe o texto transcrito (Whisper na Groq).
+  // Não usa request() porque o corpo é FormData — o navegador define o Content-Type.
+  transcrever: async (audio: Blob): Promise<{ texto: string }> => {
+    const form = new FormData();
+    form.append("audio", audio, "audio.webm");
+    const res = await fetch(`${API_URL ?? "/api/mock"}/voz/transcrever`, {
+      method: "POST",
+      body: form,
+      cache: "no-store",
+    });
+    if (!res.ok) throw new ApiError(res.status, await res.text().catch(() => res.statusText));
+    return res.json() as Promise<{ texto: string }>;
+  },
   alunosTurma: (token?: string | null) => request<AlunoCadastro[]>("/turma/alunos", { token }),
   regenerarPin: (alunoId: string, token?: string | null) =>
     request<AlunoCadastro>(`/turma/alunos/${alunoId}/pin`, { method: "POST", token }),

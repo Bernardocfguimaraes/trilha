@@ -11,11 +11,11 @@ from __future__ import annotations
 
 import os
 
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
 
-from . import bd, exercicios
+from . import bd, exercicios, voz
 from .dados import TURMA
 from .esquemas import (
     PedidoChatTurma,
@@ -115,6 +115,18 @@ def post_exercicio(pedido: PedidoExercicio):
         return exercicios.gerar_exercicio(pedido.habilidadeId, pedido.nivel)
     except ValueError as e:
         return JSONResponse(str(e), status_code=404)
+
+
+@app.post("/voz/transcrever")
+async def post_transcrever(audio: UploadFile = File(...)):
+    # STT: recebe um áudio curto (gravado no navegador) e devolve o texto (Whisper/Groq).
+    dados = await audio.read()
+    if not dados:
+        return JSONResponse("Áudio vazio", status_code=400)
+    texto = voz.transcrever(dados, audio.filename or "audio.webm", audio.content_type or "audio/webm")
+    if texto is None:
+        return JSONResponse("Não foi possível transcrever o áudio", status_code=502)
+    return {"texto": texto}
 
 
 # --- Aluno (entra pelo código da turma + PIN) ------------------------------

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp, Sparkles, Trash2 } from "lucide-react";
+import { ArrowUp, Mic, Sparkles, Square, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
 import type { MensagemChat, Turma } from "@/lib/types";
@@ -40,7 +40,12 @@ export function ChatTurma({ turma, token }: { turma: Turma; token: string | null
   const [texto, setTexto] = useState("");
   const [pensando, setPensando] = useState(false);
   const [falhou, setFalhou] = useState(false);
+  const [gravando, setGravando] = useState(false);
+  const [transcrevendo, setTranscrevendo] = useState(false);
+  const [erroVoz, setErroVoz] = useState(false);
   const fim = useRef<HTMLDivElement>(null);
+  const gravador = useRef<MediaRecorder | null>(null);
+  const pedacos = useRef<Blob[]>([]);
 
   // sessionStorage só existe no navegador: carrega depois de montar
   useEffect(() => {
@@ -82,6 +87,45 @@ export function ChatTurma({ turma, token }: { turma: Turma; token: string | null
   function limpar() {
     setMensagens([]);
     setFalhou(false);
+  }
+
+  // Microfone: grava um áudio curto, manda pro backend transcrever (Whisper) e joga o
+  // texto na caixa de pergunta, para a professora revisar antes de enviar.
+  async function alternarGravacao() {
+    if (gravando) {
+      gravador.current?.stop();
+      return;
+    }
+    setErroVoz(false);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mr = new MediaRecorder(stream);
+      pedacos.current = [];
+      mr.ondataavailable = (e) => {
+        if (e.data.size > 0) pedacos.current.push(e.data);
+      };
+      mr.onstop = async () => {
+        stream.getTracks().forEach((t) => t.stop());
+        setGravando(false);
+        const audio = new Blob(pedacos.current, { type: mr.mimeType || "audio/webm" });
+        if (audio.size === 0) return;
+        setTranscrevendo(true);
+        try {
+          const { texto: transcrito } = await api.transcrever(audio);
+          if (transcrito) setTexto((t) => (t ? `${t} ${transcrito}` : transcrito));
+        } catch {
+          setErroVoz(true);
+        } finally {
+          setTranscrevendo(false);
+        }
+      };
+      gravador.current = mr;
+      mr.start();
+      setGravando(true);
+    } catch {
+      // Permissão de microfone negada ou navegador sem suporte.
+      setErroVoz(true);
+    }
   }
 
   const vazio = mensagens?.length === 0 && !pensando;
@@ -195,32 +239,58 @@ export function ChatTurma({ turma, token }: { turma: Turma; token: string | null
           e.preventDefault();
           enviar(texto);
         }}
-        className="flex items-end gap-2 border-t p-3"
+        className="border-t p-3"
       >
-        <label htmlFor="pergunta-turma" className="sr-only">
-          Pergunta sobre a turma
-        </label>
-        <textarea
-          id="pergunta-turma"
-          value={texto}
-          onChange={(e) => setTexto(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              enviar(texto);
-            }
-          }}
-          rows={1}
-          maxLength={1000}
-          placeholder="Ex.: quais habilidades devo retomar antes da prova?"
-          className={cn(
-            "max-h-32 min-h-10 flex-1 resize-none [field-sizing:content] rounded-md border border-input bg-white px-3 py-2 text-base text-grafite outline-none",
-            "placeholder:text-pedra/70 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
-          )}
-        />
-        <Button type="submit" disabled={!texto.trim() || pensando || !mensagens} className="size-10" aria-label="Enviar">
-          <ArrowUp className="size-5" />
-        </Button>
+        {(gravando || transcrevendo || erroVoz) && (
+          <p role="status" className="mb-2 text-sm">
+            {gravando ? (
+              <span className="font-semibold text-alerta">● Gravando… toque no quadrado para parar.</span>
+            ) : transcrevendo ? (
+              <span className="text-pedra">Transcrevendo o áudio…</span>
+            ) : (
+              <span className="font-semibold text-alerta">
+                Não consegui usar o microfone. Verifique a permissão do navegador e tente de novo.
+              </span>
+            )}
+          </p>
+        )}
+        <div className="flex items-end gap-2">
+          <label htmlFor="pergunta-turma" className="sr-only">
+            Pergunta sobre a turma
+          </label>
+          <textarea
+            id="pergunta-turma"
+            value={texto}
+            onChange={(e) => setTexto(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                enviar(texto);
+              }
+            }}
+            rows={1}
+            maxLength={1000}
+            placeholder="Ex.: quais habilidades devo retomar antes da prova?"
+            className={cn(
+              "max-h-32 min-h-10 flex-1 resize-none [field-sizing:content] rounded-md border border-input bg-white px-3 py-2 text-base text-grafite outline-none",
+              "placeholder:text-pedra/70 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
+            )}
+          />
+          <Button
+            type="button"
+            variant={gravando ? "destructive" : "outline"}
+            onClick={alternarGravacao}
+            disabled={transcrevendo || pensando}
+            className="size-10"
+            aria-pressed={gravando}
+            aria-label={gravando ? "Parar gravação" : "Gravar pergunta por voz"}
+          >
+            {gravando ? <Square className="size-4" /> : <Mic className="size-5" />}
+          </Button>
+          <Button type="submit" disabled={!texto.trim() || pensando || !mensagens} className="size-10" aria-label="Enviar">
+            <ArrowUp className="size-5" />
+          </Button>
+        </div>
       </form>
     </section>
   );
