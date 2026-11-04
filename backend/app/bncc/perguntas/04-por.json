@@ -1,0 +1,715 @@
+{
+ "ano": 4,
+ "disciplinaId": "por",
+ "modelo": {
+  "gerador": "openai/gpt-oss-120b",
+  "revisor": "qwen/qwen3.8-27b"
+ },
+ "revisao_humana": "2026-11-04: questões revisadas à mão; removidas 13 da 1ª rodada (revisor = mesmo modelo) e 5 de 20 da 2ª (revisor qwen), por erro de conteúdo ou ambiguidade.",
+ "perguntas": [
+  {
+   "id": "ef15lp03-f1",
+   "habilidadeId": "EF15LP03",
+   "nivel": "facil",
+   "enunciado": "Leia o texto: \"No sábado, a turma da professora Carla fez uma feira de ciências. Cada aluno trouxe um experimento. O João trouxe um vulcão de bicarbonato, a Maria trouxe um circuito elétrico, e o Carlos trouxe um modelo de sistema solar. No final, todos apresentaram seus trabalhos para os pais.\"\nQual foi o experimento que o Carlos trouxe para a feira?",
+   "apoio": null,
+   "opcoes": [
+    "Um circuito elétrico",
+    "Um modelo de sistema solar",
+    "Um vulcão de bicarbonato",
+    "Um experimento de química"
+   ],
+   "certa": 1,
+   "explicacao": "A opção correta indica o experimento que o texto diz explicitamente que o Carlos trouxe.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef15lp03-f2",
+   "habilidadeId": "EF15LP03",
+   "nivel": "facil",
+   "enunciado": "Leia o texto: \"Ana foi ao parque com seu cachorro e encontrou três tipos de árvores: um carvalho, um pinheiro e uma mangueira. Ela brincou na área de areia, depois fez um piquenique perto da mangueira e, por fim, caminhou ao redor do carvalho. No final do dia, o cachorro descansou sob o pinheiro.\" Qual árvore estava perto do local onde Ana fez o piquenique?",
+   "apoio": null,
+   "opcoes": [
+    "Árvore de Natal",
+    "Pinheiro",
+    "Mangueira",
+    "Carvalho"
+   ],
+   "certa": 2,
+   "explicacao": "O texto diz que o piquenique foi feito perto da mangueira, portanto essa é a resposta correta.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef15lp03-m1",
+   "habilidadeId": "EF15LP03",
+   "nivel": "medio",
+   "enunciado": "Leia o texto: \"Durante a excursão ao museu, a turma viu três exposições: dinossauros, arte egípcia e invenções modernas. Primeiro, foram ao salão dos dinossauros, onde observaram fósseis. Depois, caminharam até a galeria de arte egípcia e, por fim, chegaram à área de invenções modernas, onde experimentaram robôs. Ao final, todos tiraram fotos na entrada do museu.\" Qual exposição foi visitada imediatamente antes da galeria de arte egípcia?",
+   "apoio": null,
+   "opcoes": [
+    "Exposição de arte contemporânea",
+    "Exposição de dinossauros",
+    "Exposição de invenções modernas",
+    "Exposição de astronomia"
+   ],
+   "certa": 1,
+   "explicacao": "O texto diz que antes da galeria de arte egípcia a turma esteve no salão dos dinossauros, portanto essa é a resposta correta.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef15lp03-m2",
+   "habilidadeId": "EF15LP03",
+   "nivel": "medio",
+   "enunciado": "Leia o texto: \"Durante as férias de inverno, Lucas e sua família foram à fazenda. No primeiro dia, ajudaram a colher maçãs e depois fizeram um piquenique ao ar livre. No segundo dia, assistiram a um desfile de cavalos e, à noite, acamparam sob as estrelas. No último dia, voltaram para casa felizes e cansados.\" Qual atividade Lucas e sua família fizeram no primeiro dia?",
+   "apoio": null,
+   "opcoes": [
+    "Voltar para casa",
+    "Assistir a um desfile de cavalos",
+    "Fazer um piquenique ao ar livre",
+    "Acampar sob as estrelas"
+   ],
+   "certa": 2,
+   "explicacao": "A opção correta indica a atividade explicitamente mencionada para o primeiro dia: fazer um piquenique ao ar livre.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef15lp03-d1",
+   "habilidadeId": "EF15LP03",
+   "nivel": "dificil",
+   "enunciado": "Leia o texto: \"Mariana recebeu um pacote misterioso. Dentro, havia um livro de aventuras, um mapa da cidade e uma carta escrita à mão. Na carta, seu avô dizia que o tesouro estava escondido perto da fonte da praça, mas só poderia ser encontrado ao entardecer, quando as lanternas fossem acesas. Mariana decidiu seguir as instruções e, ao chegar na praça, esperou até o sol se pôr para procurar o tesouro.\" Qual informação está explicitamente indicada no texto sobre o horário em que o tesouro pode ser encontrado?",
+   "apoio": null,
+   "opcoes": [
+    "Durante a noite",
+    "Ao entardecer",
+    "Ao nascer do sol",
+    "Ao meio‑dia"
+   ],
+   "certa": 1,
+   "explicacao": "O texto diz que o tesouro só pode ser encontrado ao entardecer, portanto essa é a opção correta.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef15lp03-d2",
+   "habilidadeId": "EF15LP03",
+   "nivel": "dificil",
+   "enunciado": "Leia o texto: \"No final de semana, a turma da escola organizou uma gincana no pátio. Primeiro, fizeram uma corrida de saco, depois montaram um quebra‑cabeça gigante e, por último, participaram de um concurso de cantos. Cada atividade foi premiada com um distintivo colorido. O professor André entregou o distintivo azul para quem ganhou a corrida, o verde para o quebra‑cabeça e o vermelho para o concurso de cantos.\" Qual foi a cor do distintivo entregue ao aluno que venceu a corrida de saco?",
+   "apoio": null,
+   "opcoes": [
+    "Azul",
+    "Verde",
+    "Amarelo",
+    "Vermelho"
+   ],
+   "certa": 0,
+   "explicacao": "O texto informa que o distintivo azul foi entregue ao vencedor da corrida de saco.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp03-f1",
+   "habilidadeId": "EF35LP03",
+   "nivel": "facil",
+   "enunciado": "\"Ana foi ao parque brincar com seus amigos. Eles levaram bola, pipoca e muita alegria. No fim do dia, todos estavam cansados, mas felizes por terem passado tempo juntos.\" Qual é a ideia central desse texto?",
+   "apoio": null,
+   "opcoes": [
+    "As crianças se divertiram no parque.",
+    "O parque estava fechado.",
+    "Ana comprou pipoca no parque.",
+    "Os amigos de Ana são muito sérios."
+   ],
+   "certa": 0,
+   "explicacao": "A ideia central resume o que acontece no texto: as crianças se divertiram no parque.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp03-f2",
+   "habilidadeId": "EF35LP03",
+   "nivel": "facil",
+   "enunciado": "\"Pedro encontrou um cachorro perdido na rua. Ele deu água, comida e, depois, levou o animal ao veterinário. No caminho, encontrou vizinhos que ajudaram a cuidar do cachorro até encontrar o dono. Todos ficaram felizes por ajudarem o animal.\" Qual é a ideia central desse texto?",
+   "apoio": null,
+   "opcoes": [
+    "Pedro ajudou um cachorro perdido e recebeu ajuda dos vizinhos para encontrar o dono.",
+    "Pedro levou o cachorro ao veterinário e recebeu um prêmio por isso.",
+    "Pedro encontrou um cachorro e o vendeu para um vizinho.",
+    "Pedro ficou triste porque o cachorro desapareceu."
+   ],
+   "certa": 0,
+   "explicacao": "A opção 0 resume a ação principal de Pedro e a colaboração dos vizinhos para cuidar do cachorro e encontrar o dono.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp03-m1",
+   "habilidadeId": "EF35LP03",
+   "nivel": "medio",
+   "enunciado": "\"No fim de semana, Lucas ajudou sua avó a preparar um bolo de chocolate. Enquanto misturava os ingredientes, ela contou histórias da infância e eles riram juntos. Depois, dividiram o bolo com os vizinhos, que elogiaram o sabor e a amizade que se espalhava pela rua.\" Qual é a ideia central desse texto?",
+   "apoio": null,
+   "opcoes": [
+    "A família e os vizinhos compartilharam um momento de amizade ao dividir o bolo.",
+    "O bolo de chocolate era o melhor da cidade.",
+    "A avó de Lucas contou histórias enquanto cozinhavam.",
+    "Lucas aprendeu a fazer um bolo de chocolate sozinho."
+   ],
+   "certa": 0,
+   "explicacao": "A ideia central destaca o ato de compartilhar o bolo e a amizade que se espalha, não apenas a receita ou as histórias.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp03-m2",
+   "habilidadeId": "EF35LP03",
+   "nivel": "medio",
+   "enunciado": "\"Mariana encontrou um livro antigo na biblioteca da escola. Ao abrir, descobriu que contava a história de uma cidade que mudou ao longo dos séculos. Ela leu sobre as casas, as ruas e as pessoas que viviam ali, percebendo como tudo evoluiu com o tempo.\" Qual é a ideia central desse texto?",
+   "apoio": null,
+   "opcoes": [
+    "A curiosidade de Mariana ao encontrar o livro.",
+    "Os detalhes das casas e ruas da cidade antiga.",
+    "A história de como a cidade descrita no livro mudou ao longo dos séculos.",
+    "A importância da biblioteca para os estudantes."
+   ],
+   "certa": 2,
+   "explicacao": "A ideia central resume o que o texto enfatiza: a mudança da cidade ao longo dos séculos.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp03-d1",
+   "habilidadeId": "EF35LP03",
+   "nivel": "dificil",
+   "enunciado": "\"Durante as férias de inverno, a turma da professora Carla organizou uma campanha de coleta de lixo na praça da cidade. Cada aluno trouxe sacolas e, ao final do dia, recolheram mais de cinquenta sacos cheios de resíduos. Eles separaram o material reciclável do que não podia ser reutilizado e entregaram tudo ao serviço de limpeza municipal. Como resultado, a praça ficou limpa e a comunidade percebeu a importância de cuidar do meio ambiente.\" Qual é a ideia central desse texto?",
+   "apoio": null,
+   "opcoes": [
+    "A turma da professora Carla fez uma campanha de coleta de lixo e ajudou a limpar a praça da cidade.",
+    "A comunidade ficou feliz ao receber sacolas cheias de lixo para reciclar.",
+    "Os alunos aprenderam a separar materiais recicláveis durante as férias de inverno.",
+    "A professora Carla organizou um passeio de férias para a turma na praça."
+   ],
+   "certa": 0,
+   "explicacao": "A opção correta resume a ação principal e seu efeito: a campanha de coleta de lixo que limpou a praça e conscientizou a comunidade.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp03-d2",
+   "habilidadeId": "EF35LP03",
+   "nivel": "dificil",
+   "enunciado": "\"No vilarejo, as crianças costumavam brincar na rua até o sol se pôr. Um dia, chegou uma tempestade forte que derrubou muitas árvores, bloqueando o caminho. Os moradores se reuniram para limpar as ruas e, juntos, plantaram novas mudas para substituir as que foram perdidas. Assim, a comunidade aprendeu a importância de cuidar da natureza e de ajudar uns aos outros.\" Qual é a ideia central desse texto?",
+   "apoio": null,
+   "opcoes": [
+    "A tempestade causou danos e as crianças não puderam brincar mais.",
+    "A comunidade aprendeu a valorizar a cooperação e o cuidado com a natureza.",
+    "Os moradores plantaram mudas para melhorar a paisagem da cidade.",
+    "O vilarejo ficou mais bonito depois que as árvores foram substituídas."
+   ],
+   "certa": 1,
+   "explicacao": "A resposta correta destaca que o texto enfatiza a lição de cooperação e cuidado ambiental aprendida pelos moradores.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp04-f2",
+   "habilidadeId": "EF35LP04",
+   "nivel": "facil",
+   "enunciado": "\"João saiu de casa sem guarda-chuva e, ao chegar na rua, viu que as pessoas corriam para dentro dos prédios. Ele também percebeu que as poças estavam cheias de água.\" O que podemos inferir a partir do texto?",
+   "apoio": null,
+   "opcoes": [
+    "As ruas estão vazias",
+    "João esqueceu o relógio",
+    "O sol está brilhando",
+    "Está chovendo forte"
+   ],
+   "certa": 3,
+   "explicacao": "A presença de poças e pessoas correndo para dentro indica que está chovendo forte, embora não seja dito explicitamente.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp04-m1",
+   "habilidadeId": "EF35LP04",
+   "nivel": "medio",
+   "enunciado": "\"Mariana chegou ao parque e viu que o chão estava escorregadio, as crianças estavam usando botas de borracha e o vento soprava forte, fazendo as folhas voarem. Ela guardou o chapéu no bolso antes de entrar na casa da avó.\" O que podemos inferir a partir do texto?",
+   "apoio": null,
+   "opcoes": [
+    "Está chovendo no parque",
+    "Está muito quente no parque",
+    "O parque está vazio",
+    "Mariana está com frio"
+   ],
+   "certa": 0,
+   "explicacao": "As pistas (chão escorregadio, botas de borracha, vento forte) indicam chuva, embora não seja mencionado diretamente",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp04-m2",
+   "habilidadeId": "EF35LP04",
+   "nivel": "medio",
+   "enunciado": "\"Carlos saiu de casa e viu que a rua estava molhada, as calçadas brilhavam ao sol e as pessoas carregavam sacolas de compras vazias. Ele ouviu o barulho de um carro passando rápido e sentiu o cheiro de gasolina no ar.\" O que Carlos pode estar pensando que aconteceu recentemente?",
+   "apoio": null,
+   "opcoes": [
+    "Que há um incêndio próximo",
+    "Que acabou de chover e o sol está aparecendo agora",
+    "Que o trânsito está parado",
+    "Que está nevando na cidade"
+   ],
+   "certa": 1,
+   "explicacao": "A rua molhada, calçadas brilhantes e cheiro de gasolina indicam que acabou de chover e o sol já apareceu, permitindo a inferência correta.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp04-d1",
+   "habilidadeId": "EF35LP04",
+   "nivel": "dificil",
+   "enunciado": "\"Pedro entrou na sala de aula e encontrou a lousa ainda com a palavra 'cuidado' escrita em vermelho. Ele pegou o apagador, limpou a lousa e, ao olhar pela janela, viu que o céu estava nublado e as nuvens estavam se juntando.\" Qual informação podemos inferir a partir do texto?",
+   "apoio": null,
+   "opcoes": [
+    "Pedro está cansado",
+    "Está prestes a chover",
+    "A lousa estava limpa antes de Pedro entrar",
+    "Pedro vai sair da escola para brincar no pátio"
+   ],
+   "certa": 1,
+   "explicacao": "A presença de nuvens se juntando indica que a chuva está próxima, portanto podemos inferir que está prestes a chover.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp04-d2",
+   "habilidadeId": "EF35LP04",
+   "nivel": "dificil",
+   "enunciado": "\"Luísa chegou à escola e viu que o corredor estava todo escuro, as janelas estavam fechadas e havia um cheiro forte de fumaça. Ela ouviu o som de sirenes ao longe e percebeu que todos os colegas estavam usando máscaras.\" O que Luísa pode inferir sobre o que está acontecendo?",
+   "apoio": null,
+   "opcoes": [
+    "A escola está realizando um experimento de química",
+    "O dia está muito frio e as janelas foram fechadas para aquecer a sala",
+    "Há um incêndio próximo ao prédio da escola",
+    "A escola está em horário de verão e as luzes foram apagadas para economizar energia"
+   ],
+   "certa": 2,
+   "explicacao": "A combinação de corredor escuro, janelas fechadas, cheiro de fumaça, sirenes e máscaras indica que há um incêndio próximo.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp05-f1",
+   "habilidadeId": "EF35LP05",
+   "nivel": "facil",
+   "enunciado": "Leia o trecho: \"O cachorro encontrou um osso grande e começou a roer alegremente.\" \nQual é o sentido da palavra \"roer\" no contexto da frase?",
+   "apoio": null,
+   "opcoes": [
+    "Cantar",
+    "Mastigar",
+    "Dormir",
+    "Correr rápido"
+   ],
+   "certa": 1,
+   "explicacao": "No contexto, \"roer\" significa mastigar, pois o cachorro está usando o osso.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp05-f2",
+   "habilidadeId": "EF35LP05",
+   "nivel": "facil",
+   "enunciado": "Leia o trecho: \"A menina encontrou um livro antigo e começou a folhear as páginas com curiosidade.\" Qual é o sentido da palavra \"folhear\" no contexto da frase?",
+   "apoio": null,
+   "opcoes": [
+    "Ler em voz alta para os amigos",
+    "Cortar o livro em pedaços",
+    "Abrir e passar as páginas do livro",
+    "Esconder o livro embaixo da cama"
+   ],
+   "certa": 2,
+   "explicacao": "\"Folhear\" significa abrir o livro e passar as páginas, como indica o contexto.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp05-m1",
+   "habilidadeId": "EF35LP05",
+   "nivel": "medio",
+   "enunciado": "Leia o trecho: \"Durante a tempestade, o vento uivava tão forte que parecia um lobo solitário gritando na noite.\" Qual é o sentido da palavra \"uivava\" no contexto da frase?",
+   "apoio": null,
+   "opcoes": [
+    "Emitia um som agudo e triste, como o de um lobo",
+    "Parava de soprar por um momento",
+    "Brilhava intensamente como um raio",
+    "Movia-se rapidamente de um lado para o outro"
+   ],
+   "certa": 0,
+   "explicacao": "\"Uivava\" indica que o vento fazia um som parecido com o uivo de um lobo",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp05-m2",
+   "habilidadeId": "EF35LP05",
+   "nivel": "medio",
+   "enunciado": "Leia o trecho: \"Ao chegar ao parque, Ana viu várias crianças brincando na areia e percebeu que o balde estava vazio, então decidiu encher o balde com água para fazer castelos de areia molhada.\" Qual é o sentido da palavra \"molhada\" no contexto da frase?",
+   "apoio": null,
+   "opcoes": [
+    "Que o balde está cheio",
+    "Que a água está fria",
+    "Que a areia está úmida",
+    "Que o sol está forte"
+   ],
+   "certa": 2,
+   "explicacao": "\"Molhada\" indica que a areia está úmida por causa da água, conforme o contexto da frase.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp05-d1",
+   "habilidadeId": "EF35LP05",
+   "nivel": "dificil",
+   "enunciado": "Leia o trecho: \"Quando o relógio bateu meia‑noite, o silêncio da casa ficou ainda mais profundo, como se o tempo tivesse parado.\" Qual é o sentido da palavra \"profundo\" no contexto da frase?",
+   "apoio": null,
+   "opcoes": [
+    "Muito ruidoso",
+    "Muito rápido",
+    "Muito intenso",
+    "Muito escuro"
+   ],
+   "certa": 2,
+   "explicacao": "\"Profundo\" indica que o silêncio era muito intenso, preenchendo todo o ambiente.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp05-d2",
+   "habilidadeId": "EF35LP05",
+   "nivel": "dificil",
+   "enunciado": "Leia o trecho: \"No fim da tarde, o sol se pôs e o céu ficou coberto de nuvens cinzentas, anunciando que a chuva estava prestes a chegar.\" Qual é o sentido da palavra \"anunciando\" no contexto da frase?",
+   "apoio": null,
+   "opcoes": [
+    "escrevendo uma notícia",
+    "cantando uma música",
+    "falando em voz alta",
+    "mostrando que algo vai acontecer"
+   ],
+   "certa": 3,
+   "explicacao": "\"Anunciando\" indica que as nuvens dão um sinal de que a chuva vai acontecer.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp06-f1",
+   "habilidadeId": "EF35LP06",
+   "nivel": "facil",
+   "enunciado": "Leia o texto: \"Ana encontrou o cachorro perdido na rua. Ela o levou para casa e deu água ao animal.\" Qual palavra do texto substitui o substantivo \"cachorro\"?",
+   "apoio": null,
+   "opcoes": [
+    "casa",
+    "perdido",
+    "Ela",
+    "o"
+   ],
+   "certa": 3,
+   "explicacao": "A palavra \"o\" é um pronome que substitui o substantivo \"cachorro\".",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp06-f2",
+   "habilidadeId": "EF35LP06",
+   "nivel": "facil",
+   "enunciado": "Leia o texto: \"O menino encontrou um livro na biblioteca. Ele o leu rapidamente e gostou da história.\" Qual palavra do texto substitui o substantivo \"livro\"?",
+   "apoio": null,
+   "opcoes": [
+    "o",
+    "na",
+    "Ele",
+    "história"
+   ],
+   "certa": 0,
+   "explicacao": "A palavra \"o\" é um pronome que substitui o substantivo \"livro\" no segundo período.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp06-m1",
+   "habilidadeId": "EF35LP06",
+   "nivel": "medio",
+   "enunciado": "Leia o texto: \"No parque, o senhor encontrou um objeto brilhante no chão. Ele o pegou, limpou‑o e guardou‑o na bolsa para mostrar ao neto. O item reluzente despertou a curiosidade da criança.\" Qual palavra do texto substitui o substantivo \"objeto\"?",
+   "apoio": null,
+   "opcoes": [
+    "brilhante",
+    "item",
+    "Ele",
+    "neto"
+   ],
+   "certa": 1,
+   "explicacao": "A palavra \"item\" é sinônimo de \"objeto\" e substitui o substantivo no texto",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp06-m2",
+   "habilidadeId": "EF35LP06",
+   "nivel": "medio",
+   "enunciado": "Leia o texto: \"Pedro encontrou um gato preto no quintal. O felino estava assustado e ele o ajudou a encontrar um abrigo seguro.\" Qual palavra do texto substitui o substantivo \"gato\"?",
+   "apoio": null,
+   "opcoes": [
+    "ele",
+    "Pedro",
+    "abrigo",
+    "felino"
+   ],
+   "certa": 3,
+   "explicacao": "A palavra \"felino\" é um sinônimo que substitui \"gato\" no texto",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp06-d1",
+   "habilidadeId": "EF35LP06",
+   "nivel": "dificil",
+   "enunciado": "Durante as férias, Lucas visitou a fazenda dos avós. O lugar era tranquilo, e o menino adorava observar os animais. Naquele dia, ele viu um cavalo branco correndo pelos campos. Fascinado, Lucas aproximou‑se do animal e o acariciou suavemente. Qual palavra do texto substitui o substantivo \"cavalo\"?",
+   "apoio": null,
+   "opcoes": [
+    "ele",
+    "lugar",
+    "animal",
+    "cavalo"
+   ],
+   "certa": 2,
+   "explicacao": "A palavra \"animal\" retoma o substantivo \"cavalo\", mantendo a coesão do texto.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp06-d2",
+   "habilidadeId": "EF35LP06",
+   "nivel": "dificil",
+   "enunciado": "Leia o texto: \"Mariana encontrou um velho relógio na caixa de brinquedos. Ela o limpou com cuidado, colocou a bateria e o fez funcionar novamente, deixando o ponteiro marcar a hora certa.\" Qual palavra do texto substitui o substantivo \"relógio\"?",
+   "apoio": null,
+   "opcoes": [
+    "o",
+    "ela",
+    "seu",
+    "ponteiro"
+   ],
+   "certa": 0,
+   "explicacao": "A palavra \"o\" é o pronome que substitui o substantivo \"relógio\"",
+   "origem": "ia"
+  },
+  {
+   "id": "ef15lp01-f1",
+   "habilidadeId": "EF15LP01",
+   "nivel": "facil",
+   "enunciado": "Leia o texto: \"A cartilha da escola explica como separar o lixo para reciclagem. Ela foi feita pelos professores e é entregue a todos os alunos para que aprendam a cuidar do meio ambiente.\" Qual é a principal função desse texto?",
+   "apoio": null,
+   "opcoes": [
+    "Descrever as férias de um professor",
+    "Convencer os alunos a comprar um brinquedo novo",
+    "Informar como separar o lixo para reciclagem",
+    "Entreter os alunos com histórias divertidas"
+   ],
+   "certa": 2,
+   "explicacao": "A opção correta indica que o texto tem a função de informar, que é o objetivo da cartilha.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef15lp01-f2",
+   "habilidadeId": "EF15LP01",
+   "nivel": "facil",
+   "enunciado": "Leia o texto: \"O aviso na porta da biblioteca diz: 'Hoje, das 14h às 16h, a leitura de contos será feita no salão. Todos são convidados.'\" Para que serve esse texto?",
+   "apoio": null,
+   "opcoes": [
+    "Contar uma história de ficção",
+    "Informar a comunidade sobre um evento de leitura",
+    "Ensinar como fazer um experimento de ciência",
+    "Vender livros usados"
+   ],
+   "certa": 1,
+   "explicacao": "A opção correta indica que o texto tem a função de informar sobre um evento, que é sua finalidade principal.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef15lp01-m1",
+   "habilidadeId": "EF15LP01",
+   "nivel": "medio",
+   "enunciado": "Leia o texto: \"No grupo da turma no WhatsApp, a professora Ana escreveu: 'Precisamos escolher o tema da nossa feira de ciências. Cada um deve sugerir uma ideia até sexta-feira. As sugestões serão votadas na próxima aula.'\" Qual é a principal função desse texto?",
+   "apoio": null,
+   "opcoes": [
+    "Orientar os alunos sobre como escolher e propor o tema da feira",
+    "Entreter os alunos com uma história sobre ciência",
+    "Convencer os alunos a participar da feira",
+    "Informar os alunos sobre a data da feira de ciências"
+   ],
+   "certa": 0,
+   "explicacao": "A opção correta indica que o texto tem função de orientação, pois indica o que os alunos devem fazer para escolher o tema.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef15lp01-m2",
+   "habilidadeId": "EF15LP01",
+   "nivel": "medio",
+   "enunciado": "Leia o texto: \"A prefeitura publicou no site oficial o calendário de vacinação contra a gripe, com datas, locais e grupos prioritários. O objetivo é que a população saiba quando e onde se vacinar.\" Qual é a principal função desse texto?",
+   "apoio": null,
+   "opcoes": [
+    "Informar a população sobre um serviço público",
+    "Entreter o leitor com uma história divertida",
+    "Instruir como montar um brinquedo",
+    "Convencer as pessoas a comprar um produto"
+   ],
+   "certa": 0,
+   "explicacao": "A resposta correta é 'Informar a população sobre um serviço público', pois o texto traz dados para que as pessoas saibam quando e onde se vacinar.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef15lp01-d1",
+   "habilidadeId": "EF15LP01",
+   "nivel": "dificil",
+   "enunciado": "Leia o texto: \"No mural da escola, foi afixado um cartaz com a frase ‘Dia da Saúde Mental – Traga sua história e participe das rodas de conversa às 15h no auditório’. O cartaz foi criado pela equipe de psicologia da escola e está destinado a todos os estudantes, professores e funcionários, para que conheçam a atividade e se sintam convidados a participar.\" Qual é a principal função desse texto?",
+   "apoio": null,
+   "opcoes": [
+    "Vender um produto relacionado ao bem‑estar",
+    "Informar sobre um evento e convidar a comunidade escolar a participar",
+    "Ensinar como cuidar da saúde mental em casa",
+    "Contar uma história sobre saúde mental"
+   ],
+   "certa": 1,
+   "explicacao": "A opção correta indica que o texto tem função informativa e de convite ao público-alvo",
+   "origem": "ia"
+  },
+  {
+   "id": "ef15lp01-d2",
+   "habilidadeId": "EF15LP01",
+   "nivel": "dificil",
+   "enunciado": "Leia o texto: \"A rádio da comunidade transmitiu, às 18h, um programa de entrevistas com moradores que contam histórias sobre a fundação da cidade. O programa foi produzido pela equipe da rádio local e pode ser ouvido por quem tem um aparelho sintonizado na frequência 92,5 FM.\" Qual é a principal função desse texto?",
+   "apoio": null,
+   "opcoes": [
+    "Informar a comunidade sobre um conteúdo cultural e histórico disponível na rádio",
+    "Instruir os ouvintes sobre como operar o aparelho de rádio",
+    "Convencer os ouvintes a comprar produtos anunciados durante o programa",
+    "Divertir os ouvintes com piadas e músicas populares"
+   ],
+   "certa": 0,
+   "explicacao": "A opção correta indica que o texto tem a função informativa, apresentando o programa e seu conteúdo ao público.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef04lp01-f1",
+   "habilidadeId": "EF04LP01",
+   "nivel": "facil",
+   "enunciado": "Qual das palavras abaixo está escrita corretamente de acordo com a regra que o som /k/ seguido da vogal \"a\" costuma ser representado pela letra \"c\"?",
+   "apoio": null,
+   "opcoes": [
+    "caza",
+    "cassa",
+    "kasa",
+    "casa"
+   ],
+   "certa": 3,
+   "explicacao": "A palavra \"casa\" segue a regra ortográfica do som /k/ + a representado por \"c\"",
+   "origem": "ia"
+  },
+  {
+   "id": "ef04lp01-m2",
+   "habilidadeId": "EF04LP01",
+   "nivel": "medio",
+   "enunciado": "Qual das palavras abaixo está escrita corretamente de acordo com a regra de que o som /s/ entre vogais deve ser representado por \"ss\"?",
+   "apoio": null,
+   "opcoes": [
+    "passo",
+    "pazo",
+    "paso",
+    "paxo"
+   ],
+   "certa": 0,
+   "explicacao": "\"passo\" usa \"ss\" entre vogais, obedecendo à regra; as demais usam grafias incorretas.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef04lp02-f1",
+   "habilidadeId": "EF04LP02",
+   "nivel": "facil",
+   "enunciado": "Em algumas palavras, o ditongo \"ai\" ou \"ei\" pode ser pronunciado como uma única vogal, mas na escrita devemos manter o ditongo. Qual das opções abaixo está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "pexe",
+    "caixa",
+    "caxa",
+    "cadera"
+   ],
+   "certa": 1,
+   "explicacao": "A palavra \"caixa\" mantém o ditongo \"ai\" na escrita, apesar de poder soar como \"caxa\" na fala.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef04lp02-m2",
+   "habilidadeId": "EF04LP02",
+   "nivel": "medio",
+   "enunciado": "Em algumas palavras, o ditongo \"ai\" ou \"ei\" costuma ser pronunciado como uma única vogal, mas na escrita devemos manter o ditongo completo. Qual das opções está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "cáxa",
+    "caxa",
+    "cáixa",
+    "caixa"
+   ],
+   "certa": 3,
+   "explicacao": "\"Caixa\" mantém o ditongo \"ai\" na escrita, enquanto as outras alteram ou omitiram o ditongo.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef04lp02-d2",
+   "habilidadeId": "EF04LP02",
+   "nivel": "dificil",
+   "enunciado": "Qual das palavras abaixo está escrita de acordo com a regra que, mesmo quando o ditongo \"ai\", \"ei\" ou \"ou\" se reduz na fala, deve ser mantido na escrita?",
+   "apoio": null,
+   "opcoes": [
+    "pexo",
+    "caixa",
+    "poco",
+    "caxa"
+   ],
+   "certa": 1,
+   "explicacao": "\"caixa\" mantém o ditongo \"ai\" na escrita, conforme a regra, enquanto as demais apresentam a grafia incorreta ao omitir o ditongo.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp13-f1",
+   "habilidadeId": "EF35LP13",
+   "nivel": "facil",
+   "enunciado": "Qual das palavras abaixo está escrita corretamente, considerando que o “h” inicial não representa som?",
+   "apoio": null,
+   "opcoes": [
+    "omem",
+    "homém",
+    "homem",
+    "hómem"
+   ],
+   "certa": 2,
+   "explicacao": "“Homem” é a grafia correta; nas demais o “h” está ausente ou há acento errado, o que não corresponde à ortografia padrão.",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp13-f2",
+   "habilidadeId": "EF35LP13",
+   "nivel": "facil",
+   "enunciado": "Observe as palavras abaixo. Qual delas está escrita de forma incorreta, considerando que o “h” inicial não representa som?",
+   "apoio": null,
+   "opcoes": [
+    "homem",
+    "hoje",
+    "haver",
+    "homen"
+   ],
+   "certa": 3,
+   "explicacao": "A palavra correta é “homem”; “homen” está escrita errada, pois falta a letra “m\" antes do \"e\".",
+   "origem": "ia"
+  },
+  {
+   "id": "ef35lp13-m2",
+   "habilidadeId": "EF35LP13",
+   "nivel": "medio",
+   "enunciado": "Qual das alternativas apresenta a forma ortográfica correta de uma palavra cujo “h” inicial é mudo?",
+   "apoio": null,
+   "opcoes": [
+    "hóspede",
+    "hóspéde",
+    "hospéde",
+    "hôspede"
+   ],
+   "certa": 0,
+   "explicacao": "“hóspede” está escrita de acordo com a ortografia padrão e o h inicial não tem som",
+   "origem": "ia"
+  },
+  {
+   "id": "ef04lp08-f1",
+   "habilidadeId": "EF04LP08",
+   "nivel": "facil",
+   "enunciado": "Qual das palavras abaixo foi formada acrescentando o sufixo “-oso”?",
+   "apoio": null,
+   "opcoes": [
+    "brilhante",
+    "feliz",
+    "cuidado",
+    "corajoso"
+   ],
+   "certa": 3,
+   "explicacao": "‘Corajoso’ vem de ‘coragem’ + sufixo -oso, formando a palavra derivada correta.",
+   "origem": "ia"
+  }
+ ]
+}

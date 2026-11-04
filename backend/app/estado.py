@@ -11,19 +11,21 @@ import random
 import uuid
 from datetime import datetime, timedelta, timezone
 
-from . import chat, diagnostico
+from . import caminho, chat, diagnostico
 from . import recomendacoes as rec
 from .adaptacao import NIVEIS, estado_inicial_adaptacao, registrar_resposta
 from .dados import (
     ALUNOS,
     BANCO,
+    CATALOGO,
     DISCIPLINAS,
     HABILIDADES,
     PINS_INICIAIS,
-    STATUS,
+    STATUS_INICIAL,
     TEXTOS,
     TURMA,
     nome_disciplina,
+    ordem_caminho,
 )
 
 
@@ -73,7 +75,7 @@ class Estado:
         self.registros: dict[str, list[dict]] = {}          # alunoId -> [{data, desempenho}]
         self.status_atual: dict[str, str] = {}              # "alunoId:habId" -> status recalculado
         self.ultima_atividade: dict[str, str] = {}          # alunoId -> data
-        self.ativas: set[str] = {h["id"] for h in HABILIDADES if h["id"] != "por-producao"}
+        self.ativas: set[str] = {h["id"] for h in HABILIDADES}
         self.disciplinas_ativas: set[str] = {d["id"] for d in DISCIPLINAS}
         self.sessoes: dict[str, dict] = {}
         self.pins: dict[str, str] = dict(PINS_INICIAIS)
@@ -90,13 +92,56 @@ def _aluno(aluno_id: str) -> dict | None:
 
 # --- Habilidades / status ---------------------------------------------------
 
-def habilidades_de(status: str, aluno_id: str | None = None) -> list[dict]:
+_HAB_POR_ID = {h["id"]: h for h in HABILIDADES}
+_COM_PERGUNTAS = {p["habilidadeId"] for p in BANCO}
+
+
+def _status_de(aluno_id: str, habilidade_id: str) -> str | None:
+    """Status atual (diagnóstico) ou o inicial da demo; None = habilidade nunca praticada."""
+    return estado.status_atual.get(f"{aluno_id}:{habilidade_id}") or STATUS_INICIAL.get(aluno_id, {}).get(habilidade_id)
+
+
+def _praticadas_na_turma() -> set[str]:
+    praticadas = {hid for st in STATUS_INICIAL.values() for hid in st}
+    praticadas |= {chave.split(":", 1)[1] for chave in estado.status_atual}
+    return praticadas
+
+
+def habilidades_de(a: dict) -> list[dict]:
+    """Colunas da matriz: habilidades ativas que alguém da turma já praticou (com o caminho,
+    as que ficam adiante não aparecem até a turma chegar nelas). Todos os alunos recebem as
+    mesmas colunas; `iniciada` diz se ESTE aluno já praticou a habilidade."""
     disciplinas_ativas_nomes = {d["nome"] for d in DISCIPLINAS if d["id"] in estado.disciplinas_ativas}
+    praticadas = _praticadas_na_turma()
     saida = []
-    for i, h in enumerate(HABILIDADES):
-        st = estado.status_atual.get(f"{aluno_id}:{h['id']}", STATUS[status[i]])
-        if h["id"] in estado.ativas and h["disciplina"] in disciplinas_ativas_nomes:
-            saida.append({"habilidadeId": h["id"], "nome": h["nome"], "disciplina": h["disciplina"], "status": st})
+    for h in HABILIDADES:
+        if h["id"] in estado.ativas and h["disciplina"] in disciplinas_ativas_nomes and h["id"] in praticadas:
+            st = _status_de(a["id"], h["id"])
+            saida.append({
+                "habilidadeId": h["id"], "nome": h["nome"], "disciplina": h["disciplina"],
+                "codigoBncc": h["codigoBncc"], "status": st or "ok", "iniciada": st is not None,
+            })
+    return saida
+
+
+def _info_caminho(a: dict, ordem: list[str]) -> caminho.Info:
+    return {hid: (_status_de(a["id"], hid), len(_serie(a, hid))) for hid in ordem}
+
+
+def _ordem_ativa(disciplina_id: str) -> list[str] | None:
+    ordem = ordem_caminho(disciplina_id)
+    return None if ordem is None else [h for h in ordem if h in estado.ativas]
+
+
+def caminhos_de(a: dict) -> list[dict]:
+    """Progresso do aluno em cada caminho BNCC ativo (disciplinas que já têm caminho)."""
+    saida = []
+    for d in DISCIPLINAS:
+        ordem = _ordem_ativa(d["id"])
+        if ordem is None or d["id"] not in estado.disciplinas_ativas:
+            continue
+        p = caminho.progresso(ordem, _info_caminho(a, ordem))
+        saida.append(caminho.formatar_progresso(d["id"], d["nome"], TURMA["ano"], p, _HAB_POR_ID))
     return saida
 
 
@@ -110,14 +155,16 @@ def resumo(a: dict) -> dict:
         "nome": a["nome"],
         "turma": TURMA["nome"],
         "ultimaAtividade": _ultima_de(a),
-        "habilidades": habilidades_de(a["status"], a["id"]),
+        "habilidades": habilidades_de(a),
     }
 
 
 def detalhe(a: dict) -> dict:
-    habilidades = habilidades_de(a["status"], a["id"])
+    habilidades = habilidades_de(a)
     recomendacoes = []
     for h in habilidades:
+        if not h["iniciada"]:
+            continue
         if h["status"] == "alerta" or (h["status"] == "atencao" and TEXTOS.get(h["habilidadeId"])):
             recomendacoes.append({
                 "habilidadeId": h["habilidadeId"],
@@ -126,7 +173,7 @@ def detalhe(a: dict) -> dict:
                 "texto": rec.texto_para(h["habilidadeId"], h["nome"], h["disciplina"], h["status"]),
                 "geradaEm": _ultima_de(a) or "2026-10-13",
             })
-    return {**resumo(a), "recomendacoes": recomendacoes}
+    return {**resumo(a), "recomendacoes": recomendacoes, "caminhos": caminhos_de(a)}
 
 
 # --- Histórico --------------------------------------------------------------
@@ -150,7 +197,9 @@ def _sessoes_iniciais(a: dict) -> list[dict]:
         t = idx / max(len(datas) - 1, 1)
         desempenho = {}
         for hi, h in enumerate(HABILIDADES):
-            status = STATUS[a["status"][hi]]
+            status = STATUS_INICIAL[a["id"]].get(h["id"])
+            if status is None:
+                continue  # ainda não praticada na demo: sem histórico
             inicio = 58 + (hi % 3) * 6 if status == "ok" else 55 if status == "atencao" else 60
             ruido = ((hi * 7 + idx * 13) % 9) - 4
             desempenho[h["id"]] = max(0, min(100, _arred(inicio + (alvo[status] - inicio) * t + ruido)))
@@ -182,7 +231,8 @@ def _serie(a: dict, habilidade_id: str) -> list[dict]:
 def historico(a: dict) -> list[dict]:
     return [
         {"habilidadeId": h["habilidadeId"], "nome": h["nome"], "disciplina": h["disciplina"], "pontos": _serie(a, h["habilidadeId"])}
-        for h in habilidades_de(a["status"], a["id"])
+        for h in habilidades_de(a)
+        if h["iniciada"]
     ]
 
 
@@ -219,6 +269,14 @@ def reavaliar_diagnostico() -> dict:
 
 # --- Configuração da turma --------------------------------------------------
 
+def habilidade_config(h: dict, ativas: set[str]) -> dict:
+    return {
+        "id": h["id"], "nome": h["nome"], "descricao": h["descricao"],
+        "ativa": h["avaliavel"] and h["id"] in ativas,
+        "codigoBncc": h["codigoBncc"], "unidade": h["unidade"], "avaliavel": h["avaliavel"],
+    }
+
+
 def config() -> dict:
     ordem = ["mat", "por", "geo", "cie", "ing"]  # painel: Matemática e Português primeiro
     disciplinas = []
@@ -228,28 +286,26 @@ def config() -> dict:
             "id": did,
             "nome": nome,
             "ativa": did in estado.disciplinas_ativas,
-            "habilidades": [
-                {"id": h["id"], "nome": h["nome"], "descricao": h["descricao"], "ativa": h["id"] in estado.ativas}
-                for h in HABILIDADES
-                if h["disciplina"] == nome
-            ],
+            "caminhoBncc": ordem_caminho(did) is not None,
+            "habilidades": [habilidade_config(h, estado.ativas) for h in CATALOGO if h["disciplina"] == nome],
         })
     return {"turma": TURMA, "ciclo": "4º bimestre de 2026", "disciplinas": disciplinas}
 
 
 # --- Sessão / perguntas -----------------------------------------------------
 
-def _habilidades_da_sessao(disciplina_id: str | None) -> list[str]:
+def _habilidades_da_sessao(disciplina_id: str | None, aluno: dict | None = None) -> list[str]:
+    """Habilidades ativas e com perguntas. Em disciplina com caminho BNCC, e sabendo o aluno,
+    restringe à frente do caminho dele (próximas pendentes + uma revisão em alerta)."""
     ids = []
-    for h in HABILIDADES:
-        disc = next(d for d in DISCIPLINAS if d["nome"] == h["disciplina"])
-        if (
-            h["id"] in estado.ativas
-            and disc["id"] in estado.disciplinas_ativas
-            and (not disciplina_id or disc["id"] == disciplina_id)
-            and any(p["habilidadeId"] == h["id"] for p in BANCO)
-        ):
-            ids.append(h["id"])
+    for d in DISCIPLINAS:
+        if d["id"] not in estado.disciplinas_ativas or (disciplina_id and d["id"] != disciplina_id):
+            continue
+        habs = [h["id"] for h in HABILIDADES
+                if h["disciplina"] == d["nome"] and h["id"] in estado.ativas and h["id"] in _COM_PERGUNTAS]
+        if aluno is not None and ordem_caminho(d["id"]) is not None:
+            habs = caminho.frente(habs, _info_caminho(aluno, habs))
+        ids.extend(habs)
     return ids
 
 
@@ -328,7 +384,7 @@ def regenerar_pin(aluno_id: str) -> dict:
 # --- Chat -------------------------------------------------------------------
 
 def _retrato_turma() -> chat.RetratoTurma:
-    por_aluno = [{"a": a, "habilidades": habilidades_de(a["status"], a["id"])} for a in ALUNOS]
+    por_aluno = [{"a": a, "habilidades": habilidades_de(a)} for a in ALUNOS]
     ativas = por_aluno[0]["habilidades"] if por_aluno else []
     semana_passada = (datetime.now(timezone.utc) - timedelta(days=7)).date().isoformat()
 
@@ -396,7 +452,7 @@ def lista_cadastros() -> list[dict]:
 
 
 def salvar_config(habilidades_ativas: list[str], disciplinas_ativas: list[str] | None) -> dict:
-    estado.ativas = set(habilidades_ativas)
+    estado.ativas = set(habilidades_ativas) & set(_HAB_POR_ID)  # "em sala" não entram no quiz
     if disciplinas_ativas is not None:
         estado.disciplinas_ativas = set(disciplinas_ativas)
     return config()
@@ -417,7 +473,7 @@ def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id
     # Sem a credencial do PIN, ninguém abre sessão em nome de outro aluno.
     if not acesso or estado.acessos.get(acesso) != aluno_id:
         raise ApiErro(401, "Confirme o PIN do aluno antes de começar")
-    habilidades = _habilidades_da_sessao(disciplina_id)
+    habilidades = _habilidades_da_sessao(disciplina_id, _aluno(aluno_id))
     if len(habilidades) == 0:
         raise ApiErro(404, "Nenhuma habilidade ativa nesta disciplina")
     adaptacao = estado_inicial_adaptacao()

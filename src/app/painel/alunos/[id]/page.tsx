@@ -55,6 +55,60 @@ export default async function AlunoPage({ params }: PageProps<"/painel/alunos/[i
         </p>
       </header>
 
+      {aluno.caminhos.length > 0 && (
+        <section className="mt-10" aria-labelledby="caminho">
+          <h2 id="caminho" className="text-xl font-bold text-grafite">
+            Caminho BNCC
+          </h2>
+          <p className="mt-1 max-w-prose text-pedra">
+            Uma habilidade conta como concluída quando o desempenho fica bom em pelo menos três dias de atividade.
+          </p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            {aluno.caminhos.map((c) => (
+              <article key={c.disciplinaId} className="rounded-lg border bg-white p-5">
+                <div className="flex items-baseline justify-between gap-2">
+                  <h3 className="font-bold text-grafite">
+                    {c.disciplina} · {c.ano}º ano
+                  </h3>
+                  <span className="text-sm text-pedra tabular-nums">
+                    {c.concluidas} de {c.total}
+                  </span>
+                </div>
+                <div
+                  role="progressbar"
+                  aria-label={`Habilidades concluídas em ${c.disciplina}`}
+                  aria-valuemin={0}
+                  aria-valuemax={c.total}
+                  aria-valuenow={c.concluidas}
+                  className="mt-3 h-2 overflow-hidden rounded-full bg-secondary"
+                >
+                  <div className="h-full rounded-full bg-mata" style={{ width: `${(100 * c.concluidas) / Math.max(c.total, 1)}%` }} />
+                </div>
+                {c.atual ? (
+                  <dl className="mt-4 space-y-2 text-sm">
+                    <div>
+                      <dt className="text-pedra">Agora</dt>
+                      <dd className="font-semibold text-grafite">
+                        {c.atual.codigoBncc && <span className="mr-1.5 font-mono text-xs font-normal text-pedra">{c.atual.codigoBncc}</span>}
+                        {c.atual.nome}
+                      </dd>
+                    </div>
+                    {c.proximas.length > 0 && (
+                      <div>
+                        <dt className="text-pedra">Em seguida</dt>
+                        <dd className="text-grafite">{c.proximas.map((p) => p.nome).join(" · ")}</dd>
+                      </div>
+                    )}
+                  </dl>
+                ) : (
+                  <p className="mt-4 text-sm font-semibold text-mata">Caminho concluído.</p>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className="mt-10" aria-labelledby="recomendacoes">
         <h2 id="recomendacoes" className="text-xl font-bold text-grafite">
           Recomendações

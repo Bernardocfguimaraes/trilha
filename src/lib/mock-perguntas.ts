@@ -1,5 +1,6 @@
 // Banco de perguntas de exemplo do mock (src/lib/mock.ts): duas perguntas por nível
 // (fácil, médio, difícil) para cada habilidade. No produto real o banco vem do backend.
+import geradas04Por from "../../backend/app/bncc/perguntas/04-por.json";
 import type { Nivel } from "./types";
 
 export interface PerguntaBanco {
@@ -51,29 +52,30 @@ const BANCO_POR_HABILIDADE: Record<string, Linha[]> = {
     ["pr6", "dificil", "Maria comprou 3 cadernos de 7 reais e pagou com 50 reais. Quanto recebeu de troco?", ["29", "43", "21", "31"]],
   ],
 
-  // Português
-  "por-leitura": [
+  // Português (4º ano, BNCC) — mesmo remapeamento do backend (dados.py). Saíram do 4º ano:
+  // "or5" (proparoxítona, é EF05LP03) e "pt1", "pt3", "pt5" (produção de texto, "em sala").
+  EF15LP03: [
     ["le1", "facil", "\"Lia tem um cachorro chamado Bolinha.\" Qual é o nome do cachorro?", ["Bolinha", "Lia", "Totó", "Rex"]],
     ["le2", "facil", "\"O sol estava forte, então Caio usou boné.\" Por que Caio usou boné?", ["Porque o sol estava forte", "Porque estava chovendo", "Porque estava com frio", "Porque ganhou de presente"]],
     ["p4", "medio", "\"O gato subiu no telhado porque viu um passarinho.\" Por que o gato subiu?", ["Porque estava com frio", "Porque viu um passarinho", "Porque queria dormir", "Porque a porta fechou"], { certa: 1 }],
     ["le4", "medio", "\"Bia acordou cedo, tomou café e foi para a escola de bicicleta.\" Como Bia foi para a escola?", ["De bicicleta", "De ônibus", "A pé", "De carro"]],
     ["le5", "dificil", "\"Quando a chuva parou, as crianças correram para o quintal e pularam nas poças.\" O que aconteceu primeiro?", ["A chuva parou", "As crianças pularam nas poças", "As crianças correram", "O quintal secou"]],
+  ],
+  EF35LP04: [
     ["le6", "dificil", "\"Mesmo cansado, Léo terminou a corrida e abraçou os amigos, sorrindo.\" Como Léo se sentiu no final?", ["Feliz", "Triste", "Bravo", "Com medo"]],
   ],
-  "por-ortografia": [
+  EF04LP01: [
     ["or1", "facil", "Qual palavra está escrita certinho?", ["casa", "caza", "kasa", "cassa"]],
     ["or2", "facil", "Qual palavra está escrita certinho?", ["cachorro", "cachoro", "caxorro", "cachorrro"]],
     ["p2", "medio", "Qual palavra está escrita certinho?", ["cabeça", "cabessa", "cabesa", "cabeca"], { certa: 0 }],
     ["or4", "medio", "Qual letra completa a palavra? pa__arinho", ["ss", "s", "ç", "c"]],
-    ["or5", "dificil", "Qual destas palavras precisa de acento?", ["onibus", "mesa", "bola", "janela"]],
+  ],
+  EF35LP13: [
     ["or6", "dificil", "Qual frase está escrita certinho?", ["Eu desci a escada.", "Eu dece a escada.", "Eu desi a escada.", "Eu dessi a escada."]],
   ],
-  "por-producao": [
-    ["pt1", "facil", "Qual frase está completa?", ["O menino jogou bola.", "O menino.", "Jogou bola.", "Bola o menino."]],
+  EF04LP05: [
     ["pt2", "facil", "Como começa uma frase?", ["Com letra maiúscula", "Com ponto final", "Com vírgula", "Com um número"]],
-    ["pt3", "medio", "Qual é o melhor fim para a história? \"A gata subiu na árvore e não conseguia descer…\"", ["Então o bombeiro ajudou a gata a descer.", "A árvore é verde.", "Eu gosto de suco.", "Era uma vez."]],
     ["pt4", "medio", "Qual sinal termina uma pergunta?", ["?", ".", "!", ","]],
-    ["pt5", "dificil", "Qual palavra liga melhor as frases? \"Choveu muito, ___ o jogo foi adiado.\"", ["por isso", "mas", "ou", "porque"]],
     ["pt6", "dificil", "Qual frase usa a vírgula certinho?", ["Comprei pão, leite e ovos.", "Comprei, pão leite e ovos.", "Comprei pão leite, e ovos.", "Comprei pão leite e, ovos."]],
   ],
 
@@ -137,7 +139,7 @@ function embaralhar(id: string, opcoes: string[]) {
   return { opcoes: [...opcoes.slice(giro), ...opcoes.slice(0, giro)], certa: (opcoes.length - giro) % opcoes.length };
 }
 
-export const BANCO: PerguntaBanco[] = Object.entries(BANCO_POR_HABILIDADE).flatMap(([habilidadeId, linhas]) =>
+const CURADAS: PerguntaBanco[] = Object.entries(BANCO_POR_HABILIDADE).flatMap(([habilidadeId, linhas]) =>
   linhas.map(([id, nivel, enunciado, opcoes, extra = {}]) => ({
     id,
     habilidadeId,
@@ -147,3 +149,16 @@ export const BANCO: PerguntaBanco[] = Object.entries(BANCO_POR_HABILIDADE).flatM
     ...(extra.certa === undefined ? embaralhar(id, opcoes) : { opcoes, certa: extra.certa }),
   })),
 );
+
+// Questões geradas por IA e aprovadas pelo revisor (backend/app/bncc/gerar_perguntas.py) —
+// o mesmo arquivo que o backend usa, para o mock não divergir.
+const GERADAS: PerguntaBanco[] = geradas04Por.perguntas.map((p) => ({
+  id: p.id,
+  habilidadeId: p.habilidadeId,
+  nivel: p.nivel as Nivel,
+  enunciado: p.enunciado,
+  opcoes: p.opcoes,
+  certa: p.certa,
+}));
+
+export const BANCO: PerguntaBanco[] = [...CURADAS, ...GERADAS];

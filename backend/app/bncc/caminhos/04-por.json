@@ -1,0 +1,133 @@
+{
+  "ano": 4,
+  "disciplinaId": "por",
+  "componente": "LP",
+  "observacao": "Ordem do caminho = ordem das unidades e das habilidades abaixo. 'avaliavel: false' marca habilidades de produção, oralidade ou apreciação que não cabem em questão de múltipla escolha: aparecem para o professor (trabalhadas em sala), mas não entram no quiz nem no diagnóstico. Descrições oficiais vêm de oficial_ef.json pelo código.",
+  "unidades": [
+    {
+      "id": "leitura",
+      "nome": "Leitura e compreensão",
+      "habilidades": [
+        {"codigo": "EF15LP03", "nome": "Localizar informações no texto"},
+        {"codigo": "EF35LP03", "nome": "Ideia central do texto"},
+        {"codigo": "EF35LP04", "nome": "Informações implícitas", "dica": "A resposta certa NÃO pode estar escrita no texto: o aluno chega a ela juntando pistas (ex.: guarda-chuvas abertos e poças -> está chovendo). As erradas devem contradizer as pistas ou não ter apoio nelas."},
+        {"codigo": "EF35LP05", "nome": "Sentido de palavras pelo contexto"},
+        {"codigo": "EF35LP06", "nome": "Retomadas no texto (sinônimos e pronomes)"},
+        {"codigo": "EF15LP01", "nome": "Para que serve cada texto"},
+        {"codigo": "EF15LP02", "nome": "Antecipar o assunto antes de ler", "avaliavel": false},
+        {"codigo": "EF15LP04", "nome": "Recursos gráfico-visuais", "avaliavel": false},
+        {"codigo": "EF15LP18", "nome": "Texto e ilustração", "avaliavel": false},
+        {"codigo": "EF35LP01", "nome": "Leitura com fluência", "avaliavel": false},
+        {"codigo": "EF35LP02", "nome": "Escolher livros para ler", "avaliavel": false}
+      ]
+    },
+    {
+      "id": "ortografia",
+      "nome": "Ortografia e acentuação",
+      "habilidades": [
+        {"codigo": "EF04LP01", "nome": "Regras de ortografia", "dica": "Regras regulares diretas e contextuais: r/rr e s/ss entre vogais, c/qu e g/gu antes de e/i, m antes de p e b, ç só antes de a/o/u. Não invente regra: o som /s/ antes de e/i pode ser escrito com s ou c (sereia, cinto), então isso não é regra regular."},
+        {"codigo": "EF04LP02", "nome": "Ditongos que somem na fala (ai, ei, ou)", "dica": "Na fala, o ditongo costuma virar uma vogal só: caixa -> 'caxa', peixe -> 'pexe', feira -> 'fera', cadeira -> 'cadera', pouco -> 'poco', roupa -> 'ropa'. A questão pede a ESCRITA correta (caixa, peixe, pouco), não a pronúncia. Palavras como pai, cai, sei, vou NÃO perdem o ditongo na fala."},
+        {"codigo": "EF35LP13", "nome": "Palavras de grafia irregular e h inicial"},
+        {"codigo": "EF04LP08", "nome": "Sufixos -agem, -oso, -eza, -izar"},
+        {"codigo": "EF04LP04", "nome": "Acento nas paroxítonas", "dica": "Só paroxítonas terminadas em -i(s), -l, -r, -ão(s): táxi, lápis, fácil, açúcar, órfão. Separe as sílabas e confira a tônica de cada palavra citada (coração é oxítona; ônibus é proparoxítona, não serve)."},
+        {"codigo": "EF04LP03", "nome": "Significado no dicionário"},
+        {"codigo": "EF35LP12", "nome": "Dicionário para tirar dúvidas de escrita", "avaliavel": false}
+      ]
+    },
+    {
+      "id": "gramatica",
+      "nome": "Pontuação e gramática",
+      "habilidades": [
+        {"codigo": "EF04LP05", "nome": "Pontuação"},
+        {"codigo": "EF04LP07", "nome": "Concordância nominal"},
+        {"codigo": "EF04LP06", "nome": "Concordância verbal"},
+        {"codigo": "EF35LP14", "nome": "Pronomes que retomam palavras"}
+      ]
+    },
+    {
+      "id": "cotidiano",
+      "nome": "Textos do dia a dia e da mídia",
+      "habilidades": [
+        {"codigo": "EF04LP13", "nome": "Textos de instrução"},
+        {"codigo": "EF04LP09", "nome": "Boletos, faturas e carnês"},
+        {"codigo": "EF04LP10", "nome": "Cartas de reclamação"},
+        {"codigo": "EF04LP14", "nome": "Elementos da notícia"},
+        {"codigo": "EF35LP16", "nome": "Manchete e lide"},
+        {"codigo": "EF04LP15", "nome": "Fato ou opinião"}
+      ]
+    },
+    {
+      "id": "estudo",
+      "nome": "Textos de estudo e pesquisa",
+      "habilidades": [
+        {"codigo": "EF04LP19", "nome": "Textos de divulgação científica"},
+        {"codigo": "EF04LP20", "nome": "Para que servem gráficos e tabelas"},
+        {"codigo": "EF04LP23", "nome": "Verbete de enciclopédia"},
+        {"codigo": "EF35LP17", "nome": "Buscar informações para pesquisa", "avaliavel": false}
+      ]
+    },
+    {
+      "id": "literatura",
+      "nome": "Leitura literária",
+      "habilidades": [
+        {"codigo": "EF15LP14", "nome": "Histórias em quadrinhos e tirinhas"},
+        {"codigo": "EF35LP26", "nome": "Elementos da narrativa"},
+        {"codigo": "EF35LP29", "nome": "Personagem, conflito e narrador"},
+        {"codigo": "EF35LP22", "nome": "Diálogos e verbos de fala"},
+        {"codigo": "EF35LP30", "nome": "Discurso direto e indireto"},
+        {"codigo": "EF35LP23", "nome": "Rimas e versos"},
+        {"codigo": "EF35LP27", "nome": "Jogos de palavras e imagens poéticas"},
+        {"codigo": "EF35LP31", "nome": "Ritmo, sons e metáforas na poesia"},
+        {"codigo": "EF35LP24", "nome": "Texto teatral"},
+        {"codigo": "EF04LP27", "nome": "Falas e rubricas no teatro"},
+        {"codigo": "EF04LP26", "nome": "Poemas concretos", "avaliavel": false},
+        {"codigo": "EF15LP15", "nome": "O mundo imaginário da literatura", "avaliavel": false},
+        {"codigo": "EF15LP16", "nome": "Contos e narrativas mais longas", "avaliavel": false},
+        {"codigo": "EF15LP17", "nome": "Apreciar poemas visuais", "avaliavel": false},
+        {"codigo": "EF35LP21", "nome": "Leitura literária autônoma", "avaliavel": false}
+      ]
+    },
+    {
+      "id": "producao",
+      "nome": "Produção de textos (em sala)",
+      "habilidades": [
+        {"codigo": "EF15LP05", "nome": "Planejar o texto", "avaliavel": false},
+        {"codigo": "EF15LP06", "nome": "Revisar o texto", "avaliavel": false},
+        {"codigo": "EF15LP07", "nome": "Editar a versão final", "avaliavel": false},
+        {"codigo": "EF15LP08", "nome": "Editar e publicar no computador", "avaliavel": false},
+        {"codigo": "EF35LP07", "nome": "Escrever com ortografia, concordância e pontuação", "avaliavel": false},
+        {"codigo": "EF35LP08", "nome": "Coesão e conectivos ao escrever", "avaliavel": false},
+        {"codigo": "EF35LP09", "nome": "Organizar em parágrafos", "avaliavel": false},
+        {"codigo": "EF35LP25", "nome": "Criar narrativas", "avaliavel": false},
+        {"codigo": "EF04LP11", "nome": "Escrever carta de reclamação", "avaliavel": false},
+        {"codigo": "EF04LP16", "nome": "Escrever notícias", "avaliavel": false},
+        {"codigo": "EF04LP21", "nome": "Textos a partir de pesquisas", "avaliavel": false},
+        {"codigo": "EF04LP22", "nome": "Escrever verbetes", "avaliavel": false},
+        {"codigo": "EF04LP24", "nome": "Tabelas e gráficos em relatórios", "avaliavel": false}
+      ]
+    },
+    {
+      "id": "oralidade",
+      "nome": "Oralidade (em sala)",
+      "habilidades": [
+        {"codigo": "EF15LP09", "nome": "Falar com clareza", "avaliavel": false},
+        {"codigo": "EF15LP10", "nome": "Escutar com atenção", "avaliavel": false},
+        {"codigo": "EF15LP11", "nome": "Conversação e turnos de fala", "avaliavel": false},
+        {"codigo": "EF15LP12", "nome": "Gestos e expressões na fala", "avaliavel": false},
+        {"codigo": "EF15LP13", "nome": "Finalidades da fala", "avaliavel": false},
+        {"codigo": "EF15LP19", "nome": "Recontar histórias", "avaliavel": false},
+        {"codigo": "EF35LP10", "nome": "Gêneros orais", "avaliavel": false},
+        {"codigo": "EF35LP11", "nome": "Variedades linguísticas", "avaliavel": false},
+        {"codigo": "EF35LP15", "nome": "Defender um ponto de vista", "avaliavel": false},
+        {"codigo": "EF35LP18", "nome": "Escutar apresentações", "avaliavel": false},
+        {"codigo": "EF35LP19", "nome": "Ideias principais de exposições", "avaliavel": false},
+        {"codigo": "EF35LP20", "nome": "Apresentar trabalhos", "avaliavel": false},
+        {"codigo": "EF35LP28", "nome": "Declamar poemas", "avaliavel": false},
+        {"codigo": "EF04LP12", "nome": "Tutoriais em áudio ou vídeo", "avaliavel": false},
+        {"codigo": "EF04LP17", "nome": "Jornal falado e entrevistas", "avaliavel": false},
+        {"codigo": "EF04LP18", "nome": "Entonação de âncoras e entrevistados", "avaliavel": false},
+        {"codigo": "EF04LP25", "nome": "Encenar textos teatrais", "avaliavel": false}
+      ]
+    }
+  ]
+}
