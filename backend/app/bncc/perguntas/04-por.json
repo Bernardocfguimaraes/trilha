@@ -5,7 +5,7 @@
   "gerador": "openai/gpt-oss-120b",
   "revisor": "qwen/qwen3.8-27b"
  },
- "revisao_humana": "2026-11-04: questões revisadas à mão; removidas 13 da 1ª rodada (revisor = mesmo modelo) e 5 de 20 da 2ª (revisor qwen), por erro de conteúdo ou ambiguidade.",
+ "revisao_humana": "2026-11-04: todas as questões revisadas à mão. Removidas 13 da 1ª rodada de IA e 5 de 20 da 2ª (erro de conteúdo ou ambiguidade). Questões com origem \"curada\" foram escritas e conferidas à mão para completar o caminho; as com origem \"ia\" vieram do lote (app/bncc/gerar_perguntas.py).",
  "perguntas": [
   {
    "id": "ef15lp03-f1",
@@ -710,6 +710,2566 @@
    "certa": 3,
    "explicacao": "‘Corajoso’ vem de ‘coragem’ + sufixo -oso, formando a palavra derivada correta.",
    "origem": "ia"
+  },
+  {
+   "id": "ef35lp04-f1",
+   "habilidadeId": "EF35LP04",
+   "nivel": "facil",
+   "enunciado": "Leia: \"Quando Pedro chegou, o bolo já tinha acabado e só sobravam migalhas no prato.\" O que podemos concluir?",
+   "apoio": null,
+   "opcoes": [
+    "Outras pessoas comeram o bolo antes de Pedro chegar.",
+    "O bolo ainda não tinha sido feito.",
+    "Pedro comeu o bolo inteiro sozinho.",
+    "Pedro chegou antes de todos."
+   ],
+   "certa": 0,
+   "explicacao": "O texto não diz quem comeu, mas as migalhas e o bolo acabado mostram que outros comeram antes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp01-d1",
+   "habilidadeId": "EF04LP01",
+   "nivel": "dificil",
+   "enunciado": "Qual palavra está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "gitarra",
+    "gitara",
+    "guitarra",
+    "guitara"
+   ],
+   "certa": 2,
+   "explicacao": "Antes de i, o g precisa do u para soar como em gato (gui), e o som forte do r entre vogais se escreve rr.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp01-d2",
+   "habilidadeId": "EF04LP01",
+   "nivel": "dificil",
+   "enunciado": "Em qual frase todas as palavras estão escritas corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "Ele comprou um tambor bonito.",
+    "Ele conprou um tanbor bonito.",
+    "Ele comprou um tanbor bonito.",
+    "Ele conprou um tambor bonito."
+   ],
+   "certa": 0,
+   "explicacao": "Antes de p e b usa-se m: comprou, tambor.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp02-f2",
+   "habilidadeId": "EF04LP02",
+   "nivel": "facil",
+   "enunciado": "Qual palavra está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "pêxe",
+    "peichi",
+    "peixe",
+    "pexe"
+   ],
+   "certa": 2,
+   "explicacao": "Na fala, muitas vezes dizemos \"pexe\", mas a escrita mantém o ditongo ei: peixe.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp02-m1",
+   "habilidadeId": "EF04LP02",
+   "nivel": "medio",
+   "enunciado": "Na fala, muita gente diz \"ropa\", mas na escrita usamos o ditongo. Qual é a forma correta?",
+   "apoio": null,
+   "opcoes": [
+    "rouppa",
+    "ropa",
+    "rôpa",
+    "roupa"
+   ],
+   "certa": 3,
+   "explicacao": "O ditongo ou se reduz a o na fala, mas se mantém na escrita: roupa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp02-d1",
+   "habilidadeId": "EF04LP02",
+   "nivel": "dificil",
+   "enunciado": "Em qual frase todas as palavras estão escritas corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "Meu tio trouxe queijo da feira.",
+    "Meu tio trouxe quejo da feira.",
+    "Meu tio troxe queijo da feira.",
+    "Meu tio troxe quejo da feira."
+   ],
+   "certa": 0,
+   "explicacao": "Trouxe, queijo e feira mantêm os ditongos ou e ei, mesmo que na fala eles se reduzam.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp13-m1",
+   "habilidadeId": "EF35LP13",
+   "nivel": "medio",
+   "enunciado": "Qual palavra está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "hortta",
+    "orta",
+    "horta",
+    "órta"
+   ],
+   "certa": 2,
+   "explicacao": "Horta começa com h, que não tem som; é preciso memorizar a grafia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp13-d1",
+   "habilidadeId": "EF35LP13",
+   "nivel": "dificil",
+   "enunciado": "Qual frase está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "Hoje eu fiquei em casa com minha avó.",
+    "Oje eu fiquei em casa com minha avó.",
+    "Oje eu fiquei em caza com minha avó.",
+    "Hoje eu fiquei em caza com minha avó."
+   ],
+   "certa": 0,
+   "explicacao": "Hoje tem h inicial sem som, e casa se escreve com s, mesmo com som de z.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp08-f2",
+   "habilidadeId": "EF04LP08",
+   "nivel": "facil",
+   "enunciado": "Qual palavra foi formada com o sufixo -eza?",
+   "apoio": null,
+   "opcoes": [
+    "belíssimo",
+    "bonito",
+    "beleza",
+    "belo"
+   ],
+   "certa": 2,
+   "explicacao": "Belo + -eza forma beleza, um substantivo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp08-m1",
+   "habilidadeId": "EF04LP08",
+   "nivel": "medio",
+   "enunciado": "Que palavra se forma ao juntar \"lavar\" com o sufixo -agem?",
+   "apoio": null,
+   "opcoes": [
+    "lavagem",
+    "lavage",
+    "lavajem",
+    "lavaagem"
+   ],
+   "certa": 0,
+   "explicacao": "O sufixo -agem se escreve com g: lavagem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp08-m2",
+   "habilidadeId": "EF04LP08",
+   "nivel": "medio",
+   "enunciado": "Qual é a forma correta do adjetivo formado por \"gosto\" + -oso?",
+   "apoio": null,
+   "opcoes": [
+    "gustoso",
+    "gostoso",
+    "gostôso",
+    "gostozo"
+   ],
+   "certa": 1,
+   "explicacao": "O sufixo -oso se escreve com s: gostoso.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp08-d1",
+   "habilidadeId": "EF04LP08",
+   "nivel": "dificil",
+   "enunciado": "Qual verbo está escrito corretamente com o sufixo -izar?",
+   "apoio": null,
+   "opcoes": [
+    "organizar",
+    "organisar",
+    "organizzar",
+    "orgarnizar"
+   ],
+   "certa": 0,
+   "explicacao": "Quando a palavra de origem não tem s no radical, o verbo se forma com -izar: organizar (compare com análise → analisar).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp08-d2",
+   "habilidadeId": "EF04LP08",
+   "nivel": "dificil",
+   "enunciado": "Qual verbo está escrito corretamente? Dica: ele vem de \"análise\".",
+   "apoio": null,
+   "opcoes": [
+    "analisar",
+    "analizar",
+    "analiçar",
+    "analissar"
+   ],
+   "certa": 0,
+   "explicacao": "Quando a palavra de origem já tem s (análise), o verbo termina em -isar: analisar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp05-f1",
+   "habilidadeId": "EF04LP05",
+   "nivel": "facil",
+   "enunciado": "Na frase \"Comprei maçã, banana e uva.\", para que servem as vírgulas?",
+   "apoio": null,
+   "opcoes": [
+    "Para indicar uma pergunta",
+    "Para terminar a frase",
+    "Para separar os itens de uma enumeração",
+    "Para mostrar a fala de um personagem"
+   ],
+   "certa": 2,
+   "explicacao": "A vírgula separa os elementos de uma lista (enumeração).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp05-m1",
+   "habilidadeId": "EF04LP05",
+   "nivel": "medio",
+   "enunciado": "Em um diálogo escrito, qual sinal indica o início da fala de um personagem?",
+   "apoio": null,
+   "opcoes": [
+    "Ponto final (.)",
+    "Vírgula (,)",
+    "Travessão (—)",
+    "Ponto de interrogação (?)"
+   ],
+   "certa": 2,
+   "explicacao": "No discurso direto, o travessão marca a fala do personagem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp05-d1",
+   "habilidadeId": "EF04LP05",
+   "nivel": "dificil",
+   "enunciado": "Qual frase usa a vírgula corretamente para separar o vocativo (a pessoa com quem se fala)?",
+   "apoio": null,
+   "opcoes": [
+    "Maria venha jantar!",
+    "Maria venha, jantar!",
+    ", Maria venha jantar!",
+    "Maria, venha jantar!"
+   ],
+   "certa": 3,
+   "explicacao": "O vocativo (Maria) fica separado por vírgula do resto da frase.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp04-f1",
+   "habilidadeId": "EF04LP04",
+   "nivel": "facil",
+   "enunciado": "Qual palavra está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "lápis",
+    "lapis",
+    "lápiz",
+    "lapís"
+   ],
+   "certa": 0,
+   "explicacao": "Lápis é paroxítona terminada em -is, por isso tem acento.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp04-f2",
+   "habilidadeId": "EF04LP04",
+   "nivel": "facil",
+   "enunciado": "Qual palavra está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "facíl",
+    "fácel",
+    "fácil",
+    "facil"
+   ],
+   "certa": 2,
+   "explicacao": "Fácil é paroxítona terminada em -l, por isso tem acento.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp04-m1",
+   "habilidadeId": "EF04LP04",
+   "nivel": "medio",
+   "enunciado": "Uma destas palavras está sem o acento que deveria ter. Qual é?",
+   "apoio": null,
+   "opcoes": [
+    "amor",
+    "açucar",
+    "colar",
+    "mulher"
+   ],
+   "certa": 1,
+   "explicacao": "O certo é açúcar: paroxítona terminada em -r. Amor, colar e mulher são oxítonas e não levam acento.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp04-m2",
+   "habilidadeId": "EF04LP04",
+   "nivel": "medio",
+   "enunciado": "Qual palavra está acentuada corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "órfão",
+    "orfão",
+    "órfao",
+    "orfâo"
+   ],
+   "certa": 0,
+   "explicacao": "Órfão é paroxítona terminada em -ão, por isso leva acento agudo no o.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp04-d1",
+   "habilidadeId": "EF04LP04",
+   "nivel": "dificil",
+   "enunciado": "Em qual frase todas as palavras estão acentuadas corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "O taxi parou perto do túnel.",
+    "O táxi parou perto do tunel.",
+    "O taxi parou perto do tunel.",
+    "O táxi parou perto do túnel."
+   ],
+   "certa": 3,
+   "explicacao": "Táxi (paroxítona em -i) e túnel (paroxítona em -l) levam acento.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp04-d2",
+   "habilidadeId": "EF04LP04",
+   "nivel": "dificil",
+   "enunciado": "Por que a palavra \"fácil\" tem acento?",
+   "apoio": null,
+   "opcoes": [
+    "Porque é proparoxítona.",
+    "Porque é oxítona terminada em -l.",
+    "Porque é paroxítona terminada em -l.",
+    "Porque toda palavra terminada em -il tem acento."
+   ],
+   "certa": 2,
+   "explicacao": "Fá-cil: a sílaba tônica é a penúltima, e a palavra termina em -l. Funil, por exemplo, termina em -il e não tem acento.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp03-f1",
+   "habilidadeId": "EF04LP03",
+   "nivel": "facil",
+   "enunciado": "No dicionário, as palavras estão em ordem alfabética. Qual destas aparece primeiro?",
+   "apoio": null,
+   "opcoes": [
+    "abacate",
+    "caju",
+    "damasco",
+    "banana"
+   ],
+   "certa": 0,
+   "explicacao": "Abacate começa com a, a primeira letra do alfabeto.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp03-f2",
+   "habilidadeId": "EF04LP03",
+   "nivel": "facil",
+   "enunciado": "Qual destas palavras vem depois de \"gato\" no dicionário?",
+   "apoio": null,
+   "opcoes": [
+    "elefante",
+    "girafa",
+    "galo",
+    "foca"
+   ],
+   "certa": 1,
+   "explicacao": "Girafa (gi) vem depois de gato (ga); galo vem antes, porque l vem antes de t.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp03-m1",
+   "habilidadeId": "EF04LP03",
+   "nivel": "medio",
+   "enunciado": "Leia: \"O cão latiu e o menino se assustou.\" Para descobrir o sentido de \"latiu\", qual palavra você procura no dicionário?",
+   "apoio": null,
+   "opcoes": [
+    "latir",
+    "latindo",
+    "latiu",
+    "latiram"
+   ],
+   "certa": 0,
+   "explicacao": "Os verbos aparecem no dicionário no infinitivo: latir.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp03-m2",
+   "habilidadeId": "EF04LP03",
+   "nivel": "medio",
+   "enunciado": "Leia: \"A banda tocou na praça.\" O dicionário traz vários sentidos para \"banda\". Qual combina com a frase?",
+   "apoio": null,
+   "opcoes": [
+    "faixa de tecido",
+    "grupo de músicos",
+    "lado de alguma coisa",
+    "parte de um lugar"
+   ],
+   "certa": 1,
+   "explicacao": "Na frase, quem toca é um grupo de músicos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp03-d1",
+   "habilidadeId": "EF04LP03",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"Na hora do recreio, Júlia pegou a manga mais madura da árvore.\" No dicionário, \"manga\" tem vários sentidos. Qual é o mais adequado para a frase?",
+   "apoio": null,
+   "opcoes": [
+    "parte da camisa que cobre o braço",
+    "pasto cercado onde ficam animais",
+    "fruta de polpa amarela e doce",
+    "proteção de vidro de um lampião"
+   ],
+   "certa": 2,
+   "explicacao": "Madura e árvore indicam que manga é a fruta.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp03-d2",
+   "habilidadeId": "EF04LP03",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"O pescador jogou a rede no mar.\" Qual sentido de \"rede\" o leitor deve escolher no dicionário?",
+   "apoio": null,
+   "opcoes": [
+    "sistema de canos de água de uma cidade",
+    "conjunto de computadores ligados entre si",
+    "malha de fios usada para pescar",
+    "objeto em que a gente se deita para descansar"
+   ],
+   "certa": 2,
+   "explicacao": "Pescador e mar indicam a rede de pesca.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp07-f1",
+   "habilidadeId": "EF04LP07",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Eu comprei duas ___.\" Qual opção está correta?",
+   "apoio": null,
+   "opcoes": [
+    "camisa nova",
+    "camisas novas",
+    "camisa novas",
+    "camisas nova"
+   ],
+   "certa": 1,
+   "explicacao": "Duas pede plural: camisas novas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp07-f2",
+   "habilidadeId": "EF04LP07",
+   "nivel": "facil",
+   "enunciado": "Qual grupo de palavras combina corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "os cachorro bravo",
+    "o cachorro bravo",
+    "a cachorro bravo",
+    "o cachorro brava"
+   ],
+   "certa": 1,
+   "explicacao": "Artigo, substantivo e adjetivo concordam: o cachorro bravo (masculino, singular).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp07-m1",
+   "habilidadeId": "EF04LP07",
+   "nivel": "medio",
+   "enunciado": "Qual frase está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "As flor amarelas enfeitaram a sala.",
+    "As flores amarela enfeitaram a sala.",
+    "As flores amarelas enfeitaram a sala.",
+    "A flores amarelas enfeitaram a sala."
+   ],
+   "certa": 2,
+   "explicacao": "As flores amarelas: artigo, substantivo e adjetivo no feminino plural.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp07-m2",
+   "habilidadeId": "EF04LP07",
+   "nivel": "medio",
+   "enunciado": "Complete: \"Os ___ estavam muito ___.\" Qual opção está correta?",
+   "apoio": null,
+   "opcoes": [
+    "alunos / animada",
+    "alunos / animado",
+    "alunos / animados",
+    "aluno / animados"
+   ],
+   "certa": 2,
+   "explicacao": "Os alunos animados: tudo no masculino plural.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp07-d1",
+   "habilidadeId": "EF04LP07",
+   "nivel": "dificil",
+   "enunciado": "Em qual frase há ERRO de concordância entre as palavras?",
+   "apoio": null,
+   "opcoes": [
+    "Vi umas borboletas coloridas no quintal.",
+    "Vi uns pássaros colorido no quintal.",
+    "Vi um pássaro colorido no quintal.",
+    "Vi uns pássaros coloridos no quintal."
+   ],
+   "certa": 1,
+   "explicacao": "Pássaros está no plural, então o adjetivo deveria ser coloridos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp07-d2",
+   "habilidadeId": "EF04LP07",
+   "nivel": "dificil",
+   "enunciado": "Qual frase está correta?",
+   "apoio": null,
+   "opcoes": [
+    "Essas canetas azuis são minhas.",
+    "Essa canetas azuis são minhas.",
+    "Essas canetas azul são minhas.",
+    "Essas caneta azuis são minhas."
+   ],
+   "certa": 0,
+   "explicacao": "Essas canetas azuis: todas as palavras do grupo no plural.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp06-f1",
+   "habilidadeId": "EF04LP06",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Os meninos ___ bola no recreio.\" Qual opção está correta?",
+   "apoio": null,
+   "opcoes": [
+    "jogam",
+    "jogo",
+    "joga",
+    "jogamos"
+   ],
+   "certa": 0,
+   "explicacao": "Os meninos (eles) jogam.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp06-f2",
+   "habilidadeId": "EF04LP06",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Eu ___ um suco de laranja.\" Qual opção está correta?",
+   "apoio": null,
+   "opcoes": [
+    "bebe",
+    "bebemos",
+    "bebem",
+    "bebo"
+   ],
+   "certa": 3,
+   "explicacao": "Com eu, o verbo fica na primeira pessoa: bebo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp06-m1",
+   "habilidadeId": "EF04LP06",
+   "nivel": "medio",
+   "enunciado": "Qual frase está correta?",
+   "apoio": null,
+   "opcoes": [
+    "Nós vai ao cinema hoje.",
+    "Nós vão ao cinema hoje.",
+    "Nós vamos ao cinema hoje.",
+    "Nós vou ao cinema hoje."
+   ],
+   "certa": 2,
+   "explicacao": "Com nós, o verbo fica na primeira pessoa do plural: vamos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp06-m2",
+   "habilidadeId": "EF04LP06",
+   "nivel": "medio",
+   "enunciado": "Complete: \"Minha irmã e eu ___ na mesma escola.\" Qual opção está correta?",
+   "apoio": null,
+   "opcoes": [
+    "estudamos",
+    "estuda",
+    "estudam",
+    "estudo"
+   ],
+   "certa": 0,
+   "explicacao": "Minha irmã e eu = nós, então: estudamos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp06-d1",
+   "habilidadeId": "EF04LP06",
+   "nivel": "dificil",
+   "enunciado": "Em qual frase há ERRO de concordância verbal?",
+   "apoio": null,
+   "opcoes": [
+    "As crianças brincou no parque.",
+    "A criança brincou no parque.",
+    "Elas brincaram no parque.",
+    "As crianças brincaram no parque."
+   ],
+   "certa": 0,
+   "explicacao": "As crianças está no plural; o certo é brincaram.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp06-d2",
+   "habilidadeId": "EF04LP06",
+   "nivel": "dificil",
+   "enunciado": "Complete: \"Ontem, os pássaros ___ cedo e ___ na janela.\" Qual opção está correta?",
+   "apoio": null,
+   "opcoes": [
+    "acordou / cantaram",
+    "acordaram / cantou",
+    "acordou / cantou",
+    "acordaram / cantaram"
+   ],
+   "certa": 3,
+   "explicacao": "Os pássaros (eles): acordaram e cantaram, os dois verbos no plural.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp14-f1",
+   "habilidadeId": "EF35LP14",
+   "nivel": "facil",
+   "enunciado": "Leia: \"Lucas ganhou uma bicicleta. Ele ficou muito feliz.\" A palavra \"Ele\" se refere a quem?",
+   "apoio": null,
+   "opcoes": [
+    "ao vendedor",
+    "Lucas",
+    "à bicicleta",
+    "a um amigo de Lucas"
+   ],
+   "certa": 1,
+   "explicacao": "Ele retoma Lucas, citado antes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp14-f2",
+   "habilidadeId": "EF35LP14",
+   "nivel": "facil",
+   "enunciado": "Leia: \"Ana e Bia foram à praia. Elas levaram um balde.\" Quem são \"Elas\"?",
+   "apoio": null,
+   "opcoes": [
+    "só Ana",
+    "as ondas",
+    "Ana e Bia",
+    "as conchas"
+   ],
+   "certa": 2,
+   "explicacao": "Elas retoma Ana e Bia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp14-m1",
+   "habilidadeId": "EF35LP14",
+   "nivel": "medio",
+   "enunciado": "Leia: \"Caio emprestou o caderno para Rita, porque o caderno dela tinha ficado em casa.\" A palavra \"dela\" se refere a:",
+   "apoio": null,
+   "opcoes": [
+    "Caio",
+    "caderno",
+    "Rita",
+    "casa"
+   ],
+   "certa": 2,
+   "explicacao": "Dela (de + ela) retoma Rita: o caderno de Rita ficou em casa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp14-m2",
+   "habilidadeId": "EF35LP14",
+   "nivel": "medio",
+   "enunciado": "Leia: \"Encontrei uma pedra brilhante. Guardei essa pedra na caixa.\" A palavra \"essa\" serve para:",
+   "apoio": null,
+   "opcoes": [
+    "retomar a pedra que já foi citada",
+    "apresentar uma pedra nova",
+    "fazer uma pergunta",
+    "mostrar quem guardou a pedra"
+   ],
+   "certa": 0,
+   "explicacao": "O demonstrativo essa aponta para a pedra já mencionada.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp14-d1",
+   "habilidadeId": "EF35LP14",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"Os alunos fizeram um cartaz. Eles o penduraram no mural.\" Na segunda frase, \"Eles\" e \"o\" retomam, respectivamente:",
+   "apoio": null,
+   "opcoes": [
+    "o cartaz e os alunos",
+    "os alunos e o cartaz",
+    "os alunos e o mural",
+    "o mural e o cartaz"
+   ],
+   "certa": 1,
+   "explicacao": "Eles = os alunos; o = o cartaz (o que foi pendurado).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp14-d2",
+   "habilidadeId": "EF35LP14",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"Paula comprou um livro. Paula leu o livro em um dia.\" Qual versão evita a repetição usando pronomes?",
+   "apoio": null,
+   "opcoes": [
+    "Paula comprou um livro. Ela o leu em um dia.",
+    "Ela comprou um livro. Paula leu o livro em um dia.",
+    "Paula comprou um livro. Paula leu ele em um dia.",
+    "Paula comprou um livro. Ela leu o livro de Paula em um dia."
+   ],
+   "certa": 0,
+   "explicacao": "Ela retoma Paula e o retoma o livro, sem repetir nenhum dos dois.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp13-f1",
+   "habilidadeId": "EF04LP13",
+   "nivel": "facil",
+   "enunciado": "Leia as instruções de um jogo: \"Separe as cartas. Embaralhe bem. Distribua cinco cartas para cada jogador.\" Que tipo de palavra começa cada passo?",
+   "apoio": null,
+   "opcoes": [
+    "Palavras que indicam lugar",
+    "Nomes de pessoas",
+    "Perguntas para o leitor",
+    "Verbos que dão uma ordem, como separe e embaralhe"
+   ],
+   "certa": 3,
+   "explicacao": "Textos instrucionais usam verbos no imperativo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp13-f2",
+   "habilidadeId": "EF04LP13",
+   "nivel": "facil",
+   "enunciado": "Para que serve um texto de instruções de jogo?",
+   "apoio": null,
+   "opcoes": [
+    "Para noticiar um fato que aconteceu",
+    "Para dar a opinião de alguém sobre o jogo",
+    "Para ensinar como jogar, passo a passo",
+    "Para contar uma história inventada"
+   ],
+   "certa": 2,
+   "explicacao": "A finalidade do texto instrucional é orientar o leitor a fazer algo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp13-m1",
+   "habilidadeId": "EF04LP13",
+   "nivel": "medio",
+   "enunciado": "Leia: \"Materiais: um dado e quatro peões. Como jogar: 1. Cada jogador escolhe um peão. 2. Jogue o dado. 3. Ande o número de casas que saiu.\" O que aparece na parte \"Materiais\"?",
+   "apoio": null,
+   "opcoes": [
+    "Quem ganhou a última partida",
+    "Os passos do jogo",
+    "O que é preciso ter para jogar",
+    "A história de quem inventou o jogo"
+   ],
+   "certa": 2,
+   "explicacao": "A lista de materiais vem antes dos passos e diz o que é necessário.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp13-m2",
+   "habilidadeId": "EF04LP13",
+   "nivel": "medio",
+   "enunciado": "Por que as instruções de um jogo costumam ser numeradas (1, 2, 3...)?",
+   "apoio": null,
+   "opcoes": [
+    "Para enfeitar o texto",
+    "Para mostrar a ordem em que os passos devem ser feitos",
+    "Para mostrar quantos pontos cada um fez",
+    "Para contar quantos jogadores existem"
+   ],
+   "certa": 1,
+   "explicacao": "A numeração indica a sequência dos passos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp13-d1",
+   "habilidadeId": "EF04LP13",
+   "nivel": "dificil",
+   "enunciado": "Os passos de um jogo usam verbos de ordem, como \"Jogue o dado\". Qual frase segue esse mesmo formato?",
+   "apoio": null,
+   "opcoes": [
+    "Será que vou tirar 6?",
+    "Ele tirou 6 e jogou de novo.",
+    "Tirei 6 e joguei de novo.",
+    "Se tirar 6, jogue de novo."
+   ],
+   "certa": 3,
+   "explicacao": "Jogue está no imperativo, como nos outros passos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp13-d2",
+   "habilidadeId": "EF04LP13",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"1. Coloque o tabuleiro na mesa. 2. ___ 3. Comece pela casa de saída.\" Qual frase completa melhor o passo 2?",
+   "apoio": null,
+   "opcoes": [
+    "Ontem joguei com meu primo.",
+    "Eu adoro esse jogo!",
+    "Posicione os peões na casa de saída.",
+    "O tabuleiro é verde e azul."
+   ],
+   "certa": 2,
+   "explicacao": "O passo 2 precisa ser uma instrução, com verbo de ordem, que liga o passo 1 ao 3.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp09-f1",
+   "habilidadeId": "EF04LP09",
+   "nivel": "facil",
+   "enunciado": "Leia a conta de luz: \"Cliente: Ana Souza. Consumo do mês: 150 kWh. Valor: R$ 98,40. Vencimento: 10 de maio.\" Até quando a conta deve ser paga?",
+   "apoio": null,
+   "opcoes": [
+    "No dia em que a conta chegou",
+    "Até 15 de maio",
+    "Até 10 de maio",
+    "Em qualquer dia"
+   ],
+   "certa": 2,
+   "explicacao": "O vencimento é a data-limite para pagar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp09-f2",
+   "habilidadeId": "EF04LP09",
+   "nivel": "facil",
+   "enunciado": "Leia a conta de luz: \"Cliente: Ana Souza. Consumo do mês: 150 kWh. Valor: R$ 98,40. Vencimento: 10 de maio.\" Quanto Ana deve pagar?",
+   "apoio": null,
+   "opcoes": [
+    "R$ 15,00",
+    "R$ 150,00",
+    "R$ 98,40",
+    "R$ 10,05"
+   ],
+   "certa": 2,
+   "explicacao": "O valor a pagar é R$ 98,40; 150 é o consumo em kWh.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp09-m1",
+   "habilidadeId": "EF04LP09",
+   "nivel": "medio",
+   "enunciado": "Em uma conta de luz, o campo \"Consumo do mês\" informa:",
+   "apoio": null,
+   "opcoes": [
+    "a data de pagamento",
+    "quanta energia foi gasta no mês",
+    "o nome do cliente",
+    "o endereço da empresa"
+   ],
+   "certa": 1,
+   "explicacao": "O consumo mostra a energia usada, medida em kWh.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp09-m2",
+   "habilidadeId": "EF04LP09",
+   "nivel": "medio",
+   "enunciado": "Leia o carnê: \"Parcela 3 de 10. Valor: R$ 45,00. Vencimento: 5 de agosto.\" O que significa \"Parcela 3 de 10\"?",
+   "apoio": null,
+   "opcoes": [
+    "O valor total é R$ 3,10",
+    "É o terceiro de dez pagamentos",
+    "Faltam só três pagamentos",
+    "É a décima parcela"
+   ],
+   "certa": 1,
+   "explicacao": "A compra foi dividida em 10 parcelas, e esta é a terceira.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp09-d1",
+   "habilidadeId": "EF04LP09",
+   "nivel": "dificil",
+   "enunciado": "Para que serve o código de barras em um boleto?",
+   "apoio": null,
+   "opcoes": [
+    "Para indicar o nome do cliente",
+    "Para o banco ou a máquina lerem os dados do pagamento rapidamente",
+    "Para enfeitar o papel",
+    "Para mostrar o consumo de energia"
+   ],
+   "certa": 1,
+   "explicacao": "O código de barras guarda os dados do boleto para leitura automática.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp09-d2",
+   "habilidadeId": "EF04LP09",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"Conta de água — março: 12 m³; abril: 18 m³.\" O que aconteceu de março para abril?",
+   "apoio": null,
+   "opcoes": [
+    "O consumo ficou igual",
+    "O consumo de água aumentou 6 m³",
+    "O consumo aumentou 18 m³",
+    "O consumo de água diminuiu 6 m³"
+   ],
+   "certa": 1,
+   "explicacao": "De 12 para 18 m³, o consumo subiu 6 m³.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp10-f1",
+   "habilidadeId": "EF04LP10",
+   "nivel": "facil",
+   "enunciado": "Leia a carta: \"São Paulo, 3 de junho de 2026. Prezado senhor prefeito, escrevo porque a praça do meu bairro está sem iluminação há dois meses. À noite, as crianças não podem brincar e os moradores sentem medo. Peço que as lâmpadas sejam trocadas. Atenciosamente, Laura.\" Quem escreveu a carta?",
+   "apoio": null,
+   "opcoes": [
+    "O prefeito",
+    "Os moradores",
+    "Laura",
+    "As crianças"
+   ],
+   "certa": 2,
+   "explicacao": "A assinatura no fim (Laura) mostra quem escreveu.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp10-f2",
+   "habilidadeId": "EF04LP10",
+   "nivel": "facil",
+   "enunciado": "Leia a carta: \"São Paulo, 3 de junho de 2026. Prezado senhor prefeito, escrevo porque a praça do meu bairro está sem iluminação há dois meses. À noite, as crianças não podem brincar e os moradores sentem medo. Peço que as lâmpadas sejam trocadas. Atenciosamente, Laura.\" Qual é o problema apresentado?",
+   "apoio": null,
+   "opcoes": [
+    "A praça está suja",
+    "Faltam brinquedos na praça",
+    "A praça está sem iluminação",
+    "A praça vai ser fechada"
+   ],
+   "certa": 2,
+   "explicacao": "A carta reclama da falta de luz na praça.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp10-m1",
+   "habilidadeId": "EF04LP10",
+   "nivel": "medio",
+   "enunciado": "Leia a carta: \"São Paulo, 3 de junho de 2026. Prezado senhor prefeito, escrevo porque a praça do meu bairro está sem iluminação há dois meses. À noite, as crianças não podem brincar e os moradores sentem medo. Peço que as lâmpadas sejam trocadas. Atenciosamente, Laura.\" O que Laura pede?",
+   "apoio": null,
+   "opcoes": [
+    "Que as crianças não brinquem mais lá",
+    "Que as lâmpadas da praça sejam trocadas",
+    "Que a praça seja fechada à noite",
+    "Que o prefeito visite a casa dela"
+   ],
+   "certa": 1,
+   "explicacao": "O pedido está em \"Peço que as lâmpadas sejam trocadas\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp10-m2",
+   "habilidadeId": "EF04LP10",
+   "nivel": "medio",
+   "enunciado": "Em uma carta, a palavra \"Atenciosamente\" aparece em qual parte?",
+   "apoio": null,
+   "opcoes": [
+    "No meio da reclamação",
+    "No título da carta",
+    "No começo, antes da data",
+    "Na despedida, antes da assinatura"
+   ],
+   "certa": 3,
+   "explicacao": "É uma fórmula de despedida da carta.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp10-d1",
+   "habilidadeId": "EF04LP10",
+   "nivel": "dificil",
+   "enunciado": "Leia a carta: \"São Paulo, 3 de junho de 2026. Prezado senhor prefeito, escrevo porque a praça do meu bairro está sem iluminação há dois meses. À noite, as crianças não podem brincar e os moradores sentem medo. Peço que as lâmpadas sejam trocadas. Atenciosamente, Laura.\" Por que Laura conta que \"as crianças não podem brincar e os moradores sentem medo\"?",
+   "apoio": null,
+   "opcoes": [
+    "Para contar uma história inventada",
+    "Para mostrar as consequências do problema e reforçar o pedido",
+    "Para elogiar o trabalho do prefeito",
+    "Para convidar os moradores para uma festa"
+   ],
+   "certa": 1,
+   "explicacao": "Mostrar os prejuízos causados pelo problema torna a reclamação mais convincente.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp10-d2",
+   "habilidadeId": "EF04LP10",
+   "nivel": "dificil",
+   "enunciado": "Qual frase é mais adequada para uma carta de reclamação enviada a uma empresa?",
+   "apoio": null,
+   "opcoes": [
+    "Ei, troca logo isso aí!",
+    "Que produto lindo eu comprei!",
+    "Solicito que o produto com defeito seja trocado.",
+    "Era uma vez um produto com defeito."
+   ],
+   "certa": 2,
+   "explicacao": "A carta de reclamação faz o pedido com linguagem educada e formal.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp14-f1",
+   "habilidadeId": "EF04LP14",
+   "nivel": "facil",
+   "enunciado": "Leia a notícia: \"Na manhã de ontem, alunos da Escola Municipal Rio Azul, em Recife, plantaram 50 mudas de árvores no pátio da escola. A ação fez parte da Semana do Meio Ambiente.\" Onde aconteceu o fato?",
+   "apoio": null,
+   "opcoes": [
+    "Em um parque de São Paulo",
+    "No pátio de uma escola em Recife",
+    "Em uma praia de Recife",
+    "Em uma fazenda"
+   ],
+   "certa": 1,
+   "explicacao": "O local é o pátio da Escola Rio Azul, em Recife.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp14-f2",
+   "habilidadeId": "EF04LP14",
+   "nivel": "facil",
+   "enunciado": "Leia a notícia: \"Na manhã de ontem, alunos da Escola Municipal Rio Azul, em Recife, plantaram 50 mudas de árvores no pátio da escola. A ação fez parte da Semana do Meio Ambiente.\" Quem participou do fato?",
+   "apoio": null,
+   "opcoes": [
+    "Jogadores de futebol",
+    "Bombeiros da cidade",
+    "Turistas estrangeiros",
+    "Alunos da Escola Municipal Rio Azul"
+   ],
+   "certa": 3,
+   "explicacao": "Os participantes foram os alunos da escola.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp14-m1",
+   "habilidadeId": "EF04LP14",
+   "nivel": "medio",
+   "enunciado": "Leia a notícia: \"Na manhã de ontem, alunos da Escola Municipal Rio Azul, em Recife, plantaram 50 mudas de árvores no pátio da escola. A ação fez parte da Semana do Meio Ambiente.\" Quando aconteceu o fato?",
+   "apoio": null,
+   "opcoes": [
+    "Na próxima semana",
+    "Na noite de hoje",
+    "Na manhã de ontem",
+    "Há dez anos"
+   ],
+   "certa": 2,
+   "explicacao": "O tempo do fato aparece no começo: na manhã de ontem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp14-m2",
+   "habilidadeId": "EF04LP14",
+   "nivel": "medio",
+   "enunciado": "Leia a notícia: \"Na manhã de ontem, alunos da Escola Municipal Rio Azul, em Recife, plantaram 50 mudas de árvores no pátio da escola. A ação fez parte da Semana do Meio Ambiente.\" Qual foi o fato noticiado?",
+   "apoio": null,
+   "opcoes": [
+    "O plantio de 50 mudas de árvores",
+    "A reforma do pátio",
+    "Uma festa de aniversário",
+    "A inauguração de uma escola"
+   ],
+   "certa": 0,
+   "explicacao": "O fato principal é o plantio das mudas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp14-d1",
+   "habilidadeId": "EF04LP14",
+   "nivel": "dificil",
+   "enunciado": "Leia a notícia: \"Um cachorro ficou preso em um bueiro na Rua das Flores, em Curitiba, na tarde de sábado. Bombeiros foram chamados por moradores e resgataram o animal sem ferimentos.\" Quem fez o resgate e quem chamou essas pessoas?",
+   "apoio": null,
+   "opcoes": [
+    "Os bombeiros, chamados pelo dono do cachorro",
+    "O dono do cachorro, chamado pela polícia",
+    "Os moradores, chamados pelos bombeiros",
+    "Os bombeiros, chamados pelos moradores"
+   ],
+   "certa": 3,
+   "explicacao": "Bombeiros foram chamados por moradores e resgataram o animal.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp14-d2",
+   "habilidadeId": "EF04LP14",
+   "nivel": "dificil",
+   "enunciado": "Leia a notícia: \"Um cachorro ficou preso em um bueiro na Rua das Flores, em Curitiba, na tarde de sábado. Bombeiros foram chamados por moradores e resgataram o animal sem ferimentos.\" Qual informação da notícia diz quando o fato aconteceu?",
+   "apoio": null,
+   "opcoes": [
+    "Na Rua das Flores",
+    "Sem ferimentos",
+    "Em Curitiba",
+    "Na tarde de sábado"
+   ],
+   "certa": 3,
+   "explicacao": "Rua das Flores e Curitiba respondem \"Onde?\"; o tempo é a tarde de sábado.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp16-f1",
+   "habilidadeId": "EF35LP16",
+   "nivel": "facil",
+   "enunciado": "O que é a manchete de uma notícia?",
+   "apoio": null,
+   "opcoes": [
+    "A última frase da notícia",
+    "A legenda da foto",
+    "A assinatura de quem escreveu",
+    "O título principal, em destaque, que chama a atenção do leitor"
+   ],
+   "certa": 3,
+   "explicacao": "A manchete é o título em destaque.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp16-f2",
+   "habilidadeId": "EF35LP16",
+   "nivel": "facil",
+   "enunciado": "Qual destas frases parece uma manchete de jornal?",
+   "apoio": null,
+   "opcoes": [
+    "Chuva forte alaga ruas do centro da cidade",
+    "Era uma vez uma cidade muito chuvosa",
+    "Misture a farinha com os ovos",
+    "Querida vovó, aqui choveu muito"
+   ],
+   "certa": 0,
+   "explicacao": "Manchetes são curtas, informam um fato e costumam ter verbo no presente.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp16-m1",
+   "habilidadeId": "EF35LP16",
+   "nivel": "medio",
+   "enunciado": "Em uma notícia, o lide (primeiro parágrafo) costuma:",
+   "apoio": null,
+   "opcoes": [
+    "trazer a opinião do leitor",
+    "listar os materiais de uma receita",
+    "resumir o fato principal: o que, quem, quando e onde",
+    "contar o final de uma história inventada"
+   ],
+   "certa": 2,
+   "explicacao": "O lide resume as informações mais importantes logo no início.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp16-m2",
+   "habilidadeId": "EF35LP16",
+   "nivel": "medio",
+   "enunciado": "Leia o começo de uma notícia: \"Crianças de uma escola de Manaus venceram ontem um campeonato de robótica com um robô que separa lixo.\" Esse trecho é:",
+   "apoio": null,
+   "opcoes": [
+    "uma instrução, porque dá ordens",
+    "o lide, porque resume o fato principal",
+    "a manchete, porque é uma pergunta",
+    "um poema, porque tem rimas"
+   ],
+   "certa": 1,
+   "explicacao": "O trecho diz quem, o quê, onde e quando: é o lide.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp16-d1",
+   "habilidadeId": "EF35LP16",
+   "nivel": "dificil",
+   "enunciado": "Qual manchete combina com esta notícia: \"Um grupo de voluntários limpou a praia de Itapuã no domingo e recolheu duas toneladas de lixo.\"?",
+   "apoio": null,
+   "opcoes": [
+    "Praia de Itapuã recebe novos quiosques",
+    "Domingo terá sol forte em Itapuã",
+    "Turistas lotam praia no feriado",
+    "Voluntários recolhem duas toneladas de lixo em praia"
+   ],
+   "certa": 3,
+   "explicacao": "A manchete resume o fato principal da notícia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp16-d2",
+   "habilidadeId": "EF35LP16",
+   "nivel": "dificil",
+   "enunciado": "Por que as manchetes costumam usar o verbo no presente, como \"Escola vence campeonato\", mesmo quando o fato já aconteceu?",
+   "apoio": null,
+   "opcoes": [
+    "Porque manchetes não podem ter verbos",
+    "Porque o fato ainda vai acontecer",
+    "Porque é um erro de escrita",
+    "Para deixar a notícia mais atual e chamar a atenção"
+   ],
+   "certa": 3,
+   "explicacao": "O presente é uma convenção das manchetes para dar sensação de atualidade.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp15-f1",
+   "habilidadeId": "EF04LP15",
+   "nivel": "facil",
+   "enunciado": "Qual frase é uma OPINIÃO?",
+   "apoio": null,
+   "opcoes": [
+    "Esse é o filme mais legal do mundo.",
+    "O filme tem duas horas de duração.",
+    "O filme estreou na sexta-feira.",
+    "O filme foi gravado no Brasil."
+   ],
+   "certa": 0,
+   "explicacao": "\"Mais legal do mundo\" é um julgamento pessoal; as outras podem ser verificadas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp15-f2",
+   "habilidadeId": "EF04LP15",
+   "nivel": "facil",
+   "enunciado": "Qual frase é um FATO?",
+   "apoio": null,
+   "opcoes": [
+    "A merenda de hoje estava deliciosa.",
+    "A escola fica na Rua das Palmeiras.",
+    "O recreio deveria ser mais longo.",
+    "A escola é a mais bonita da cidade."
+   ],
+   "certa": 1,
+   "explicacao": "O endereço pode ser comprovado; as outras são opiniões.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp15-m1",
+   "habilidadeId": "EF04LP15",
+   "nivel": "medio",
+   "enunciado": "Leia: \"O parque reabriu no sábado com novos brinquedos. Na minha opinião, ficou incrível.\" Qual parte é opinião?",
+   "apoio": null,
+   "opcoes": [
+    "Reabriu com brinquedos.",
+    "Tem novos brinquedos.",
+    "O parque reabriu no sábado.",
+    "Ficou incrível."
+   ],
+   "certa": 3,
+   "explicacao": "\"Ficou incrível\" é o que o autor acha.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp15-m2",
+   "habilidadeId": "EF04LP15",
+   "nivel": "medio",
+   "enunciado": "Leia o anúncio: \"Suco Natu: feito com laranjas colhidas no dia. O suco mais gostoso que você vai provar!\" Qual trecho é uma opinião?",
+   "apoio": null,
+   "opcoes": [
+    "O suco mais gostoso que você vai provar!",
+    "Feito com laranjas",
+    "Colhidas no dia",
+    "Suco Natu"
+   ],
+   "certa": 0,
+   "explicacao": "Dizer que é o mais gostoso é uma opinião usada para convencer.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp15-d1",
+   "habilidadeId": "EF04LP15",
+   "nivel": "dificil",
+   "enunciado": "Qual frase junta um fato e uma opinião?",
+   "apoio": null,
+   "opcoes": [
+    "O time venceu por 3 a 0.",
+    "O time venceu por 3 a 0 e jogou de forma maravilhosa.",
+    "O jogo foi no domingo à tarde.",
+    "O time é maravilhoso."
+   ],
+   "certa": 1,
+   "explicacao": "O placar é fato; \"jogou de forma maravilhosa\" é opinião.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp15-d2",
+   "habilidadeId": "EF04LP15",
+   "nivel": "dificil",
+   "enunciado": "Em uma notícia, por que é importante separar fatos de opiniões?",
+   "apoio": null,
+   "opcoes": [
+    "Porque opiniões são sempre mentiras",
+    "Para o leitor saber o que aconteceu e o que é o ponto de vista de alguém",
+    "Porque notícias só podem ter opiniões",
+    "Porque fatos são sempre inventados"
+   ],
+   "certa": 1,
+   "explicacao": "Distinguir fato de opinião ajuda a ler com senso crítico.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp19-f1",
+   "habilidadeId": "EF04LP19",
+   "nivel": "facil",
+   "enunciado": "Leia: \"As abelhas são muito importantes para a natureza. Quando visitam as flores para buscar néctar, levam o pólen de uma flor para outra. Isso se chama polinização e ajuda as plantas a produzirem frutos e sementes.\" Qual é o assunto principal do texto?",
+   "apoio": null,
+   "opcoes": [
+    "A importância das abelhas para as plantas",
+    "As cores das flores",
+    "Os perigos das picadas de abelha",
+    "Como fazer mel em casa"
+   ],
+   "certa": 0,
+   "explicacao": "O texto explica a polinização feita pelas abelhas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp19-f2",
+   "habilidadeId": "EF04LP19",
+   "nivel": "facil",
+   "enunciado": "Leia: \"As abelhas são muito importantes para a natureza. Quando visitam as flores para buscar néctar, levam o pólen de uma flor para outra. Isso se chama polinização e ajuda as plantas a produzirem frutos e sementes.\" O que as abelhas buscam nas flores, segundo o texto?",
+   "apoio": null,
+   "opcoes": [
+    "Folhas",
+    "Água",
+    "Sementes",
+    "Néctar"
+   ],
+   "certa": 3,
+   "explicacao": "O texto diz que elas visitam as flores para buscar néctar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp19-m1",
+   "habilidadeId": "EF04LP19",
+   "nivel": "medio",
+   "enunciado": "Leia: \"As abelhas são muito importantes para a natureza. Quando visitam as flores para buscar néctar, levam o pólen de uma flor para outra. Isso se chama polinização e ajuda as plantas a produzirem frutos e sementes.\" Segundo o texto, o que é polinização?",
+   "apoio": null,
+   "opcoes": [
+    "Fazer mel dentro da colmeia",
+    "Buscar água nos rios",
+    "Levar o pólen de uma flor para outra",
+    "Plantar sementes na terra"
+   ],
+   "certa": 2,
+   "explicacao": "A definição está no próprio texto.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp19-m2",
+   "habilidadeId": "EF04LP19",
+   "nivel": "medio",
+   "enunciado": "Leia: \"As abelhas são muito importantes para a natureza. Quando visitam as flores para buscar néctar, levam o pólen de uma flor para outra. Isso se chama polinização e ajuda as plantas a produzirem frutos e sementes.\" Para quem esse texto parece ter sido escrito?",
+   "apoio": null,
+   "opcoes": [
+    "Para quem vai jogar um jogo de tabuleiro",
+    "Para crianças que querem aprender sobre a natureza",
+    "Para quem quer comprar mel",
+    "Para quem precisa pagar uma conta"
+   ],
+   "certa": 1,
+   "explicacao": "É um texto de divulgação científica, com linguagem simples, para crianças.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp19-d1",
+   "habilidadeId": "EF04LP19",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"O polvo tem oito braços e consegue mudar de cor para se esconder dos predadores. Ele também solta uma tinta escura quando se sente ameaçado, o que o ajuda a fugir.\" Para que serve a tinta escura que o polvo solta?",
+   "apoio": null,
+   "opcoes": [
+    "Para atrair outros polvos",
+    "Para pintar as pedras do fundo do mar",
+    "Para ajudá-lo a fugir quando se sente ameaçado",
+    "Para ajudá-lo a respirar"
+   ],
+   "certa": 2,
+   "explicacao": "O texto liga a tinta à fuga.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp19-d2",
+   "habilidadeId": "EF04LP19",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"O polvo tem oito braços e consegue mudar de cor para se esconder dos predadores. Ele também solta uma tinta escura quando se sente ameaçado, o que o ajuda a fugir.\" Qual característica o polvo usa para se esconder dos predadores?",
+   "apoio": null,
+   "opcoes": [
+    "Ter ventosas",
+    "Mudar de cor",
+    "Ter oito braços",
+    "Nadar rápido"
+   ],
+   "certa": 1,
+   "explicacao": "O texto diz que ele muda de cor para se esconder.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp20-f1",
+   "habilidadeId": "EF04LP20",
+   "nivel": "facil",
+   "enunciado": "Leia a tabela: \"Fruta preferida da turma — Maçã: 8 alunos; Banana: 5 alunos; Uva: 12 alunos.\" Qual fruta foi a mais escolhida?",
+   "apoio": null,
+   "opcoes": [
+    "Banana",
+    "Uva",
+    "Maçã",
+    "Todas empataram"
+   ],
+   "certa": 1,
+   "explicacao": "Uva tem o maior número: 12 alunos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp20-f2",
+   "habilidadeId": "EF04LP20",
+   "nivel": "facil",
+   "enunciado": "Para que serve uma tabela em um texto?",
+   "apoio": null,
+   "opcoes": [
+    "Para fazer rimas",
+    "Para contar uma história com personagens",
+    "Para organizar informações e facilitar a comparação",
+    "Para dar ordens ao leitor"
+   ],
+   "certa": 2,
+   "explicacao": "Tabelas apresentam dados de forma organizada.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp20-m1",
+   "habilidadeId": "EF04LP20",
+   "nivel": "medio",
+   "enunciado": "Leia a tabela: \"Fruta preferida da turma — Maçã: 8 alunos; Banana: 5 alunos; Uva: 12 alunos.\" Por que o autor usou uma tabela em vez de um parágrafo longo?",
+   "apoio": null,
+   "opcoes": [
+    "Porque tabelas são mais engraçadas",
+    "Porque a tabela mostra os números de forma organizada e fácil de comparar",
+    "Porque tabelas servem para contar histórias",
+    "Porque o texto não tinha números"
+   ],
+   "certa": 1,
+   "explicacao": "A tabela facilita ver e comparar os dados.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp20-m2",
+   "habilidadeId": "EF04LP20",
+   "nivel": "medio",
+   "enunciado": "Um texto sobre o clima diz: \"Veja no gráfico de barras quantos dias choveu em cada mês.\" O gráfico serve para:",
+   "apoio": null,
+   "opcoes": [
+    "contar uma lenda sobre a chuva",
+    "ensinar a fazer um guarda-chuva",
+    "mostrar os dados de forma visual para comparar os meses",
+    "explicar como se forma a chuva"
+   ],
+   "certa": 2,
+   "explicacao": "O gráfico apresenta os dados de forma visual.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp20-d1",
+   "habilidadeId": "EF04LP20",
+   "nivel": "dificil",
+   "enunciado": "Leia a tabela: \"Livros lidos — janeiro: 2; fevereiro: 4; março: 6.\" O que a tabela mostra ao longo dos meses?",
+   "apoio": null,
+   "opcoes": [
+    "Que a quantidade diminuiu",
+    "Que a quantidade de livros lidos aumentou",
+    "Que em março ninguém leu",
+    "Que foi sempre igual"
+   ],
+   "certa": 1,
+   "explicacao": "Os números crescem de 2 para 4 e depois para 6.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp20-d2",
+   "habilidadeId": "EF04LP20",
+   "nivel": "dificil",
+   "enunciado": "Em um texto sobre animais, há um diagrama com setas: \"capim → coelho → raposa\". O que esse diagrama representa?",
+   "apoio": null,
+   "opcoes": [
+    "O caminho da raposa até a toca",
+    "O tamanho de cada animal",
+    "Quem serve de alimento para quem",
+    "A ordem em que os animais nasceram"
+   ],
+   "certa": 2,
+   "explicacao": "É uma cadeia alimentar: a seta vai de quem é comido para quem come.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp23-f1",
+   "habilidadeId": "EF04LP23",
+   "nivel": "facil",
+   "enunciado": "Em uma enciclopédia, o que é o título do verbete?",
+   "apoio": null,
+   "opcoes": [
+    "A palavra ou o assunto que será explicado, como \"Tartaruga\"",
+    "A última informação do texto",
+    "Uma pergunta para o leitor",
+    "O nome de quem escreveu"
+   ],
+   "certa": 0,
+   "explicacao": "O verbete começa pelo termo que vai ser explicado.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp23-f2",
+   "habilidadeId": "EF04LP23",
+   "nivel": "facil",
+   "enunciado": "Leia: \"Girafa: mamífero africano de pescoço muito longo que se alimenta de folhas de árvores altas.\" Qual é o assunto desse verbete?",
+   "apoio": null,
+   "opcoes": [
+    "Folhas",
+    "Girafa",
+    "África",
+    "Árvores"
+   ],
+   "certa": 1,
+   "explicacao": "O título do verbete, Girafa, é o assunto.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp23-m1",
+   "habilidadeId": "EF04LP23",
+   "nivel": "medio",
+   "enunciado": "Leia o verbete: \"Beija-flor. Pequena ave que se alimenta do néctar das flores. Bate as asas tão rápido que consegue ficar parado no ar. Curiosidade: alguns batem as asas mais de 50 vezes por segundo.\" Que parte traz uma informação surpreendente sobre o assunto?",
+   "apoio": null,
+   "opcoes": [
+    "O título",
+    "A curiosidade",
+    "Nenhuma parte",
+    "A definição"
+   ],
+   "certa": 1,
+   "explicacao": "A seção de curiosidade traz um dado que chama a atenção.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp23-m2",
+   "habilidadeId": "EF04LP23",
+   "nivel": "medio",
+   "enunciado": "Leia o verbete: \"Beija-flor. Pequena ave que se alimenta do néctar das flores. Bate as asas tão rápido que consegue ficar parado no ar. Curiosidade: alguns batem as asas mais de 50 vezes por segundo.\" Qual trecho é a definição do beija-flor?",
+   "apoio": null,
+   "opcoes": [
+    "Beija-flor.",
+    "Alguns batem as asas mais de 50 vezes por segundo.",
+    "Pequena ave que se alimenta do néctar das flores.",
+    "Consegue ficar parado no ar."
+   ],
+   "certa": 2,
+   "explicacao": "A definição diz o que o ser é, logo depois do título.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp23-d1",
+   "habilidadeId": "EF04LP23",
+   "nivel": "dificil",
+   "enunciado": "Qual é a principal finalidade de um verbete de enciclopédia?",
+   "apoio": null,
+   "opcoes": [
+    "Explicar um assunto com informações confiáveis e organizadas",
+    "Dar a opinião do autor sobre um tema",
+    "Contar uma aventura inventada",
+    "Convencer o leitor a comprar algo"
+   ],
+   "certa": 0,
+   "explicacao": "O verbete é um texto expositivo, que informa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp23-d2",
+   "habilidadeId": "EF04LP23",
+   "nivel": "dificil",
+   "enunciado": "Qual frase é mais adequada para começar um verbete sobre \"Vulcão\"?",
+   "apoio": null,
+   "opcoes": [
+    "Vulcão: abertura na superfície da Terra por onde saem lava, gases e cinzas.",
+    "Vamos visitar um vulcão nas férias?",
+    "Eu acho os vulcões assustadores.",
+    "Era uma vez um vulcão muito bravo."
+   ],
+   "certa": 0,
+   "explicacao": "O verbete começa pelo título e uma definição objetiva.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef15lp14-f1",
+   "habilidadeId": "EF15LP14",
+   "nivel": "facil",
+   "enunciado": "Nas histórias em quadrinhos, o que costuma indicar um balão em forma de nuvem, ligado ao personagem por bolinhas?",
+   "apoio": null,
+   "opcoes": [
+    "Que o personagem está pensando",
+    "Que o personagem está gritando",
+    "Que o personagem está cochichando",
+    "Que é a fala do narrador"
+   ],
+   "certa": 0,
+   "explicacao": "O balão de pensamento tem forma de nuvem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef15lp14-f2",
+   "habilidadeId": "EF15LP14",
+   "nivel": "facil",
+   "enunciado": "Em uma tirinha, aparece a palavra \"TRIIIM!\" perto de um telefone. O que ela representa?",
+   "apoio": null,
+   "opcoes": [
+    "O nome do telefone",
+    "O som do telefone tocando",
+    "O pensamento do telefone",
+    "Uma fala do personagem"
+   ],
+   "certa": 1,
+   "explicacao": "É uma onomatopeia, palavra que imita um som.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef15lp14-m1",
+   "habilidadeId": "EF15LP14",
+   "nivel": "medio",
+   "enunciado": "Nos quadrinhos, um balão com contorno em zigue-zague, cheio de pontas, geralmente indica que o personagem está:",
+   "apoio": null,
+   "opcoes": [
+    "cochichando",
+    "gritando ou falando muito alto",
+    "sonhando",
+    "pensando em silêncio"
+   ],
+   "certa": 1,
+   "explicacao": "O contorno pontudo representa grito ou som forte.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef15lp14-m2",
+   "habilidadeId": "EF15LP14",
+   "nivel": "medio",
+   "enunciado": "Qual destas palavras é uma onomatopeia?",
+   "apoio": null,
+   "opcoes": [
+    "Splash",
+    "Cachorro",
+    "Correr",
+    "Feliz"
+   ],
+   "certa": 0,
+   "explicacao": "Splash imita o som de algo caindo na água.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef15lp14-d1",
+   "habilidadeId": "EF15LP14",
+   "nivel": "dificil",
+   "enunciado": "Em uma tirinha, o personagem diz \"Que dia lindo!\" enquanto o desenho mostra que ele está debaixo de uma chuva forte, todo molhado. Que efeito essa diferença entre imagem e palavra cria?",
+   "apoio": null,
+   "opcoes": [
+    "Humor, por causa da ironia",
+    "Tristeza, porque ele está chorando",
+    "Medo, porque a chuva é perigosa",
+    "Nenhum efeito, porque imagem e palavra não se relacionam"
+   ],
+   "certa": 0,
+   "explicacao": "A fala contradiz a imagem; a ironia produz humor.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef15lp14-d2",
+   "habilidadeId": "EF15LP14",
+   "nivel": "dificil",
+   "enunciado": "Em uma tirinha, as letras da fala aparecem muito grandes e em negrito. O que isso indica?",
+   "apoio": null,
+   "opcoes": [
+    "Que o personagem está falando alto ou com emoção forte",
+    "Que a fala é de outro personagem",
+    "Que o personagem está cochichando",
+    "Que o personagem está dormindo"
+   ],
+   "certa": 0,
+   "explicacao": "O tamanho e o tipo de letra mostram a intensidade da fala.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp26-f1",
+   "habilidadeId": "EF35LP26",
+   "nivel": "facil",
+   "enunciado": "Leia: \"Numa tarde de verão, na fazenda do avô, Tiago encontrou um filhote de coruja caído do ninho. Com cuidado, ele o levou até o celeiro e cuidou dele até que pudesse voar.\" Onde se passa a história?",
+   "apoio": null,
+   "opcoes": [
+    "Na escola",
+    "Na cidade grande",
+    "Na fazenda do avô",
+    "Na praia"
+   ],
+   "certa": 2,
+   "explicacao": "O espaço é a fazenda do avô.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp26-f2",
+   "habilidadeId": "EF35LP26",
+   "nivel": "facil",
+   "enunciado": "Leia: \"Numa tarde de verão, na fazenda do avô, Tiago encontrou um filhote de coruja caído do ninho. Com cuidado, ele o levou até o celeiro e cuidou dele até que pudesse voar.\" Quem é o personagem principal?",
+   "apoio": null,
+   "opcoes": [
+    "Tiago",
+    "A mãe coruja",
+    "O avô",
+    "O dono do celeiro"
+   ],
+   "certa": 0,
+   "explicacao": "A história gira em torno do que Tiago faz.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp26-m1",
+   "habilidadeId": "EF35LP26",
+   "nivel": "medio",
+   "enunciado": "Leia: \"Numa tarde de verão, na fazenda do avô, Tiago encontrou um filhote de coruja caído do ninho. Com cuidado, ele o levou até o celeiro e cuidou dele até que pudesse voar.\" Quando a história acontece?",
+   "apoio": null,
+   "opcoes": [
+    "Numa tarde de verão",
+    "No aniversário de Tiago",
+    "Numa manhã de chuva",
+    "Numa noite de inverno"
+   ],
+   "certa": 0,
+   "explicacao": "O tempo aparece logo no início.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp26-m2",
+   "habilidadeId": "EF35LP26",
+   "nivel": "medio",
+   "enunciado": "Quais são elementos de uma narrativa?",
+   "apoio": null,
+   "opcoes": [
+    "Materiais e passos do jogo",
+    "Personagens, tempo, espaço, enredo e narrador",
+    "Manchete, lide e corpo da notícia",
+    "Título, ingredientes e modo de preparo"
+   ],
+   "certa": 1,
+   "explicacao": "As outras opções são partes de receita, notícia e instrução.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp26-d1",
+   "habilidadeId": "EF35LP26",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"Numa tarde de verão, na fazenda do avô, Tiago encontrou um filhote de coruja caído do ninho. Com cuidado, ele o levou até o celeiro e cuidou dele até que pudesse voar.\" Qual é o resumo do enredo?",
+   "apoio": null,
+   "opcoes": [
+    "Tiago encontra um filhote de coruja e cuida dele até ele voar",
+    "O avô de Tiago constrói um celeiro novo",
+    "Tiago visita o avô e brinca no celeiro",
+    "Uma coruja ensina Tiago a voar"
+   ],
+   "certa": 0,
+   "explicacao": "O enredo é a sequência de acontecimentos principais.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp26-d2",
+   "habilidadeId": "EF35LP26",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"Numa tarde de verão, na fazenda do avô, Tiago encontrou um filhote de coruja caído do ninho. Com cuidado, ele o levou até o celeiro e cuidou dele até que pudesse voar.\" O narrador dessa história:",
+   "apoio": null,
+   "opcoes": [
+    "é a coruja contando sua aventura",
+    "conta a história de fora, sem participar dela",
+    "é o avô contando para os netos",
+    "é o próprio Tiago contando o que viveu"
+   ],
+   "certa": 1,
+   "explicacao": "O texto usa \"Tiago encontrou\", \"ele o levou\": narrador em terceira pessoa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp29-f1",
+   "habilidadeId": "EF35LP29",
+   "nivel": "facil",
+   "enunciado": "Leia: \"Eu acordei atrasado e corri para não perder o ônibus.\" Em que pessoa a história é narrada?",
+   "apoio": null,
+   "opcoes": [
+    "Não tem narrador",
+    "Primeira pessoa",
+    "Segunda pessoa",
+    "Terceira pessoa"
+   ],
+   "certa": 1,
+   "explicacao": "O narrador conta o que ele mesmo viveu (eu).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp29-f2",
+   "habilidadeId": "EF35LP29",
+   "nivel": "facil",
+   "enunciado": "Leia: \"Marina abriu a janela e viu o arco-íris.\" Em que pessoa a história é narrada?",
+   "apoio": null,
+   "opcoes": [
+    "Segunda pessoa",
+    "Primeira pessoa",
+    "Não tem narrador",
+    "Terceira pessoa"
+   ],
+   "certa": 3,
+   "explicacao": "O narrador fala de Marina (ela), de fora da história.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp29-m1",
+   "habilidadeId": "EF35LP29",
+   "nivel": "medio",
+   "enunciado": "Leia: \"O pequeno Rui queria participar da corrida da escola, mas tinha machucado o pé. Durante uma semana, fez os exercícios que o médico indicou. No dia da prova, já estava bem, correu e chegou em segundo lugar.\" Qual é o conflito da história?",
+   "apoio": null,
+   "opcoes": [
+    "O médico indicou exercícios",
+    "Rui chegou em segundo lugar",
+    "A escola organizou uma corrida",
+    "Rui queria correr, mas estava com o pé machucado"
+   ],
+   "certa": 3,
+   "explicacao": "O conflito é o problema que move a história.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp29-m2",
+   "habilidadeId": "EF35LP29",
+   "nivel": "medio",
+   "enunciado": "Leia: \"O pequeno Rui queria participar da corrida da escola, mas tinha machucado o pé. Durante uma semana, fez os exercícios que o médico indicou. No dia da prova, já estava bem, correu e chegou em segundo lugar.\" Como o conflito foi resolvido?",
+   "apoio": null,
+   "opcoes": [
+    "A corrida foi cancelada",
+    "Rui fez os exercícios, melhorou e conseguiu correr",
+    "Rui desistiu da corrida",
+    "Outro aluno correu no lugar de Rui"
+   ],
+   "certa": 1,
+   "explicacao": "A resolução é como o problema termina.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp29-d1",
+   "habilidadeId": "EF35LP29",
+   "nivel": "dificil",
+   "enunciado": "Qual trecho está narrado em primeira pessoa?",
+   "apoio": null,
+   "opcoes": [
+    "Eles viram o cachorro e correram.",
+    "Quando viu o cachorro, Lia correu para abraçá-lo.",
+    "O menino viu o cachorro e correu.",
+    "Quando vi o cachorro, corri para abraçá-lo."
+   ],
+   "certa": 3,
+   "explicacao": "Vi e corri estão na primeira pessoa (eu).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp29-d2",
+   "habilidadeId": "EF35LP29",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"Fui eu quem quebrou o vaso, mas ninguém percebeu.\" Por que narrar em primeira pessoa funciona bem nesse trecho?",
+   "apoio": null,
+   "opcoes": [
+    "Porque histórias com segredos não têm narrador",
+    "Porque o leitor conhece um segredo que só o próprio personagem sabe",
+    "Porque mostra que o narrador não participa da história",
+    "Porque conta a história de várias pessoas ao mesmo tempo"
+   ],
+   "certa": 1,
+   "explicacao": "O narrador-personagem revela o que só ele sabe e sente.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp22-f1",
+   "habilidadeId": "EF35LP22",
+   "nivel": "facil",
+   "enunciado": "Leia: \"— Cuidado com o degrau! — gritou a professora.\" Qual palavra mostra como a professora falou?",
+   "apoio": null,
+   "opcoes": [
+    "gritou",
+    "cuidado",
+    "degrau",
+    "professora"
+   ],
+   "certa": 0,
+   "explicacao": "Gritou é o verbo de fala (de enunciação).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp22-f2",
+   "habilidadeId": "EF35LP22",
+   "nivel": "facil",
+   "enunciado": "Leia: \"— Estou com sono — disse Pedro.\" Quem está falando?",
+   "apoio": null,
+   "opcoes": [
+    "A mãe de Pedro",
+    "O narrador",
+    "Ninguém",
+    "Pedro"
+   ],
+   "certa": 3,
+   "explicacao": "Depois da fala, \"disse Pedro\" indica quem falou.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp22-m1",
+   "habilidadeId": "EF35LP22",
+   "nivel": "medio",
+   "enunciado": "Leia: \"— Acho que vi um fantasma... — sussurrou Bia.\" O verbo \"sussurrou\" indica que Bia falou:",
+   "apoio": null,
+   "opcoes": [
+    "cantando",
+    "bem baixinho",
+    "gritando",
+    "rindo"
+   ],
+   "certa": 1,
+   "explicacao": "Sussurrar é falar em voz muito baixa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp22-m2",
+   "habilidadeId": "EF35LP22",
+   "nivel": "medio",
+   "enunciado": "Qual verbo de fala combina melhor com: \"— Ganhamos o campeonato! — ___ o capitão.\"?",
+   "apoio": null,
+   "opcoes": [
+    "comemorou",
+    "lamentou",
+    "perguntou",
+    "cochichou"
+   ],
+   "certa": 0,
+   "explicacao": "A fala é uma exclamação de alegria: comemorou.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp22-d1",
+   "habilidadeId": "EF35LP22",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"— Ôxe, que calor danado! — reclamou Seu Zé.\" Por que o autor usou \"Ôxe\" e \"danado\" na fala?",
+   "apoio": null,
+   "opcoes": [
+    "Porque são erros de digitação",
+    "Para indicar que o personagem está dormindo",
+    "Para mostrar o jeito de falar do personagem, típico de uma região do país",
+    "Para mostrar a fala do narrador"
+   ],
+   "certa": 2,
+   "explicacao": "No discurso direto, o autor pode registrar a variedade linguística do personagem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp22-d2",
+   "habilidadeId": "EF35LP22",
+   "nivel": "dificil",
+   "enunciado": "Qual é a diferença de sentido entre \"— Venha aqui — pediu a mãe.\" e \"— Venha aqui — ordenou a mãe.\"?",
+   "apoio": null,
+   "opcoes": [
+    "Não há nenhuma diferença de sentido",
+    "No primeiro, a mãe está gritando",
+    "No segundo, a mãe está fazendo uma pergunta",
+    "No segundo, a mãe fala de forma mais firme, dando uma ordem"
+   ],
+   "certa": 3,
+   "explicacao": "O verbo de enunciação muda o sentido da fala: pedir é mais suave que ordenar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp30-f1",
+   "habilidadeId": "EF35LP30",
+   "nivel": "facil",
+   "enunciado": "Qual frase está em discurso direto?",
+   "apoio": null,
+   "opcoes": [
+    "Léo queria brincar.",
+    "Léo disse que queria brincar.",
+    "Léo brincou o dia todo.",
+    "— Eu quero brincar — disse Léo."
+   ],
+   "certa": 3,
+   "explicacao": "No discurso direto aparece a fala do personagem, com travessão.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp30-f2",
+   "habilidadeId": "EF35LP30",
+   "nivel": "facil",
+   "enunciado": "Qual frase está em discurso indireto?",
+   "apoio": null,
+   "opcoes": [
+    "Ana contou que tinha perdido o lápis.",
+    "— Achei! — gritou Ana.",
+    "— Onde está meu lápis? — perguntou Ana.",
+    "— Perdi meu lápis! — contou Ana."
+   ],
+   "certa": 0,
+   "explicacao": "No indireto, o narrador conta o que o personagem disse, com \"que\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp30-m1",
+   "habilidadeId": "EF35LP30",
+   "nivel": "medio",
+   "enunciado": "Passe para o discurso indireto: \"— Estou cansado — disse o menino.\" Qual opção está correta?",
+   "apoio": null,
+   "opcoes": [
+    "O menino disse que estou cansado.",
+    "O menino disse que estava cansado.",
+    "— O menino está cansado — disse.",
+    "O menino disse: estou cansado."
+   ],
+   "certa": 1,
+   "explicacao": "No indireto, o verbo muda de pessoa e de tempo: estou → estava.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp30-m2",
+   "habilidadeId": "EF35LP30",
+   "nivel": "medio",
+   "enunciado": "No discurso direto, quais sinais costumam marcar a fala do personagem?",
+   "apoio": null,
+   "opcoes": [
+    "Nenhum sinal",
+    "Travessão ou aspas",
+    "Parênteses e asterisco",
+    "Só ponto final e vírgula"
+   ],
+   "certa": 1,
+   "explicacao": "A fala direta vem marcada por travessão ou aspas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp30-d1",
+   "habilidadeId": "EF35LP30",
+   "nivel": "dificil",
+   "enunciado": "Passe para o discurso direto: \"A professora perguntou se todos tinham feito a lição.\" Qual opção está correta?",
+   "apoio": null,
+   "opcoes": [
+    "A professora perguntou: todos fizeram a lição.",
+    "A professora perguntou se todos fizeram a lição?",
+    "— Todos fizeram a lição? — perguntou a professora.",
+    "— Todos tinham feito a lição — disse a professora."
+   ],
+   "certa": 2,
+   "explicacao": "No direto, a pergunta aparece como fala, com travessão e ponto de interrogação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp30-d2",
+   "habilidadeId": "EF35LP30",
+   "nivel": "dificil",
+   "enunciado": "Por que um autor usaria o discurso direto em vez do indireto?",
+   "apoio": null,
+   "opcoes": [
+    "Para esconder o que o personagem falou",
+    "Porque o discurso indireto é proibido",
+    "Para mostrar as palavras exatas do personagem e dar mais vida à cena",
+    "Para resumir a fala com as palavras do narrador"
+   ],
+   "certa": 2,
+   "explicacao": "Resumir com as palavras do narrador é o que faz o discurso indireto.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp23-f1",
+   "habilidadeId": "EF35LP23",
+   "nivel": "facil",
+   "enunciado": "Qual palavra rima com \"janela\"?",
+   "apoio": null,
+   "opcoes": [
+    "panela",
+    "porta",
+    "casa",
+    "jardim"
+   ],
+   "certa": 0,
+   "explicacao": "Janela e panela terminam com o mesmo som: -ela.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp23-f2",
+   "habilidadeId": "EF35LP23",
+   "nivel": "facil",
+   "enunciado": "Leia: \"O sapo pulou na lagoa / e achou a vida muito boa.\" Quais palavras rimam?",
+   "apoio": null,
+   "opcoes": [
+    "lagoa e boa",
+    "pulou e achou",
+    "muito e sapo",
+    "sapo e vida"
+   ],
+   "certa": 0,
+   "explicacao": "Lagoa e boa terminam com o mesmo som, no fim dos versos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp23-m1",
+   "habilidadeId": "EF35LP23",
+   "nivel": "medio",
+   "enunciado": "Leia: \"A lua brilha no céu, / clareia o meu chapéu. / A estrela pisca e diz: / boa noite, sou feliz.\" Quantos versos tem esse trecho?",
+   "apoio": null,
+   "opcoes": [
+    "Dois",
+    "Quatro",
+    "Um",
+    "Oito"
+   ],
+   "certa": 1,
+   "explicacao": "Cada linha do poema é um verso; as barras separam os quatro versos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp23-m2",
+   "habilidadeId": "EF35LP23",
+   "nivel": "medio",
+   "enunciado": "Em um poema, o que é uma estrofe?",
+   "apoio": null,
+   "opcoes": [
+    "Um grupo de versos",
+    "Uma única palavra",
+    "O nome do autor",
+    "O título do poema"
+   ],
+   "certa": 0,
+   "explicacao": "Estrofe é o conjunto de versos separado por espaço.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp23-d1",
+   "habilidadeId": "EF35LP23",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"O rato roeu a roupa do rei de Roma.\" Que recurso sonoro aparece nessa frase?",
+   "apoio": null,
+   "opcoes": [
+    "Aliteração: a repetição do som do r",
+    "Nenhum som repetido",
+    "Refrão",
+    "Rima no fim dos versos"
+   ],
+   "certa": 0,
+   "explicacao": "A aliteração repete o mesmo som de consoante.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp23-d2",
+   "habilidadeId": "EF35LP23",
+   "nivel": "dificil",
+   "enunciado": "Em uma canção, os versos \"Lá vem o trem, piuí, piuí\" se repetem depois de cada estrofe. Como se chama essa parte que se repete?",
+   "apoio": null,
+   "opcoes": [
+    "Assinatura",
+    "Estrofe única",
+    "Refrão",
+    "Título"
+   ],
+   "certa": 2,
+   "explicacao": "O refrão é o verso ou grupo de versos que se repete.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp27-f1",
+   "habilidadeId": "EF35LP27",
+   "nivel": "facil",
+   "enunciado": "Leia o verso: \"Seus olhos são duas estrelas.\" O que o poeta quis dizer?",
+   "apoio": null,
+   "opcoes": [
+    "Que os olhos são muito brilhantes e bonitos",
+    "Que a pessoa não enxerga",
+    "Que a pessoa tem estrelas no rosto",
+    "Que os olhos ficam no céu"
+   ],
+   "certa": 0,
+   "explicacao": "É uma imagem poética (sentido figurado).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp27-f2",
+   "habilidadeId": "EF35LP27",
+   "nivel": "facil",
+   "enunciado": "Qual frase usa sentido figurado?",
+   "apoio": null,
+   "opcoes": [
+    "Meu coração está pulando de alegria.",
+    "A menina pulou corda.",
+    "O gato pulou o muro.",
+    "O coelho está pulando no quintal."
+   ],
+   "certa": 0,
+   "explicacao": "O coração não pula de verdade: é um jeito de expressar alegria.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp27-m1",
+   "habilidadeId": "EF35LP27",
+   "nivel": "medio",
+   "enunciado": "Leia: \"O vento assobiava canções na janela.\" O que o poeta faz nesse verso?",
+   "apoio": null,
+   "opcoes": [
+    "Explica como o vento se forma",
+    "Dá ao vento uma ação de pessoa, criando uma imagem poética",
+    "Dá uma ordem ao leitor",
+    "Conta quantas janelas a casa tem"
+   ],
+   "certa": 1,
+   "explicacao": "Assobiar canções é ação humana atribuída ao vento.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp27-m2",
+   "habilidadeId": "EF35LP27",
+   "nivel": "medio",
+   "enunciado": "Leia: \"Três pratos de trigo para três tigres tristes.\" Por que esse texto é um jogo de palavras?",
+   "apoio": null,
+   "opcoes": [
+    "Porque conta uma notícia sobre tigres",
+    "Porque repete sons parecidos e fica difícil falar rápido",
+    "Porque não tem nenhum som repetido",
+    "Porque ensina a fazer pratos de trigo"
+   ],
+   "certa": 1,
+   "explicacao": "É um trava-língua.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp27-d1",
+   "habilidadeId": "EF35LP27",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"A noite vestiu seu manto escuro.\" Qual é o sentido desse verso?",
+   "apoio": null,
+   "opcoes": [
+    "A noite chegou e tudo ficou escuro",
+    "Choveu muito durante a noite",
+    "A noite comprou um manto novo",
+    "Alguém costurou uma roupa preta"
+   ],
+   "certa": 0,
+   "explicacao": "O manto escuro é uma imagem para a escuridão da noite.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp27-d2",
+   "habilidadeId": "EF35LP27",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"Quem cochicha o rabo espicha.\" Por que essa frase é divertida de ouvir?",
+   "apoio": null,
+   "opcoes": [
+    "Porque \"cochicha\" e \"espicha\" rimam e têm sons parecidos",
+    "Porque explica o que é um rabo",
+    "Porque é uma notícia verdadeira",
+    "Porque não tem rima nenhuma"
+   ],
+   "certa": 0,
+   "explicacao": "O jogo sonoro (rima) torna a frase divertida.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp31-f1",
+   "habilidadeId": "EF35LP31",
+   "nivel": "facil",
+   "enunciado": "Leia: \"Plic, ploc, plic, ploc, a chuva cai no telhado.\" Que efeito as palavras \"plic, ploc\" criam?",
+   "apoio": null,
+   "opcoes": [
+    "Dão um nome à chuva",
+    "Contam quantas gotas caíram",
+    "Mostram que está fazendo sol",
+    "Imitam o som da chuva"
+   ],
+   "certa": 3,
+   "explicacao": "São onomatopeias que reproduzem o som.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp31-f2",
+   "habilidadeId": "EF35LP31",
+   "nivel": "facil",
+   "enunciado": "Qual destas frases tem uma metáfora?",
+   "apoio": null,
+   "opcoes": [
+    "A vida é uma estrada.",
+    "A estrada é longa.",
+    "A estrada fica perto de casa.",
+    "Eu viajei pela estrada."
+   ],
+   "certa": 0,
+   "explicacao": "A vida é comparada a uma estrada, sem usar \"como\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp31-m1",
+   "habilidadeId": "EF35LP31",
+   "nivel": "medio",
+   "enunciado": "Leia: \"Aquele menino é um foguete na corrida.\" O que a metáfora quer dizer?",
+   "apoio": null,
+   "opcoes": [
+    "Que o menino é feito de metal",
+    "Que o menino tem medo de foguetes",
+    "Que o menino voa até o espaço",
+    "Que o menino corre muito rápido"
+   ],
+   "certa": 3,
+   "explicacao": "Foguete sugere velocidade.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp31-m2",
+   "habilidadeId": "EF35LP31",
+   "nivel": "medio",
+   "enunciado": "Por que muitos poemas têm versos com ritmo marcado?",
+   "apoio": null,
+   "opcoes": [
+    "Para parecerem uma notícia",
+    "Para não terem rimas",
+    "Para ficarem mais longos",
+    "Para criar musicalidade e tornar a leitura mais agradável"
+   ],
+   "certa": 3,
+   "explicacao": "O ritmo dá sonoridade ao poema.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp31-d1",
+   "habilidadeId": "EF35LP31",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"Bate, bate, coração, / bate forte de emoção.\" Que efeito a repetição de \"bate\" provoca?",
+   "apoio": null,
+   "opcoes": [
+    "Imita as batidas do coração e dá ritmo ao verso",
+    "Explica como funciona o coração",
+    "Mostra que alguém está batendo na porta",
+    "Indica que o poema terminou"
+   ],
+   "certa": 0,
+   "explicacao": "A repetição sonora reproduz o pulsar do coração.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp31-d2",
+   "habilidadeId": "EF35LP31",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"Minha casa é um ninho quentinho.\" A metáfora compara a casa a um ninho para mostrar que ela é:",
+   "apoio": null,
+   "opcoes": [
+    "um lugar muito alto",
+    "um lugar feito de galhos",
+    "um lugar onde moram pássaros",
+    "um lugar de aconchego e proteção"
+   ],
+   "certa": 3,
+   "explicacao": "O ninho representa abrigo e cuidado.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp24-f1",
+   "habilidadeId": "EF35LP24",
+   "nivel": "facil",
+   "enunciado": "Para que é escrito um texto teatral?",
+   "apoio": null,
+   "opcoes": [
+    "Para ser encenado por atores",
+    "Para noticiar um fato",
+    "Para dar instruções de um jogo",
+    "Para ser cantado no rádio"
+   ],
+   "certa": 0,
+   "explicacao": "O texto dramático é feito para a encenação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp24-f2",
+   "habilidadeId": "EF35LP24",
+   "nivel": "facil",
+   "enunciado": "Em um texto teatral, a história é contada principalmente por meio de:",
+   "apoio": null,
+   "opcoes": [
+    "listas de materiais",
+    "rimas no fim dos versos",
+    "diálogos entre as personagens",
+    "manchetes e lides"
+   ],
+   "certa": 2,
+   "explicacao": "No teatro, as personagens contam a história pelas falas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp24-m1",
+   "habilidadeId": "EF35LP24",
+   "nivel": "medio",
+   "enunciado": "Leia o trecho da peça: \"CENA 1 — Uma sala de aula. LUCAS (animado): Professora, achei um mapa do tesouro! PROFESSORA: Deixe-me ver, Lucas.\" Quem fala primeiro na cena?",
+   "apoio": null,
+   "opcoes": [
+    "O narrador",
+    "Um aluno sem nome",
+    "A professora",
+    "Lucas"
+   ],
+   "certa": 3,
+   "explicacao": "O nome LUCAS aparece antes da primeira fala.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp24-m2",
+   "habilidadeId": "EF35LP24",
+   "nivel": "medio",
+   "enunciado": "Leia o trecho da peça: \"CENA 1 — Uma sala de aula. LUCAS (animado): Professora, achei um mapa do tesouro! PROFESSORA: Deixe-me ver, Lucas.\" Onde acontece a Cena 1?",
+   "apoio": null,
+   "opcoes": [
+    "Em uma sala de aula",
+    "Em um navio",
+    "No pátio da escola",
+    "Em uma ilha do tesouro"
+   ],
+   "certa": 0,
+   "explicacao": "A indicação de cena diz: uma sala de aula.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp24-d1",
+   "habilidadeId": "EF35LP24",
+   "nivel": "dificil",
+   "enunciado": "Por que, no texto teatral, o nome da personagem aparece antes de cada fala?",
+   "apoio": null,
+   "opcoes": [
+    "Para mostrar quem escreveu a peça",
+    "Para os atores saberem quem deve dizer cada fala",
+    "Porque o nome é o título da peça",
+    "Para enfeitar o texto"
+   ],
+   "certa": 1,
+   "explicacao": "É o marcador da fala da personagem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp24-d2",
+   "habilidadeId": "EF35LP24",
+   "nivel": "dificil",
+   "enunciado": "Qual é a principal diferença entre um conto e um texto teatral?",
+   "apoio": null,
+   "opcoes": [
+    "O conto sempre tem rimas e o texto teatral não",
+    "Não há diferença entre eles",
+    "O texto teatral não tem personagens",
+    "O texto teatral é organizado em falas de personagens para ser encenado; o conto é contado por um narrador"
+   ],
+   "certa": 3,
+   "explicacao": "O teatro se organiza em falas e rubricas; o conto, em narração.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp27-f1",
+   "habilidadeId": "EF04LP27",
+   "nivel": "facil",
+   "enunciado": "Leia: \"MÃE (abrindo a porta): Chegou cedo hoje, filho!\" O trecho entre parênteses indica:",
+   "apoio": null,
+   "opcoes": [
+    "o nome do autor",
+    "o título da peça",
+    "o que a personagem faz enquanto fala",
+    "a fala de outra personagem"
+   ],
+   "certa": 2,
+   "explicacao": "É uma rubrica: indica a ação da personagem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp27-f2",
+   "habilidadeId": "EF04LP27",
+   "nivel": "facil",
+   "enunciado": "Como se chamam, no texto teatral, as indicações que mostram gestos, sentimentos e o cenário?",
+   "apoio": null,
+   "opcoes": [
+    "Rubricas",
+    "Manchetes",
+    "Legendas",
+    "Estrofes"
+   ],
+   "certa": 0,
+   "explicacao": "Rubricas orientam a encenação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp27-m1",
+   "habilidadeId": "EF04LP27",
+   "nivel": "medio",
+   "enunciado": "Leia: \"JOÃO (com voz trêmula): Tem alguém aí?\" Como João deve dizer essa fala?",
+   "apoio": null,
+   "opcoes": [
+    "Com alegria",
+    "Cantando",
+    "Com medo",
+    "Gritando de raiva"
+   ],
+   "certa": 2,
+   "explicacao": "A rubrica \"com voz trêmula\" indica medo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp27-m2",
+   "habilidadeId": "EF04LP27",
+   "nivel": "medio",
+   "enunciado": "Leia: \"(A luz se apaga. Ouve-se um trovão.)\" Esse trecho é:",
+   "apoio": null,
+   "opcoes": [
+    "o título da cena",
+    "uma rubrica que indica o que acontece em cena",
+    "um verso de poema",
+    "uma fala da personagem principal"
+   ],
+   "certa": 1,
+   "explicacao": "Entre parênteses e sem nome de personagem: é rubrica de cena.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp27-d1",
+   "habilidadeId": "EF04LP27",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"ANA (sorrindo): Que surpresa boa! PEDRO (cruzando os braços): Eu não gostei nada.\" O que as rubricas mostram sobre as personagens?",
+   "apoio": null,
+   "opcoes": [
+    "Ana está brava e Pedro está feliz",
+    "Os dois estão contentes",
+    "Ana está contente e Pedro está contrariado",
+    "Os dois estão com medo"
+   ],
+   "certa": 2,
+   "explicacao": "Sorrindo indica alegria; cruzar os braços indica contrariedade.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp27-d2",
+   "habilidadeId": "EF04LP27",
+   "nivel": "dificil",
+   "enunciado": "Qual destas é uma rubrica bem escrita?",
+   "apoio": null,
+   "opcoes": [
+    "Era uma vez uma menina chamada Marta.",
+    "Marta: correndo carta segura.",
+    "(Marta entra correndo, segurando uma carta.)",
+    "MARTA: Chegou uma carta!"
+   ],
+   "certa": 2,
+   "explicacao": "A rubrica descreve a ação em cena, entre parênteses.",
+   "origem": "curada"
   }
  ]
 }

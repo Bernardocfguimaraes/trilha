@@ -154,7 +154,7 @@ def _do_banco(habilidade_id: str, nivel: str) -> dict | None:
         "enunciado": p["enunciado"],
         "opcoes": list(p["opcoes"]),
         "indiceCorreta": p["certa"],
-        "explicacao": "",
+        "explicacao": p.get("explicacao") or "",
         "apoio": p.get("apoio"),
     }
 
