@@ -13,12 +13,12 @@ from __future__ import annotations
 import uuid
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import delete, select
+from sqlalchemy import delete, distinct, func, select
 
-from . import bd, chat, diagnostico
+from . import bd, caminho, chat, diagnostico
 from . import recomendacoes as rec
 from .adaptacao import estado_inicial_adaptacao, registrar_resposta
-from .dados import BANCO, TEXTOS
+from .dados import BANCO, CATALOGO, DISCIPLINAS, HABILIDADES, TEXTOS, ordem_caminho
 from .estado import (  # helpers puros + constantes, reusados para não divergir
     ELOGIOS,
     ESPERA_BLOQUEIO_MS,
@@ -33,6 +33,7 @@ from .estado import (  # helpers puros + constantes, reusados para não divergir
     _hoje,
     _novo_pin,
     _para_cliente,
+    habilidade_config,
 )
 from .modelos import (
     Aluno,
@@ -77,18 +78,55 @@ def _status_do_aluno(s, aluno_id: str) -> dict[str, str]:
     }
 
 
+_HAB_POR_ID = {h["id"]: h for h in HABILIDADES}
+_COM_PERGUNTAS = {p["habilidadeId"] for p in BANCO}
+
+
+def _praticadas_na_turma(s) -> set[str]:
+    return {r for (r,) in s.execute(select(AlunoHabilidadeStatus.habilidade_id).distinct())}
+
+
 def _habilidades_de(s, aluno_id: str, ctx=None) -> list[dict]:
+    """Mesma regra do estado.py: colunas = habilidades ativas que alguém da turma já praticou;
+    `iniciada` diz se este aluno já praticou (status ausente = ainda adiante no caminho)."""
     disc_ativas, hab_ativas, disc_nome, habs = ctx or _contexto(s)
     status = _status_do_aluno(s, aluno_id)
+    praticadas = _praticadas_na_turma(s)
     saida = []
     for h in habs:
-        if h.id in hab_ativas and h.disciplina_id in disc_ativas:
+        if h.id in hab_ativas and h.disciplina_id in disc_ativas and h.id in praticadas:
             saida.append({
                 "habilidadeId": h.id,
                 "nome": h.nome,
                 "disciplina": disc_nome[h.disciplina_id],
+                "codigoBncc": h.codigo_bncc,
                 "status": status.get(h.id, "ok"),
+                "iniciada": h.id in status,
             })
+    return saida
+
+
+def _info_caminho(s, aluno_id: str, ordem: list[str]) -> caminho.Info:
+    status = _status_do_aluno(s, aluno_id)
+    dias = dict(s.execute(
+        select(Historico.habilidade_id, func.count(distinct(Historico.data)))
+        .where(Historico.aluno_id == aluno_id)
+        .group_by(Historico.habilidade_id)
+    ).all())
+    return {hid: (status.get(hid), dias.get(hid, 0)) for hid in ordem}
+
+
+def _caminhos(s, aluno_id: str, ctx=None) -> list[dict]:
+    disc_ativas, hab_ativas, _, _ = ctx or _contexto(s)
+    ano = _turma(s).ano
+    saida = []
+    for d in DISCIPLINAS:
+        ordem = ordem_caminho(d["id"])
+        if ordem is None or d["id"] not in disc_ativas:
+            continue
+        ordem = [h for h in ordem if h in hab_ativas]
+        p = caminho.progresso(ordem, _info_caminho(s, aluno_id, ordem))
+        saida.append(caminho.formatar_progresso(d["id"], d["nome"], ano, p, _HAB_POR_ID))
     return saida
 
 
@@ -139,6 +177,8 @@ def aluno_detalhe(aluno_id: str) -> dict:
         habilidades = _habilidades_de(s, a.id)
         recomendacoes = []
         for h in habilidades:
+            if not h["iniciada"]:
+                continue
             if h["status"] == "alerta" or (h["status"] == "atencao" and TEXTOS.get(h["habilidadeId"])):
                 recomendacoes.append({
                     "habilidadeId": h["habilidadeId"],
@@ -147,7 +187,7 @@ def aluno_detalhe(aluno_id: str) -> dict:
                     "texto": rec.texto_para(h["habilidadeId"], h["nome"], h["disciplina"], h["status"]),
                     "geradaEm": a.ultima_atividade or "2026-10-13",
                 })
-        return {**_resumo(s, a), "recomendacoes": recomendacoes}
+        return {**_resumo(s, a), "recomendacoes": recomendacoes, "caminhos": _caminhos(s, a.id)}
 
 
 def aluno_historico(aluno_id: str) -> list[dict]:
@@ -156,6 +196,7 @@ def aluno_historico(aluno_id: str) -> list[dict]:
         return [
             {"habilidadeId": h["habilidadeId"], "nome": h["nome"], "disciplina": h["disciplina"], "pontos": _serie(s, a.id, h["habilidadeId"])}
             for h in _habilidades_de(s, a.id)
+            if h["iniciada"]
         ]
 
 
@@ -168,7 +209,7 @@ def lista_cadastros() -> list[dict]:
 def config() -> dict:
     with bd.SessionLocal() as s:
         turma = _turma(s)
-        disc_ativas, hab_ativas, _, habs = _contexto(s)
+        disc_ativas, hab_ativas, _, _ = _contexto(s)
         discs = list(s.execute(select(Disciplina).order_by(Disciplina.ordem)).scalars())
         # Painel: Matemática e Português primeiro, como na demo.
         ordem_painel = ["mat", "por", "geo", "cie", "ing"]
@@ -179,19 +220,19 @@ def config() -> dict:
                 "id": d.id,
                 "nome": d.nome,
                 "ativa": d.id in disc_ativas,
-                "habilidades": [
-                    {"id": h.id, "nome": h.nome, "descricao": h.descricao, "ativa": h.id in hab_ativas}
-                    for h in habs if h.disciplina_id == d.id
-                ],
+                "caminhoBncc": ordem_caminho(d.id) is not None,
+                # Catálogo inteiro (inclui "em sala"); o que está ativo vem do banco.
+                "habilidades": [habilidade_config(h, hab_ativas) for h in CATALOGO if h["disciplina"] == d.nome],
             })
-        return {"turma": {"id": turma.id, "nome": turma.nome, "codigo": turma.codigo}, "ciclo": turma.ciclo, "disciplinas": disciplinas}
+        return {"turma": {"id": turma.id, "nome": turma.nome, "codigo": turma.codigo, "ano": turma.ano},
+                "ciclo": turma.ciclo, "disciplinas": disciplinas}
 
 
 def salvar_config(habilidades_ativas: list[str], disciplinas_ativas: list[str] | None) -> dict:
     with bd.SessionLocal() as s:
         turma = _turma(s)
         s.execute(delete(TurmaHabilidadeAtiva))
-        for hid in habilidades_ativas:
+        for hid in set(habilidades_ativas) & set(_HAB_POR_ID):  # "em sala" não entram no quiz
             s.add(TurmaHabilidadeAtiva(turma_id=turma.id, habilidade_id=hid))
         if disciplinas_ativas is not None:
             s.execute(delete(TurmaDisciplinaAtiva))
@@ -201,17 +242,18 @@ def salvar_config(habilidades_ativas: list[str], disciplinas_ativas: list[str] |
     return config()
 
 
-def _habilidades_da_sessao(s, disciplina_id: str | None) -> list[str]:
+def _habilidades_da_sessao(s, disciplina_id: str | None, aluno_id: str | None = None) -> list[str]:
+    """Mesma regra do estado.py: ativas e com perguntas; com caminho BNCC e aluno conhecido,
+    só a frente do caminho dele."""
     disc_ativas, hab_ativas, _, habs = _contexto(s)
     ids = []
-    for h in habs:
-        if (
-            h.id in hab_ativas
-            and h.disciplina_id in disc_ativas
-            and (not disciplina_id or h.disciplina_id == disciplina_id)
-            and any(p["habilidadeId"] == h.id for p in BANCO)
-        ):
-            ids.append(h.id)
+    for d in DISCIPLINAS:
+        if d["id"] not in disc_ativas or (disciplina_id and d["id"] != disciplina_id):
+            continue
+        da_disc = [h.id for h in habs if h.disciplina_id == d["id"] and h.id in hab_ativas and h.id in _COM_PERGUNTAS]
+        if aluno_id is not None and ordem_caminho(d["id"]) is not None:
+            da_disc = caminho.frente(da_disc, _info_caminho(s, aluno_id, da_disc))
+        ids.extend(da_disc)
     return ids
 
 
@@ -271,7 +313,7 @@ def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id
     if not acesso or _acessos.get(acesso) != aluno_id:
         raise ApiErro(401, "Confirme o PIN do aluno antes de começar")
     with bd.SessionLocal() as s:
-        habilidades = _habilidades_da_sessao(s, disciplina_id)
+        habilidades = _habilidades_da_sessao(s, disciplina_id, aluno_id)
     if len(habilidades) == 0:
         raise ApiErro(404, "Nenhuma habilidade ativa nesta disciplina")
     adaptacao = estado_inicial_adaptacao()

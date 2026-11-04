@@ -133,6 +133,7 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
                       )}
                     >
                       {h.nome}
+                      {h.codigoBncc && <span className="mt-0.5 block font-mono text-[10px] text-pedra/80">{h.codigoBncc}</span>}
                     </th>
                   ))}
                 </tr>
@@ -155,10 +156,19 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
                           "px-3 py-3",
                           (i === 0 || a.habilidades[i - 1].disciplina !== h.disciplina) && "border-l",
                         )}
-                        title={`${h.nome}: ${rotuloStatus(h.status)}`}
+                        title={h.iniciada ? `${h.nome}: ${rotuloStatus(h.status)}` : `${h.nome}: ainda não chegou nesta etapa do caminho`}
                       >
-                        <Marcas status={h.status} />
-                        <span className="sr-only">{rotuloStatus(h.status)}</span>
+                        {h.iniciada ? (
+                          <>
+                            <Marcas status={h.status} />
+                            <span className="sr-only">{rotuloStatus(h.status)}</span>
+                          </>
+                        ) : (
+                          <>
+                            <span aria-hidden className="text-pedra/50">–</span>
+                            <span className="sr-only">Ainda não chegou nesta etapa do caminho</span>
+                          </>
+                        )}
                       </td>
                     ))}
                     <td className="border-l px-4 py-3 text-sm whitespace-nowrap text-pedra">
@@ -180,9 +190,11 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
                     <span className="flex items-center justify-between gap-3">
                       <span className="font-semibold text-grafite">{a.nome}</span>
                       <span className="flex gap-2">
-                        {a.habilidades.map((h) => (
-                          <Marcas key={h.habilidadeId} status={h.status} />
-                        ))}
+                        {a.habilidades
+                          .filter((h) => h.iniciada)
+                          .map((h) => (
+                            <Marcas key={h.habilidadeId} status={h.status} />
+                          ))}
                       </span>
                     </span>
                     <span className="mt-1 block text-sm text-pedra">

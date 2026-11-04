@@ -81,11 +81,20 @@ quebra. Com a chave, gera de verdade. Qualquer erro (cota, rede, timeout) també
 ```
 LLM_API_KEY=coloque_a_chave_aqui
 LLM_BASE_URL=https://api.groq.com/openai/v1
-LLM_MODEL=llama-3.3-70b-versatile
+LLM_MODEL=openai/gpt-oss-120b
+LLM_REVISOR_MODEL=qwen/qwen3.8-27b
 ```
 O cliente (`app/llm.py`) fala com qualquer provedor compatível com a API da OpenAI — para usar
 Gemini/Together/outro, basta trocar `LLM_BASE_URL` e `LLM_MODEL`. Nenhuma dependência nova:
 a chamada usa a biblioteca padrão. Confira o nome do modelo atual na lista do provedor.
+
+**Cota gratuita.** Na Groq o limite grátis é por modelo. Por isso o revisor das questões geradas
+(`LLM_REVISOR_MODEL`) roda em outro modelo: tem cota própria e, sendo de outra família, erra de
+forma diferente do gerador. Dá para somar um provedor de reserva também grátis (`LLM_RESERVA_*`,
+ex.: Gemini do Google AI Studio, sem cartão), usado quando a cota do dia acaba. As questões dos
+caminhos BNCC são geradas em lote e versionadas (`python -m app.bncc.gerar_perguntas 4 por`):
+quando a cota acaba o lote para sozinho e, rodando de novo no dia seguinte, continua de onde parou.
+O app ao vivo não gasta cota com isso.
 
 ## Rodar local
 

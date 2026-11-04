@@ -6,10 +6,14 @@ export type Status = "ok" | "atencao" | "alerta";
 export type Papel = "professor" | "responsavel";
 
 export interface HabilidadeStatus {
-  habilidadeId: string;
+  habilidadeId: string; // código BNCC (ex.: "EF04LP01") nas disciplinas que já têm caminho
   nome: string;
   disciplina: string;
+  codigoBncc: string | null; // null = catálogo antigo, ainda sem caminho BNCC
   status: Status;
+  // false = este aluno ainda não chegou nesta habilidade do caminho (status vem "ok" só
+  // para preencher; a matriz mostra a célula neutra e ela não conta em alertas)
+  iniciada: boolean;
 }
 
 export interface AlunoResumo {
@@ -28,8 +32,27 @@ export interface Recomendacao {
   geradaEm: string;
 }
 
+export interface HabilidadeRef {
+  habilidadeId: string;
+  nome: string;
+  codigoBncc: string | null;
+}
+
+// Progresso do aluno no caminho BNCC de uma disciplina (ordem definida pelo caminho).
+// Concluída = diagnóstico "ok" com pelo menos 3 dias de prática na habilidade.
+export interface ProgressoCaminho {
+  disciplinaId: string;
+  disciplina: string;
+  ano: number;
+  total: number; // habilidades avaliáveis e ativas no caminho
+  concluidas: number;
+  atual: HabilidadeRef | null; // primeira pendente; null = caminho concluído
+  proximas: HabilidadeRef[];
+}
+
 export interface AlunoDetalhe extends AlunoResumo {
   recomendacoes: Recomendacao[];
+  caminhos: ProgressoCaminho[]; // só disciplinas que já têm caminho BNCC
 }
 
 export interface PontoHistorico {
@@ -48,19 +71,26 @@ export interface Turma {
   id: string;
   nome: string;
   codigo: string;
+  ano: number; // ano escolar (4º–9º); define o catálogo BNCC da turma
 }
 
 export interface HabilidadeConfig {
   id: string;
   nome: string;
-  descricao: string;
+  descricao: string; // texto oficial da BNCC quando há código
   ativa: boolean;
+  codigoBncc: string | null;
+  unidade: string | null; // unidade do caminho (ex.: "Leitura e compreensão")
+  // false = trabalhada em sala (produção, oralidade): aparece no caminho, mas não entra
+  // no quiz nem no diagnóstico, e não dá para ativar
+  avaliavel: boolean;
 }
 
 export interface DisciplinaConfig {
   id: string; // "por" | "mat" | "geo" | "cie" | "ing"
   nome: string;
   ativa: boolean; // desligada: some para os alunos e sai do diagnóstico
+  caminhoBncc: boolean; // true = habilidades vêm do caminho BNCC do ano, na ordem do caminho
   habilidades: HabilidadeConfig[];
 }
 
@@ -104,6 +134,7 @@ export interface Exercicio {
   habilidadeId: string;
   habilidade: string;
   disciplina: string;
+  codigoBncc: string | null;
   nivel: Nivel;
   enunciado: string;
   opcoes: string[];

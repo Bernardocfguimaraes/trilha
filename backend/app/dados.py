@@ -3,27 +3,16 @@
 Enquanto o banco real (Supabase) não entra, estes dados vivem em memória. O formato
 é o mesmo que o frontend já espera. Quando o Postgres assumir, só a origem dos dados
 muda; os esquemas e as regras continuam iguais.
+
+Catálogo: disciplinas que já têm caminho BNCC (app/bncc/caminhos/) vêm de catalogo.py, com
+o código BNCC como id. As demais ainda usam o catálogo antigo, escrito à mão (piloto: só
+Português do 4º ano já está na BNCC).
 """
 from __future__ import annotations
 
-TURMA = {"id": "t1", "nome": "4º ano B", "codigo": "SABIA4"}
+from . import catalogo
 
-# Ordem importa: o índice casa com a string de status de cada aluno (ALUNOS[*].status).
-HABILIDADES = [
-    {"id": "mat-adicao", "nome": "Adição e subtração", "disciplina": "Matemática", "descricao": "Cálculos com números até 1.000, com e sem reagrupamento."},
-    {"id": "mat-mult", "nome": "Multiplicação", "disciplina": "Matemática", "descricao": "Tabuada e multiplicação por um algarismo."},
-    {"id": "mat-fracoes", "nome": "Frações simples", "disciplina": "Matemática", "descricao": "Metade, terço e quarto em situações do dia a dia."},
-    {"id": "mat-problemas", "nome": "Resolução de problemas", "disciplina": "Matemática", "descricao": "Interpretar o enunciado e escolher a operação."},
-    {"id": "por-leitura", "nome": "Leitura e compreensão", "disciplina": "Português", "descricao": "Localizar informações e entender a ideia principal de um texto curto."},
-    {"id": "por-ortografia", "nome": "Ortografia", "disciplina": "Português", "descricao": "Uso de s/ss/ç, r/rr e acentuação de palavras comuns."},
-    {"id": "por-producao", "nome": "Produção de texto", "disciplina": "Português", "descricao": "Escrever frases completas com início, meio e fim."},
-    {"id": "geo-orientacao", "nome": "Orientação e mapas", "disciplina": "Geografia", "descricao": "Pontos cardeais, legenda e escala em mapas simples."},
-    {"id": "geo-paisagem", "nome": "Paisagem e lugar", "disciplina": "Geografia", "descricao": "Elementos naturais e construídos; campo e cidade."},
-    {"id": "cie-seres-vivos", "nome": "Seres vivos", "disciplina": "Ciências", "descricao": "Características de plantas e animais e cadeias alimentares."},
-    {"id": "cie-materia", "nome": "Água e materiais", "disciplina": "Ciências", "descricao": "Estados físicos da água e propriedades dos materiais."},
-    {"id": "ing-vocabulario", "nome": "Vocabulário", "disciplina": "Inglês", "descricao": "Cores, números, animais e alimentos."},
-    {"id": "ing-frases", "nome": "Frases do dia a dia", "disciplina": "Inglês", "descricao": "Cumprimentos e perguntas simples sobre si mesmo."},
-]
+TURMA = {"id": "t1", "nome": "4º ano B", "codigo": "SABIA4", "ano": 4}
 
 # Ordem em que as disciplinas aparecem para o aluno.
 DISCIPLINAS = [
@@ -42,22 +31,111 @@ def nome_disciplina(id_: str) -> str | None:
     return None
 
 
-# Status por aluno, na ordem de HABILIDADES (o: ok, a: atenção, x: alerta),
-# agrupados: Matemática(4) + Português(3) + Geografia(2) + Ciências(2) + Inglês(2).
+def id_disciplina(nome: str) -> str | None:
+    return next((d["id"] for d in DISCIPLINAS if d["nome"] == nome), None)
+
+
+def _legado(id_: str, nome: str, disciplina: str, descricao: str) -> dict:
+    """Habilidade do catálogo antigo (ainda sem caminho BNCC)."""
+    return {"id": id_, "codigoBncc": None, "nome": nome, "disciplina": disciplina, "descricao": descricao,
+            "ano": None, "unidade": None, "avaliavel": True, "dica": None}
+
+
+_LEGADO = {
+    "mat": [
+        _legado("mat-adicao", "Adição e subtração", "Matemática", "Cálculos com números até 1.000, com e sem reagrupamento."),
+        _legado("mat-mult", "Multiplicação", "Matemática", "Tabuada e multiplicação por um algarismo."),
+        _legado("mat-fracoes", "Frações simples", "Matemática", "Metade, terço e quarto em situações do dia a dia."),
+        _legado("mat-problemas", "Resolução de problemas", "Matemática", "Interpretar o enunciado e escolher a operação."),
+    ],
+    "geo": [
+        _legado("geo-orientacao", "Orientação e mapas", "Geografia", "Pontos cardeais, legenda e escala em mapas simples."),
+        _legado("geo-paisagem", "Paisagem e lugar", "Geografia", "Elementos naturais e construídos; campo e cidade."),
+    ],
+    "cie": [
+        _legado("cie-seres-vivos", "Seres vivos", "Ciências", "Características de plantas e animais e cadeias alimentares."),
+        _legado("cie-materia", "Água e materiais", "Ciências", "Estados físicos da água e propriedades dos materiais."),
+    ],
+    "ing": [
+        _legado("ing-vocabulario", "Vocabulário", "Inglês", "Cores, números, animais e alimentos."),
+        _legado("ing-frases", "Frases do dia a dia", "Inglês", "Cumprimentos e perguntas simples sobre si mesmo."),
+    ],
+}
+
+# Ordem da matriz do painel: Matemática, Português, Geografia, Ciências, Inglês.
+_ORDEM_MATRIZ = ["mat", "por", "geo", "cie", "ing"]
+
+
+def _catalogo_completo(ano: int) -> list[dict]:
+    saida: list[dict] = []
+    for did in _ORDEM_MATRIZ:
+        if catalogo.tem_caminho(ano, did):
+            saida.extend(catalogo.caminho(ano, did, nome_disciplina(did)))
+        else:
+            saida.extend(_LEGADO.get(did, []))
+    return saida
+
+
+# Catálogo inteiro da turma, inclusive habilidades "em sala" (não avaliáveis): é o que o
+# professor vê na configuração do caminho.
+CATALOGO = _catalogo_completo(TURMA["ano"])
+# Só as avaliáveis: entram no quiz, no diagnóstico e na matriz do painel.
+HABILIDADES = [h for h in CATALOGO if h["avaliavel"]]
+
+
+def ordem_caminho(disciplina_id: str) -> list[str] | None:
+    """Ids do caminho BNCC da disciplina que o aluno consegue praticar (avaliáveis e com
+    questões no banco), em ordem; None se ainda é catálogo antigo. Habilidade sem questão
+    fica de fora para o caminho não travar nela (a sessão não teria o que perguntar); ela
+    entra sozinha quando o lote de geração cobrir."""
+    if not catalogo.tem_caminho(TURMA["ano"], disciplina_id):
+        return None
+    nome = nome_disciplina(disciplina_id)
+    com_perguntas = {p["habilidadeId"] for p in BANCO}
+    return [h["id"] for h in HABILIDADES if h["disciplina"] == nome and h["id"] in com_perguntas]
+
+
+# Status de exemplo da demo (o: ok, a: atenção, x: alerta). Matemática, Geografia, Ciências e
+# Inglês seguem as strings originais (ordem _ORDEM_LEGADA); Português agora é por código BNCC.
+# Habilidade sem status = ainda não praticada (fica adiante no caminho).
+_ORDEM_LEGADA = ["mat-adicao", "mat-mult", "mat-fracoes", "mat-problemas", None, None, None,
+                 "geo-orientacao", "geo-paisagem", "cie-seres-vivos", "cie-materia", "ing-vocabulario", "ing-frases"]
 ALUNOS = [
-    {"id": "a1", "nome": "Ana Clara Souza", "ultima": "2026-10-13", "status": "ooao" + "oao" + "oa" + "oo" + "oo"},
-    {"id": "a2", "nome": "Bruno Ferreira", "ultima": "2026-10-13", "status": "oaxx" + "ooo" + "oo" + "ao" + "ao"},
-    {"id": "a3", "nome": "Caio Nascimento", "ultima": "2026-10-10", "status": "oooo" + "ooo" + "oo" + "oo" + "oo"},
-    {"id": "a4", "nome": "Daniela Rocha", "ultima": "2026-10-12", "status": "oooa" + "xao" + "ao" + "oo" + "ox"},
-    {"id": "a5", "nome": "Enzo Martins", "ultima": "2026-10-13", "status": "aaoa" + "ooo" + "oo" + "xo" + "oo"},
-    {"id": "a6", "nome": "Fernanda Lima", "ultima": "2026-10-09", "status": "oooo" + "oao" + "oo" + "oa" + "oo"},
-    {"id": "a7", "nome": "Gabriel Alves", "ultima": None, "status": "oooo" + "ooo" + "oo" + "oo" + "oo"},
-    {"id": "a8", "nome": "Helena Costa", "ultima": "2026-10-11", "status": "xaox" + "oao" + "ao" + "oa" + "oo"},
-    {"id": "a9", "nome": "Isadora Pereira", "ultima": "2026-10-13", "status": "oooo" + "oao" + "oo" + "oo" + "oa"},
-    {"id": "a10", "nome": "João Pedro Dias", "ultima": "2026-10-12", "status": "ooao" + "oxo" + "xo" + "oo" + "oo"},
+    {"id": "a1", "nome": "Ana Clara Souza", "ultima": "2026-10-13", "status": "ooao" + "oao" + "oa" + "oo" + "oo",
+     "por": {"EF15LP03": "o", "EF35LP03": "o", "EF35LP04": "a", "EF04LP01": "a"}},
+    {"id": "a2", "nome": "Bruno Ferreira", "ultima": "2026-10-13", "status": "oaxx" + "ooo" + "oo" + "ao" + "ao",
+     "por": {"EF15LP03": "o", "EF35LP03": "o", "EF35LP04": "o", "EF35LP05": "o", "EF04LP01": "o"}},
+    {"id": "a3", "nome": "Caio Nascimento", "ultima": "2026-10-10", "status": "oooo" + "ooo" + "oo" + "oo" + "oo",
+     "por": {"EF15LP03": "o", "EF35LP03": "o", "EF35LP04": "o", "EF35LP05": "o", "EF35LP06": "o", "EF04LP01": "o"}},
+    {"id": "a4", "nome": "Daniela Rocha", "ultima": "2026-10-12", "status": "oooa" + "xao" + "ao" + "oo" + "ox",
+     "por": {"EF15LP03": "x", "EF35LP03": "a", "EF04LP01": "a"}},
+    {"id": "a5", "nome": "Enzo Martins", "ultima": "2026-10-13", "status": "aaoa" + "ooo" + "oo" + "xo" + "oo",
+     "por": {"EF15LP03": "o", "EF35LP03": "o", "EF35LP04": "o", "EF04LP01": "o"}},
+    {"id": "a6", "nome": "Fernanda Lima", "ultima": "2026-10-09", "status": "oooo" + "oao" + "oo" + "oa" + "oo",
+     "por": {"EF15LP03": "o", "EF35LP03": "o", "EF35LP04": "o", "EF04LP01": "a"}},
+    {"id": "a7", "nome": "Gabriel Alves", "ultima": None, "status": "oooo" + "ooo" + "oo" + "oo" + "oo",
+     "por": {}},
+    {"id": "a8", "nome": "Helena Costa", "ultima": "2026-10-11", "status": "xaox" + "oao" + "ao" + "oa" + "oo",
+     "por": {"EF15LP03": "o", "EF35LP03": "a", "EF04LP01": "a"}},
+    {"id": "a9", "nome": "Isadora Pereira", "ultima": "2026-10-13", "status": "oooo" + "oao" + "oo" + "oo" + "oa",
+     "por": {"EF15LP03": "o", "EF35LP03": "o", "EF35LP04": "a", "EF04LP01": "a"}},
+    {"id": "a10", "nome": "João Pedro Dias", "ultima": "2026-10-12", "status": "ooao" + "oxo" + "xo" + "oo" + "oo",
+     "por": {"EF15LP03": "o", "EF35LP03": "o", "EF04LP01": "x"}},
 ]
 
 STATUS = {"o": "ok", "a": "atencao", "x": "alerta"}
+
+_IDS = {h["id"] for h in HABILIDADES}
+
+
+def _status_inicial(a: dict) -> dict[str, str]:
+    saida = {hid: STATUS[c] for hid, c in zip(_ORDEM_LEGADA, a["status"]) if hid and hid in _IDS}
+    saida.update({hid: STATUS[c] for hid, c in a["por"].items() if hid in _IDS})
+    return saida
+
+
+# alunoId -> {habilidadeId: status} — só habilidades já praticadas na demo.
+STATUS_INICIAL = {a["id"]: _status_inicial(a) for a in ALUNOS}
 
 PINS_INICIAIS = {
     "a1": "1234", "a2": "2580", "a3": "3141", "a4": "4072", "a5": "5319",
@@ -68,8 +146,8 @@ TEXTOS = {
     "mat-adicao": "Nas últimas atividades, os erros aparecem quando a conta exige reagrupamento (\"vai um\"). Vale montar contas no papel quadriculado, separando dezenas e unidades por cor, e pedir que a criança explique em voz alta o que acontece quando a soma das unidades passa de 9. Dez minutos, três vezes por semana, costumam ser suficientes.",
     "mat-mult": "A tabuada do 6 ao 9 ainda está sendo resolvida por contagem nos dedos, o que deixa as respostas lentas e sujeitas a erro. Sugerimos jogos curtos de memorização (cartas, bingo de resultados) e relacionar multiplicação a grupos de objetos do cotidiano, como caixas de ovos.",
     "mat-fracoes": "A ideia de \"metade\" está consolidada, mas terço e quarto ainda são confundidos. Atividades com objetos reais — dividir uma pizza de papel, uma barra de chocolate — ajudam a ver que partes iguais ficam menores quando o número de partes aumenta.",
-    "por-leitura": "A leitura está fluente, mas as respostas sobre a ideia principal do texto indicam que a compreensão ainda fica na superfície. Depois de cada leitura curta, peça que a criança conte a história com as próprias palavras e diga qual parte achou mais importante e por quê.",
-    "por-ortografia": "Os erros se concentram em s, ss e ç. Um caderno de palavras \"que enganam\", montado pela própria criança, e ditados curtos com palavras do dia a dia ajudam a fixar o padrão sem transformar o treino em punição.",
+    "EF35LP03": "A leitura está fluente, mas as respostas sobre a ideia principal do texto indicam que a compreensão ainda fica na superfície. Depois de cada leitura curta, peça que a criança conte a história com as próprias palavras e diga qual parte achou mais importante e por quê.",
+    "EF04LP01": "Os erros se concentram em s, ss e ç. Um caderno de palavras \"que enganam\", montado pela própria criança, e ditados curtos com palavras do dia a dia ajudam a fixar o padrão sem transformar o treino em punição.",
     "geo-orientacao": "Os pontos cardeais ainda são decorados, mas não usados: a criança acerta \"onde o sol nasce\" e erra quando precisa se orientar a partir do próprio corpo. Brincadeiras de caça ao tesouro no pátio, com pistas do tipo \"dez passos para o norte\", e desenhar o caminho de casa até a escola ajudam a transformar a regra em referência.",
     "geo-paisagem": "Distingue bem o natural do construído, mas ainda não relaciona as mudanças na paisagem com as consequências. Comparar duas fotos do mesmo lugar em épocas diferentes e perguntar \"o que mudou e o que isso causou?\" é um bom exercício.",
     "cie-seres-vivos": "Reconhece os seres vivos, mas a cadeia alimentar ainda é confusa: inverte quem come quem. Montar a cadeia com cartões recortados (sol → planta → animal) e brincar de \"quem depende de quem\" costuma resolver em poucas semanas.",
@@ -114,29 +192,31 @@ _BANCO_POR_HABILIDADE: dict[str, list] = {
         ["pr5", "dificil", "Uma escola tem 4 turmas com 28 alunos cada. Quantos alunos são ao todo?", ["112", "102", "32", "122"], {}],
         ["pr6", "dificil", "Maria comprou 3 cadernos de 7 reais e pagou com 50 reais. Quanto recebeu de troco?", ["29", "43", "21", "31"], {}],
     ],
-    # Português
-    "por-leitura": [
+    # Português (4º ano, BNCC). Questões do banco antigo remapeadas para o código da habilidade.
+    # Saíram do 4º ano: "or5" (proparoxítona, é EF05LP03) e "pt1", "pt3", "pt5" (produção de
+    # texto, que fica "em sala" no caminho).
+    "EF15LP03": [
         ["le1", "facil", "\"Lia tem um cachorro chamado Bolinha.\" Qual é o nome do cachorro?", ["Bolinha", "Lia", "Totó", "Rex"], {}],
         ["le2", "facil", "\"O sol estava forte, então Caio usou boné.\" Por que Caio usou boné?", ["Porque o sol estava forte", "Porque estava chovendo", "Porque estava com frio", "Porque ganhou de presente"], {}],
         ["p4", "medio", "\"O gato subiu no telhado porque viu um passarinho.\" Por que o gato subiu?", ["Porque estava com frio", "Porque viu um passarinho", "Porque queria dormir", "Porque a porta fechou"], {"certa": 1}],
         ["le4", "medio", "\"Bia acordou cedo, tomou café e foi para a escola de bicicleta.\" Como Bia foi para a escola?", ["De bicicleta", "De ônibus", "A pé", "De carro"], {}],
         ["le5", "dificil", "\"Quando a chuva parou, as crianças correram para o quintal e pularam nas poças.\" O que aconteceu primeiro?", ["A chuva parou", "As crianças pularam nas poças", "As crianças correram", "O quintal secou"], {}],
+    ],
+    "EF35LP04": [
         ["le6", "dificil", "\"Mesmo cansado, Léo terminou a corrida e abraçou os amigos, sorrindo.\" Como Léo se sentiu no final?", ["Feliz", "Triste", "Bravo", "Com medo"], {}],
     ],
-    "por-ortografia": [
+    "EF04LP01": [
         ["or1", "facil", "Qual palavra está escrita certinho?", ["casa", "caza", "kasa", "cassa"], {}],
         ["or2", "facil", "Qual palavra está escrita certinho?", ["cachorro", "cachoro", "caxorro", "cachorrro"], {}],
         ["p2", "medio", "Qual palavra está escrita certinho?", ["cabeça", "cabessa", "cabesa", "cabeca"], {"certa": 0}],
         ["or4", "medio", "Qual letra completa a palavra? pa__arinho", ["ss", "s", "ç", "c"], {}],
-        ["or5", "dificil", "Qual destas palavras precisa de acento?", ["onibus", "mesa", "bola", "janela"], {}],
+    ],
+    "EF35LP13": [
         ["or6", "dificil", "Qual frase está escrita certinho?", ["Eu desci a escada.", "Eu dece a escada.", "Eu desi a escada.", "Eu dessi a escada."], {}],
     ],
-    "por-producao": [
-        ["pt1", "facil", "Qual frase está completa?", ["O menino jogou bola.", "O menino.", "Jogou bola.", "Bola o menino."], {}],
+    "EF04LP05": [
         ["pt2", "facil", "Como começa uma frase?", ["Com letra maiúscula", "Com ponto final", "Com vírgula", "Com um número"], {}],
-        ["pt3", "medio", "Qual é o melhor fim para a história? \"A gata subiu na árvore e não conseguia descer…\"", ["Então o bombeiro ajudou a gata a descer.", "A árvore é verde.", "Eu gosto de suco.", "Era uma vez."], {}],
         ["pt4", "medio", "Qual sinal termina uma pergunta?", ["?", ".", "!", ","], {}],
-        ["pt5", "dificil", "Qual palavra liga melhor as frases? \"Choveu muito, ___ o jogo foi adiado.\"", ["por isso", "mas", "ou", "porque"], {}],
         ["pt6", "dificil", "Qual frase usa a vírgula certinho?", ["Comprei pão, leite e ovos.", "Comprei, pão leite e ovos.", "Comprei pão leite, e ovos.", "Comprei pão leite e, ovos."], {}],
     ],
     # Geografia
@@ -201,9 +281,12 @@ def _embaralhar(id_: str, opcoes: list[str]) -> dict:
 
 def _construir_banco() -> list[dict]:
     banco: list[dict] = []
+    ids = {h["id"] for h in HABILIDADES}
     for habilidade_id, linhas in _BANCO_POR_HABILIDADE.items():
+        if habilidade_id not in ids:
+            continue
         for id_, nivel, enunciado, opcoes, extra in linhas:
-            p = {"id": id_, "habilidadeId": habilidade_id, "nivel": nivel, "enunciado": enunciado, "apoio": extra.get("apoio")}
+            p = {"id": id_, "habilidadeId": habilidade_id, "nivel": nivel, "enunciado": enunciado, "apoio": extra.get("apoio"), "origem": "curada"}
             if extra.get("certa") is None:
                 p.update(_embaralhar(id_, opcoes))
             else:
@@ -212,4 +295,5 @@ def _construir_banco() -> list[dict]:
     return banco
 
 
-BANCO = _construir_banco()
+# Banco curado (fallback) + questões geradas por IA e validadas (app/bncc/perguntas/).
+BANCO = _construir_banco() + [p for p in catalogo.perguntas_geradas() if p["habilidadeId"] in _IDS]

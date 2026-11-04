@@ -4,6 +4,8 @@ import { estadoInicialAdaptacao, NIVEIS, registrarResposta } from "./adaptacao";
 import { ApiError } from "./api";
 import { responderChat, type RetratoTurma } from "./mock-chat";
 import { BANCO, type PerguntaBanco } from "./mock-perguntas";
+import caminho04Por from "../../backend/app/bncc/caminhos/04-por.json";
+import oficialEf from "../../backend/app/bncc/oficial_ef.json";
 import type {
   AlunoCadastro,
   AlunoDetalhe,
@@ -18,6 +20,7 @@ import type {
   PedidoSessao,
   PedidoTurmaConfig,
   Pergunta,
+  ProgressoCaminho,
   Recomendacao,
   ResultadoPin,
   ResultadoResposta,
@@ -28,23 +31,7 @@ import type {
   TurmaPublica,
 } from "./types";
 
-const TURMA = { id: "t1", nome: "4º ano B", codigo: "SABIA4" };
-
-const HABILIDADES = [
-  { id: "mat-adicao", nome: "Adição e subtração", disciplina: "Matemática", descricao: "Cálculos com números até 1.000, com e sem reagrupamento." },
-  { id: "mat-mult", nome: "Multiplicação", disciplina: "Matemática", descricao: "Tabuada e multiplicação por um algarismo." },
-  { id: "mat-fracoes", nome: "Frações simples", disciplina: "Matemática", descricao: "Metade, terço e quarto em situações do dia a dia." },
-  { id: "mat-problemas", nome: "Resolução de problemas", disciplina: "Matemática", descricao: "Interpretar o enunciado e escolher a operação." },
-  { id: "por-leitura", nome: "Leitura e compreensão", disciplina: "Português", descricao: "Localizar informações e entender a ideia principal de um texto curto." },
-  { id: "por-ortografia", nome: "Ortografia", disciplina: "Português", descricao: "Uso de s/ss/ç, r/rr e acentuação de palavras comuns." },
-  { id: "por-producao", nome: "Produção de texto", disciplina: "Português", descricao: "Escrever frases completas com início, meio e fim." },
-  { id: "geo-orientacao", nome: "Orientação e mapas", disciplina: "Geografia", descricao: "Pontos cardeais, legenda e escala em mapas simples." },
-  { id: "geo-paisagem", nome: "Paisagem e lugar", disciplina: "Geografia", descricao: "Elementos naturais e construídos; campo e cidade." },
-  { id: "cie-seres-vivos", nome: "Seres vivos", disciplina: "Ciências", descricao: "Características de plantas e animais e cadeias alimentares." },
-  { id: "cie-materia", nome: "Água e materiais", disciplina: "Ciências", descricao: "Estados físicos da água e propriedades dos materiais." },
-  { id: "ing-vocabulario", nome: "Vocabulário", disciplina: "Inglês", descricao: "Cores, números, animais e alimentos." },
-  { id: "ing-frases", nome: "Frases do dia a dia", disciplina: "Inglês", descricao: "Cumprimentos e perguntas simples sobre si mesmo." },
-];
+const TURMA = { id: "t1", nome: "4º ano B", codigo: "SABIA4", ano: 4 };
 
 // Ordem em que as disciplinas aparecem para o aluno
 const DISCIPLINAS = [
@@ -55,6 +42,101 @@ const DISCIPLINAS = [
   { id: "ing", nome: "Inglês" },
 ];
 const nomeDisciplina = (id: string) => DISCIPLINAS.find((d) => d.id === id)?.nome;
+
+// Catálogo — mesma montagem do backend (dados.py + catalogo.py): disciplina com caminho
+// BNCC vem dos JSONs do backend (código BNCC como id, descrição oficial do MEC); as demais
+// ainda usam o catálogo antigo, escrito à mão. Piloto: só Português do 4º ano.
+interface HabilidadeCatalogo {
+  id: string;
+  codigoBncc: string | null;
+  nome: string;
+  disciplina: string;
+  descricao: string;
+  unidade: string | null;
+  avaliavel: boolean; // false = "em sala": fica fora do quiz e do diagnóstico
+}
+
+const legado = (id: string, nome: string, disciplina: string, descricao: string): HabilidadeCatalogo => ({
+  id, codigoBncc: null, nome, disciplina, descricao, unidade: null, avaliavel: true,
+});
+
+const LEGADO: Record<string, HabilidadeCatalogo[]> = {
+  mat: [
+    legado("mat-adicao", "Adição e subtração", "Matemática", "Cálculos com números até 1.000, com e sem reagrupamento."),
+    legado("mat-mult", "Multiplicação", "Matemática", "Tabuada e multiplicação por um algarismo."),
+    legado("mat-fracoes", "Frações simples", "Matemática", "Metade, terço e quarto em situações do dia a dia."),
+    legado("mat-problemas", "Resolução de problemas", "Matemática", "Interpretar o enunciado e escolher a operação."),
+  ],
+  geo: [
+    legado("geo-orientacao", "Orientação e mapas", "Geografia", "Pontos cardeais, legenda e escala em mapas simples."),
+    legado("geo-paisagem", "Paisagem e lugar", "Geografia", "Elementos naturais e construídos; campo e cidade."),
+  ],
+  cie: [
+    legado("cie-seres-vivos", "Seres vivos", "Ciências", "Características de plantas e animais e cadeias alimentares."),
+    legado("cie-materia", "Água e materiais", "Ciências", "Estados físicos da água e propriedades dos materiais."),
+  ],
+  ing: [
+    legado("ing-vocabulario", "Vocabulário", "Inglês", "Cores, números, animais e alimentos."),
+    legado("ing-frases", "Frases do dia a dia", "Inglês", "Cumprimentos e perguntas simples sobre si mesmo."),
+  ],
+};
+
+interface ArquivoCaminho {
+  unidades: { nome: string; habilidades: { codigo: string; nome: string; avaliavel?: boolean }[] }[];
+}
+// Caminhos BNCC do ano da turma (TURMA.ano), por disciplina.
+const CAMINHOS: Record<string, ArquivoCaminho> = { por: caminho04Por };
+const OFICIAL: Record<string, string> = oficialEf.habilidades;
+
+const doCaminho = (did: string): HabilidadeCatalogo[] =>
+  CAMINHOS[did].unidades.flatMap((u) =>
+    u.habilidades.map((h) => ({
+      id: h.codigo,
+      codigoBncc: h.codigo,
+      nome: h.nome,
+      disciplina: nomeDisciplina(did)!,
+      descricao: OFICIAL[h.codigo],
+      unidade: u.nome,
+      avaliavel: h.avaliavel ?? true,
+    })),
+  );
+
+// Ordem da matriz do painel: Matemática, Português, Geografia, Ciências, Inglês.
+const CATALOGO = ["mat", "por", "geo", "cie", "ing"].flatMap((did) => (CAMINHOS[did] ? doCaminho(did) : (LEGADO[did] ?? [])));
+const HABILIDADES = CATALOGO.filter((h) => h.avaliavel);
+const HAB_POR_ID = new Map(HABILIDADES.map((h) => [h.id, h]));
+
+/**
+ * Ids do caminho BNCC que dá para praticar (avaliáveis e com questões no banco), em ordem;
+ * null se ainda é catálogo antigo. Igual ao backend: sem questão, o caminho travaria ali.
+ */
+const COM_PERGUNTAS = new Set(BANCO.map((p) => p.habilidadeId));
+const ordemCaminho = (did: string) =>
+  CAMINHOS[did]
+    ? HABILIDADES.filter((h) => h.disciplina === nomeDisciplina(did) && COM_PERGUNTAS.has(h.id)).map((h) => h.id)
+    : null;
+
+// Regras do caminho — port de backend/app/caminho.py. Concluída = "ok" com pelo menos
+// 3 dias de prática; a sessão trabalha as 3 próximas pendentes + 1 revisão em alerta.
+const REGISTROS_PARA_CONCLUIR = 3;
+const TAMANHO_FRENTE = 3;
+type InfoCaminho = Map<string, { status: Status | undefined; dias: number }>;
+const concluida = (i?: { status: Status | undefined; dias: number }) =>
+  i?.status === "ok" && i.dias >= REGISTROS_PARA_CONCLUIR;
+
+function frente(ordem: string[], info: InfoCaminho) {
+  if (ordem.length === 0) return [];
+  const pendentes = ordem.filter((h) => !concluida(info.get(h)));
+  if (pendentes.length === 0) return ordem.slice(-TAMANHO_FRENTE);
+  const escolhidas = pendentes.slice(0, TAMANHO_FRENTE);
+  const revisao = ordem.filter((h) => info.get(h)?.status === "alerta" && !escolhidas.includes(h));
+  return [...escolhidas, ...revisao.slice(0, 1)];
+}
+
+const refHabilidade = (id: string) => {
+  const h = HAB_POR_ID.get(id)!;
+  return { habilidadeId: id, nome: h.nome, codigoBncc: h.codigoBncc };
+};
 
 // Estado mutável do mock. Fica em globalThis para que o route handler /api/mock
 // (chamadas do navegador) e os Server Components vejam os mesmos dados.
@@ -99,7 +181,7 @@ function estadoInicial(): EstadoMock {
     registros: new Map(),
     statusAtual: new Map(),
     ultimaAtividade: new Map(),
-    ativas: new Set(HABILIDADES.filter((h) => h.id !== "por-producao").map((h) => h.id)),
+    ativas: new Set(HABILIDADES.map((h) => h.id)),
     disciplinasAtivas: new Set(DISCIPLINAS.map((d) => d.id)),
     sessoes: new Map(),
     pins: new Map(Object.entries(PINS_INICIAIS)),
@@ -109,27 +191,49 @@ function estadoInicial(): EstadoMock {
 }
 
 // Suba VERSAO ao mudar o formato ou os dados iniciais: em dev, o estado antigo é descartado.
-const VERSAO = 5;
+const VERSAO = 6;
 const g = globalThis as typeof globalThis & { __trilhaMock?: EstadoMock & { versao: number } };
 if (g.__trilhaMock?.versao !== VERSAO) g.__trilhaMock = { ...estadoInicial(), versao: VERSAO };
 const estado: EstadoMock = g.__trilhaMock;
 
-// Status por aluno, na ordem de HABILIDADES (o: ok, a: atenção, x: alerta),
-// agrupados por disciplina: Matemática + Português + Geografia + Ciências + Inglês
-const ALUNOS: { id: string; nome: string; ultima: string | null; status: string }[] = [
-  { id: "a1", nome: "Ana Clara Souza", ultima: "2026-10-13", status: "ooao" + "oao" + "oa" + "oo" + "oo" },
-  { id: "a2", nome: "Bruno Ferreira", ultima: "2026-10-13", status: "oaxx" + "ooo" + "oo" + "ao" + "ao" },
-  { id: "a3", nome: "Caio Nascimento", ultima: "2026-10-10", status: "oooo" + "ooo" + "oo" + "oo" + "oo" },
-  { id: "a4", nome: "Daniela Rocha", ultima: "2026-10-12", status: "oooa" + "xao" + "ao" + "oo" + "ox" },
-  { id: "a5", nome: "Enzo Martins", ultima: "2026-10-13", status: "aaoa" + "ooo" + "oo" + "xo" + "oo" },
-  { id: "a6", nome: "Fernanda Lima", ultima: "2026-10-09", status: "oooo" + "oao" + "oo" + "oa" + "oo" },
-  { id: "a7", nome: "Gabriel Alves", ultima: null, status: "oooo" + "ooo" + "oo" + "oo" + "oo" },
-  { id: "a8", nome: "Helena Costa", ultima: "2026-10-11", status: "xaox" + "oao" + "ao" + "oa" + "oo" },
-  { id: "a9", nome: "Isadora Pereira", ultima: "2026-10-13", status: "oooo" + "oao" + "oo" + "oo" + "oa" },
-  { id: "a10", nome: "João Pedro Dias", ultima: "2026-10-12", status: "ooao" + "oxo" + "xo" + "oo" + "oo" },
+// Status de exemplo (o: ok, a: atenção, x: alerta) — igual ao backend (dados.py).
+// Matemática, Geografia, Ciências e Inglês seguem as strings originais (ordem ORDEM_LEGADA);
+// Português é por código BNCC. Habilidade sem status = ainda não praticada (adiante no caminho).
+const ORDEM_LEGADA = ["mat-adicao", "mat-mult", "mat-fracoes", "mat-problemas", null, null, null,
+  "geo-orientacao", "geo-paisagem", "cie-seres-vivos", "cie-materia", "ing-vocabulario", "ing-frases"];
+const ALUNOS: { id: string; nome: string; ultima: string | null; status: string; por: Record<string, string> }[] = [
+  { id: "a1", nome: "Ana Clara Souza", ultima: "2026-10-13", status: "ooao" + "oao" + "oa" + "oo" + "oo",
+    por: { EF15LP03: "o", EF35LP03: "o", EF35LP04: "a", EF04LP01: "a" } },
+  { id: "a2", nome: "Bruno Ferreira", ultima: "2026-10-13", status: "oaxx" + "ooo" + "oo" + "ao" + "ao",
+    por: { EF15LP03: "o", EF35LP03: "o", EF35LP04: "o", EF35LP05: "o", EF04LP01: "o" } },
+  { id: "a3", nome: "Caio Nascimento", ultima: "2026-10-10", status: "oooo" + "ooo" + "oo" + "oo" + "oo",
+    por: { EF15LP03: "o", EF35LP03: "o", EF35LP04: "o", EF35LP05: "o", EF35LP06: "o", EF04LP01: "o" } },
+  { id: "a4", nome: "Daniela Rocha", ultima: "2026-10-12", status: "oooa" + "xao" + "ao" + "oo" + "ox",
+    por: { EF15LP03: "x", EF35LP03: "a", EF04LP01: "a" } },
+  { id: "a5", nome: "Enzo Martins", ultima: "2026-10-13", status: "aaoa" + "ooo" + "oo" + "xo" + "oo",
+    por: { EF15LP03: "o", EF35LP03: "o", EF35LP04: "o", EF04LP01: "o" } },
+  { id: "a6", nome: "Fernanda Lima", ultima: "2026-10-09", status: "oooo" + "oao" + "oo" + "oa" + "oo",
+    por: { EF15LP03: "o", EF35LP03: "o", EF35LP04: "o", EF04LP01: "a" } },
+  { id: "a7", nome: "Gabriel Alves", ultima: null, status: "oooo" + "ooo" + "oo" + "oo" + "oo", por: {} },
+  { id: "a8", nome: "Helena Costa", ultima: "2026-10-11", status: "xaox" + "oao" + "ao" + "oa" + "oo",
+    por: { EF15LP03: "o", EF35LP03: "a", EF04LP01: "a" } },
+  { id: "a9", nome: "Isadora Pereira", ultima: "2026-10-13", status: "oooo" + "oao" + "oo" + "oo" + "oa",
+    por: { EF15LP03: "o", EF35LP03: "o", EF35LP04: "a", EF04LP01: "a" } },
+  { id: "a10", nome: "João Pedro Dias", ultima: "2026-10-12", status: "ooao" + "oxo" + "xo" + "oo" + "oo",
+    por: { EF15LP03: "o", EF35LP03: "o", EF04LP01: "x" } },
 ];
 
 const STATUS: Record<string, Status> = { o: "ok", a: "atencao", x: "alerta" };
+
+/** alunoId -> {habilidadeId: status}, só das habilidades já praticadas na demo. */
+const STATUS_INICIAL = new Map(
+  ALUNOS.map((a) => {
+    const st = new Map<string, Status>();
+    ORDEM_LEGADA.forEach((hid, i) => hid && HAB_POR_ID.has(hid) && st.set(hid, STATUS[a.status[i]]));
+    Object.entries(a.por).forEach(([hid, c]) => HAB_POR_ID.has(hid) && st.set(hid, STATUS[c]));
+    return [a.id, st];
+  }),
+);
 
 const TEXTOS: Record<string, string> = {
   "mat-adicao":
@@ -138,9 +242,9 @@ const TEXTOS: Record<string, string> = {
     "A tabuada do 6 ao 9 ainda está sendo resolvida por contagem nos dedos, o que deixa as respostas lentas e sujeitas a erro. Sugerimos jogos curtos de memorização (cartas, bingo de resultados) e relacionar multiplicação a grupos de objetos do cotidiano, como caixas de ovos.",
   "mat-fracoes":
     "A ideia de \"metade\" está consolidada, mas terço e quarto ainda são confundidos. Atividades com objetos reais — dividir uma pizza de papel, uma barra de chocolate — ajudam a ver que partes iguais ficam menores quando o número de partes aumenta.",
-  "por-leitura":
+  EF35LP03:
     "A leitura está fluente, mas as respostas sobre a ideia principal do texto indicam que a compreensão ainda fica na superfície. Depois de cada leitura curta, peça que a criança conte a história com as próprias palavras e diga qual parte achou mais importante e por quê.",
-  "por-ortografia":
+  EF04LP01:
     "Os erros se concentram em s, ss e ç. Um caderno de palavras \"que enganam\", montado pela própria criança, e ditados curtos com palavras do dia a dia ajudam a fixar o padrão sem transformar o treino em punição.",
   "geo-orientacao":
     "Os pontos cardeais ainda são decorados, mas não usados: a criança acerta \"onde o sol nasce\" e erra quando precisa se orientar a partir do próprio corpo. Brincadeiras de caça ao tesouro no pátio, com pistas do tipo \"dez passos para o norte\", e desenhar o caminho de casa até a escola ajudam a transformar a regra em referência.",
@@ -156,26 +260,62 @@ const TEXTOS: Record<string, string> = {
     "Entende cumprimentos, mas ainda não reconhece perguntas sobre si mesmo (\"How old are you?\"). Diálogos curtos em dupla, com as mesmas três perguntas toda semana, criam a segurança para responder sem traduzir.",
 };
 
-// `alunoId` aplica o status recalculado pelas sessões feitas na demo, quando houver.
-function habilidadesDe(status: string, alunoId?: string): HabilidadeStatus[] {
+/** Status recalculado pelas sessões da demo ou o inicial; undefined = nunca praticada. */
+const statusDe = (alunoId: string, hid: string) => estado.statusAtual.get(`${alunoId}:${hid}`) ?? STATUS_INICIAL.get(alunoId)?.get(hid);
+
+function praticadasNaTurma() {
+  const praticadas = new Set([...STATUS_INICIAL.values()].flatMap((st) => [...st.keys()]));
+  for (const chave of estado.statusAtual.keys()) praticadas.add(chave.split(":")[1]);
+  return praticadas;
+}
+
+/**
+ * Colunas da matriz: habilidades ativas que alguém da turma já praticou (as que ficam
+ * adiante no caminho só aparecem quando a turma chega nelas). `iniciada` é por aluno.
+ */
+function habilidadesDe(a: (typeof ALUNOS)[number]): HabilidadeStatus[] {
   const disciplinasAtivas = new Set(DISCIPLINAS.filter((d) => estado.disciplinasAtivas.has(d.id)).map((d) => d.nome));
-  return HABILIDADES.map((h, i) => ({
-    habilidadeId: h.id,
-    nome: h.nome,
-    disciplina: h.disciplina,
-    status: estado.statusAtual.get(`${alunoId}:${h.id}`) ?? STATUS[status[i]],
-  })).filter((h) => estado.ativas.has(h.habilidadeId) && disciplinasAtivas.has(h.disciplina));
+  const praticadas = praticadasNaTurma();
+  return HABILIDADES.filter(
+    (h) => estado.ativas.has(h.id) && disciplinasAtivas.has(h.disciplina) && praticadas.has(h.id),
+  ).map((h) => {
+    const status = statusDe(a.id, h.id);
+    return { habilidadeId: h.id, nome: h.nome, disciplina: h.disciplina, codigoBncc: h.codigoBncc, status: status ?? "ok", iniciada: status !== undefined };
+  });
+}
+
+const infoCaminho = (a: (typeof ALUNOS)[number], ordem: string[]): InfoCaminho =>
+  new Map(ordem.map((h) => [h, { status: statusDe(a.id, h), dias: serie(a, h).length }]));
+
+/** Progresso do aluno em cada caminho BNCC ativo. */
+function caminhosDe(a: (typeof ALUNOS)[number]): ProgressoCaminho[] {
+  return DISCIPLINAS.flatMap((d) => {
+    const ordem = ordemCaminho(d.id)?.filter((h) => estado.ativas.has(h));
+    if (!ordem || !estado.disciplinasAtivas.has(d.id)) return [];
+    const info = infoCaminho(a, ordem);
+    const pendentes = ordem.filter((h) => !concluida(info.get(h)));
+    return [{
+      disciplinaId: d.id,
+      disciplina: d.nome,
+      ano: TURMA.ano,
+      total: ordem.length,
+      concluidas: ordem.length - pendentes.length,
+      atual: pendentes[0] ? refHabilidade(pendentes[0]) : null,
+      proximas: pendentes.slice(1, TAMANHO_FRENTE).map(refHabilidade),
+    }];
+  });
 }
 
 const ultimaDe = (a: (typeof ALUNOS)[number]) => estado.ultimaAtividade.get(a.id) ?? a.ultima;
 
 function resumo(a: (typeof ALUNOS)[number]): AlunoResumo {
-  return { id: a.id, nome: a.nome, turma: TURMA.nome, ultimaAtividade: ultimaDe(a), habilidades: habilidadesDe(a.status, a.id) };
+  return { id: a.id, nome: a.nome, turma: TURMA.nome, ultimaAtividade: ultimaDe(a), habilidades: habilidadesDe(a) };
 }
 
 function detalhe(a: (typeof ALUNOS)[number]): AlunoDetalhe {
-  const habilidades = habilidadesDe(a.status, a.id);
+  const habilidades = habilidadesDe(a);
   const recomendacoes: Recomendacao[] = habilidades
+    .filter((h) => h.iniciada)
     .filter((h) => h.status === "alerta" || (h.status === "atencao" && TEXTOS[h.habilidadeId]))
     .map((h) => ({
       habilidadeId: h.habilidadeId,
@@ -184,7 +324,7 @@ function detalhe(a: (typeof ALUNOS)[number]): AlunoDetalhe {
       texto: TEXTOS[h.habilidadeId] ?? "Recomendação em preparação.",
       geradaEm: ultimaDe(a) ?? "2026-10-13",
     }));
-  return { ...resumo(a), recomendacoes };
+  return { ...resumo(a), recomendacoes, caminhos: caminhosDe(a) };
 }
 
 /**
@@ -204,7 +344,8 @@ function sessoesIniciais(a: (typeof ALUNOS)[number]): RegistroSessao[] {
     const t = i / Math.max(datas.length - 1, 1);
     const desempenho: Record<string, number> = {};
     HABILIDADES.forEach((h, hi) => {
-      const status = STATUS[a.status[hi]];
+      const status = STATUS_INICIAL.get(a.id)?.get(h.id);
+      if (!status) return; // ainda não praticada na demo: sem histórico
       const inicio = status === "ok" ? 58 + (hi % 3) * 6 : status === "atencao" ? 55 : 60;
       const ruido = ((hi * 7 + i * 13) % 9) - 4;
       desempenho[h.id] = Math.max(0, Math.min(100, Math.round(inicio + (alvo[status] - inicio) * t + ruido)));
@@ -232,7 +373,7 @@ function serie(a: (typeof ALUNOS)[number], habilidadeId: string) {
 }
 
 function historico(a: (typeof ALUNOS)[number]): HistoricoHabilidade[] {
-  return habilidadesDe(a.status, a.id).map((h) => ({
+  return habilidadesDe(a).filter((h) => h.iniciada).map((h) => ({
     habilidadeId: h.habilidadeId,
     nome: h.nome,
     disciplina: h.disciplina,
@@ -279,11 +420,16 @@ function config(): TurmaConfig {
     id: ordem[i],
     nome,
     ativa: estado.disciplinasAtivas.has(ordem[i]),
-    habilidades: HABILIDADES.filter((h) => h.disciplina === nome).map((h) => ({
+    caminhoBncc: ordemCaminho(ordem[i]) !== null,
+    // Catálogo inteiro, inclusive as habilidades "em sala" (não avaliáveis)
+    habilidades: CATALOGO.filter((h) => h.disciplina === nome).map((h) => ({
       id: h.id,
       nome: h.nome,
       descricao: h.descricao,
-      ativa: estado.ativas.has(h.id),
+      ativa: h.avaliavel && estado.ativas.has(h.id),
+      codigoBncc: h.codigoBncc,
+      unidade: h.unidade,
+      avaliavel: h.avaliavel,
     })),
   }));
   return { turma: TURMA, ciclo: "4º bimestre de 2026", disciplinas };
@@ -291,17 +437,17 @@ function config(): TurmaConfig {
 
 const PERGUNTAS_POR_SESSAO = 6;
 
-/** Habilidades que entram numa sessão: ativas, de disciplina ativa e (se pedida) da disciplina escolhida. */
-function habilidadesDaSessao(disciplinaId?: string) {
-  return HABILIDADES.filter((h) => {
-    const disc = DISCIPLINAS.find((d) => d.nome === h.disciplina)!;
-    return (
-      estado.ativas.has(h.id) &&
-      estado.disciplinasAtivas.has(disc.id) &&
-      (!disciplinaId || disc.id === disciplinaId) &&
-      BANCO.some((p) => p.habilidadeId === h.id)
-    );
-  }).map((h) => h.id);
+
+/**
+ * Habilidades que entram numa sessão: ativas, com perguntas, de disciplina ativa e (se pedida)
+ * da disciplina escolhida. Em disciplina com caminho BNCC, e sabendo o aluno, só a frente do
+ * caminho dele (próximas pendentes + uma revisão em alerta).
+ */
+function habilidadesDaSessao(disciplinaId?: string, aluno?: (typeof ALUNOS)[number]) {
+  return DISCIPLINAS.filter((d) => estado.disciplinasAtivas.has(d.id) && (!disciplinaId || d.id === disciplinaId)).flatMap((d) => {
+    const habs = HABILIDADES.filter((h) => h.disciplina === d.nome && estado.ativas.has(h.id) && COM_PERGUNTAS.has(h.id)).map((h) => h.id);
+    return aluno && ordemCaminho(d.id) ? frente(habs, infoCaminho(aluno, habs)) : habs;
+  });
 }
 
 /**
@@ -320,7 +466,7 @@ function escolherPergunta(habilidades: string[], nivel: Nivel, usadas: Set<strin
 function paraCliente(p: PerguntaBanco): Pergunta {
   return {
     id: p.id,
-    disciplina: HABILIDADES.find((h) => h.id === p.habilidadeId)!.disciplina,
+    disciplina: HAB_POR_ID.get(p.habilidadeId)!.disciplina,
     habilidadeId: p.habilidadeId,
     nivel: p.nivel,
     enunciado: p.enunciado,
@@ -364,7 +510,7 @@ function validarPin({ alunoId, pin }: PedidoPin): ResultadoPin {
 /** Retrato da turma fake que alimenta as respostas de exemplo do chat. */
 function retratoTurma(): RetratoTurma {
   const curto = (nome: string) => nome.split(" ")[0] + " " + nome.split(" ").at(-1)![0] + ".";
-  const porAluno = ALUNOS.map((a) => ({ a, habilidades: habilidadesDe(a.status, a.id) }));
+  const porAluno = ALUNOS.map((a) => ({ a, habilidades: habilidadesDe(a) }));
   const ativas = porAluno[0]?.habilidades ?? [];
   const semanaPassada = new Date(Date.now() - 7 * 86_400_000).toISOString().slice(0, 10);
   return {
@@ -428,7 +574,7 @@ function rotear(path: string, method: string, body: unknown): unknown {
   if (path === "/turma/configuracao") {
     if (method === "PUT") {
       const pedido = body as PedidoTurmaConfig;
-      estado.ativas = new Set(pedido.habilidadesAtivas);
+      estado.ativas = new Set(pedido.habilidadesAtivas.filter((id) => HAB_POR_ID.has(id))); // "em sala" fora do quiz
       if (pedido.disciplinasAtivas) estado.disciplinasAtivas = new Set(pedido.disciplinasAtivas);
     }
     return config();
@@ -451,7 +597,7 @@ function rotear(path: string, method: string, body: unknown): unknown {
     if (!pedido.acesso || estado.acessos.get(pedido.acesso) !== pedido.alunoId) {
       throw new ApiError(401, "Confirme o PIN do aluno antes de começar");
     }
-    const habilidades = habilidadesDaSessao(pedido.disciplinaId);
+    const habilidades = habilidadesDaSessao(pedido.disciplinaId, ALUNOS.find((a) => a.id === pedido.alunoId));
     if (habilidades.length === 0) throw new ApiError(404, "Nenhuma habilidade ativa nesta disciplina");
 
     // A lista sai toda no nível inicial; a partir da 2ª, cada resposta traz a `proxima`

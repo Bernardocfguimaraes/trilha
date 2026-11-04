@@ -21,6 +21,7 @@ class Turma(Base):
     nome: Mapped[str] = mapped_column(String)
     codigo: Mapped[str] = mapped_column(String, unique=True, index=True)
     ciclo: Mapped[str] = mapped_column(String)
+    ano: Mapped[int] = mapped_column(Integer, default=4)  # ano escolar (4º–9º); define o catálogo BNCC
 
 
 class Disciplina(Base):
@@ -32,10 +33,12 @@ class Disciplina(Base):
 
 class Habilidade(Base):
     __tablename__ = "habilidades"
-    id: Mapped[str] = mapped_column(String, primary_key=True)  # "mat-adicao", ...
+    id: Mapped[str] = mapped_column(String, primary_key=True)  # código BNCC ("EF04LP01") ou id antigo ("mat-adicao")
     nome: Mapped[str] = mapped_column(String)
     disciplina_id: Mapped[str] = mapped_column(ForeignKey("disciplinas.id"))
-    descricao: Mapped[str] = mapped_column(Text)
+    descricao: Mapped[str] = mapped_column(Text)  # texto oficial da BNCC quando há código
+    codigo_bncc: Mapped[str | None] = mapped_column(String, nullable=True)
+    unidade: Mapped[str | None] = mapped_column(String, nullable=True)  # unidade do caminho
     ordem: Mapped[int] = mapped_column(Integer)  # ordem dentro da matriz (casa com a demo)
     disciplina: Mapped[Disciplina] = relationship()
 
