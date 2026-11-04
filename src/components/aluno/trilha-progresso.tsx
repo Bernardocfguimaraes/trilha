@@ -124,7 +124,7 @@ const DIRECOES = [
   [0, -34], [24, -24], [34, 0], [24, 24], [0, 34], [-24, 24], [-34, 0], [-24, -24],
 ];
 
-function Brilhos() {
+export function Brilhos() {
   return (
     <span className="pointer-events-none absolute inset-0" aria-hidden>
       {DIRECOES.map(([dx, dy], i) => (

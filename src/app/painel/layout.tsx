@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Logo } from "@/components/marca";
-import { BotaoSair, NavPainel } from "@/components/painel/nav";
+import { BotaoSair, LinkInicio, NavPainel } from "@/components/painel/nav";
 import { getUsuario } from "@/lib/supabase/server";
 
 export default function PainelLayout({ children }: LayoutProps<"/painel">) {
@@ -34,7 +34,8 @@ async function Lateral() {
         <Link href="/painel" className="rounded-md text-grafite outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
           <Logo />
         </Link>
-        <div className="md:hidden">
+        <div className="flex md:hidden">
+          <LinkInicio />
           <BotaoSair />
         </div>
       </div>
@@ -45,6 +46,7 @@ async function Lateral() {
           {usuario.papel === "professor" ? "Professor" : "Responsável"}
         </p>
         <div className="mt-2">
+          <LinkInicio />
           <BotaoSair />
         </div>
       </div>

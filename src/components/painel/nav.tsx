@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LogOut, MessagesSquare, Settings2, Users } from "lucide-react";
+import { House, LogOut, MessagesSquare, Settings2, Users } from "lucide-react";
 import { createClient, supabaseConfigurado } from "@/lib/supabase/client";
 import type { Papel } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -46,6 +46,19 @@ export function NavPainel({ papel }: { papel: Papel }) {
         </Link>
       ))}
     </nav>
+  );
+}
+
+/** Volta à página inicial do site (a de escolher "Sou aluno" / "Entrar"). */
+export function LinkInicio() {
+  return (
+    <Link
+      href="/"
+      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-pedra outline-none hover:bg-secondary hover:text-grafite focus-visible:ring-3 focus-visible:ring-ring/50"
+    >
+      <House className="size-4" aria-hidden />
+      Página inicial
+    </Link>
   );
 }
 

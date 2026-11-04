@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MessagesSquare } from "lucide-react";
-import { Marcas, StatusSelo, rotuloStatus } from "@/components/marca";
+import { StatusSelo, rotuloStatus } from "@/components/marca";
 import { api } from "@/lib/api";
 import { dataCurta } from "@/lib/formato";
 import { getUsuario } from "@/lib/supabase/server";
-import type { AlunoResumo, Status } from "@/lib/types";
+import type { AlunoResumo, HabilidadeStatus, Status } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Alunos" };
@@ -34,15 +34,6 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
   const comAlerta = todos.filter((a) => conta(a, "alerta") > 0).length;
   const comAtencao = todos.filter((a) => conta(a, "alerta") === 0 && conta(a, "atencao") > 0).length;
   const professor = usuario?.papel === "professor";
-
-  // Colunas agrupadas por disciplina, na ordem em que a API envia
-  const colunas = todos[0]?.habilidades ?? [];
-  const disciplinas = colunas.reduce<{ nome: string; total: number }[]>((acc, h) => {
-    const ultima = acc.at(-1);
-    if (ultima?.nome === h.disciplina) ultima.total++;
-    else acc.push({ nome: h.disciplina, total: 1 });
-    return acc;
-  }, []);
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -88,10 +79,11 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
             );
           })}
         </nav>
-        <ul className="flex flex-wrap gap-2" aria-label="Legenda">
-          {(["ok", "atencao", "alerta"] as Status[]).map((s) => (
-            <li key={s}>
-              <StatusSelo status={s} className="text-xs" />
+        <ul className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-pedra" aria-label="Legenda">
+          {LEGENDA.map((l) => (
+            <li key={l.rotulo} className="flex items-center gap-1.5">
+              <span className={cn("h-2.5 w-4 rounded-sm", l.cor)} aria-hidden />
+              {l.rotulo}
             </li>
           ))}
         </ul>
@@ -105,110 +97,142 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
           </Link>
         </p>
       ) : (
-        <>
-          {/* Matriz aluno × habilidade (telas médias e grandes) */}
-          <div className="mt-4 hidden overflow-x-auto rounded-lg border bg-white md:block">
-            <table className="w-full border-collapse text-left">
-              <thead>
-                <tr className="border-b">
-                  <th rowSpan={2} className="px-4 py-3 align-bottom text-sm font-semibold text-pedra">
-                    Aluno
-                  </th>
-                  {disciplinas.map((d) => (
-                    <th key={d.nome} colSpan={d.total} className="border-l px-3 pt-3 pb-1 text-sm font-semibold text-grafite">
-                      {d.nome}
-                    </th>
-                  ))}
-                  <th rowSpan={2} className="border-l px-4 py-3 align-bottom text-sm font-semibold text-pedra">
-                    Última atividade
-                  </th>
-                </tr>
-                <tr className="border-b">
-                  {colunas.map((h, i) => (
-                    <th
-                      key={h.habilidadeId}
-                      className={cn(
-                        "w-24 px-3 pb-3 align-bottom text-xs leading-tight font-normal text-pedra",
-                        (i === 0 || colunas[i - 1].disciplina !== h.disciplina) && "border-l",
-                      )}
-                    >
-                      {h.nome}
-                      {h.codigoBncc && <span className="mt-0.5 block font-mono text-[10px] text-pedra/80">{h.codigoBncc}</span>}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {alunos.map((a) => (
-                  <tr key={a.id} className="group relative border-b last:border-b-0 hover:bg-papel">
-                    <th scope="row" className="px-4 py-3 font-semibold text-grafite">
-                      <Link
-                        href={`/painel/alunos/${a.id}`}
-                        className="outline-none after:absolute after:inset-0 group-hover:text-mata focus-visible:underline"
-                      >
-                        {a.nome}
-                      </Link>
-                    </th>
-                    {a.habilidades.map((h, i) => (
-                      <td
-                        key={h.habilidadeId}
-                        className={cn(
-                          "px-3 py-3",
-                          (i === 0 || a.habilidades[i - 1].disciplina !== h.disciplina) && "border-l",
-                        )}
-                        title={h.iniciada ? `${h.nome}: ${rotuloStatus(h.status)}` : `${h.nome}: ainda não chegou nesta etapa do caminho`}
-                      >
-                        {h.iniciada ? (
-                          <>
-                            <Marcas status={h.status} />
-                            <span className="sr-only">{rotuloStatus(h.status)}</span>
-                          </>
-                        ) : (
-                          <>
-                            <span aria-hidden className="text-pedra/50">–</span>
-                            <span className="sr-only">Ainda não chegou nesta etapa do caminho</span>
-                          </>
-                        )}
-                      </td>
-                    ))}
-                    <td className="border-l px-4 py-3 text-sm whitespace-nowrap text-pedra">
-                      {a.ultimaAtividade ? dataCurta(a.ultimaAtividade) : "Ainda não fez"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Lista (celular) */}
-          <ul className="mt-4 divide-y rounded-lg border bg-white md:hidden">
-            {alunos.map((a) => {
-              const destaques = a.habilidades.filter((h) => h.status !== "ok");
-              return (
-                <li key={a.id}>
-                  <Link href={`/painel/alunos/${a.id}`} className="block px-4 py-3 outline-none focus-visible:bg-papel">
-                    <span className="flex items-center justify-between gap-3">
-                      <span className="font-semibold text-grafite">{a.nome}</span>
-                      <span className="flex gap-2">
-                        {a.habilidades
-                          .filter((h) => h.iniciada)
-                          .map((h) => (
-                            <Marcas key={h.habilidadeId} status={h.status} />
-                          ))}
-                      </span>
-                    </span>
-                    <span className="mt-1 block text-sm text-pedra">
-                      {destaques.length === 0
-                        ? "Tudo em dia"
-                        : destaques.map((h) => `${h.nome} (${rotuloStatus(h.status).toLowerCase()})`).join(", ")}
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </>
+        <ul className="mt-4 grid gap-4 lg:grid-cols-2">
+          {alunos.map((a) => (
+            <li key={a.id}>
+              <CartaoAluno aluno={a} />
+            </li>
+          ))}
+        </ul>
       )}
     </div>
+  );
+}
+
+// Cores dos segmentos: uma por situação da habilidade. "Ainda não chegou" é a etapa do
+// caminho BNCC que o aluno ainda não alcançou (não conta como problema).
+const COR_SEGMENTO: Record<Status | "nova", string> = {
+  ok: "bg-mata",
+  atencao: "bg-atencao",
+  alerta: "bg-alerta",
+  nova: "bg-border",
+};
+
+const LEGENDA = [
+  { rotulo: "Ok", cor: COR_SEGMENTO.ok },
+  { rotulo: "Atenção", cor: COR_SEGMENTO.atencao },
+  { rotulo: "Alerta", cor: COR_SEGMENTO.alerta },
+  { rotulo: "Ainda não chegou", cor: COR_SEGMENTO.nova },
+];
+
+const situacao = (h: HabilidadeStatus) => (h.iniciada ? h.status : "nova");
+
+function porDisciplina(habilidades: HabilidadeStatus[]) {
+  const grupos = new Map<string, HabilidadeStatus[]>();
+  for (const h of habilidades) grupos.set(h.disciplina, [...(grupos.get(h.disciplina) ?? []), h]);
+  return [...grupos].map(([nome, hs]) => ({ nome, habilidades: hs }));
+}
+
+function resumoDisciplina(hs: HabilidadeStatus[]): { texto: string; classe: string } {
+  const iniciadas = hs.filter((h) => h.iniciada);
+  const alertas = iniciadas.filter((h) => h.status === "alerta").length;
+  const atencoes = iniciadas.filter((h) => h.status === "atencao").length;
+  if (alertas) return { texto: `${alertas} em alerta`, classe: "text-alerta" };
+  if (atencoes) return { texto: `${atencoes} em atenção`, classe: "text-[#7a4f12]" };
+  if (!iniciadas.length) return { texto: "Não começou", classe: "text-pedra" };
+  return { texto: "Em dia", classe: "text-mata" };
+}
+
+/**
+ * Um cartão por aluno: cada disciplina vira uma barra com um segmento por habilidade,
+ * na ordem do caminho. Dá para ver de relance onde está o problema sem rolar para o lado,
+ * e o nome de cada habilidade aparece ao passar o mouse (e para o leitor de tela).
+ */
+function CartaoAluno({ aluno }: { aluno: AlunoResumo }) {
+  const disciplinas = porDisciplina(aluno.habilidades);
+  const precisam = aluno.habilidades
+    .filter((h) => h.iniciada && h.status !== "ok")
+    .sort((a, b) => PESO[b.status] - PESO[a.status]);
+  const pior: Status | null = precisam[0]?.status ?? null;
+  const visiveis = precisam.slice(0, 3);
+
+  return (
+    <Link
+      href={`/painel/alunos/${aluno.id}`}
+      className={cn(
+        "group flex h-full flex-col rounded-xl border bg-white p-5 outline-none transition-[border-color,box-shadow]",
+        "border-l-4 hover:border-mata/40 hover:shadow-[0_2px_12px_rgb(30_42_37/0.07)] focus-visible:ring-3 focus-visible:ring-ring/50",
+        pior === "alerta" ? "border-l-alerta" : pior === "atencao" ? "border-l-atencao" : "border-l-mata",
+      )}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="truncate text-lg font-bold text-grafite group-hover:text-mata">{aluno.nome}</h2>
+          <p className="text-sm text-pedra">
+            {aluno.ultimaAtividade ? `Última atividade em ${dataCurta(aluno.ultimaAtividade)}` : "Ainda não fez atividades"}
+          </p>
+        </div>
+        {pior ? (
+          <StatusSelo status={pior} className="shrink-0 text-xs" />
+        ) : !aluno.ultimaAtividade ? (
+          <span className="shrink-0 rounded-md bg-secondary px-2 py-1 text-xs font-semibold text-pedra">Sem atividades</span>
+        ) : (
+          <span className="shrink-0 rounded-md bg-mata-clara px-2 py-1 text-xs font-semibold text-mata-escura">Em dia</span>
+        )}
+      </div>
+
+      <dl className="mt-4 grid grid-cols-[auto_1fr_auto] items-center gap-x-3 gap-y-2.5 text-sm">
+        {disciplinas.map((d) => {
+          const resumo = resumoDisciplina(d.habilidades);
+          return (
+            <div key={d.nome} className="contents">
+              <dt className="font-medium text-grafite">{d.nome}</dt>
+              <dd className="flex h-2.5 min-w-0 gap-[3px]" aria-hidden>
+                {d.habilidades.map((h) => (
+                  <span
+                    key={h.habilidadeId}
+                    title={`${h.nome}: ${h.iniciada ? rotuloStatus(h.status) : "ainda não chegou nesta etapa"}`}
+                    className={cn("h-full flex-1 rounded-sm", COR_SEGMENTO[situacao(h)])}
+                  />
+                ))}
+              </dd>
+              <dd className={cn("text-right text-xs font-semibold whitespace-nowrap", resumo.classe)}>
+                {resumo.texto}
+                <span className="sr-only">
+                  {" "}
+                  ({d.habilidades.filter((h) => h.iniciada && h.status === "ok").length} de {d.habilidades.length}{" "}
+                  habilidades ok)
+                </span>
+              </dd>
+            </div>
+          );
+        })}
+      </dl>
+
+      {visiveis.length > 0 && (
+        <div className="mt-4 border-t pt-3">
+          <p className="text-xs font-semibold tracking-wide text-pedra uppercase">Precisa de apoio em</p>
+          <ul className="mt-2 flex flex-wrap gap-1.5">
+            {visiveis.map((h) => (
+              <li
+                key={h.habilidadeId}
+                className={cn(
+                  "rounded-md px-2 py-0.5 text-xs font-medium",
+                  h.status === "alerta" ? "bg-alerta-clara text-alerta" : "bg-atencao-clara text-[#7a4f12]",
+                )}
+              >
+                {h.nome}
+                <span className="sr-only"> ({rotuloStatus(h.status).toLowerCase()})</span>
+              </li>
+            ))}
+            {precisam.length > visiveis.length && (
+              <li className="rounded-md bg-secondary px-2 py-0.5 text-xs font-medium text-pedra">
+                +{precisam.length - visiveis.length}
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
+    </Link>
   );
 }

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 import { StatusSelo } from "@/components/marca";
+import { LinkVoltar } from "@/components/voltar";
 import { GraficoEvolucao } from "@/components/painel/grafico-evolucao";
 import { ExercicioReforco } from "@/components/painel/exercicio-reforco";
 import { api, ApiError } from "@/lib/api";
@@ -37,13 +36,7 @@ export default async function AlunoPage({ params }: PageProps<"/painel/alunos/[i
 
   return (
     <div className="mx-auto max-w-5xl">
-      <Link
-        href="/painel"
-        className="inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-pedra outline-none hover:text-grafite focus-visible:ring-3 focus-visible:ring-ring/50"
-      >
-        <ArrowLeft className="size-4" />
-        Alunos
-      </Link>
+      <LinkVoltar href="/painel">Alunos</LinkVoltar>
 
       <header className="mt-4">
         <h1 className="text-3xl font-bold text-grafite">{aluno.nome}</h1>

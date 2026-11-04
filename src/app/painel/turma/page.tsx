@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { LinkVoltar } from "@/components/voltar";
 import { CodigoTurma, FormTurma } from "@/components/painel/form-turma";
 import { PinsAlunos } from "@/components/painel/pins-alunos";
 import { api } from "@/lib/api";
@@ -14,7 +15,8 @@ export default async function TurmaPage() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <header>
+      <LinkVoltar href="/painel">Alunos</LinkVoltar>
+      <header className="mt-4">
         <h1 className="text-3xl font-bold text-grafite">{config.turma.nome}</h1>
         <p className="mt-2 max-w-prose text-lg text-pedra">
           Escolha as disciplinas e habilidades trabalhadas no {config.ciclo}. As atividades dos alunos e o

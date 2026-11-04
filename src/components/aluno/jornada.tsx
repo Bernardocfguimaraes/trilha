@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { Volume2, X } from "lucide-react";
+import { ArrowLeft, Volume2 } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
 import type {
   AlunoPublico,
@@ -13,10 +13,13 @@ import type {
   TurmaPublica,
 } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { extrairLacuna, fraseCompleta } from "@/lib/lacuna";
 import { Sabia } from "@/components/marca";
+import { VoltarAluno } from "@/components/voltar";
 import { BotaoGrande, classesBotaoGrande } from "./botao-grande";
 import { CartaoDisciplina, IconeDisciplina } from "./disciplinas";
 import { EntradaPin } from "./entrada-pin";
+import { QuestaoLacuna } from "./questao-lacuna";
 import { Estrela, TrilhaProgresso, type Marco } from "./trilha-progresso";
 
 // `acesso` é a credencial devolvida pelo PIN; sem ela o backend não abre sessão.
@@ -59,7 +62,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
 
   if (etapa.tipo === "quem") {
     return (
-      <Tela>
+      <Tela voltar={<VoltarAluno href="/aluno" rotulo="Voltar e trocar o código da turma" />}>
         <div className="flex items-center gap-4">
           <Sabia humor="pensando" className="size-20 shrink-0" />
           <h1 className="font-display text-4xl leading-none font-extrabold text-grafite">Quem é você?</h1>
@@ -103,7 +106,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
   if (etapa.tipo === "disciplina") {
     const primeiroNome = etapa.aluno.nome.split(" ")[0];
     return (
-      <Tela>
+      <Tela voltar={<VoltarAluno onClick={() => setEtapa({ tipo: "quem" })} rotulo="Voltar para a lista de nomes" />}>
         <div className="flex items-center gap-4">
           <Sabia humor="feliz" className="size-20 shrink-0" />
           <h1 className="font-display text-4xl leading-none font-extrabold text-grafite">
@@ -138,7 +141,15 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
 
   if (etapa.tipo === "inicio") {
     return (
-      <Tela centro>
+      <Tela
+        centro
+        voltar={
+          <VoltarAluno
+            onClick={() => setEtapa({ tipo: "disciplina", aluno: etapa.aluno, acesso: etapa.acesso })}
+            rotulo="Voltar e escolher outra matéria"
+          />
+        }
+      >
         <div className="relative">
           <Sabia humor="feliz" className="size-40" />
           <IconeDisciplina id={etapa.disciplina.id} className="absolute -right-6 -bottom-2 size-16 -rotate-6" />
@@ -172,7 +183,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
       <Quiz
         sessaoId={etapa.sessaoId}
         perguntas={etapa.perguntas}
-        onSair={() => setEtapa({ tipo: "quem" })}
+        onSair={() => setEtapa({ tipo: "disciplina", aluno: etapa.aluno, acesso: etapa.acesso })}
         onFim={(resultado, marcos) =>
           setEtapa({ tipo: "fim", aluno: etapa.aluno, acesso: etapa.acesso, resultado, marcos })
         }
@@ -181,7 +192,15 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
   }
 
   return (
-    <Tela centro>
+    <Tela
+      centro
+      voltar={
+        <VoltarAluno
+          onClick={() => setEtapa({ tipo: "disciplina", aluno: etapa.aluno, acesso: etapa.acesso })}
+          rotulo="Voltar para as matérias"
+        />
+      }
+    >
       <TrilhaProgresso marcos={etapa.marcos} atual={etapa.marcos.length} comemorando className="mb-10 max-w-md" />
       <Sabia humor="festa" className="size-36" />
       <h1 className="mt-4 max-w-[16ch] font-display text-4xl leading-none font-extrabold text-grafite sm:text-5xl">
@@ -251,7 +270,7 @@ function ConfirmarPin({
   }
 
   return (
-    <Tela centro>
+    <Tela centro voltar={<VoltarAluno onClick={onVoltar} rotulo="Voltar para a lista de nomes" />}>
       <Sabia humor={erroPin ? "triste" : "pensando"} className="size-24" />
       <h1 className="mt-3 font-display text-4xl leading-none font-extrabold text-grafite">Oi, {primeiroNome}!</h1>
       <p className="mt-2 max-w-[22ch] font-display text-2xl font-medium text-pedra">Digite o seu número secreto.</p>
@@ -274,9 +293,10 @@ function ConfirmarPin({
   );
 }
 
-function Tela({ children, centro }: { children: React.ReactNode; centro?: boolean }) {
+function Tela({ children, centro, voltar }: { children: React.ReactNode; centro?: boolean; voltar?: React.ReactNode }) {
   return (
-    <main className="flex flex-1 flex-col bg-ceu px-4 py-8">
+    <main className={cn("flex flex-1 flex-col bg-ceu px-4", voltar ? "pt-4 pb-8" : "py-8")}>
+      {voltar && <div className="mx-auto mb-2 w-full max-w-xl">{voltar}</div>}
       <div
         className={cn(
           "mx-auto flex w-full max-w-xl flex-1 flex-col",
@@ -289,16 +309,21 @@ function Tela({ children, centro }: { children: React.ReactNode; centro?: boolea
   );
 }
 
-function Quiz({
+// Quem confere as respostas: a API de verdade, ou um substituto (página de prévia).
+type ClienteSessao = Pick<typeof api, "responder" | "concluirSessao">;
+
+export function Quiz({
   sessaoId,
   perguntas,
   onSair,
   onFim,
+  cliente = api,
 }: {
   sessaoId: string;
   perguntas: Pergunta[];
   onSair: () => void;
   onFim: (r: ResultadoSessao, marcos: Marco[]) => void;
+  cliente?: ClienteSessao;
 }) {
   // A lista começa como veio da sessão; a adaptação de dificuldade (backend/mock) pode
   // trocar a próxima pergunta a cada resposta, via `proxima`.
@@ -309,11 +334,18 @@ function Quiz({
   const [marcos, setMarcos] = useState<Marco[]>(() => perguntas.map(() => "pendente"));
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState(false);
+  const [confirmarSaida, setConfirmarSaida] = useState(false);
   const fala = useFala();
+  // Só pede confirmação se já respondeu alguma coisa: antes disso, voltar não perde nada.
+  const comecou = marcos.some((m) => m !== "pendente");
 
   const pergunta = lista[indice];
   const estrelas = marcos.filter((m) => m === "acerto").length;
   const curtas = pergunta.opcoes.every((o) => o.texto.length <= 8);
+  // Frase com buraco vira peça de encaixar; o resto continua múltipla escolha.
+  const lacuna = extrairLacuna(pergunta);
+  const enunciado = lacuna ? lacuna.instrucao : pergunta.enunciado;
+  const paraOuvir = lacuna ? `${lacuna.instrucao} ${fraseCompleta(lacuna, undefined, "…")}` : pergunta.enunciado;
 
   const { parar } = fala;
   useEffect(() => () => parar(), [indice, parar]);
@@ -323,7 +355,7 @@ function Quiz({
     setEnviando(true);
     setErro(false);
     try {
-      const r = await api.responder(sessaoId, pergunta.id, escolha);
+      const r = await cliente.responder(sessaoId, pergunta.id, escolha);
       setResultado(r);
       setMarcos((ms) => ms.map((m, i) => (i === indice ? (r.correta ? "acerto" : "erro") : m)));
       const proxima = r.proxima;
@@ -344,7 +376,7 @@ function Quiz({
     }
     setEnviando(true);
     try {
-      onFim(await api.concluirSessao(sessaoId), marcos);
+      onFim(await cliente.concluirSessao(sessaoId), marcos);
     } catch {
       setErro(true);
       setEnviando(false);
@@ -355,11 +387,12 @@ function Quiz({
     <main className="flex flex-1 flex-col bg-ceu">
       <header className="mx-auto flex w-full max-w-xl items-center gap-3 px-4 pt-4">
         <button
-          onClick={onSair}
-          aria-label="Sair da trilha"
+          onClick={() => (comecou ? setConfirmarSaida(true) : onSair())}
+          aria-label="Voltar para as matérias"
+          title="Voltar para as matérias"
           className="grid size-11 shrink-0 place-items-center rounded-full text-pedra outline-none hover:bg-white/70 focus-visible:ring-4 focus-visible:ring-grafite/30"
         >
-          <X className="size-7" strokeWidth={3} />
+          <ArrowLeft className="size-7" strokeWidth={3} />
         </button>
         <TrilhaProgresso
           marcos={marcos}
@@ -378,17 +411,17 @@ function Quiz({
         </span>
       </header>
 
-      <section className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pt-6 pb-40">
+      <section className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pt-6 pb-56">
         <div className="flex items-start gap-3">
           <Sabia humor={resultado ? (resultado.correta ? "festa" : "triste") : "pensando"} className="size-20 shrink-0" />
           <div className="relative flex-1 rounded-2xl bg-white p-4 shadow-[0_4px_0_var(--color-ceu-forte)]">
             <span className="absolute top-6 -left-2 size-4 rotate-45 bg-white" aria-hidden />
             <h1 className="relative font-display text-2xl leading-snug font-bold text-grafite sm:text-[1.75rem]">
-              {pergunta.enunciado}
+              {enunciado}
             </h1>
             {fala.disponivel && (
               <button
-                onClick={() => fala.falar(pergunta.enunciado)}
+                onClick={() => fala.falar(paraOuvir)}
                 className="relative mt-2 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 -ml-2 font-display text-lg font-semibold text-[#2a8fc4] outline-none hover:bg-ceu focus-visible:ring-4 focus-visible:ring-[#2a8fc4]/30"
               >
                 <Volume2 className="size-5" strokeWidth={2.5} />
@@ -404,6 +437,16 @@ function Quiz({
           </p>
         )}
 
+        {lacuna ? (
+          <QuestaoLacuna
+            key={pergunta.id}
+            lacuna={lacuna}
+            opcoes={pergunta.opcoes}
+            escolha={escolha}
+            onEscolher={setEscolha}
+            resultado={resultado}
+          />
+        ) : (
         <div
           role="radiogroup"
           aria-label="Respostas"
@@ -438,6 +481,7 @@ function Quiz({
             );
           })}
         </div>
+        )}
       </section>
 
       <footer
@@ -476,7 +520,46 @@ function Quiz({
           )}
         </div>
       </footer>
+
+      {confirmarSaida && <ConfirmarSaida onFicar={() => setConfirmarSaida(false)} onSair={onSair} />}
     </main>
+  );
+}
+
+/** "Quer mesmo sair?" — evita perder a rodada com um toque sem querer na seta. */
+function ConfirmarSaida({ onFicar, onSair }: { onFicar: () => void; onSair: () => void }) {
+  useEffect(() => {
+    const tecla = (e: KeyboardEvent) => e.key === "Escape" && onFicar();
+    window.addEventListener("keydown", tecla);
+    return () => window.removeEventListener("keydown", tecla);
+  }, [onFicar]);
+
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center bg-grafite/40 px-4 animate-in fade-in duration-150">
+      <div
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="sair-titulo"
+        aria-describedby="sair-texto"
+        className="w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-[0_6px_0_var(--color-ceu-forte)] animate-in zoom-in-95 duration-200"
+      >
+        <Sabia humor="pensando" className="mx-auto size-20" />
+        <h2 id="sair-titulo" className="mt-2 font-display text-3xl leading-tight font-extrabold text-grafite">
+          Quer sair da trilha?
+        </h2>
+        <p id="sair-texto" className="mt-2 font-display text-xl text-pedra">
+          Esta rodada fica pela metade. Você pode começar outra depois.
+        </p>
+        <div className="mt-6 flex flex-col gap-3">
+          <BotaoGrande onClick={onFicar} autoFocus>
+            Continuar a trilha
+          </BotaoGrande>
+          <BotaoGrande cor="branco" onClick={onSair}>
+            Sair
+          </BotaoGrande>
+        </div>
+      </div>
+    </div>
   );
 }
 
