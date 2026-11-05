@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { api, ApiError } from "@/lib/api";
-import { COOKIE_RESPONSAVEL, OPCOES_COOKIE_RESPONSAVEL } from "@/lib/responsavel";
+import { COOKIE_RESPONSAVEL, opcoesCookieResponsavel } from "@/lib/responsavel";
 
 // Confere o PIN do filho no servidor e guarda a credencial num cookie httpOnly: a
 // credencial nunca passa pelo JavaScript da página. O bloqueio por tentativas erradas é
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     const r = await api.validarPin(alunoId, pin);
     if (!r.valido || !r.acesso) return NextResponse.json({ valido: false, bloqueado: r.bloqueado });
     const resposta = NextResponse.json({ valido: true, bloqueado: false });
-    resposta.cookies.set(COOKIE_RESPONSAVEL, r.acesso, OPCOES_COOKIE_RESPONSAVEL);
+    resposta.cookies.set(COOKIE_RESPONSAVEL, r.acesso, opcoesCookieResponsavel(request.nextUrl.protocol === "https:"));
     return resposta;
   } catch (e) {
     const status = e instanceof ApiError && e.status === 404 ? 404 : 502;

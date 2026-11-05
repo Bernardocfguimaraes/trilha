@@ -8,10 +8,9 @@ from __future__ import annotations
 
 import math
 import random
-import uuid
 from datetime import datetime, timedelta, timezone
 
-from . import caminho, chat, diagnostico
+from . import caminho, chat, credenciais, diagnostico
 from . import recomendacoes as rec
 from .adaptacao import NIVEIS, estado_inicial_adaptacao, registrar_resposta
 from .dados import (
@@ -79,7 +78,7 @@ class Estado:
         self.disciplinas_ativas: set[str] = {d["id"] for d in DISCIPLINAS}
         self.sessoes: dict[str, dict] = {}
         self.pins: dict[str, str] = dict(PINS_INICIAIS)
-        self.acessos: dict[str, str] = {}                   # credencial -> alunoId
+        self.professores: dict[str, dict] = {}              # email -> {nome, senha_hash}
         self.tentativas: dict[str, dict] = {}               # alunoId -> {erros, bloqueadoAte}
 
 
@@ -364,9 +363,7 @@ def validar_pin(aluno_id: str, pin: str) -> dict:
         estado.tentativas[aluno_id] = t
         return {"valido": False, "acesso": None, "bloqueado": t["bloqueadoAte"] > _agora_ms()}
     estado.tentativas.pop(aluno_id, None)
-    acesso = f"acesso-{aluno_id}-{uuid.uuid4()}"
-    estado.acessos[acesso] = aluno_id
-    return {"valido": True, "acesso": acesso, "bloqueado": False}
+    return {"valido": True, "acesso": credenciais.emitir(aluno_id), "bloqueado": False}
 
 
 def regenerar_pin(aluno_id: str) -> dict:
@@ -376,8 +373,7 @@ def regenerar_pin(aluno_id: str) -> dict:
     estado.pins[aluno["id"]] = _novo_pin(estado.pins.get(aluno["id"]))
     estado.tentativas.pop(aluno["id"], None)
     # O PIN antigo deixa de valer, inclusive para quem já tinha entrado com ele.
-    for acesso in [k for k, v in estado.acessos.items() if v == aluno["id"]]:
-        estado.acessos.pop(acesso, None)
+    credenciais.revogar_aluno(aluno["id"])
     return cadastro(aluno)
 
 
@@ -470,13 +466,24 @@ def turma_publica(codigo: str) -> dict:
 
 
 def aluno_do_acesso(acesso: str) -> str | None:
-    """De quem é esta credencial de PIN (None se não existe ou foi revogada ao trocar o PIN)."""
-    return estado.acessos.get(acesso)
+    """De quem é esta credencial de PIN (None se não existe, venceu ou foi revogada)."""
+    return credenciais.dono(acesso)
+
+
+# --- Conta do professor (o hash vem pronto de seguranca.py) -------------------
+
+def professor_por_email(email: str) -> dict | None:
+    p = estado.professores.get(email)
+    return {"email": email, **p} if p else None
+
+
+def salvar_professor(email: str, nome: str, senha_hash: str) -> None:
+    estado.professores[email] = {"nome": nome, "senha_hash": senha_hash}
 
 
 def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id: str | None) -> dict:
     # Sem a credencial do PIN, ninguém abre sessão em nome de outro aluno.
-    if not acesso or estado.acessos.get(acesso) != aluno_id:
+    if credenciais.dono(acesso) != aluno_id:
         raise ApiErro(401, "Confirme o PIN do aluno antes de começar")
     habilidades = _habilidades_da_sessao(disciplina_id, _aluno(aluno_id))
     if len(habilidades) == 0:
@@ -490,13 +497,14 @@ def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id
             break
         reservadas.add(p["id"])
         perguntas.append(p)
-    sessao_id = f"s{_agora_ms()}"
+    sessao_id = credenciais.novo_id_sessao()
     estado.sessoes[sessao_id] = {
         "acertos": 0,
         "alunoId": aluno_id,
         "total": len(perguntas),
         "habilidades": habilidades,
         "usadas": {perguntas[0]["id"]},
+        "servidas": {p["id"] for p in perguntas},
         "adaptacao": adaptacao,
         "respostas": [],
         "concluida": False,
@@ -505,20 +513,27 @@ def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id
 
 
 def responder(sessao_id: str, pergunta_id: str, opcao_id: str) -> dict:
+    # Só responde dentro de uma sessão aberta e só perguntas entregues a ela: sem isso,
+    # a rota viraria um gabarito aberto de todo o banco.
+    s = estado.sessoes.get(sessao_id)
+    if not s:
+        raise ApiErro(404, "Sessão não encontrada")
+    if pergunta_id not in s["servidas"]:
+        raise ApiErro(403, "Esta pergunta não faz parte da sessão")
     p = next((q for q in BANCO if q["id"] == pergunta_id), None)
     if not p:
         raise ApiErro(404, "Pergunta não encontrada")
     certa_id = f"{p['id']}-{p['certa']}"
     correta = opcao_id == certa_id
-    s = estado.sessoes.get(sessao_id)
-    if s and correta:
+    primeira = not any(q["perguntaId"] == p["id"] for q in s["respostas"])
+    if primeira and correta:  # responder de novo não soma estrela
         s["acertos"] += 1
     r = {
         "correta": correta,
         "opcaoCorretaId": certa_id,
         "mensagem": random.choice(ELOGIOS) if correta else f"Quase! A resposta é {p['opcoes'][p['certa']]}.",
     }
-    if s and not any(q["perguntaId"] == p["id"] for q in s["respostas"]):
+    if primeira:
         s["usadas"].add(p["id"])
         s["respostas"].append({"perguntaId": p["id"], "habilidadeId": p["habilidadeId"], "nivel": p["nivel"], "correta": correta})
         s["adaptacao"] = registrar_resposta(s["adaptacao"], correta)
@@ -526,17 +541,20 @@ def responder(sessao_id: str, pergunta_id: str, opcao_id: str) -> dict:
             proxima = _escolher_pergunta(s["habilidades"], s["adaptacao"].nivel, s["usadas"], len(s["respostas"]))
             if proxima:
                 s["usadas"].add(proxima["id"])
+                s["servidas"].add(proxima["id"])
                 r["proxima"] = _para_cliente(proxima)
     return r
 
 
 def concluir_sessao(sessao_id: str) -> dict:
     s = estado.sessoes.get(sessao_id)
-    if s and not s["concluida"]:
+    if not s:
+        raise ApiErro(404, "Sessão não encontrada")
+    if not s["concluida"]:
         s["concluida"] = True
         _registrar_sessao(s)
-    acertos = s["acertos"] if s else 0
-    total = s["total"] if s else PERGUNTAS_POR_SESSAO
+    acertos = s["acertos"]
+    total = s["total"]
     return {
         "estrelas": acertos,
         "total": total,

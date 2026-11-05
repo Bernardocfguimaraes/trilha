@@ -8,7 +8,7 @@ import type { AlunoCadastro } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 /** PINs que cada aluno digita para entrar. Ocultos por padrão (a tela pode estar no projetor). */
-export function PinsAlunos({ alunos: iniciais, token }: { alunos: AlunoCadastro[]; token: string | null }) {
+export function PinsAlunos({ alunos: iniciais }: { alunos: AlunoCadastro[] }) {
   const [alunos, setAlunos] = useState(iniciais);
   const [visiveis, setVisiveis] = useState(false);
   const [gerando, setGerando] = useState<string | null>(null);
@@ -19,7 +19,7 @@ export function PinsAlunos({ alunos: iniciais, token }: { alunos: AlunoCadastro[
     setGerando(aluno.id);
     setErro(null);
     try {
-      const atualizado = await api.regenerarPin(aluno.id, token);
+      const atualizado = await api.regenerarPin(aluno.id);
       setAlunos((lista) => lista.map((a) => (a.id === atualizado.id ? atualizado : a)));
       setNovo(atualizado.id);
     } catch {

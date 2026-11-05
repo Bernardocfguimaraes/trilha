@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/marca";
 import { BotaoSair, LinkInicio, NavPainel } from "@/components/painel/nav";
-import { getProfessor } from "@/lib/supabase/server";
+import { getProfessor } from "@/lib/auth";
 
 export default function PainelLayout({ children }: LayoutProps<"/painel">) {
   return (
@@ -37,12 +37,10 @@ async function Lateral() {
           <BotaoSair />
         </div>
       </div>
-      <NavPainel papel={usuario.papel} />
+      <NavPainel />
       <div className="mt-auto hidden border-t pt-4 md:block">
         <p className="truncate px-3 text-sm font-semibold text-grafite">{usuario.nome}</p>
-        <p className="truncate px-3 text-sm text-pedra">
-          {usuario.papel === "professor" ? "Professor" : "Responsável"}
-        </p>
+        <p className="truncate px-3 text-sm text-pedra">{usuario.email}</p>
         <div className="mt-2">
           <LinkInicio />
           <BotaoSair />

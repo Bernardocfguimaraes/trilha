@@ -78,3 +78,12 @@ class Historico(Base):
     habilidade_id: Mapped[str] = mapped_column(ForeignKey("habilidades.id"))
     data: Mapped[str] = mapped_column(String)  # ISO date (YYYY-MM-DD)
     desempenho: Mapped[int] = mapped_column(Integer)  # 0–100
+
+
+class Professor(Base):
+    """Conta do professor. A senha fica só como hash PBKDF2 (ver seguranca.py)."""
+
+    __tablename__ = "professores"
+    email: Mapped[str] = mapped_column(String, primary_key=True)
+    nome: Mapped[str] = mapped_column(String)
+    senha_hash: Mapped[str] = mapped_column(String)

@@ -8,11 +8,13 @@ import type {
   Nivel,
   PedidoChatTurma,
   PedidoExercicio,
+  PedidoLogin,
   PedidoPin,
   PedidoProgresso,
   PedidoSessao,
   PedidoTurmaConfig,
   ProgressoResponsavel,
+  RespostaLogin,
   ResultadoPin,
   ResultadoResposta,
   ResultadoSessao,
@@ -35,19 +37,25 @@ export class ApiError extends Error {
 interface Opcoes {
   method?: "GET" | "POST" | "PUT";
   body?: unknown;
+  /** Token do professor (só no servidor; vem do cookie httpOnly). */
   token?: string | null;
+  /** Rota do painel: no navegador passa pela ponte /api/professor, que anexa o token. */
+  professor?: boolean;
 }
 
-async function request<T>(path: string, { method = "GET", body, token }: Opcoes = {}): Promise<T> {
+const noNavegador = () => typeof window !== "undefined";
+
+async function request<T>(path: string, { method = "GET", body, token, professor }: Opcoes = {}): Promise<T> {
   // Sem NEXT_PUBLIC_API_URL, usamos respostas de exemplo para desenvolver a interface.
   // No servidor o mock roda direto; no navegador ele passa por /api/mock, para que
   // painel e aluno enxerguem o mesmo estado (config salva, sessões, PINs).
-  if (!API_URL && typeof window === "undefined") {
+  if (!API_URL && !noNavegador()) {
     const { mockRequest } = await import("./mock");
-    return mockRequest<T>(path, method, body);
+    return mockRequest<T>(path, method, body, token);
   }
 
-  const res = await fetch(`${API_URL ?? "/api/mock"}${path}`, {
+  const base = noNavegador() && professor ? "/api/professor" : (API_URL ?? "/api/mock");
+  const res = await fetch(`${base}${path}`, {
     method,
     headers: {
       "Content-Type": "application/json",
@@ -64,33 +72,38 @@ async function request<T>(path: string, { method = "GET", body, token }: Opcoes 
 }
 
 export const api = {
-  // Painel (responsável/professor)
-  alunos: (token?: string | null) => request<AlunoResumo[]>("/alunos", { token }),
+  // Login do professor (chamado só pelo servidor do Next; ver src/lib/auth.ts)
+  entrar: (email: string, senha: string) =>
+    request<RespostaLogin>("/auth/entrar", { method: "POST", body: { email, senha } satisfies PedidoLogin }),
+  eu: (token: string) => request<{ nome: string; email: string }>("/auth/eu", { token }),
+
+  // Painel do professor. No servidor recebe o token; no navegador passa pela ponte.
+  alunos: (token?: string | null) => request<AlunoResumo[]>("/alunos", { token, professor: true }),
   aluno: (id: string, token?: string | null) =>
-    request<AlunoDetalhe>(`/alunos/${id}`, { token }),
+    request<AlunoDetalhe>(`/alunos/${id}`, { token, professor: true }),
   historico: (id: string, token?: string | null) =>
-    request<HistoricoHabilidade[]>(`/alunos/${id}/historico`, { token }),
-  turmaConfig: (token?: string | null) => request<TurmaConfig>("/turma/configuracao", { token }),
-  salvarTurmaConfig: (habilidadesAtivas: string[], token?: string | null, disciplinasAtivas?: string[]) =>
+    request<HistoricoHabilidade[]>(`/alunos/${id}/historico`, { token, professor: true }),
+  turmaConfig: (token?: string | null) => request<TurmaConfig>("/turma/configuracao", { token, professor: true }),
+  salvarTurmaConfig: (habilidadesAtivas: string[], disciplinasAtivas?: string[]) =>
     request<TurmaConfig>("/turma/configuracao", {
       method: "PUT",
       body: { habilidadesAtivas, disciplinasAtivas } satisfies PedidoTurmaConfig,
-      token,
+      professor: true,
     }),
 
   // Resposta gerada no backend (LLM sobre os dados da turma). Sem backend, o mock devolve exemplos.
-  chatTurma: (turmaId: string, pergunta: string, historico: MensagemChat[] = [], token?: string | null) =>
+  chatTurma: (turmaId: string, pergunta: string, historico: MensagemChat[] = []) =>
     request<MensagemChat>(`/turmas/${encodeURIComponent(turmaId)}/chat`, {
       method: "POST",
       body: { pergunta, historico } satisfies PedidoChatTurma,
-      token,
+      professor: true,
     }),
   // Gera um exercício de reforço para a habilidade (via LLM no backend, com fallback no banco).
-  gerarExercicio: (habilidadeId: string, nivel: Nivel = "facil", token?: string | null) =>
+  gerarExercicio: (habilidadeId: string, nivel: Nivel = "facil") =>
     request<Exercicio>("/exercicios/gerar", {
       method: "POST",
       body: { habilidadeId, nivel } satisfies PedidoExercicio,
-      token,
+      professor: true,
     }),
 
   // STT: envia um áudio curto (multipart) e recebe o texto transcrito (Whisper na Groq).
@@ -98,7 +111,7 @@ export const api = {
   transcrever: async (audio: Blob): Promise<{ texto: string }> => {
     const form = new FormData();
     form.append("audio", audio, "audio.webm");
-    const res = await fetch(`${API_URL ?? "/api/mock"}/voz/transcrever`, {
+    const res = await fetch("/api/professor/voz/transcrever", {
       method: "POST",
       body: form,
       cache: "no-store",
@@ -106,9 +119,9 @@ export const api = {
     if (!res.ok) throw new ApiError(res.status, await res.text().catch(() => res.statusText));
     return res.json() as Promise<{ texto: string }>;
   },
-  alunosTurma: (token?: string | null) => request<AlunoCadastro[]>("/turma/alunos", { token }),
-  regenerarPin: (alunoId: string, token?: string | null) =>
-    request<AlunoCadastro>(`/turma/alunos/${alunoId}/pin`, { method: "POST", token }),
+  alunosTurma: (token?: string | null) => request<AlunoCadastro[]>("/turma/alunos", { token, professor: true }),
+  regenerarPin: (alunoId: string) =>
+    request<AlunoCadastro>(`/turma/alunos/${alunoId}/pin`, { method: "POST", professor: true }),
 
   // Aluno (sem conta: entra pelo código da turma e confirma quem é com o PIN)
   turmaPublica: (codigo: string) =>

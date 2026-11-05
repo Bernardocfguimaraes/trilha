@@ -11,7 +11,7 @@ from __future__ import annotations
 import math
 from datetime import datetime, timedelta, timezone
 
-from . import bd
+from . import bd, seguranca
 from .dados import ALUNOS, DISCIPLINAS, HABILIDADES, PINS_INICIAIS, STATUS_INICIAL, TURMA
 from .modelos import (
     Aluno,
@@ -20,6 +20,7 @@ from .modelos import (
     Disciplina,
     Habilidade,
     Historico,
+    Professor,
     Turma,
     TurmaDisciplinaAtiva,
     TurmaHabilidadeAtiva,
@@ -102,6 +103,11 @@ def semear() -> None:
             # Histórico sintético.
             for linha in _historico_sintetico(a):
                 s.add(Historico(aluno_id=a["id"], habilidade_id=linha["habilidade_id"], data=linha["data"], desempenho=linha["desempenho"]))
+
+        # Conta do professor (do .env), com a senha só em hash.
+        conta = seguranca.professor_do_env()
+        if conta:
+            s.add(Professor(email=conta["email"], nome=conta["nome"], senha_hash=seguranca.hash_senha(conta["senha"])))
 
         s.commit()
 

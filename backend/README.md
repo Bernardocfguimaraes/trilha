@@ -19,6 +19,27 @@ O diagnóstico de dificuldade usa um **modelo de ML** (passo 3, ver abaixo). Os 
 expõem os mesmos endpoints; o `main.py` e o frontend não mudam.
 Ainda **não** tem: LLM real no chat/recomendações — próximo passo.
 
+## Acesso e segurança
+
+| Quem | Como entra | O que pode |
+|---|---|---|
+| Professor | e-mail + senha → token assinado (12 h) | tudo do painel: alunos, PINs, configuração, chat, voz, exercícios |
+| Aluno | código da turma + PIN → credencial (8 h) | abrir e responder as próprias sessões |
+| Responsável | código da turma + PIN do filho → mesma credencial | ler o progresso só daquele aluno |
+
+- **Conta do professor**: vem do `.env` (`PROFESSOR_EMAIL`, `PROFESSOR_SENHA`, `PROFESSOR_NOME`) e
+  é gravada no banco ao subir a API, com a senha só em hash PBKDF2. Não há cadastro público: num
+  app de uma turma, qualquer conta criada por um estranho veria todos os alunos.
+- **`TRILHA_SEGREDO`** assina os tokens. Sem ele, a API gera um segredo temporário e os logins
+  caem a cada reinício. Gere com `python -c "import secrets; print(secrets.token_hex(32))"`.
+- Bloqueio temporário depois de 5 senhas erradas (por e-mail) e de 5 PINs errados (por aluno).
+- Credenciais e ids de sessão são aleatórios; a credencial cai quando o professor troca o PIN.
+  Só dá para responder perguntas entregues à própria sessão (nada de "gabarito aberto").
+- CORS só para as origens do front (`TRILHA_CORS`), limites de tamanho em todos os corpos,
+  áudio de no máximo 8 MB, e cabeçalhos `nosniff`, `X-Frame-Options` e `Cache-Control: no-store`.
+- No front, o token fica num cookie httpOnly; o navegador fala com as rotas do professor pela
+  ponte `/api/professor/*` do Next, que anexa o token. O site manda CSP e `frame-ancestors 'none'`.
+
 ## Apresentar sem depender da rede (SQLite)
 
 Algumas redes (como a da faculdade) bloqueiam a porta do Postgres, e aí o Supabase não
@@ -145,6 +166,8 @@ e reinicie o `next dev`. Sem essa variável, nada muda — o mock continua valen
 
 | Método | Rota | O que faz |
 |---|---|---|
+| POST | `/auth/entrar` | Login do professor (e-mail + senha) → token |
+| GET | `/auth/eu` | Professor do token (confere o login) |
 | GET | `/alunos` | Lista de alunos com status por habilidade |
 | GET | `/alunos/{id}` | Detalhe do aluno + recomendações |
 | GET | `/alunos/{id}/historico` | Evolução por habilidade ao longo do tempo |
@@ -158,7 +181,13 @@ e reinicie o `next dev`. Sem essa variável, nada muda — o mock continua valen
 | POST | `/sessoes` | Inicia uma sessão de atividades (exige a credencial) |
 | POST | `/sessoes/{id}/respostas` | Registra a resposta e devolve a próxima pergunta (adaptativa) |
 | POST | `/sessoes/{id}/concluir` | Fecha a sessão e grava no histórico |
-| POST | `/turmas/{id}/chat` | Chat da turma para o professor (placeholder até o LLM) |
+| POST | `/turmas/{id}/chat` | Chat da turma para o professor (LLM) |
+| POST | `/exercicios/gerar` | Exercício de reforço para uma habilidade |
+| POST | `/voz/transcrever` | Transcrição de áudio (Whisper) |
+| POST | `/responsavel/progresso` | Progresso só do aluno dono da credencial do PIN |
+
+As rotas do painel (de `/auth/eu` a `/voz/transcrever`, exceto as do aluno e do responsável)
+exigem `Authorization: Bearer <token>`.
 
 ## Estrutura
 

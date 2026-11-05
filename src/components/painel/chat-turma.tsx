@@ -35,7 +35,7 @@ function gravarHistorico(turmaId: string, mensagens: MensagemChat[]) {
 
 const hora = new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" });
 
-export function ChatTurma({ turma, token }: { turma: Turma; token: string | null }) {
+export function ChatTurma({ turma }: { turma: Turma }) {
   const [mensagens, setMensagens] = useState<MensagemChat[] | null>(null);
   const [texto, setTexto] = useState("");
   const [pensando, setPensando] = useState(false);
@@ -73,7 +73,7 @@ export function ChatTurma({ turma, token }: { turma: Turma; token: string | null
     setFalhou(false);
     setPensando(true);
     try {
-      const resposta = await api.chatTurma(turma.id, limpa, historico, token);
+      const resposta = await api.chatTurma(turma.id, limpa, historico);
       setMensagens((ms) => [...(ms ?? []), resposta]);
     } catch {
       setMensagens(historico);

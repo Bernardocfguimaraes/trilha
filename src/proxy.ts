@@ -1,54 +1,34 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { COOKIE_RESPONSAVEL } from "@/lib/responsavel";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// Mesmo nome do cookie de src/lib/auth.ts (que é server-only e não entra no proxy).
+const COOKIE_PROFESSOR = "trilha_sessao";
 
-function redirecionar(request: NextRequest, pathname: string) {
+function redirecionar(request: NextRequest, pathname: string, busca = "") {
   const destino = request.nextUrl.clone();
   destino.pathname = pathname;
-  destino.search = "";
+  destino.search = busca;
   return NextResponse.redirect(destino);
 }
 
-// Renova a sessão do Supabase e protege o painel do professor.
-export async function proxy(request: NextRequest) {
-  const noPainel = request.nextUrl.pathname.startsWith("/painel");
+// Primeira barreira, antes de qualquer página renderizar. A conferência de verdade
+// (assinatura e validade do token, dono da credencial) acontece no backend.
+export function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const professor = request.cookies.has(COOKIE_PROFESSOR);
+  const responsavel = request.cookies.has(COOKIE_RESPONSAVEL);
 
-  // Progresso do responsável sem a credencial: volta para a entrada antes de renderizar.
-  if (request.nextUrl.pathname.startsWith("/responsavel/progresso") && !request.cookies.has(COOKIE_RESPONSAVEL)) {
-    return redirecionar(request, "/responsavel");
+  if (pathname.startsWith("/painel") && !professor) {
+    // Quem entrou como responsável neste navegador volta para a área dele.
+    return responsavel ? redirecionar(request, "/responsavel/progresso") : redirecionar(request, "/entrar");
   }
-
-  if (!url || !key) {
-    // Modo demonstração (sem Supabase): o painel abre como professor para qualquer um.
-    // Quem entrou como responsável neste navegador é levado de volta à área dele.
-    if (noPainel && request.cookies.has(COOKIE_RESPONSAVEL)) return redirecionar(request, "/responsavel/progresso");
-    return NextResponse.next();
+  if (pathname.startsWith("/responsavel/progresso") && !responsavel) return redirecionar(request, "/responsavel");
+  if (pathname === "/entrar" && professor && !request.nextUrl.searchParams.has("expirou")) {
+    return redirecionar(request, "/painel");
   }
-
-  let response = NextResponse.next({ request });
-  const supabase = createServerClient(url, key, {
-    cookies: {
-      getAll: () => request.cookies.getAll(),
-      setAll: (lista) => {
-        lista.forEach(({ name, value }) => request.cookies.set(name, value));
-        response = NextResponse.next({ request });
-        lista.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
-      },
-    },
-  });
-
-  const { data } = await supabase.auth.getUser();
-  if (noPainel) {
-    if (!data.user) return redirecionar(request, "/entrar");
-    // Conta de responsável não vê a turma: só o próprio filho, pela área do responsável.
-    if (data.user.user_metadata?.papel === "responsavel") return redirecionar(request, "/responsavel");
-  }
-  return response;
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/painel/:path*", "/responsavel/progresso", "/entrar", "/cadastro"],
+  matcher: ["/painel/:path*", "/responsavel/progresso", "/entrar"],
 };

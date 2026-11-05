@@ -10,12 +10,11 @@ Regras puras (escolha de pergunta, pontuação, geração de PIN) são reusadas 
 """
 from __future__ import annotations
 
-import uuid
 from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import delete, distinct, func, select
 
-from . import bd, caminho, chat, diagnostico
+from . import bd, caminho, chat, credenciais, diagnostico
 from . import recomendacoes as rec
 from .adaptacao import estado_inicial_adaptacao, registrar_resposta
 from .dados import BANCO, CATALOGO, DISCIPLINAS, HABILIDADES, TEXTOS, ordem_caminho
@@ -41,6 +40,7 @@ from .modelos import (
     Disciplina,
     Habilidade,
     Historico,
+    Professor,
     Turma,
     TurmaDisciplinaAtiva,
     TurmaHabilidadeAtiva,
@@ -49,7 +49,6 @@ import random
 
 # Estado transitório (não precisa sobreviver a restart).
 _sessoes: dict[str, dict] = {}
-_acessos: dict[str, str] = {}       # credencial -> aluno_id
 _tentativas: dict[str, dict] = {}   # aluno_id -> {erros, bloqueadoAte}
 
 
@@ -290,9 +289,7 @@ def validar_pin(aluno_id: str, pin: str) -> dict:
             _tentativas[aluno_id] = t
             return {"valido": False, "acesso": None, "bloqueado": t["bloqueadoAte"] > _agora_ms()}
         _tentativas.pop(aluno_id, None)
-        acesso = f"acesso-{aluno_id}-{uuid.uuid4()}"
-        _acessos[acesso] = aluno_id
-        return {"valido": True, "acesso": acesso, "bloqueado": False}
+        return {"valido": True, "acesso": credenciais.emitir(aluno_id), "bloqueado": False}
 
 
 def regenerar_pin(aluno_id: str) -> dict:
@@ -302,20 +299,37 @@ def regenerar_pin(aluno_id: str) -> dict:
         s.commit()
         novo = a.pin
     _tentativas.pop(aluno_id, None)
-    for acesso in [k for k, v in _acessos.items() if v == aluno_id]:
-        _acessos.pop(acesso, None)
+    credenciais.revogar_aluno(aluno_id)
     with bd.SessionLocal() as s:
         a = _buscar_aluno(s, aluno_id)
         return {"id": a.id, "nome": a.nome, "pin": novo}
 
 
 def aluno_do_acesso(acesso: str) -> str | None:
-    """De quem é esta credencial de PIN (None se não existe ou foi revogada ao trocar o PIN)."""
-    return _acessos.get(acesso)
+    """De quem é esta credencial de PIN (None se não existe, venceu ou foi revogada)."""
+    return credenciais.dono(acesso)
+
+
+# --- Conta do professor (o hash vem pronto de seguranca.py) -------------------
+
+def professor_por_email(email: str) -> dict | None:
+    with bd.SessionLocal() as s:
+        p = s.get(Professor, email)
+        return {"email": p.email, "nome": p.nome, "senha_hash": p.senha_hash} if p else None
+
+
+def salvar_professor(email: str, nome: str, senha_hash: str) -> None:
+    with bd.SessionLocal() as s:
+        p = s.get(Professor, email)
+        if p:
+            p.nome, p.senha_hash = nome, senha_hash
+        else:
+            s.add(Professor(email=email, nome=nome, senha_hash=senha_hash))
+        s.commit()
 
 
 def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id: str | None) -> dict:
-    if not acesso or _acessos.get(acesso) != aluno_id:
+    if credenciais.dono(acesso) != aluno_id:
         raise ApiErro(401, "Confirme o PIN do aluno antes de começar")
     with bd.SessionLocal() as s:
         habilidades = _habilidades_da_sessao(s, disciplina_id, aluno_id)
@@ -330,29 +344,36 @@ def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id
             break
         reservadas.add(p["id"])
         perguntas.append(p)
-    sessao_id = f"s{_agora_ms()}"
+    sessao_id = credenciais.novo_id_sessao()
     _sessoes[sessao_id] = {
         "acertos": 0, "alunoId": aluno_id, "total": len(perguntas), "habilidades": habilidades,
-        "usadas": {perguntas[0]["id"]}, "adaptacao": adaptacao, "respostas": [], "concluida": False,
+        "usadas": {perguntas[0]["id"]}, "servidas": {p["id"] for p in perguntas}, "adaptacao": adaptacao, "respostas": [], "concluida": False,
     }
     return {"sessaoId": sessao_id, "perguntas": [_para_cliente(p) for p in perguntas]}
 
 
 def responder(sessao_id: str, pergunta_id: str, opcao_id: str) -> dict:
+    # Só responde dentro de uma sessão aberta e só perguntas entregues a ela: sem isso,
+    # a rota viraria um gabarito aberto de todo o banco.
+    sess = _sessoes.get(sessao_id)
+    if not sess:
+        raise ApiErro(404, "Sessão não encontrada")
+    if pergunta_id not in sess["servidas"]:
+        raise ApiErro(403, "Esta pergunta não faz parte da sessão")
     p = next((q for q in BANCO if q["id"] == pergunta_id), None)
     if not p:
         raise ApiErro(404, "Pergunta não encontrada")
     certa_id = f"{p['id']}-{p['certa']}"
     correta = opcao_id == certa_id
-    sess = _sessoes.get(sessao_id)
-    if sess and correta:
+    primeira = not any(q["perguntaId"] == p["id"] for q in sess["respostas"])
+    if primeira and correta:  # responder de novo não soma estrela
         sess["acertos"] += 1
     r = {
         "correta": correta,
         "opcaoCorretaId": certa_id,
         "mensagem": random.choice(ELOGIOS) if correta else f"Quase! A resposta é {p['opcoes'][p['certa']]}.",
     }
-    if sess and not any(q["perguntaId"] == p["id"] for q in sess["respostas"]):
+    if primeira:
         sess["usadas"].add(p["id"])
         sess["respostas"].append({"perguntaId": p["id"], "habilidadeId": p["habilidadeId"], "nivel": p["nivel"], "correta": correta})
         sess["adaptacao"] = registrar_resposta(sess["adaptacao"], correta)
@@ -360,17 +381,20 @@ def responder(sessao_id: str, pergunta_id: str, opcao_id: str) -> dict:
             proxima = _escolher_pergunta(sess["habilidades"], sess["adaptacao"].nivel, sess["usadas"], len(sess["respostas"]))
             if proxima:
                 sess["usadas"].add(proxima["id"])
+                sess["servidas"].add(proxima["id"])
                 r["proxima"] = _para_cliente(proxima)
     return r
 
 
 def concluir_sessao(sessao_id: str) -> dict:
     sess = _sessoes.get(sessao_id)
-    if sess and not sess["concluida"]:
+    if not sess:
+        raise ApiErro(404, "Sessão não encontrada")
+    if not sess["concluida"]:
         sess["concluida"] = True
         _registrar_sessao(sess)
-    acertos = sess["acertos"] if sess else 0
-    total = sess["total"] if sess else PERGUNTAS_POR_SESSAO
+    acertos = sess["acertos"]
+    total = sess["total"]
     return {
         "estrelas": acertos,
         "total": total,

@@ -4,7 +4,7 @@ import { MessagesSquare } from "lucide-react";
 import { StatusSelo, rotuloStatus } from "@/components/marca";
 import { api } from "@/lib/api";
 import { dataCurta } from "@/lib/formato";
-import { getProfessor } from "@/lib/supabase/server";
+import { getProfessor } from "@/lib/auth";
 import type { AlunoResumo, HabilidadeStatus, Status } from "@/lib/types";
 import { cn } from "@/lib/utils";
 

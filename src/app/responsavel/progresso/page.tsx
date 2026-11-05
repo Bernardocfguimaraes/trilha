@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { LogOut } from "lucide-react";
 import { ProgressoAluno } from "@/components/progresso/progresso-aluno";
 import { api, ApiError } from "@/lib/api";
@@ -13,6 +14,7 @@ export const metadata: Metadata = { title: "Progresso" };
 // Só leitura: o backend devolve apenas o aluno dono da credencial do PIN. Aqui não há
 // geração de exercício, lista da turma, configuração nem PINs.
 export default async function ProgressoResponsavelPage() {
+  await connection();
   const acesso = (await cookies()).get(COOKIE_RESPONSAVEL)?.value;
   if (!acesso) redirect("/responsavel");
 

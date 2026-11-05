@@ -1,32 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { House, LogOut, MessagesSquare, Settings2, Users } from "lucide-react";
-import { createClient, supabaseConfigurado } from "@/lib/supabase/client";
-import type { Papel } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-export function NavPainel({ papel }: { papel: Papel }) {
+export function NavPainel() {
   const pathname = usePathname();
   const itens = [
     {
       href: "/painel",
-      rotulo: papel === "professor" ? "Alunos" : "Acompanhamento",
+      rotulo: "Alunos",
       icone: Users,
       ativo: pathname === "/painel" || pathname.startsWith("/painel/alunos"),
     },
-    ...(papel === "professor"
-      ? [
-          {
-            href: "/painel/conversa",
-            rotulo: "Conversa",
-            icone: MessagesSquare,
-            ativo: pathname.startsWith("/painel/conversa"),
-          },
-          { href: "/painel/turma", rotulo: "Turma", icone: Settings2, ativo: pathname.startsWith("/painel/turma") },
-        ]
-      : []),
+    {
+      href: "/painel/conversa",
+      rotulo: "Conversa",
+      icone: MessagesSquare,
+      ativo: pathname.startsWith("/painel/conversa"),
+    },
+    { href: "/painel/turma", rotulo: "Turma", icone: Settings2, ativo: pathname.startsWith("/painel/turma") },
   ];
 
   return (
@@ -62,20 +56,17 @@ export function LinkInicio() {
   );
 }
 
+/** Sair: formulário POST (um link pré-carregado nunca desloga ninguém sem querer). */
 export function BotaoSair() {
-  const router = useRouter();
-  async function sair() {
-    if (supabaseConfigurado) await createClient().auth.signOut();
-    router.push("/");
-    router.refresh();
-  }
   return (
-    <button
-      onClick={sair}
-      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-pedra outline-none hover:bg-secondary hover:text-grafite focus-visible:ring-3 focus-visible:ring-ring/50"
-    >
-      <LogOut className="size-4" />
-      Sair
-    </button>
+    <form action="/api/auth/sair" method="post">
+      <button
+        type="submit"
+        className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-pedra outline-none hover:bg-secondary hover:text-grafite focus-visible:ring-3 focus-visible:ring-ring/50"
+      >
+        <LogOut className="size-4" aria-hidden />
+        Sair
+      </button>
+    </form>
   );
 }

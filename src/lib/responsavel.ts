@@ -4,10 +4,14 @@
 
 export const COOKIE_RESPONSAVEL = "trilha_responsavel";
 
-export const OPCOES_COOKIE_RESPONSAVEL = {
-  httpOnly: true,
-  sameSite: "lax" as const,
-  secure: process.env.NODE_ENV === "production",
-  path: "/",
-  maxAge: 60 * 60 * 8, // um dia de uso; depois pede o PIN de novo
-};
+/** `secure` segue o protocolo da requisição: só HTTPS em produção, e o app continua
+ * funcionando em http://localhost na apresentação. */
+export function opcoesCookieResponsavel(https: boolean) {
+  return {
+    httpOnly: true,
+    sameSite: "lax" as const,
+    secure: https,
+    path: "/",
+    maxAge: 60 * 60 * 8, // um dia de uso, igual à validade da credencial no backend
+  };
+}

@@ -169,6 +169,19 @@ export interface PedidoPin {
   pin: string;
 }
 
+// Professor: login com e-mail + senha (a conta vem do .env do backend).
+export interface PedidoLogin {
+  email: string;
+  senha: string;
+}
+
+export interface RespostaLogin {
+  token: string;
+  nome: string;
+  email: string;
+  expiraEm: number; // epoch em segundos
+}
+
 // Responsável: entra com o código da turma + PIN do filho e só lê o progresso dele.
 export interface PedidoProgresso {
   acesso: string;

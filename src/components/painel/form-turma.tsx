@@ -8,7 +8,7 @@ import { api } from "@/lib/api";
 import type { HabilidadeConfig, TurmaConfig } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-export function FormTurma({ config, token }: { config: TurmaConfig; token: string | null }) {
+export function FormTurma({ config }: { config: TurmaConfig }) {
   const inicial = config.disciplinas.flatMap((d) => d.habilidades.filter((h) => h.ativa).map((h) => h.id));
   const [salvas, setSalvas] = useState(() => new Set(inicial));
   const [ativas, setAtivas] = useState(() => new Set(inicial));
@@ -43,7 +43,7 @@ export function FormTurma({ config, token }: { config: TurmaConfig; token: strin
   async function salvar() {
     setEstado("salvando");
     try {
-      await api.salvarTurmaConfig([...ativas], token, [...disciplinas]);
+      await api.salvarTurmaConfig([...ativas], [...disciplinas]);
       setSalvas(new Set(ativas));
       setDisciplinasSalvas(new Set(disciplinas));
       setEstado("salvo");

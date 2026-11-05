@@ -3,7 +3,7 @@ import { LinkVoltar } from "@/components/voltar";
 import { CodigoTurma, FormTurma } from "@/components/painel/form-turma";
 import { PinsAlunos } from "@/components/painel/pins-alunos";
 import { api } from "@/lib/api";
-import { getProfessor } from "@/lib/supabase/server";
+import { getProfessor } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "Turma" };
 
@@ -25,10 +25,10 @@ export default async function TurmaPage() {
         <CodigoTurma codigo={config.turma.codigo} />
       </div>
       <div className="mt-8">
-        <PinsAlunos alunos={alunos} token={usuario.token} />
+        <PinsAlunos alunos={alunos} />
       </div>
       <div className="mt-8">
-        <FormTurma config={config} token={usuario.token} />
+        <FormTurma config={config} />
       </div>
     </div>
   );

@@ -70,13 +70,7 @@ export default function Home() {
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/entrar" className={cn(buttonVariants({ size: "lg" }), "h-11 px-5 text-base")}>
-              Entrar
-            </Link>
-            <Link
-              href="/cadastro"
-              className={cn(buttonVariants({ size: "lg", variant: "outline" }), "h-11 px-5 text-base")}
-            >
-              Criar conta
+              Entrar como professor
             </Link>
           </div>
           <p className="mt-5 text-sm text-pedra">

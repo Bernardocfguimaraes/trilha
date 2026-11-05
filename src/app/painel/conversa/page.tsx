@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LinkVoltar } from "@/components/voltar";
 import { ChatTurma } from "@/components/painel/chat-turma";
 import { api } from "@/lib/api";
-import { getProfessor } from "@/lib/supabase/server";
+import { getProfessor } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "Conversa da turma" };
 
@@ -21,7 +21,7 @@ export default async function ConversaPage() {
         </p>
       </header>
       <div className="mt-6">
-        <ChatTurma turma={turma} token={usuario.token} />
+        <ChatTurma turma={turma} />
       </div>
     </div>
   );

@@ -16,9 +16,11 @@ import type {
   MensagemChat,
   Nivel,
   PedidoChatTurma,
+  PedidoLogin,
   PedidoPin,
   PedidoProgresso,
   ProgressoResponsavel,
+  RespostaLogin,
   PedidoSessao,
   PedidoTurmaConfig,
   Pergunta,
@@ -148,6 +150,7 @@ interface SessaoMock {
   total: number;
   habilidades: string[];
   usadas: Set<string>;
+  servidas: Set<string>; // perguntas entregues a esta sessão (só elas podem ser respondidas)
   adaptacao: EstadoAdaptacao;
   respostas: { perguntaId: string; habilidadeId: string; nivel: Nivel; correta: boolean }[];
   concluida?: boolean;
@@ -504,7 +507,7 @@ function validarPin({ alunoId, pin }: PedidoPin): ResultadoPin {
   }
 
   estado.tentativas.delete(alunoId);
-  const acesso = `acesso-${alunoId}-${crypto.randomUUID()}`;
+  const acesso = crypto.randomUUID() + crypto.randomUUID();
   estado.acessos.set(acesso, alunoId);
   return { valido: true, acesso, bloqueado: false };
 }
@@ -535,8 +538,42 @@ function retratoTurma(): RetratoTurma {
   };
 }
 
-function rotear(path: string, method: string, body: unknown): unknown {
+// Login do professor no mock: mesmas regras do backend (conta vinda do ambiente do
+// servidor, token aleatório, rotas do painel exigem o token).
+const CONTA_MOCK = {
+  nome: process.env.PROFESSOR_NOME ?? "Profa. Marina",
+  email: (process.env.PROFESSOR_EMAIL ?? "professora@trilha.app").toLowerCase(),
+  senha: process.env.PROFESSOR_SENHA ?? "trilha-demo",
+};
+const tokensMock = new Map<string, number>(); // token -> expira (ms)
+const ROTAS_PROFESSOR = [/^\/alunos/, /^\/turma\//, /^\/diagnostico\//, /^\/turmas\/[^/]+\/chat$/, /^\/exercicios\//, /^\/voz\//];
+
+function exigirProfessor(path: string, token: string | null | undefined) {
+  if (!ROTAS_PROFESSOR.some((r) => r.test(path))) return;
+  const expira = token ? tokensMock.get(token) : undefined;
+  if (!expira || expira < Date.now()) throw new ApiError(401, "Entre como professor para continuar.");
+}
+
+function rotear(path: string, method: string, body: unknown, token?: string | null): unknown {
   const partes = path.split("/").filter(Boolean);
+  exigirProfessor(path, token);
+
+  if (path === "/auth/entrar" && method === "POST") {
+    const { email, senha } = body as PedidoLogin;
+    if (email?.trim().toLowerCase() !== CONTA_MOCK.email || senha !== CONTA_MOCK.senha) {
+      throw new ApiError(401, "E-mail ou senha incorretos.");
+    }
+    const novo = crypto.randomUUID() + crypto.randomUUID();
+    const expiraEm = Math.floor(Date.now() / 1000) + 12 * 60 * 60;
+    tokensMock.set(novo, expiraEm * 1000);
+    const r: RespostaLogin = { token: novo, nome: CONTA_MOCK.nome, email: CONTA_MOCK.email, expiraEm };
+    return r;
+  }
+  if (path === "/auth/eu") {
+    const expira = token ? tokensMock.get(token) : undefined;
+    if (!expira || expira < Date.now()) throw new ApiError(401, "Sua sessão expirou. Entre de novo.");
+    return { nome: CONTA_MOCK.nome, email: CONTA_MOCK.email };
+  }
 
   // Chat da turma: placeholder. A resposta real vem do backend (LLM sobre os dados da turma).
   if (partes[0] === "turmas" && partes[2] === "chat" && method === "POST") {
@@ -623,13 +660,14 @@ function rotear(path: string, method: string, body: unknown): unknown {
       perguntas.push(p);
     }
 
-    const sessaoId = `s${Date.now()}`;
+    const sessaoId = `s${crypto.randomUUID()}`; // impossível de adivinhar, como no backend
     estado.sessoes.set(sessaoId, {
       acertos: 0,
       alunoId: pedido.alunoId,
       total: perguntas.length,
       habilidades,
       usadas: new Set([perguntas[0].id]),
+      servidas: new Set(perguntas.map((p) => p.id)),
       adaptacao,
       respostas: [],
     });
@@ -639,12 +677,16 @@ function rotear(path: string, method: string, body: unknown): unknown {
 
   if (partes[0] === "sessoes" && partes[2] === "respostas") {
     const { perguntaId, opcaoId } = body as { perguntaId: string; opcaoId: string };
+    // Só dentro de uma sessão aberta e só perguntas entregues a ela (senão vira gabarito).
+    const s = estado.sessoes.get(partes[1]);
+    if (!s) throw new ApiError(404, "Sessão não encontrada");
+    if (!s.servidas.has(perguntaId)) throw new ApiError(403, "Esta pergunta não faz parte da sessão");
     const p = BANCO.find((q) => q.id === perguntaId);
     if (!p) throw new ApiError(404, "Pergunta não encontrada");
     const certaId = `${p.id}-${p.certa}`;
     const correta = opcaoId === certaId;
-    const s = estado.sessoes.get(partes[1]);
-    if (s && correta) s.acertos++;
+    const primeira = !s.respostas.some((q) => q.perguntaId === p.id);
+    if (primeira && correta) s.acertos++; // responder de novo não soma estrela
     const r: ResultadoResposta = {
       correta,
       opcaoCorretaId: certaId,
@@ -652,7 +694,7 @@ function rotear(path: string, method: string, body: unknown): unknown {
         ? ELOGIOS[Math.floor(Math.random() * ELOGIOS.length)]
         : `Quase! A resposta é ${p.opcoes[p.certa]}.`,
     };
-    if (s && !s.respostas.some((q) => q.perguntaId === p.id)) {
+    if (primeira) {
       s.usadas.add(p.id);
       s.respostas.push({ perguntaId: p.id, habilidadeId: p.habilidadeId, nivel: p.nivel, correta });
       s.adaptacao = registrarResposta(s.adaptacao, correta);
@@ -660,6 +702,7 @@ function rotear(path: string, method: string, body: unknown): unknown {
         const proxima = escolherPergunta(s.habilidades, s.adaptacao.nivel, s.usadas, s.respostas.length);
         if (proxima) {
           s.usadas.add(proxima.id);
+          s.servidas.add(proxima.id);
           r.proxima = paraCliente(proxima);
         }
       }
@@ -669,12 +712,13 @@ function rotear(path: string, method: string, body: unknown): unknown {
 
   if (partes[0] === "sessoes" && partes[2] === "concluir") {
     const s = estado.sessoes.get(partes[1]);
-    if (s && !s.concluida) {
+    if (!s) throw new ApiError(404, "Sessão não encontrada");
+    if (!s.concluida) {
       s.concluida = true;
       registrarSessao(s);
     }
-    const acertos = s?.acertos ?? 0;
-    const total = s?.total ?? PERGUNTAS_POR_SESSAO;
+    const acertos = s.acertos;
+    const total = s.total;
     const r: ResultadoSessao = {
       estrelas: acertos,
       total,
@@ -686,9 +730,9 @@ function rotear(path: string, method: string, body: unknown): unknown {
   throw new ApiError(404, `Rota de exemplo não encontrada: ${method} ${path}`);
 }
 
-export async function mockRequest<T>(path: string, method: string, body: unknown): Promise<T> {
+export async function mockRequest<T>(path: string, method: string, body: unknown, token?: string | null): Promise<T> {
   // O chat demora um pouco mais, como uma resposta de LLM de verdade
   const espera = path.endsWith("/chat") ? 900 + Math.random() * 900 : 150;
   await new Promise((r) => setTimeout(r, espera));
-  return structuredClone(rotear(path, method, body)) as T;
+  return structuredClone(rotear(path, method, body, token)) as T;
 }

@@ -4,7 +4,7 @@ import { LinkVoltar } from "@/components/voltar";
 import { ProgressoAluno } from "@/components/progresso/progresso-aluno";
 import { api, ApiError } from "@/lib/api";
 import { dataLonga } from "@/lib/formato";
-import { getProfessor } from "@/lib/supabase/server";
+import { getProfessor } from "@/lib/auth";
 
 async function carregar(id: string) {
   const usuario = await getProfessor();
