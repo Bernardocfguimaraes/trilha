@@ -1,0 +1,327 @@
+{
+ "ano": 6,
+ "disciplinaId": "cie",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef06ci01-f1",
+   "habilidadeId": "EF06CI01",
+   "nivel": "facil",
+   "enunciado": "Água e óleo juntos formam uma mistura…",
+   "apoio": null,
+   "opcoes": [
+    "homogênea",
+    "heterogênea",
+    "gasosa",
+    "pura"
+   ],
+   "certa": 1,
+   "explicacao": "Dá para ver as duas fases separadas: é heterogênea.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci01-f2",
+   "habilidadeId": "EF06CI01",
+   "nivel": "facil",
+   "enunciado": "Água com sal bem dissolvido é uma mistura…",
+   "apoio": null,
+   "opcoes": [
+    "com duas fases",
+    "heterogênea",
+    "homogênea",
+    "sólida"
+   ],
+   "certa": 2,
+   "explicacao": "Não se distinguem as partes: é homogênea.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci01-m1",
+   "habilidadeId": "EF06CI01",
+   "nivel": "medio",
+   "enunciado": "Qual método separa areia da água?",
+   "apoio": null,
+   "opcoes": [
+    "imantação",
+    "evaporação do ferro",
+    "destilação",
+    "filtração"
+   ],
+   "certa": 3,
+   "explicacao": "O filtro retém a areia e deixa a água passar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci01-m2",
+   "habilidadeId": "EF06CI01",
+   "nivel": "medio",
+   "enunciado": "Como separar limalha de ferro misturada com areia?",
+   "apoio": null,
+   "opcoes": [
+    "Com um filtro de papel",
+    "Fervendo a mistura",
+    "Com uma peneira de água",
+    "Com um ímã"
+   ],
+   "certa": 3,
+   "explicacao": "O ímã atrai o ferro e não a areia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci01-d1",
+   "habilidadeId": "EF06CI01",
+   "nivel": "dificil",
+   "enunciado": "Como obter o sal de uma água salgada?",
+   "apoio": null,
+   "opcoes": [
+    "Evaporando a água",
+    "Usando um ímã",
+    "Congelando o sal",
+    "Filtrando a mistura"
+   ],
+   "certa": 0,
+   "explicacao": "Ao evaporar a água, o sal dissolvido fica no recipiente.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci05-f1",
+   "habilidadeId": "EF06CI05",
+   "nivel": "facil",
+   "enunciado": "A célula é considerada…",
+   "apoio": null,
+   "opcoes": [
+    "um tipo de rocha",
+    "a menor unidade viva dos seres vivos",
+    "um planeta",
+    "um órgão do corpo"
+   ],
+   "certa": 1,
+   "explicacao": "Todos os seres vivos são formados por células.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci05-f2",
+   "habilidadeId": "EF06CI05",
+   "nivel": "facil",
+   "enunciado": "Que instrumento usamos para observar células?",
+   "apoio": null,
+   "opcoes": [
+    "termômetro",
+    "telescópio",
+    "bússola",
+    "microscópio"
+   ],
+   "certa": 3,
+   "explicacao": "As células são pequenas demais para ver a olho nu.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci05-m1",
+   "habilidadeId": "EF06CI05",
+   "nivel": "medio",
+   "enunciado": "Qual parte da célula guarda o material genético (DNA) nas células animais?",
+   "apoio": null,
+   "opcoes": [
+    "cloroplasto",
+    "núcleo",
+    "membrana",
+    "parede celular"
+   ],
+   "certa": 1,
+   "explicacao": "O núcleo contém o DNA e coordena a célula.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci05-m2",
+   "habilidadeId": "EF06CI05",
+   "nivel": "medio",
+   "enunciado": "Qual estrutura existe nas células vegetais e não nas animais?",
+   "apoio": null,
+   "opcoes": [
+    "cloroplasto",
+    "citoplasma",
+    "membrana plasmática",
+    "núcleo"
+   ],
+   "certa": 0,
+   "explicacao": "Os cloroplastos fazem a fotossíntese nas plantas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci05-d1",
+   "habilidadeId": "EF06CI05",
+   "nivel": "dificil",
+   "enunciado": "Qual é a ordem de organização do corpo, do mais simples ao mais complexo?",
+   "apoio": null,
+   "opcoes": [
+    "célula, tecido, órgão, sistema",
+    "tecido, célula, sistema, órgão",
+    "órgão, célula, tecido, sistema",
+    "sistema, órgão, tecido, célula"
+   ],
+   "certa": 0,
+   "explicacao": "Células formam tecidos, que formam órgãos, que formam sistemas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci11-f1",
+   "habilidadeId": "EF06CI11",
+   "nivel": "facil",
+   "enunciado": "Qual é a camada mais externa da Terra, onde vivemos?",
+   "apoio": null,
+   "opcoes": [
+    "núcleo",
+    "crosta",
+    "magma interno",
+    "manto"
+   ],
+   "certa": 1,
+   "explicacao": "A crosta é a camada sólida e mais fina da superfície.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci11-f2",
+   "habilidadeId": "EF06CI11",
+   "nivel": "facil",
+   "enunciado": "A camada de gases que envolve a Terra se chama…",
+   "apoio": null,
+   "opcoes": [
+    "hidrosfera",
+    "núcleo",
+    "crosta",
+    "atmosfera"
+   ],
+   "certa": 3,
+   "explicacao": "Atmosfera é o ar que envolve o planeta.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci11-m1",
+   "habilidadeId": "EF06CI11",
+   "nivel": "medio",
+   "enunciado": "Qual camada fica entre a crosta e o núcleo?",
+   "apoio": null,
+   "opcoes": [
+    "manto",
+    "hidrosfera",
+    "litosfera externa",
+    "atmosfera"
+   ],
+   "certa": 0,
+   "explicacao": "O manto fica abaixo da crosta e é formado por rochas muito quentes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci11-m2",
+   "habilidadeId": "EF06CI11",
+   "nivel": "medio",
+   "enunciado": "O conjunto de toda a água do planeta se chama…",
+   "apoio": null,
+   "opcoes": [
+    "biosfera",
+    "atmosfera",
+    "hidrosfera",
+    "litosfera"
+   ],
+   "certa": 2,
+   "explicacao": "Hidro = água: oceanos, rios, geleiras e água subterrânea.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci11-d1",
+   "habilidadeId": "EF06CI11",
+   "nivel": "dificil",
+   "enunciado": "O magma que sai dos vulcões vem principalmente de qual camada?",
+   "apoio": null,
+   "opcoes": [
+    "núcleo interno",
+    "atmosfera",
+    "manto",
+    "hidrosfera"
+   ],
+   "certa": 2,
+   "explicacao": "O magma se forma em partes muito quentes do manto e sobe pela crosta.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci12-f1",
+   "habilidadeId": "EF06CI12",
+   "nivel": "facil",
+   "enunciado": "Rochas formadas pelo resfriamento do magma se chamam…",
+   "apoio": null,
+   "opcoes": [
+    "magmáticas (ígneas)",
+    "sedimentares",
+    "fósseis",
+    "metamórficas"
+   ],
+   "certa": 0,
+   "explicacao": "Magma que esfria e endurece forma rochas magmáticas, como o granito.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci12-f2",
+   "habilidadeId": "EF06CI12",
+   "nivel": "facil",
+   "enunciado": "Em que tipo de rocha costumamos encontrar fósseis?",
+   "apoio": null,
+   "opcoes": [
+    "sedimentares",
+    "magmáticas",
+    "metamórficas",
+    "vulcânicas"
+   ],
+   "certa": 0,
+   "explicacao": "Camadas de sedimentos cobrem restos de seres vivos e os preservam.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci12-m1",
+   "habilidadeId": "EF06CI12",
+   "nivel": "medio",
+   "enunciado": "O que é um fóssil?",
+   "apoio": null,
+   "opcoes": [
+    "Restos ou marcas de seres vivos preservados em rochas",
+    "Um mineral raro",
+    "Uma rocha brilhante",
+    "Uma camada da atmosfera"
+   ],
+   "certa": 0,
+   "explicacao": "Ossos, conchas e pegadas antigas podem virar fósseis.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci12-m2",
+   "habilidadeId": "EF06CI12",
+   "nivel": "medio",
+   "enunciado": "Rochas transformadas por calor e pressão se chamam…",
+   "apoio": null,
+   "opcoes": [
+    "magmáticas",
+    "metamórficas",
+    "sedimentares",
+    "orgânicas"
+   ],
+   "certa": 1,
+   "explicacao": "Metamórfica quer dizer que mudou de forma, como o mármore.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ci12-d1",
+   "habilidadeId": "EF06CI12",
+   "nivel": "dificil",
+   "enunciado": "Por que os fósseis ajudam a estudar a história da Terra?",
+   "apoio": null,
+   "opcoes": [
+    "Brilham no escuro",
+    "Mostram que seres viviam em cada época e ambiente",
+    "Indicam onde há petróleo sempre",
+    "Informam a temperatura de hoje"
+   ],
+   "certa": 1,
+   "explicacao": "As camadas e os fósseis revelam como a vida e os ambientes mudaram.",
+   "origem": "curada"
+  }
+ ]
+}

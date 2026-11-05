@@ -1,0 +1,30 @@
+{
+ "ano": 4,
+ "disciplinaId": "his",
+ "componente": "HI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Pessoas, lugares e mudanças",
+   "habilidades": [
+    {
+     "codigo": "EF04HI02",
+     "nome": "Mudanças e permanências"
+    },
+    {
+     "codigo": "EF04HI04",
+     "nome": "Nômades e primeiros povoados"
+    },
+    {
+     "codigo": "EF04HI08",
+     "nome": "Meios de comunicação"
+    },
+    {
+     "codigo": "EF04HI10",
+     "nome": "Povos que formaram o Brasil"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,327 @@
+{
+ "ano": 4,
+ "disciplinaId": "his",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef04hi02-f1",
+   "habilidadeId": "EF04HI02",
+   "nivel": "facil",
+   "enunciado": "Qual destes objetos as pessoas usavam antigamente para ver as horas?",
+   "apoio": null,
+   "opcoes": [
+    "Televisão",
+    "Relógio de sol",
+    "Computador",
+    "Celular"
+   ],
+   "certa": 1,
+   "explicacao": "Antes dos relógios mecânicos, a sombra do sol marcava as horas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi02-f2",
+   "habilidadeId": "EF04HI02",
+   "nivel": "facil",
+   "enunciado": "Algo que mudou muito do tempo dos seus avós para hoje é…",
+   "apoio": null,
+   "opcoes": [
+    "o nascer do sol",
+    "o céu ter estrelas",
+    "a forma de se comunicar",
+    "a necessidade de comer"
+   ],
+   "certa": 2,
+   "explicacao": "A comunicação mudou com telefone, internet e celular.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi02-m1",
+   "habilidadeId": "EF04HI02",
+   "nivel": "medio",
+   "enunciado": "Qual destes costumes permaneceu ao longo do tempo?",
+   "apoio": null,
+   "opcoes": [
+    "Iluminar a casa com lampião",
+    "Viajar só a cavalo",
+    "Escrever com pena de ave",
+    "Comemorar aniversários"
+   ],
+   "certa": 3,
+   "explicacao": "Festejar aniversários é um costume antigo que continua até hoje.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi02-m2",
+   "habilidadeId": "EF04HI02",
+   "nivel": "medio",
+   "enunciado": "A invenção da escrita é considerada um grande marco porque…",
+   "apoio": null,
+   "opcoes": [
+    "criou os computadores",
+    "acabou com a fala",
+    "permitiu registrar e guardar informações",
+    "fez as pessoas pararem de desenhar"
+   ],
+   "certa": 2,
+   "explicacao": "Com a escrita, conhecimentos passaram a ser registrados e transmitidos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi02-d1",
+   "habilidadeId": "EF04HI02",
+   "nivel": "dificil",
+   "enunciado": "Fotos antigas da sua cidade ajudam a estudar história porque…",
+   "apoio": null,
+   "opcoes": [
+    "mostram o que mudou e o que permaneceu",
+    "têm sempre a data certa de tudo",
+    "mostram o futuro da cidade",
+    "substituem todas as outras fontes"
+   ],
+   "certa": 0,
+   "explicacao": "Comparando fotos de épocas diferentes, vemos mudanças e permanências.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi04-f1",
+   "habilidadeId": "EF04HI04",
+   "nivel": "facil",
+   "enunciado": "Os primeiros grupos humanos que mudavam de lugar em busca de comida eram chamados de…",
+   "apoio": null,
+   "opcoes": [
+    "operários",
+    "nômades",
+    "fazendeiros",
+    "comerciantes"
+   ],
+   "certa": 1,
+   "explicacao": "Nômades não tinham moradia fixa: acompanhavam os animais e as frutas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi04-f2",
+   "habilidadeId": "EF04HI04",
+   "nivel": "facil",
+   "enunciado": "O que os primeiros grupos humanos faziam para conseguir alimento?",
+   "apoio": null,
+   "opcoes": [
+    "Caçavam, pescavam e coletavam frutos",
+    "Compravam no mercado",
+    "Pediam por telefone",
+    "Plantavam em estufas"
+   ],
+   "certa": 0,
+   "explicacao": "Antes da agricultura, a comida vinha da caça, da pesca e da coleta.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi04-m1",
+   "habilidadeId": "EF04HI04",
+   "nivel": "medio",
+   "enunciado": "O que fez os grupos humanos começarem a morar num mesmo lugar?",
+   "apoio": null,
+   "opcoes": [
+    "A construção de shoppings",
+    "A invenção do carro",
+    "A chegada da internet",
+    "A agricultura e a criação de animais"
+   ],
+   "certa": 3,
+   "explicacao": "Plantando e criando animais, não era preciso mudar de lugar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi04-m2",
+   "habilidadeId": "EF04HI04",
+   "nivel": "medio",
+   "enunciado": "Por que os primeiros povoados costumavam surgir perto de rios?",
+   "apoio": null,
+   "opcoes": [
+    "Os rios davam água para beber e para as plantações",
+    "Não havia animais perto dos rios",
+    "Os rios eram mais quentes",
+    "Era proibido morar longe"
+   ],
+   "certa": 0,
+   "explicacao": "Água é essencial para as pessoas e para a agricultura.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi04-d1",
+   "habilidadeId": "EF04HI04",
+   "nivel": "dificil",
+   "enunciado": "Qual mudança aconteceu quando os grupos deixaram de ser nômades?",
+   "apoio": null,
+   "opcoes": [
+    "Surgiram as primeiras aldeias e o trabalho foi dividido",
+    "Todos passaram a viajar mais",
+    "Os rios secaram",
+    "As pessoas pararam de comer carne"
+   ],
+   "certa": 0,
+   "explicacao": "Morando juntas, as pessoas dividiram tarefas e formaram aldeias.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi08-f1",
+   "habilidadeId": "EF04HI08",
+   "nivel": "facil",
+   "enunciado": "Qual destes é o meio de comunicação mais recente?",
+   "apoio": null,
+   "opcoes": [
+    "Internet",
+    "Telégrafo",
+    "Jornal impresso",
+    "Carta"
+   ],
+   "certa": 0,
+   "explicacao": "A internet chegou às casas há poucas décadas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi08-f2",
+   "habilidadeId": "EF04HI08",
+   "nivel": "facil",
+   "enunciado": "Antes da escrita, as histórias eram passadas de geração em geração…",
+   "apoio": null,
+   "opcoes": [
+    "pela fala (cultura oral)",
+    "por mensagens no celular",
+    "por e-mail",
+    "pela televisão"
+   ],
+   "certa": 0,
+   "explicacao": "Os mais velhos contavam as histórias para os mais novos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi08-m1",
+   "habilidadeId": "EF04HI08",
+   "nivel": "medio",
+   "enunciado": "Qual meio de comunicação permitiu ouvir notícias em casa, sem imagens?",
+   "apoio": null,
+   "opcoes": [
+    "Televisão",
+    "Rádio",
+    "Jornal",
+    "Cinema"
+   ],
+   "certa": 1,
+   "explicacao": "O rádio transmite som: notícias, músicas e novelas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi08-m2",
+   "habilidadeId": "EF04HI08",
+   "nivel": "medio",
+   "enunciado": "Como a invenção da imprensa mudou a comunicação?",
+   "apoio": null,
+   "opcoes": [
+    "Livros e jornais puderam ser feitos em grande quantidade",
+    "Fez as cartas desaparecerem",
+    "Acabou com a leitura",
+    "Criou o telefone"
+   ],
+   "certa": 0,
+   "explicacao": "Com a prensa, copiar textos ficou mais rápido e barato.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi08-d1",
+   "habilidadeId": "EF04HI08",
+   "nivel": "dificil",
+   "enunciado": "Uma mudança trazida pela internet na comunicação foi…",
+   "apoio": null,
+   "opcoes": [
+    "impedir o envio de fotos",
+    "fazer as cartas chegarem em meses",
+    "receber notícias do mundo todo em segundos",
+    "acabar com todas as conversas presenciais"
+   ],
+   "certa": 2,
+   "explicacao": "Hoje informações viajam quase na mesma hora para qualquer lugar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi10-f1",
+   "habilidadeId": "EF04HI10",
+   "nivel": "facil",
+   "enunciado": "Quem já vivia no território do Brasil antes da chegada dos portugueses?",
+   "apoio": null,
+   "opcoes": [
+    "Os italianos",
+    "Os imigrantes japoneses",
+    "Ninguém",
+    "Os povos indígenas"
+   ],
+   "certa": 3,
+   "explicacao": "Muitos povos indígenas viviam aqui havia milhares de anos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi10-f2",
+   "habilidadeId": "EF04HI10",
+   "nivel": "facil",
+   "enunciado": "Quais povos formaram a base da população brasileira?",
+   "apoio": null,
+   "opcoes": [
+    "Só indígenas",
+    "Só asiáticos",
+    "Indígenas, africanos e europeus",
+    "Só europeus"
+   ],
+   "certa": 2,
+   "explicacao": "A sociedade brasileira nasceu do encontro desses povos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi10-m1",
+   "habilidadeId": "EF04HI10",
+   "nivel": "medio",
+   "enunciado": "Os africanos vieram para o Brasil, no período colonial, principalmente…",
+   "apoio": null,
+   "opcoes": [
+    "como turistas",
+    "para fundar escolas",
+    "trazidos à força e escravizados",
+    "para estudar"
+   ],
+   "certa": 2,
+   "explicacao": "Milhões de africanos foram escravizados e trazidos contra a vontade.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi10-m2",
+   "habilidadeId": "EF04HI10",
+   "nivel": "medio",
+   "enunciado": "Qual palavra do português veio de uma língua indígena?",
+   "apoio": null,
+   "opcoes": [
+    "bicicleta",
+    "escola",
+    "janela",
+    "pipoca"
+   ],
+   "certa": 3,
+   "explicacao": "\"Pipoca\" vem do tupi; o português tem muitas palavras indígenas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04hi10-d1",
+   "habilidadeId": "EF04HI10",
+   "nivel": "dificil",
+   "enunciado": "No final do século XIX e início do XX, muitos imigrantes chegaram ao Brasil vindos de…",
+   "apoio": null,
+   "opcoes": [
+    "apenas da Austrália",
+    "Marte e da Lua",
+    "Itália, Japão, Alemanha e outros países",
+    "apenas Portugal"
+   ],
+   "certa": 2,
+   "explicacao": "Imigrantes vieram trabalhar no campo e nas cidades, trazendo seus costumes.",
+   "origem": "curada"
+  }
+ ]
+}

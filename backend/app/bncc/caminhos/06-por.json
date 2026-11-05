@@ -1,0 +1,30 @@
+{
+ "ano": 6,
+ "disciplinaId": "por",
+ "componente": "LP",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Leitura e análise linguística",
+   "habilidades": [
+    {
+     "codigo": "EF67LP04",
+     "nome": "Fato ou opinião"
+    },
+    {
+     "codigo": "EF06LP06",
+     "nome": "Concordância nominal"
+    },
+    {
+     "codigo": "EF67LP32",
+     "nome": "Ortografia"
+    },
+    {
+     "codigo": "EF67LP38",
+     "nome": "Figuras de linguagem"
+    }
+   ]
+  }
+ ]
+}

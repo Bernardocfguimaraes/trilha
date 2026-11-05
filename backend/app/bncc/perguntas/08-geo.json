@@ -1,0 +1,327 @@
+{
+ "ano": 8,
+ "disciplinaId": "geo",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef08ge03-f1",
+   "habilidadeId": "EF08GE03",
+   "nivel": "facil",
+   "enunciado": "Taxa de natalidade é…",
+   "apoio": null,
+   "opcoes": [
+    "o número de mortes por ano",
+    "o número de nascimentos em relação à população",
+    "a idade média da população",
+    "o número de pessoas que mudam de país"
+   ],
+   "certa": 1,
+   "explicacao": "Natalidade mede quantos nascem para cada mil habitantes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge03-f2",
+   "habilidadeId": "EF08GE03",
+   "nivel": "facil",
+   "enunciado": "O que é crescimento vegetativo?",
+   "apoio": null,
+   "opcoes": [
+    "A diferença entre nascimentos e mortes",
+    "A chegada de imigrantes",
+    "O aumento das florestas",
+    "O crescimento das cidades"
+   ],
+   "certa": 0,
+   "explicacao": "Nascimentos menos mortes, sem contar migrações.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge03-m1",
+   "habilidadeId": "EF08GE03",
+   "nivel": "medio",
+   "enunciado": "O que acontece com a pirâmide etária quando a população envelhece?",
+   "apoio": null,
+   "opcoes": [
+    "A pirâmide vira um triângulo perfeito",
+    "Nada muda",
+    "A base fica mais larga",
+    "A base fica mais estreita e o topo mais largo"
+   ],
+   "certa": 3,
+   "explicacao": "Menos nascimentos estreitam a base; mais idosos alargam o topo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge03-m2",
+   "habilidadeId": "EF08GE03",
+   "nivel": "medio",
+   "enunciado": "Expectativa de vida é…",
+   "apoio": null,
+   "opcoes": [
+    "o número de filhos por mulher",
+    "a idade mínima para votar",
+    "a idade da população mais jovem",
+    "quantos anos, em média, as pessoas devem viver"
+   ],
+   "certa": 3,
+   "explicacao": "Indica a média de anos de vida esperada ao nascer.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge03-d1",
+   "habilidadeId": "EF08GE03",
+   "nivel": "dificil",
+   "enunciado": "Um país com natalidade e mortalidade baixas tende a ter…",
+   "apoio": null,
+   "opcoes": [
+    "população muito jovem",
+    "crescimento explosivo",
+    "pirâmide de base larga",
+    "população envelhecendo e crescimento lento"
+   ],
+   "certa": 3,
+   "explicacao": "Poucos nascimentos e vidas mais longas aumentam a proporção de idosos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge05-f1",
+   "habilidadeId": "EF08GE05",
+   "nivel": "facil",
+   "enunciado": "O que é território?",
+   "apoio": null,
+   "opcoes": [
+    "A área sob o controle de um Estado",
+    "A capital do país",
+    "O partido que governa",
+    "Um grupo de pessoas com a mesma língua"
+   ],
+   "certa": 0,
+   "explicacao": "Território é o espaço onde o Estado exerce poder.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge05-f2",
+   "habilidadeId": "EF08GE05",
+   "nivel": "facil",
+   "enunciado": "Nação é…",
+   "apoio": null,
+   "opcoes": [
+    "um conjunto de leis",
+    "a moeda de um país",
+    "um povo que compartilha cultura, história e identidade",
+    "o prédio do governo"
+   ],
+   "certa": 2,
+   "explicacao": "Nação se refere à identidade comum de um povo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge05-m1",
+   "habilidadeId": "EF08GE05",
+   "nivel": "medio",
+   "enunciado": "Qual a diferença entre Estado e governo?",
+   "apoio": null,
+   "opcoes": [
+    "O Estado é permanente; o governo é quem o administra por um tempo",
+    "Estado é só a capital",
+    "O governo é permanente; o Estado muda a cada eleição",
+    "São a mesma coisa"
+   ],
+   "certa": 0,
+   "explicacao": "Governos passam; o Estado (instituições, território, povo) permanece.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge05-m2",
+   "habilidadeId": "EF08GE05",
+   "nivel": "medio",
+   "enunciado": "Os curdos são um exemplo de…",
+   "apoio": null,
+   "opcoes": [
+    "país da América do Sul",
+    "nação sem Estado próprio",
+    "bloco econômico",
+    "Estado sem nação"
+   ],
+   "certa": 1,
+   "explicacao": "Os curdos têm identidade comum, mas vivem divididos entre vários países.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge05-d1",
+   "habilidadeId": "EF08GE05",
+   "nivel": "dificil",
+   "enunciado": "Soberania de um Estado significa…",
+   "apoio": null,
+   "opcoes": [
+    "ter a maior população do continente",
+    "fazer parte da ONU",
+    "ter uma única língua oficial",
+    "poder de decidir sobre seu território sem interferência externa"
+   ],
+   "certa": 3,
+   "explicacao": "Soberania é a autoridade máxima do Estado dentro de suas fronteiras.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge12-f1",
+   "habilidadeId": "EF08GE12",
+   "nivel": "facil",
+   "enunciado": "O Mercosul é…",
+   "apoio": null,
+   "opcoes": [
+    "um bloco econômico da América do Sul",
+    "um rio da Argentina",
+    "um país",
+    "uma moeda"
+   ],
+   "certa": 0,
+   "explicacao": "É um acordo de integração entre países sul-americanos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge12-f2",
+   "habilidadeId": "EF08GE12",
+   "nivel": "facil",
+   "enunciado": "Qual destes países é membro fundador do Mercosul?",
+   "apoio": null,
+   "opcoes": [
+    "Uruguai",
+    "Chile",
+    "Colômbia",
+    "México"
+   ],
+   "certa": 0,
+   "explicacao": "Os fundadores foram Brasil, Argentina, Paraguai e Uruguai (1991).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge12-m1",
+   "habilidadeId": "EF08GE12",
+   "nivel": "medio",
+   "enunciado": "Um objetivo do Mercosul é…",
+   "apoio": null,
+   "opcoes": [
+    "unificar todas as línguas",
+    "acabar com as fronteiras físicas",
+    "facilitar o comércio entre os países membros",
+    "criar um único governo"
+   ],
+   "certa": 2,
+   "explicacao": "Reduzir tarifas e ampliar o comércio na região.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge12-m2",
+   "habilidadeId": "EF08GE12",
+   "nivel": "medio",
+   "enunciado": "Em que ano o Mercosul foi criado?",
+   "apoio": null,
+   "opcoes": [
+    "1822",
+    "1991",
+    "1945",
+    "2010"
+   ],
+   "certa": 1,
+   "explicacao": "O Tratado de Assunção foi assinado em 1991.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge12-d1",
+   "habilidadeId": "EF08GE12",
+   "nivel": "dificil",
+   "enunciado": "Qual é a diferença entre uma zona de livre-comércio e uma união aduaneira?",
+   "apoio": null,
+   "opcoes": [
+    "A zona de livre-comércio tem moeda única",
+    "A união aduaneira proíbe exportações",
+    "Não há diferença",
+    "Na união aduaneira os membros também adotam tarifa comum para quem é de fora"
+   ],
+   "certa": 3,
+   "explicacao": "A união aduaneira soma uma Tarifa Externa Comum ao livre-comércio interno.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge15-f1",
+   "habilidadeId": "EF08GE15",
+   "nivel": "facil",
+   "enunciado": "O Aquífero Guarani é…",
+   "apoio": null,
+   "opcoes": [
+    "um oceano",
+    "uma represa",
+    "uma grande reserva de água subterrânea",
+    "um rio da Amazônia"
+   ],
+   "certa": 2,
+   "explicacao": "É um dos maiores reservatórios de água doce subterrânea do mundo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge15-f2",
+   "habilidadeId": "EF08GE15",
+   "nivel": "facil",
+   "enunciado": "Qual é o maior rio em volume de água da América do Sul?",
+   "apoio": null,
+   "opcoes": [
+    "São Francisco",
+    "Paraná",
+    "Tietê",
+    "Amazonas"
+   ],
+   "certa": 3,
+   "explicacao": "O Amazonas tem o maior volume de água do mundo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge15-m1",
+   "habilidadeId": "EF08GE15",
+   "nivel": "medio",
+   "enunciado": "Quais países compartilham o Aquífero Guarani?",
+   "apoio": null,
+   "opcoes": [
+    "Só o Brasil",
+    "Brasil e Chile",
+    "Peru, Bolívia e Equador",
+    "Brasil, Argentina, Paraguai e Uruguai"
+   ],
+   "certa": 3,
+   "explicacao": "O aquífero fica sob o território desses quatro países.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge15-m2",
+   "habilidadeId": "EF08GE15",
+   "nivel": "medio",
+   "enunciado": "Por que proteger as áreas de recarga de um aquífero?",
+   "apoio": null,
+   "opcoes": [
+    "É por elas que a água da chuva infiltra e o abastece",
+    "Para impedir que chova",
+    "Porque ali nascem os oceanos",
+    "Para aumentar a temperatura da água"
+   ],
+   "certa": 0,
+   "explicacao": "Contaminar ou impermeabilizar essas áreas compromete a água subterrânea.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ge15-d1",
+   "habilidadeId": "EF08GE15",
+   "nivel": "dificil",
+   "enunciado": "Por que a água é um recurso estratégico na geopolítica da América Latina?",
+   "apoio": null,
+   "opcoes": [
+    "Porque é infinita e sem valor",
+    "Porque só existe no Brasil",
+    "Porque não pode ser usada na agricultura",
+    "É essencial e está distribuída de forma desigual, podendo gerar disputas"
+   ],
+   "certa": 3,
+   "explicacao": "Recursos hídricos compartilhados exigem acordos entre países.",
+   "origem": "curada"
+  }
+ ]
+}

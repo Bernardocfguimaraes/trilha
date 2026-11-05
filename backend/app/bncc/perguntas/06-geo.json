@@ -1,0 +1,327 @@
+{
+ "ano": 6,
+ "disciplinaId": "geo",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef06ge03-f1",
+   "habilidadeId": "EF06GE03",
+   "nivel": "facil",
+   "enunciado": "O movimento que a Terra faz em volta do Sol se chama…",
+   "apoio": null,
+   "opcoes": [
+    "rotação",
+    "precipitação",
+    "erosão",
+    "translação"
+   ],
+   "certa": 3,
+   "explicacao": "Translação: a volta em torno do Sol, em cerca de um ano.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge03-f2",
+   "habilidadeId": "EF06GE03",
+   "nivel": "facil",
+   "enunciado": "A rotação da Terra é responsável…",
+   "apoio": null,
+   "opcoes": [
+    "pelas estações do ano",
+    "pelas marés de areia",
+    "pelos terremotos",
+    "pelo dia e pela noite"
+   ],
+   "certa": 3,
+   "explicacao": "Ao girar, metade da Terra fica iluminada e a outra no escuro.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge03-m1",
+   "habilidadeId": "EF06GE03",
+   "nivel": "medio",
+   "enunciado": "Por que as regiões perto da Linha do Equador costumam ser mais quentes?",
+   "apoio": null,
+   "opcoes": [
+    "Têm mais montanhas",
+    "Ficam mais perto da Lua",
+    "Recebem os raios do Sol de forma mais direta",
+    "Não recebem chuva"
+   ],
+   "certa": 2,
+   "explicacao": "Os raios chegam mais perpendiculares e concentrados.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge03-m2",
+   "habilidadeId": "EF06GE03",
+   "nivel": "medio",
+   "enunciado": "Qual a diferença entre tempo e clima?",
+   "apoio": null,
+   "opcoes": [
+    "São a mesma coisa",
+    "Clima muda a cada hora",
+    "Tempo só existe no verão",
+    "Tempo é o estado do momento; clima é o padrão de muitos anos"
+   ],
+   "certa": 3,
+   "explicacao": "\"Hoje está chovendo\" é tempo; \"aqui chove muito no verão\" é clima.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge03-d1",
+   "habilidadeId": "EF06GE03",
+   "nivel": "dificil",
+   "enunciado": "Por que o Hemisfério Sul tem verão quando o Norte tem inverno?",
+   "apoio": null,
+   "opcoes": [
+    "O Sul gira mais rápido",
+    "A Lua bloqueia o Sol no Norte",
+    "A Terra fica mais perto do Sol no verão do Sul",
+    "A inclinação do eixo faz cada hemisfério receber mais luz em épocas diferentes"
+   ],
+   "certa": 3,
+   "explicacao": "É a inclinação do eixo, e não a distância do Sol, que causa as estações.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge04-f1",
+   "habilidadeId": "EF06GE04",
+   "nivel": "facil",
+   "enunciado": "Quando a água dos rios e mares vira vapor, isso se chama…",
+   "apoio": null,
+   "opcoes": [
+    "precipitação",
+    "condensação",
+    "infiltração",
+    "evaporação"
+   ],
+   "certa": 3,
+   "explicacao": "O calor do Sol transforma a água líquida em vapor.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge04-f2",
+   "habilidadeId": "EF06GE04",
+   "nivel": "facil",
+   "enunciado": "A chuva é um exemplo de…",
+   "apoio": null,
+   "opcoes": [
+    "transpiração",
+    "evaporação",
+    "infiltração",
+    "precipitação"
+   ],
+   "certa": 3,
+   "explicacao": "Precipitação é a água que cai das nuvens.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge04-m1",
+   "habilidadeId": "EF06GE04",
+   "nivel": "medio",
+   "enunciado": "As nuvens se formam quando o vapor de água…",
+   "apoio": null,
+   "opcoes": [
+    "congela no chão",
+    "se condensa ao esfriar",
+    "evapora de novo",
+    "se infiltra no solo"
+   ],
+   "certa": 1,
+   "explicacao": "O vapor esfria lá no alto e vira gotinhas: condensação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge04-m2",
+   "habilidadeId": "EF06GE04",
+   "nivel": "medio",
+   "enunciado": "Por que nas cidades a água da chuva escorre mais e infiltra menos?",
+   "apoio": null,
+   "opcoes": [
+    "Asfalto e concreto impermeabilizam o solo",
+    "Chove menos nas cidades",
+    "As árvores bebem toda a água",
+    "O solo da cidade é mais úmido"
+   ],
+   "certa": 0,
+   "explicacao": "Superfícies impermeáveis aumentam o escoamento e as enchentes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge04-d1",
+   "habilidadeId": "EF06GE04",
+   "nivel": "dificil",
+   "enunciado": "Qual é a importância da infiltração no ciclo da água?",
+   "apoio": null,
+   "opcoes": [
+    "Aumenta a evaporação do mar",
+    "Forma as nuvens",
+    "Abastece os lençóis freáticos e os aquíferos",
+    "Impede a chuva"
+   ],
+   "certa": 2,
+   "explicacao": "A água que infiltra recarrega a água subterrânea e alimenta rios.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge05-f1",
+   "habilidadeId": "EF06GE05",
+   "nivel": "facil",
+   "enunciado": "A Amazônia tem clima…",
+   "apoio": null,
+   "opcoes": [
+    "polar",
+    "frio e seco",
+    "desértico",
+    "quente e úmido"
+   ],
+   "certa": 3,
+   "explicacao": "Calor e chuvas abundantes favorecem a floresta densa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge05-f2",
+   "habilidadeId": "EF06GE05",
+   "nivel": "facil",
+   "enunciado": "A vegetação típica do clima semiárido do Nordeste é…",
+   "apoio": null,
+   "opcoes": [
+    "o Pampa gelado",
+    "a Mata de Araucárias",
+    "a Floresta Amazônica",
+    "a Caatinga"
+   ],
+   "certa": 3,
+   "explicacao": "A Caatinga é adaptada à pouca chuva.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge05-m1",
+   "habilidadeId": "EF06GE05",
+   "nivel": "medio",
+   "enunciado": "Por que no alto das montanhas faz mais frio?",
+   "apoio": null,
+   "opcoes": [
+    "As montanhas ficam longe do Equador sempre",
+    "O Sol não chega lá",
+    "A temperatura diminui com a altitude",
+    "Há mais oxigênio quente embaixo"
+   ],
+   "certa": 2,
+   "explicacao": "Quanto mais alto, mais rarefeito e frio é o ar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge05-m2",
+   "habilidadeId": "EF06GE05",
+   "nivel": "medio",
+   "enunciado": "Qual destes fatores influencia o tipo de vegetação de um lugar?",
+   "apoio": null,
+   "opcoes": [
+    "O clima e o solo",
+    "A cor das casas",
+    "O nome da cidade",
+    "O número de escolas"
+   ],
+   "certa": 0,
+   "explicacao": "Chuva, temperatura e solo determinam quais plantas se desenvolvem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge05-d1",
+   "habilidadeId": "EF06GE05",
+   "nivel": "dificil",
+   "enunciado": "Por que o desmatamento pode levar à erosão do solo?",
+   "apoio": null,
+   "opcoes": [
+    "A chuva para de cair",
+    "As plantas produzem erosão",
+    "Sem plantas, a chuva arrasta o solo com mais facilidade",
+    "O solo fica mais pesado"
+   ],
+   "certa": 2,
+   "explicacao": "As raízes seguram o solo e as folhas diminuem o impacto da chuva.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge08-f1",
+   "habilidadeId": "EF06GE08",
+   "nivel": "facil",
+   "enunciado": "Para que serve a escala de um mapa?",
+   "apoio": null,
+   "opcoes": [
+    "Indicar o nome do autor",
+    "Mostrar a população",
+    "Mostrar quantas vezes a realidade foi reduzida",
+    "Mostrar a temperatura"
+   ],
+   "certa": 2,
+   "explicacao": "A escala relaciona a distância no mapa com a distância real.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge08-f2",
+   "habilidadeId": "EF06GE08",
+   "nivel": "facil",
+   "enunciado": "Numa escala 1:100, 1 cm no mapa equivale a…",
+   "apoio": null,
+   "opcoes": [
+    "10 cm",
+    "1 km",
+    "1.000 m",
+    "100 cm na realidade"
+   ],
+   "certa": 3,
+   "explicacao": "1:100 quer dizer que cada centímetro representa 100 centímetros.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge08-m1",
+   "habilidadeId": "EF06GE08",
+   "nivel": "medio",
+   "enunciado": "Numa escala 1:100.000, 1 cm no mapa equivale a…",
+   "apoio": null,
+   "opcoes": [
+    "100 m",
+    "10 km",
+    "1 km",
+    "100 km"
+   ],
+   "certa": 2,
+   "explicacao": "100.000 cm = 1.000 m = 1 km.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge08-m2",
+   "habilidadeId": "EF06GE08",
+   "nivel": "medio",
+   "enunciado": "Duas cidades estão a 3 cm num mapa de escala 1:1.000.000. Qual é a distância real?",
+   "apoio": null,
+   "opcoes": [
+    "3 km",
+    "3.000 km",
+    "30 km",
+    "300 km"
+   ],
+   "certa": 2,
+   "explicacao": "1 cm = 10 km; 3 cm = 30 km.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ge08-d1",
+   "habilidadeId": "EF06GE08",
+   "nivel": "dificil",
+   "enunciado": "Qual mapa mostra mais detalhes de uma cidade: escala 1:5.000 ou 1:500.000?",
+   "apoio": null,
+   "opcoes": [
+    "Os dois mostram igual",
+    "1:500.000",
+    "Depende da cor do mapa",
+    "1:5.000"
+   ],
+   "certa": 3,
+   "explicacao": "Quanto menor o denominador, maior a escala e mais detalhes aparecem.",
+   "origem": "curada"
+  }
+ ]
+}

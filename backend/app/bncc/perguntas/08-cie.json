@@ -1,0 +1,327 @@
+{
+ "ano": 8,
+ "disciplinaId": "cie",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef08ci01-f1",
+   "habilidadeId": "EF08CI01",
+   "nivel": "facil",
+   "enunciado": "Qual destas é uma fonte de energia renovável?",
+   "apoio": null,
+   "opcoes": [
+    "Carvão mineral",
+    "Petróleo",
+    "Gás natural",
+    "Energia solar"
+   ],
+   "certa": 3,
+   "explicacao": "A luz do Sol se renova continuamente; os combustíveis fósseis não.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci01-f2",
+   "habilidadeId": "EF08CI01",
+   "nivel": "facil",
+   "enunciado": "De onde vem a energia de uma usina eólica?",
+   "apoio": null,
+   "opcoes": [
+    "Da queda d'água",
+    "Do vento",
+    "Do carvão",
+    "Do urânio"
+   ],
+   "certa": 1,
+   "explicacao": "Eólica vem de Éolo, o deus dos ventos: o vento gira as pás.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci01-m1",
+   "habilidadeId": "EF08CI01",
+   "nivel": "medio",
+   "enunciado": "Por que o petróleo é considerado não renovável?",
+   "apoio": null,
+   "opcoes": [
+    "Leva milhões de anos para se formar",
+    "Acaba no mesmo dia em que é extraído",
+    "Só existe no Brasil",
+    "Não pode ser queimado"
+   ],
+   "certa": 0,
+   "explicacao": "O petróleo se forma muito mais devagar do que é consumido.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci01-m2",
+   "habilidadeId": "EF08CI01",
+   "nivel": "medio",
+   "enunciado": "Qual fonte de energia é a mais usada para gerar eletricidade no Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "Hidrelétrica",
+    "Nuclear",
+    "Carvão",
+    "Geotérmica"
+   ],
+   "certa": 0,
+   "explicacao": "A maior parte da eletricidade brasileira vem de usinas hidrelétricas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci01-d1",
+   "habilidadeId": "EF08CI01",
+   "nivel": "dificil",
+   "enunciado": "Uma desvantagem ambiental das grandes hidrelétricas é…",
+   "apoio": null,
+   "opcoes": [
+    "produzir lixo radioativo",
+    "depender de vento constante",
+    "alagar grandes áreas e afetar ecossistemas",
+    "emitir muita fumaça preta"
+   ],
+   "certa": 2,
+   "explicacao": "O reservatório inunda florestas e muda o curso dos rios.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci04-f1",
+   "habilidadeId": "EF08CI04",
+   "nivel": "facil",
+   "enunciado": "Em que unidade a conta de luz mede o consumo de energia?",
+   "apoio": null,
+   "opcoes": [
+    "Volt",
+    "Litro",
+    "kWh (quilowatt-hora)",
+    "Ampère"
+   ],
+   "certa": 2,
+   "explicacao": "O consumo é potência × tempo, medido em quilowatt-hora.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci04-f2",
+   "habilidadeId": "EF08CI04",
+   "nivel": "facil",
+   "enunciado": "Qual aparelho costuma gastar mais energia numa casa?",
+   "apoio": null,
+   "opcoes": [
+    "Rádio",
+    "Carregador de celular",
+    "Lâmpada de LED",
+    "Chuveiro elétrico"
+   ],
+   "certa": 3,
+   "explicacao": "O chuveiro tem potência muito alta para aquecer a água.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci04-m1",
+   "habilidadeId": "EF08CI04",
+   "nivel": "medio",
+   "enunciado": "Uma lâmpada de 100 W fica acesa por 10 horas. Quanto ela consome?",
+   "apoio": null,
+   "opcoes": [
+    "0,1 kWh",
+    "1 kWh",
+    "10 kWh",
+    "100 kWh"
+   ],
+   "certa": 1,
+   "explicacao": "100 W × 10 h = 1.000 Wh = 1 kWh.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci04-m2",
+   "habilidadeId": "EF08CI04",
+   "nivel": "medio",
+   "enunciado": "Um chuveiro de 5.000 W é usado 1 hora por dia. Quanto consome em 30 dias?",
+   "apoio": null,
+   "opcoes": [
+    "30 kWh",
+    "5 kWh",
+    "150 kWh",
+    "1.500 kWh"
+   ],
+   "certa": 2,
+   "explicacao": "5 kWh por dia × 30 dias = 150 kWh.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci04-d1",
+   "habilidadeId": "EF08CI04",
+   "nivel": "dificil",
+   "enunciado": "Se o kWh custa R$ 0,80, quanto custa deixar um aparelho de 2.000 W ligado por 5 horas?",
+   "apoio": null,
+   "opcoes": [
+    "R$ 8,00",
+    "R$ 80,00",
+    "R$ 1,60",
+    "R$ 10,00"
+   ],
+   "certa": 0,
+   "explicacao": "2 kW × 5 h = 10 kWh; 10 × 0,80 = R$ 8,00.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci12-f1",
+   "habilidadeId": "EF08CI12",
+   "nivel": "facil",
+   "enunciado": "Quanto tempo, aproximadamente, a Lua leva para passar por todas as fases?",
+   "apoio": null,
+   "opcoes": [
+    "Cerca de 29 dias",
+    "1 ano",
+    "7 dias",
+    "1 dia"
+   ],
+   "certa": 0,
+   "explicacao": "O ciclo completo das fases dura cerca de 29,5 dias.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci12-f2",
+   "habilidadeId": "EF08CI12",
+   "nivel": "facil",
+   "enunciado": "Na lua nova, a face da Lua voltada para a Terra está…",
+   "apoio": null,
+   "opcoes": [
+    "sem iluminação do Sol",
+    "totalmente iluminada",
+    "vermelha",
+    "metade iluminada"
+   ],
+   "certa": 0,
+   "explicacao": "Na lua nova, o lado iluminado está voltado para o Sol, e não para nós.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci12-m1",
+   "habilidadeId": "EF08CI12",
+   "nivel": "medio",
+   "enunciado": "Por que a Lua tem fases?",
+   "apoio": null,
+   "opcoes": [
+    "A sombra da Terra cobre a Lua todo mês",
+    "Vemos partes diferentes da sua face iluminada pelo Sol",
+    "A Lua produz luz própria que varia",
+    "A Lua muda de tamanho"
+   ],
+   "certa": 1,
+   "explicacao": "A Lua é sempre metade iluminada; o que muda é quanto dessa metade vemos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci12-m2",
+   "habilidadeId": "EF08CI12",
+   "nivel": "medio",
+   "enunciado": "Qual é a ordem correta das fases?",
+   "apoio": null,
+   "opcoes": [
+    "Nova, cheia, crescente, minguante",
+    "Crescente, minguante, nova, cheia",
+    "Cheia, nova, crescente, minguante",
+    "Nova, crescente, cheia, minguante"
+   ],
+   "certa": 3,
+   "explicacao": "Depois da nova, a parte iluminada cresce até a cheia e depois mingua.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci12-d1",
+   "habilidadeId": "EF08CI12",
+   "nivel": "dificil",
+   "enunciado": "Por que não há eclipse da Lua todo mês, na lua cheia?",
+   "apoio": null,
+   "opcoes": [
+    "A órbita da Lua é inclinada em relação à da Terra",
+    "Os eclipses só ocorrem no verão",
+    "A Lua fica longe demais da Terra",
+    "O Sol não ilumina a Lua na lua cheia"
+   ],
+   "certa": 0,
+   "explicacao": "Na maioria dos meses a Lua passa acima ou abaixo da sombra da Terra.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci13-f1",
+   "habilidadeId": "EF08CI13",
+   "nivel": "facil",
+   "enunciado": "O movimento da Terra em torno do próprio eixo se chama…",
+   "apoio": null,
+   "opcoes": [
+    "revolução lunar",
+    "rotação",
+    "translação",
+    "precessão"
+   ],
+   "certa": 1,
+   "explicacao": "A rotação dura cerca de 24 horas e causa o dia e a noite.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci13-f2",
+   "habilidadeId": "EF08CI13",
+   "nivel": "facil",
+   "enunciado": "O dia e a noite acontecem por causa…",
+   "apoio": null,
+   "opcoes": [
+    "das fases da Lua",
+    "da translação da Terra",
+    "da distância do Sol",
+    "da rotação da Terra"
+   ],
+   "certa": 3,
+   "explicacao": "Ao girar, cada lado da Terra fica voltado para o Sol ou não.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci13-m1",
+   "habilidadeId": "EF08CI13",
+   "nivel": "medio",
+   "enunciado": "Quanto tempo dura uma translação completa da Terra?",
+   "apoio": null,
+   "opcoes": [
+    "12 horas",
+    "24 horas",
+    "29 dias",
+    "Cerca de 365 dias"
+   ],
+   "certa": 3,
+   "explicacao": "A volta em torno do Sol leva cerca de um ano.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci13-m2",
+   "habilidadeId": "EF08CI13",
+   "nivel": "medio",
+   "enunciado": "As estações do ano existem principalmente por causa…",
+   "apoio": null,
+   "opcoes": [
+    "da inclinação do eixo da Terra",
+    "das fases da Lua",
+    "da distância variável até o Sol",
+    "da rotação da Terra"
+   ],
+   "certa": 0,
+   "explicacao": "A inclinação faz os hemisférios receberem luz mais direta em épocas diferentes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08ci13-d1",
+   "habilidadeId": "EF08CI13",
+   "nivel": "dificil",
+   "enunciado": "Quando é verão no Brasil, como é no hemisfério norte?",
+   "apoio": null,
+   "opcoes": [
+    "Não há estação",
+    "Também verão",
+    "Primavera",
+    "Inverno"
+   ],
+   "certa": 3,
+   "explicacao": "Os hemisférios recebem luz mais direta em épocas opostas do ano.",
+   "origem": "curada"
+  }
+ ]
+}

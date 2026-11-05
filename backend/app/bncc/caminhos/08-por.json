@@ -1,0 +1,30 @@
+{
+ "ano": 8,
+ "disciplinaId": "por",
+ "componente": "LP",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Análise linguística",
+   "habilidades": [
+    {
+     "codigo": "EF08LP06",
+     "nome": "Sujeito e predicado"
+    },
+    {
+     "codigo": "EF08LP08",
+     "nome": "Voz ativa e voz passiva"
+    },
+    {
+     "codigo": "EF08LP13",
+     "nome": "Conjunções e sentido"
+    },
+    {
+     "codigo": "EF08LP05",
+     "nome": "Formação de palavras"
+    }
+   ]
+  }
+ ]
+}

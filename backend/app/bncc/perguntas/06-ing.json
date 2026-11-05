@@ -1,0 +1,327 @@
+{
+ "ano": 6,
+ "disciplinaId": "ing",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef06li19-f1",
+   "habilidadeId": "EF06LI19",
+   "nivel": "facil",
+   "enunciado": "Complete: \"I ___ a student.\"",
+   "apoio": null,
+   "opcoes": [
+    "be",
+    "am",
+    "are",
+    "is"
+   ],
+   "certa": 1,
+   "explicacao": "Com \"I\", o verbo to be é \"am\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li19-f2",
+   "habilidadeId": "EF06LI19",
+   "nivel": "facil",
+   "enunciado": "Complete: \"She ___ twelve years old.\"",
+   "apoio": null,
+   "opcoes": [
+    "are",
+    "is",
+    "am",
+    "be"
+   ],
+   "certa": 1,
+   "explicacao": "Com \"he/she/it\", usamos \"is\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li19-m1",
+   "habilidadeId": "EF06LI19",
+   "nivel": "medio",
+   "enunciado": "Complete: \"They ___ my friends.\"",
+   "apoio": null,
+   "opcoes": [
+    "is",
+    "are",
+    "am",
+    "be"
+   ],
+   "certa": 1,
+   "explicacao": "Com \"they\", usamos \"are\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li19-m2",
+   "habilidadeId": "EF06LI19",
+   "nivel": "medio",
+   "enunciado": "Complete: \"He ___ to school every day.\"",
+   "apoio": null,
+   "opcoes": [
+    "go",
+    "going",
+    "gos",
+    "goes"
+   ],
+   "certa": 3,
+   "explicacao": "No presente simples, com he/she/it o verbo ganha -s ou -es: goes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li19-d1",
+   "habilidadeId": "EF06LI19",
+   "nivel": "dificil",
+   "enunciado": "Qual é a forma negativa de \"She plays soccer\"?",
+   "apoio": null,
+   "opcoes": [
+    "She not play soccer.",
+    "She doesn't play soccer.",
+    "She don't play soccer.",
+    "She doesn't plays soccer."
+   ],
+   "certa": 1,
+   "explicacao": "Com he/she/it usamos \"doesn't\" + verbo sem -s.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li17-f1",
+   "habilidadeId": "EF06LI17",
+   "nivel": "facil",
+   "enunciado": "Como se diz \"irmã\" em inglês?",
+   "apoio": null,
+   "opcoes": [
+    "sister",
+    "aunt",
+    "brother",
+    "mother"
+   ],
+   "certa": 0,
+   "explicacao": "Sister = irmã; brother = irmão.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li17-f2",
+   "habilidadeId": "EF06LI17",
+   "nivel": "facil",
+   "enunciado": "O que significa \"teacher\"?",
+   "apoio": null,
+   "opcoes": [
+    "professor(a)",
+    "aluno",
+    "escola",
+    "diretor"
+   ],
+   "certa": 0,
+   "explicacao": "Teacher é quem ensina.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li17-m1",
+   "habilidadeId": "EF06LI17",
+   "nivel": "medio",
+   "enunciado": "\"My father's brother\" é o meu…",
+   "apoio": null,
+   "opcoes": [
+    "cousin",
+    "uncle",
+    "nephew",
+    "grandfather"
+   ],
+   "certa": 1,
+   "explicacao": "O irmão do pai é o tio: uncle.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li17-m2",
+   "habilidadeId": "EF06LI17",
+   "nivel": "medio",
+   "enunciado": "Qual palavra completa a rotina: \"I wake up, I ___ my teeth.\"",
+   "apoio": null,
+   "opcoes": [
+    "read",
+    "brush",
+    "sleep",
+    "eat"
+   ],
+   "certa": 1,
+   "explicacao": "Brush my teeth = escovar os dentes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li17-d1",
+   "habilidadeId": "EF06LI17",
+   "nivel": "dificil",
+   "enunciado": "\"I have breakfast at 7 and lunch at 12.\" O que a pessoa faz ao meio-dia?",
+   "apoio": null,
+   "opcoes": [
+    "Almoça",
+    "Dorme",
+    "Janta",
+    "Toma café da manhã"
+   ],
+   "certa": 0,
+   "explicacao": "Lunch = almoço; breakfast = café da manhã.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li23-f1",
+   "habilidadeId": "EF06LI23",
+   "nivel": "facil",
+   "enunciado": "Complete: \"This is ___ book.\" (meu)",
+   "apoio": null,
+   "opcoes": [
+    "our",
+    "my",
+    "his",
+    "your"
+   ],
+   "certa": 1,
+   "explicacao": "My = meu/minha.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li23-f2",
+   "habilidadeId": "EF06LI23",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Ana loves ___ dog.\" (dela)",
+   "apoio": null,
+   "opcoes": [
+    "his",
+    "their",
+    "her",
+    "its"
+   ],
+   "certa": 2,
+   "explicacao": "Her = dela.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li23-m1",
+   "habilidadeId": "EF06LI23",
+   "nivel": "medio",
+   "enunciado": "Complete: \"Pedro and Lia visited ___ grandparents.\" (deles)",
+   "apoio": null,
+   "opcoes": [
+    "their",
+    "his",
+    "our",
+    "her"
+   ],
+   "certa": 0,
+   "explicacao": "Their = deles/delas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li23-m2",
+   "habilidadeId": "EF06LI23",
+   "nivel": "medio",
+   "enunciado": "Complete: \"We love ___ school.\" (nossa)",
+   "apoio": null,
+   "opcoes": [
+    "we",
+    "us",
+    "their",
+    "our"
+   ],
+   "certa": 3,
+   "explicacao": "Our = nosso/nossa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li23-d1",
+   "habilidadeId": "EF06LI23",
+   "nivel": "dificil",
+   "enunciado": "Qual frase está correta?",
+   "apoio": null,
+   "opcoes": [
+    "John is washing he car.",
+    "John is washing her car.",
+    "John is washing him car.",
+    "John is washing his car."
+   ],
+   "certa": 3,
+   "explicacao": "Para algo que pertence a um homem, usamos \"his\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li20-f1",
+   "habilidadeId": "EF06LI20",
+   "nivel": "facil",
+   "enunciado": "Complete: \"I am ___ a book now.\"",
+   "apoio": null,
+   "opcoes": [
+    "reading",
+    "readed",
+    "read",
+    "reads"
+   ],
+   "certa": 0,
+   "explicacao": "Presente contínuo: am/is/are + verbo com -ing.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li20-f2",
+   "habilidadeId": "EF06LI20",
+   "nivel": "facil",
+   "enunciado": "\"They are playing soccer.\" A frase descreve uma ação…",
+   "apoio": null,
+   "opcoes": [
+    "que já terminou",
+    "que nunca acontece",
+    "que vai acontecer ano que vem",
+    "acontecendo agora"
+   ],
+   "certa": 3,
+   "explicacao": "O presente contínuo descreve ações em andamento.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li20-m1",
+   "habilidadeId": "EF06LI20",
+   "nivel": "medio",
+   "enunciado": "Complete: \"She ___ watching TV.\"",
+   "apoio": null,
+   "opcoes": [
+    "am",
+    "are",
+    "do",
+    "is"
+   ],
+   "certa": 3,
+   "explicacao": "Com \"she\", usamos \"is\" + verbo com -ing.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li20-m2",
+   "habilidadeId": "EF06LI20",
+   "nivel": "medio",
+   "enunciado": "Qual é a forma com -ing de \"swim\"?",
+   "apoio": null,
+   "opcoes": [
+    "swimeing",
+    "swimming",
+    "swiming",
+    "swimmming"
+   ],
+   "certa": 1,
+   "explicacao": "Verbos terminados em consoante-vogal-consoante dobram a última letra: swimming.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06li20-d1",
+   "habilidadeId": "EF06LI20",
+   "nivel": "dificil",
+   "enunciado": "Qual frase está no presente contínuo e correta?",
+   "apoio": null,
+   "opcoes": [
+    "We studying English right now.",
+    "We are studying English right now.",
+    "We are study English right now.",
+    "We is studying English right now."
+   ],
+   "certa": 1,
+   "explicacao": "Estrutura: sujeito + are + verbo com -ing.",
+   "origem": "curada"
+  }
+ ]
+}

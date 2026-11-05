@@ -1,0 +1,30 @@
+{
+ "ano": 8,
+ "disciplinaId": "geo",
+ "componente": "GE",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "População e América Latina",
+   "habilidades": [
+    {
+     "codigo": "EF08GE03",
+     "nome": "Dinâmica da população"
+    },
+    {
+     "codigo": "EF08GE05",
+     "nome": "Estado, nação e território"
+    },
+    {
+     "codigo": "EF08GE12",
+     "nome": "Integração regional (Mercosul)"
+    },
+    {
+     "codigo": "EF08GE15",
+     "nome": "Recursos hídricos da América Latina"
+    }
+   ]
+  }
+ ]
+}

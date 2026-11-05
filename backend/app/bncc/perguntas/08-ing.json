@@ -1,0 +1,327 @@
+{
+ "ano": 8,
+ "disciplinaId": "ing",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef08li14-f1",
+   "habilidadeId": "EF08LI14",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Tomorrow I ___ visit my grandma.\"",
+   "apoio": null,
+   "opcoes": [
+    "am",
+    "was",
+    "did",
+    "will"
+   ],
+   "certa": 3,
+   "explicacao": "\"Will\" indica uma ação no futuro.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li14-f2",
+   "habilidadeId": "EF08LI14",
+   "nivel": "facil",
+   "enunciado": "\"She is going to travel next week.\" A frase fala de…",
+   "apoio": null,
+   "opcoes": [
+    "algo que já aconteceu",
+    "uma ordem",
+    "um plano para o futuro",
+    "um hábito"
+   ],
+   "certa": 2,
+   "explicacao": "\"Going to\" expressa planos e intenções.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li14-m1",
+   "habilidadeId": "EF08LI14",
+   "nivel": "medio",
+   "enunciado": "Qual frase está correta?",
+   "apoio": null,
+   "opcoes": [
+    "They is going to play soccer.",
+    "They are going to play soccer.",
+    "They are go to play soccer.",
+    "They going to play soccer."
+   ],
+   "certa": 1,
+   "explicacao": "Com \"they\" usamos \"are going to\" + verbo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li14-m2",
+   "habilidadeId": "EF08LI14",
+   "nivel": "medio",
+   "enunciado": "Olhe as nuvens escuras: \"It ___ rain.\" Qual é a melhor opção?",
+   "apoio": null,
+   "opcoes": [
+    "rained",
+    "rains yesterday",
+    "is going to",
+    "was"
+   ],
+   "certa": 2,
+   "explicacao": "Com uma evidência presente, usamos \"going to\" para a previsão.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li14-d1",
+   "habilidadeId": "EF08LI14",
+   "nivel": "dificil",
+   "enunciado": "Qual é a forma negativa de \"I will call you\"?",
+   "apoio": null,
+   "opcoes": [
+    "I don't will call you.",
+    "I not will call you.",
+    "I willn't call you.",
+    "I won't call you."
+   ],
+   "certa": 3,
+   "explicacao": "\"Won't\" é a contração de \"will not\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li15-f1",
+   "habilidadeId": "EF08LI15",
+   "nivel": "facil",
+   "enunciado": "Complete: \"An elephant is ___ than a dog.\"",
+   "apoio": null,
+   "opcoes": [
+    "biggest",
+    "more big",
+    "big",
+    "bigger"
+   ],
+   "certa": 3,
+   "explicacao": "Adjetivos curtos fazem o comparativo com \"-er\" (dobrando a consoante: big → bigger).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li15-f2",
+   "habilidadeId": "EF08LI15",
+   "nivel": "facil",
+   "enunciado": "Qual é o superlativo de \"tall\"?",
+   "apoio": null,
+   "opcoes": [
+    "the most tall",
+    "the tallest",
+    "more tall",
+    "taller"
+   ],
+   "certa": 1,
+   "explicacao": "Adjetivo curto: the + adjetivo + \"-est\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li15-m1",
+   "habilidadeId": "EF08LI15",
+   "nivel": "medio",
+   "enunciado": "Complete: \"This book is ___ than that one.\"",
+   "apoio": null,
+   "opcoes": [
+    "most interesting",
+    "more interesting",
+    "interestinger",
+    "more interestinger"
+   ],
+   "certa": 1,
+   "explicacao": "Adjetivos longos usam \"more\" no comparativo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li15-m2",
+   "habilidadeId": "EF08LI15",
+   "nivel": "medio",
+   "enunciado": "Qual é o comparativo de \"good\"?",
+   "apoio": null,
+   "opcoes": [
+    "best",
+    "gooder",
+    "better",
+    "more good"
+   ],
+   "certa": 2,
+   "explicacao": "\"Good\" é irregular: good, better, the best.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li15-d1",
+   "habilidadeId": "EF08LI15",
+   "nivel": "dificil",
+   "enunciado": "Complete: \"Mount Everest is ___ mountain in the world.\"",
+   "apoio": null,
+   "opcoes": [
+    "the most high",
+    "higher",
+    "highest than",
+    "the highest"
+   ],
+   "certa": 3,
+   "explicacao": "Para o maior de todos, usamos o superlativo com \"the\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li16-f1",
+   "habilidadeId": "EF08LI16",
+   "nivel": "facil",
+   "enunciado": "Complete: \"There are ___ apples on the table.\"",
+   "apoio": null,
+   "opcoes": [
+    "some",
+    "much",
+    "any",
+    "a"
+   ],
+   "certa": 0,
+   "explicacao": "Em frases afirmativas, usamos \"some\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li16-f2",
+   "habilidadeId": "EF08LI16",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Is there ___ milk in the fridge?\"",
+   "apoio": null,
+   "opcoes": [
+    "any",
+    "many",
+    "some apples",
+    "a"
+   ],
+   "certa": 0,
+   "explicacao": "Em perguntas, costumamos usar \"any\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li16-m1",
+   "habilidadeId": "EF08LI16",
+   "nivel": "medio",
+   "enunciado": "Complete: \"How ___ water do you drink?\"",
+   "apoio": null,
+   "opcoes": [
+    "many",
+    "some",
+    "much",
+    "any"
+   ],
+   "certa": 2,
+   "explicacao": "Água é incontável: usamos \"much\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li16-m2",
+   "habilidadeId": "EF08LI16",
+   "nivel": "medio",
+   "enunciado": "Complete: \"How ___ brothers do you have?\"",
+   "apoio": null,
+   "opcoes": [
+    "many",
+    "any",
+    "much",
+    "some"
+   ],
+   "certa": 0,
+   "explicacao": "Irmãos são contáveis: usamos \"many\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li16-d1",
+   "habilidadeId": "EF08LI16",
+   "nivel": "dificil",
+   "enunciado": "Qual frase está correta?",
+   "apoio": null,
+   "opcoes": [
+    "I don't have any money.",
+    "I have any money.",
+    "I don't have many money.",
+    "I don't have some money."
+   ],
+   "certa": 0,
+   "explicacao": "Em negativas, usamos \"any\"; e \"money\" é incontável (não aceita \"many\").",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li17-f1",
+   "habilidadeId": "EF08LI17",
+   "nivel": "facil",
+   "enunciado": "Complete: \"The girl ___ lives next door is my friend.\"",
+   "apoio": null,
+   "opcoes": [
+    "where",
+    "which",
+    "when",
+    "who"
+   ],
+   "certa": 3,
+   "explicacao": "\"Who\" se refere a pessoas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li17-f2",
+   "habilidadeId": "EF08LI17",
+   "nivel": "facil",
+   "enunciado": "Complete: \"This is the book ___ I bought yesterday.\"",
+   "apoio": null,
+   "opcoes": [
+    "whose",
+    "where",
+    "which",
+    "who"
+   ],
+   "certa": 2,
+   "explicacao": "\"Which\" se refere a coisas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li17-m1",
+   "habilidadeId": "EF08LI17",
+   "nivel": "medio",
+   "enunciado": "Complete: \"That's the boy ___ bike was stolen.\"",
+   "apoio": null,
+   "opcoes": [
+    "who",
+    "what",
+    "which",
+    "whose"
+   ],
+   "certa": 3,
+   "explicacao": "\"Whose\" indica posse: a bicicleta do menino.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li17-m2",
+   "habilidadeId": "EF08LI17",
+   "nivel": "medio",
+   "enunciado": "Qual pronome pode substituir \"who\" e \"which\" na maioria das frases?",
+   "apoio": null,
+   "opcoes": [
+    "where",
+    "what",
+    "whose",
+    "that"
+   ],
+   "certa": 3,
+   "explicacao": "\"That\" serve para pessoas e coisas nas orações restritivas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08li17-d1",
+   "habilidadeId": "EF08LI17",
+   "nivel": "dificil",
+   "enunciado": "Qual frase usa o pronome relativo corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "The city whose I was born is small.",
+    "The city what I was born is small.",
+    "The city where I was born is small.",
+    "The city who I was born is small."
+   ],
+   "certa": 2,
+   "explicacao": "\"Where\" se refere a lugares.",
+   "origem": "curada"
+  }
+ ]
+}

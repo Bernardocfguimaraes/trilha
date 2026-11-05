@@ -1,0 +1,30 @@
+{
+ "ano": 8,
+ "disciplinaId": "cie",
+ "componente": "CI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Energia, Terra e Lua",
+   "habilidades": [
+    {
+     "codigo": "EF08CI01",
+     "nome": "Fontes de energia"
+    },
+    {
+     "codigo": "EF08CI04",
+     "nome": "Consumo de energia elétrica"
+    },
+    {
+     "codigo": "EF08CI12",
+     "nome": "Fases da Lua"
+    },
+    {
+     "codigo": "EF08CI13",
+     "nome": "Movimentos da Terra e estações"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "ano": 8,
+ "disciplinaId": "ing",
+ "componente": "LI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Future, comparisons and quantities",
+   "habilidades": [
+    {
+     "codigo": "EF08LI14",
+     "nome": "Futuro: will e going to"
+    },
+    {
+     "codigo": "EF08LI15",
+     "nome": "Comparativos e superlativos"
+    },
+    {
+     "codigo": "EF08LI16",
+     "nome": "Some, any, many, much"
+    },
+    {
+     "codigo": "EF08LI17",
+     "nome": "Pronomes relativos"
+    }
+   ]
+  }
+ ]
+}

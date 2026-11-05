@@ -1,0 +1,327 @@
+{
+ "ano": 8,
+ "disciplinaId": "por",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef08lp06-f1",
+   "habilidadeId": "EF08LP06",
+   "nivel": "facil",
+   "enunciado": "Na frase \"Os alunos organizaram a feira de ciências\", qual é o sujeito?",
+   "apoio": null,
+   "opcoes": [
+    "Os alunos",
+    "de ciências",
+    "organizaram",
+    "a feira de ciências"
+   ],
+   "certa": 0,
+   "explicacao": "O sujeito é quem pratica a ação de organizar: os alunos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp06-f2",
+   "habilidadeId": "EF08LP06",
+   "nivel": "facil",
+   "enunciado": "Na frase \"Chegaram as encomendas\", qual é o sujeito?",
+   "apoio": null,
+   "opcoes": [
+    "não há sujeito",
+    "Chegaram",
+    "chegaram as",
+    "as encomendas"
+   ],
+   "certa": 3,
+   "explicacao": "Mesmo depois do verbo, \"as encomendas\" é o sujeito: são elas que chegaram.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp06-m1",
+   "habilidadeId": "EF08LP06",
+   "nivel": "medio",
+   "enunciado": "Em \"Choveu muito ontem\", o sujeito é…",
+   "apoio": null,
+   "opcoes": [
+    "inexistente (oração sem sujeito)",
+    "muito",
+    "ontem",
+    "oculto: ele"
+   ],
+   "certa": 0,
+   "explicacao": "Verbos que indicam fenômenos da natureza não têm sujeito.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp06-m2",
+   "habilidadeId": "EF08LP06",
+   "nivel": "medio",
+   "enunciado": "Em \"Fomos ao cinema no sábado\", o sujeito é…",
+   "apoio": null,
+   "opcoes": [
+    "o cinema",
+    "oculto (nós)",
+    "inexistente",
+    "sábado"
+   ],
+   "certa": 1,
+   "explicacao": "A terminação do verbo indica \"nós\", mesmo sem a palavra aparecer.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp06-d1",
+   "habilidadeId": "EF08LP06",
+   "nivel": "dificil",
+   "enunciado": "Em \"Precisa-se de ajudantes\", o sujeito é…",
+   "apoio": null,
+   "opcoes": [
+    "oculto",
+    "se",
+    "indeterminado",
+    "ajudantes"
+   ],
+   "certa": 2,
+   "explicacao": "Com verbo que pede preposição + \"se\", não dá para saber quem precisa: sujeito indeterminado.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp08-f1",
+   "habilidadeId": "EF08LP08",
+   "nivel": "facil",
+   "enunciado": "Qual frase está na voz passiva?",
+   "apoio": null,
+   "opcoes": [
+    "O bolo foi feito pela avó.",
+    "A avó vai fazer o bolo.",
+    "A avó faz bolos.",
+    "A avó fez o bolo."
+   ],
+   "certa": 0,
+   "explicacao": "Na voz passiva o sujeito sofre a ação: \"O bolo foi feito\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp08-f2",
+   "habilidadeId": "EF08LP08",
+   "nivel": "facil",
+   "enunciado": "Passe para a voz passiva: \"O técnico escolheu os jogadores.\"",
+   "apoio": null,
+   "opcoes": [
+    "Os jogadores escolhem o técnico.",
+    "O técnico foi escolhido pelos jogadores.",
+    "Os jogadores foram escolhidos pelo técnico.",
+    "Os jogadores escolheram o técnico."
+   ],
+   "certa": 2,
+   "explicacao": "O objeto (os jogadores) vira sujeito e o verbo vai para ser + particípio.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp08-m1",
+   "habilidadeId": "EF08LP08",
+   "nivel": "medio",
+   "enunciado": "Em \"A ponte foi construída pelos engenheiros\", quem pratica a ação?",
+   "apoio": null,
+   "opcoes": [
+    "foi construída",
+    "a ponte",
+    "os engenheiros",
+    "ninguém"
+   ],
+   "certa": 2,
+   "explicacao": "\"Pelos engenheiros\" é o agente da passiva: quem de fato construiu.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp08-m2",
+   "habilidadeId": "EF08LP08",
+   "nivel": "medio",
+   "enunciado": "\"Vendem-se casas\" está em qual voz?",
+   "apoio": null,
+   "opcoes": [
+    "reflexiva",
+    "passiva analítica",
+    "passiva sintética",
+    "ativa"
+   ],
+   "certa": 2,
+   "explicacao": "Verbo + \"se\" com sentido de \"casas são vendidas\": passiva sintética.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp08-d1",
+   "habilidadeId": "EF08LP08",
+   "nivel": "dificil",
+   "enunciado": "Por que uma notícia diria \"O prédio foi interditado\" em vez de \"A prefeitura interditou o prédio\"?",
+   "apoio": null,
+   "opcoes": [
+    "Para destacar o fato e não quem o praticou",
+    "Para esconder que houve interdição",
+    "Porque a voz passiva é sempre mais correta",
+    "Porque a voz ativa não existe em notícias"
+   ],
+   "certa": 0,
+   "explicacao": "A voz passiva põe em foco o que aconteceu; o agente pode até ser omitido.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp13-f1",
+   "habilidadeId": "EF08LP13",
+   "nivel": "facil",
+   "enunciado": "Em \"Estudou muito, mas não passou\", a conjunção \"mas\" indica…",
+   "apoio": null,
+   "opcoes": [
+    "tempo",
+    "oposição",
+    "causa",
+    "conclusão"
+   ],
+   "certa": 1,
+   "explicacao": "\"Mas\" liga ideias que se opõem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp13-f2",
+   "habilidadeId": "EF08LP13",
+   "nivel": "facil",
+   "enunciado": "Em \"Faltou à aula porque estava doente\", \"porque\" indica…",
+   "apoio": null,
+   "opcoes": [
+    "condição",
+    "oposição",
+    "finalidade",
+    "causa"
+   ],
+   "certa": 3,
+   "explicacao": "\"Porque\" introduz o motivo da falta.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp13-m1",
+   "habilidadeId": "EF08LP13",
+   "nivel": "medio",
+   "enunciado": "Qual conjunção completa com sentido de conclusão: \"Treinou todos os dias, ___ ganhou a medalha.\"",
+   "apoio": null,
+   "opcoes": [
+    "embora",
+    "por isso",
+    "porém",
+    "se"
+   ],
+   "certa": 1,
+   "explicacao": "\"Por isso\" apresenta a consequência do treino.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp13-m2",
+   "habilidadeId": "EF08LP13",
+   "nivel": "medio",
+   "enunciado": "Em \"Iremos à praia, se não chover\", a ideia é de…",
+   "apoio": null,
+   "opcoes": [
+    "condição",
+    "comparação",
+    "causa",
+    "tempo"
+   ],
+   "certa": 0,
+   "explicacao": "\"Se\" apresenta uma condição para ir à praia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp13-d1",
+   "habilidadeId": "EF08LP13",
+   "nivel": "dificil",
+   "enunciado": "Qual frase mantém o sentido de \"Apesar de cansado, terminou a prova\"?",
+   "apoio": null,
+   "opcoes": [
+    "Terminou a prova, logo estava cansado.",
+    "Embora estivesse cansado, terminou a prova.",
+    "Se estivesse cansado, terminaria a prova.",
+    "Porque estava cansado, terminou a prova."
+   ],
+   "certa": 1,
+   "explicacao": "\"Apesar de\" e \"embora\" indicam concessão: algo que não impediu a ação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp05-f1",
+   "habilidadeId": "EF08LP05",
+   "nivel": "facil",
+   "enunciado": "A palavra \"guarda-chuva\" foi formada por…",
+   "apoio": null,
+   "opcoes": [
+    "derivação sufixal",
+    "composição por justaposição",
+    "derivação prefixal",
+    "aglutinação"
+   ],
+   "certa": 1,
+   "explicacao": "Duas palavras se juntam sem perder sons: justaposição.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp05-f2",
+   "habilidadeId": "EF08LP05",
+   "nivel": "facil",
+   "enunciado": "A palavra \"infeliz\" foi formada por…",
+   "apoio": null,
+   "opcoes": [
+    "abreviação",
+    "derivação prefixal",
+    "composição",
+    "derivação sufixal"
+   ],
+   "certa": 1,
+   "explicacao": "O prefixo \"in-\" foi acrescentado a \"feliz\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp05-m1",
+   "habilidadeId": "EF08LP05",
+   "nivel": "medio",
+   "enunciado": "\"Planalto\" (plano + alto) é exemplo de…",
+   "apoio": null,
+   "opcoes": [
+    "derivação sufixal",
+    "composição por aglutinação",
+    "justaposição",
+    "derivação regressiva"
+   ],
+   "certa": 1,
+   "explicacao": "As palavras se fundem e perdem sons: aglutinação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp05-m2",
+   "habilidadeId": "EF08LP05",
+   "nivel": "medio",
+   "enunciado": "Qual palavra foi formada por derivação sufixal?",
+   "apoio": null,
+   "opcoes": [
+    "felicidade",
+    "desfazer",
+    "girassol",
+    "passatempo"
+   ],
+   "certa": 0,
+   "explicacao": "\"Feliz\" + sufixo \"-idade\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08lp05-d1",
+   "habilidadeId": "EF08LP05",
+   "nivel": "dificil",
+   "enunciado": "\"O jantar estava ótimo\": o verbo \"jantar\" virou substantivo. Esse processo se chama…",
+   "apoio": null,
+   "opcoes": [
+    "hibridismo",
+    "derivação parassintética",
+    "aglutinação",
+    "derivação imprópria"
+   ],
+   "certa": 3,
+   "explicacao": "Mudar a classe da palavra sem alterar a forma é derivação imprópria.",
+   "origem": "curada"
+  }
+ ]
+}

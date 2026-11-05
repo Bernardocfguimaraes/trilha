@@ -1,0 +1,327 @@
+{
+ "ano": 8,
+ "disciplinaId": "his",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef08hi01-f1",
+   "habilidadeId": "EF08HI01",
+   "nivel": "facil",
+   "enunciado": "O Iluminismo valorizava principalmente…",
+   "apoio": null,
+   "opcoes": [
+    "a superstição",
+    "a razão",
+    "o isolamento dos povos",
+    "a obediência ao rei absolutista"
+   ],
+   "certa": 1,
+   "explicacao": "Os iluministas defendiam a razão como guia do conhecimento e da política.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi01-f2",
+   "habilidadeId": "EF08HI01",
+   "nivel": "facil",
+   "enunciado": "Qual destes foi um pensador iluminista?",
+   "apoio": null,
+   "opcoes": [
+    "Napoleão",
+    "Dom Pedro I",
+    "Montesquieu",
+    "Cristóvão Colombo"
+   ],
+   "certa": 2,
+   "explicacao": "Montesquieu propôs a divisão do poder em três.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi01-m1",
+   "habilidadeId": "EF08HI01",
+   "nivel": "medio",
+   "enunciado": "A ideia de dividir o poder em Executivo, Legislativo e Judiciário é de…",
+   "apoio": null,
+   "opcoes": [
+    "Rousseau",
+    "Adam Smith",
+    "Montesquieu",
+    "Voltaire"
+   ],
+   "certa": 2,
+   "explicacao": "Ele a apresentou em \"O Espírito das Leis\" para evitar abusos de poder.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi01-m2",
+   "habilidadeId": "EF08HI01",
+   "nivel": "medio",
+   "enunciado": "O Iluminismo criticava…",
+   "apoio": null,
+   "opcoes": [
+    "a ciência",
+    "a educação",
+    "a liberdade de expressão",
+    "o absolutismo e os privilégios da nobreza"
+   ],
+   "certa": 3,
+   "explicacao": "Os iluministas questionavam o poder absoluto e os privilégios de nascimento.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi01-d1",
+   "habilidadeId": "EF08HI01",
+   "nivel": "dificil",
+   "enunciado": "Que ideia iluminista aparece em constituições atuais?",
+   "apoio": null,
+   "opcoes": [
+    "Proibição de qualquer imprensa",
+    "Igualdade de todos perante a lei",
+    "Poder divino dos reis",
+    "Privilégios por nascimento"
+   ],
+   "certa": 1,
+   "explicacao": "A igualdade jurídica é herança direta do pensamento iluminista.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi03-f1",
+   "habilidadeId": "EF08HI03",
+   "nivel": "facil",
+   "enunciado": "Em que país começou a Revolução Industrial?",
+   "apoio": null,
+   "opcoes": [
+    "Inglaterra",
+    "Brasil",
+    "Portugal",
+    "Japão"
+   ],
+   "certa": 0,
+   "explicacao": "Começou na Inglaterra, no século XVIII.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi03-f2",
+   "habilidadeId": "EF08HI03",
+   "nivel": "facil",
+   "enunciado": "Que máquina foi símbolo da Primeira Revolução Industrial?",
+   "apoio": null,
+   "opcoes": [
+    "Computador",
+    "Avião",
+    "Celular",
+    "Máquina a vapor"
+   ],
+   "certa": 3,
+   "explicacao": "A máquina a vapor movia fábricas, trens e navios.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi03-m1",
+   "habilidadeId": "EF08HI03",
+   "nivel": "medio",
+   "enunciado": "Como era o trabalho nas primeiras fábricas?",
+   "apoio": null,
+   "opcoes": [
+    "Jornadas curtas e férias pagas",
+    "Era feito em casa pelo artesão",
+    "Só trabalhavam adultos com carteira assinada",
+    "Jornadas longas, salários baixos e trabalho infantil"
+   ],
+   "certa": 3,
+   "explicacao": "Não havia leis trabalhistas; crianças trabalhavam muitas horas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi03-m2",
+   "habilidadeId": "EF08HI03",
+   "nivel": "medio",
+   "enunciado": "Uma consequência da Revolução Industrial foi…",
+   "apoio": null,
+   "opcoes": [
+    "a volta ao trabalho artesanal",
+    "o fim do comércio",
+    "a diminuição da população urbana",
+    "o crescimento acelerado das cidades"
+   ],
+   "certa": 3,
+   "explicacao": "Muitas pessoas deixaram o campo para trabalhar nas fábricas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi03-d1",
+   "habilidadeId": "EF08HI03",
+   "nivel": "dificil",
+   "enunciado": "O que foi o movimento ludista?",
+   "apoio": null,
+   "opcoes": [
+    "Uma escola de pintura",
+    "Uma revolta camponesa no Brasil",
+    "Trabalhadores que quebravam máquinas em protesto",
+    "Um grupo de cientistas inventores"
+   ],
+   "certa": 2,
+   "explicacao": "Os ludistas viam as máquinas como causa do desemprego e da miséria.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi04-f1",
+   "habilidadeId": "EF08HI04",
+   "nivel": "facil",
+   "enunciado": "Em que ano começou a Revolução Francesa?",
+   "apoio": null,
+   "opcoes": [
+    "1500",
+    "1822",
+    "1914",
+    "1789"
+   ],
+   "certa": 3,
+   "explicacao": "A tomada da Bastilha, em 14 de julho de 1789, é o marco inicial.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi04-f2",
+   "habilidadeId": "EF08HI04",
+   "nivel": "facil",
+   "enunciado": "Qual era o lema da Revolução Francesa?",
+   "apoio": null,
+   "opcoes": [
+    "Paz e Amor",
+    "Liberdade, Igualdade, Fraternidade",
+    "Ordem e Progresso",
+    "Deus, Pátria e Família"
+   ],
+   "certa": 1,
+   "explicacao": "O lema resumia os ideais iluministas da revolução.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi04-m1",
+   "habilidadeId": "EF08HI04",
+   "nivel": "medio",
+   "enunciado": "O que foi a Bastilha?",
+   "apoio": null,
+   "opcoes": [
+    "Um navio francês",
+    "Uma universidade",
+    "O palácio de Napoleão",
+    "Uma prisão que simbolizava o poder do rei"
+   ],
+   "certa": 3,
+   "explicacao": "Derrubá-la simbolizou o fim do absolutismo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi04-m2",
+   "habilidadeId": "EF08HI04",
+   "nivel": "medio",
+   "enunciado": "Antes da revolução, a sociedade francesa era dividida em…",
+   "apoio": null,
+   "opcoes": [
+    "castas religiosas",
+    "três estados: clero, nobreza e povo",
+    "tribos",
+    "duas classes: patrões e operários"
+   ],
+   "certa": 1,
+   "explicacao": "O Terceiro Estado (povo) pagava impostos que os outros não pagavam.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi04-d1",
+   "habilidadeId": "EF08HI04",
+   "nivel": "dificil",
+   "enunciado": "Qual documento de 1789 afirmou direitos do cidadão?",
+   "apoio": null,
+   "opcoes": [
+    "Constituição do Império do Brasil",
+    "Declaração dos Direitos do Homem e do Cidadão",
+    "Tratado de Tordesilhas",
+    "Lei Áurea"
+   ],
+   "certa": 1,
+   "explicacao": "Ela afirmou liberdade e igualdade perante a lei.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi12-f1",
+   "habilidadeId": "EF08HI12",
+   "nivel": "facil",
+   "enunciado": "Em que ano a família real portuguesa chegou ao Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "1500",
+    "1822",
+    "1889",
+    "1808"
+   ],
+   "certa": 3,
+   "explicacao": "A Corte veio fugindo das tropas de Napoleão.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi12-f2",
+   "habilidadeId": "EF08HI12",
+   "nivel": "facil",
+   "enunciado": "Quem proclamou a independência do Brasil, em 1822?",
+   "apoio": null,
+   "opcoes": [
+    "Tiradentes",
+    "Dom Pedro I",
+    "Dom João VI",
+    "Getúlio Vargas"
+   ],
+   "certa": 1,
+   "explicacao": "Dom Pedro proclamou a independência às margens do Ipiranga.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi12-m1",
+   "habilidadeId": "EF08HI12",
+   "nivel": "medio",
+   "enunciado": "Por que a família real veio para o Brasil em 1808?",
+   "apoio": null,
+   "opcoes": [
+    "Para fugir da invasão de Napoleão a Portugal",
+    "Para proclamar a república",
+    "Para conhecer a Amazônia",
+    "Para acabar com a escravidão"
+   ],
+   "certa": 0,
+   "explicacao": "A França invadia Portugal, que era aliado da Inglaterra.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi12-m2",
+   "habilidadeId": "EF08HI12",
+   "nivel": "medio",
+   "enunciado": "Uma medida de Dom João no Brasil foi…",
+   "apoio": null,
+   "opcoes": [
+    "a criação de Brasília",
+    "a proclamação da república",
+    "a abolição da escravidão",
+    "a abertura dos portos às nações amigas"
+   ],
+   "certa": 3,
+   "explicacao": "Os portos foram abertos ao comércio, principalmente com a Inglaterra.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef08hi12-d1",
+   "habilidadeId": "EF08HI12",
+   "nivel": "dificil",
+   "enunciado": "Por que a independência do Brasil é vista como diferente das hispano-americanas?",
+   "apoio": null,
+   "opcoes": [
+    "Manteve a monarquia e a unidade do território",
+    "Dividiu o país em várias repúblicas",
+    "Foi feita por um presidente eleito",
+    "Acabou com a escravidão imediatamente"
+   ],
+   "certa": 0,
+   "explicacao": "O Brasil virou um império unido, governado por um herdeiro português.",
+   "origem": "curada"
+  }
+ ]
+}

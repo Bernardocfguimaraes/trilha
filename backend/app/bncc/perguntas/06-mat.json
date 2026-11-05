@@ -1,0 +1,327 @@
+{
+ "ano": 6,
+ "disciplinaId": "mat",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef06ma05-f1",
+   "habilidadeId": "EF06MA05",
+   "nivel": "facil",
+   "enunciado": "Qual destes números é primo?",
+   "apoio": null,
+   "opcoes": [
+    "15",
+    "21",
+    "9",
+    "7"
+   ],
+   "certa": 3,
+   "explicacao": "7 só é divisível por 1 e por ele mesmo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma05-f2",
+   "habilidadeId": "EF06MA05",
+   "nivel": "facil",
+   "enunciado": "Qual destes é múltiplo de 4?",
+   "apoio": null,
+   "opcoes": [
+    "10",
+    "24",
+    "30",
+    "18"
+   ],
+   "certa": 1,
+   "explicacao": "24 = 4 × 6.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma05-m1",
+   "habilidadeId": "EF06MA05",
+   "nivel": "medio",
+   "enunciado": "Quais são todos os divisores de 12?",
+   "apoio": null,
+   "opcoes": [
+    "12, 24 e 36",
+    "1, 2, 3 e 4",
+    "2, 4, 6 e 12",
+    "1, 2, 3, 4, 6 e 12"
+   ],
+   "certa": 3,
+   "explicacao": "São os números que dividem 12 sem deixar resto.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma05-m2",
+   "habilidadeId": "EF06MA05",
+   "nivel": "medio",
+   "enunciado": "Qual é o menor múltiplo comum de 4 e 6?",
+   "apoio": null,
+   "opcoes": [
+    "2",
+    "10",
+    "24",
+    "12"
+   ],
+   "certa": 3,
+   "explicacao": "Múltiplos de 4: 4, 8, 12…; de 6: 6, 12…; o primeiro em comum é 12.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma05-d1",
+   "habilidadeId": "EF06MA05",
+   "nivel": "dificil",
+   "enunciado": "Duas luzes piscam a cada 6 e a cada 8 segundos. Se piscaram juntas agora, depois de quantos segundos piscam juntas de novo?",
+   "apoio": null,
+   "opcoes": [
+    "14",
+    "24",
+    "48",
+    "2"
+   ],
+   "certa": 1,
+   "explicacao": "É o mínimo múltiplo comum de 6 e 8: 24.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma07-f1",
+   "habilidadeId": "EF06MA07",
+   "nivel": "facil",
+   "enunciado": "Que fração representa metade de uma pizza?",
+   "apoio": null,
+   "opcoes": [
+    "1/4",
+    "1/3",
+    "2/1",
+    "1/2"
+   ],
+   "certa": 3,
+   "explicacao": "Metade é uma parte de duas iguais.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma07-f2",
+   "habilidadeId": "EF06MA07",
+   "nivel": "facil",
+   "enunciado": "Qual fração é maior: 3/4 ou 1/4?",
+   "apoio": null,
+   "opcoes": [
+    "3/4",
+    "1/4",
+    "Não dá para comparar",
+    "São iguais"
+   ],
+   "certa": 0,
+   "explicacao": "Com o mesmo denominador, vence o maior numerador.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma07-m1",
+   "habilidadeId": "EF06MA07",
+   "nivel": "medio",
+   "enunciado": "Qual fração é equivalente a 2/4?",
+   "apoio": null,
+   "opcoes": [
+    "4/2",
+    "2/8",
+    "1/4",
+    "1/2"
+   ],
+   "certa": 3,
+   "explicacao": "Dividindo numerador e denominador por 2: 2/4 = 1/2.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma07-m2",
+   "habilidadeId": "EF06MA07",
+   "nivel": "medio",
+   "enunciado": "Coloque em ordem crescente: 1/2, 1/3, 1/4.",
+   "apoio": null,
+   "opcoes": [
+    "1/4, 1/2, 1/3",
+    "1/2, 1/3, 1/4",
+    "1/3, 1/4, 1/2",
+    "1/4, 1/3, 1/2"
+   ],
+   "certa": 3,
+   "explicacao": "Com numerador 1, quanto maior o denominador, menor a parte.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma07-d1",
+   "habilidadeId": "EF06MA07",
+   "nivel": "dificil",
+   "enunciado": "12 chocolates foram divididos igualmente entre 3 amigos. Que fração do total cada um recebeu?",
+   "apoio": null,
+   "opcoes": [
+    "4/3",
+    "1/3",
+    "1/12",
+    "3/12"
+   ],
+   "certa": 1,
+   "explicacao": "Cada um recebeu 4 de 12, que é 1/3 do total.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma13-f1",
+   "habilidadeId": "EF06MA13",
+   "nivel": "facil",
+   "enunciado": "Quanto é 50% de 30?",
+   "apoio": null,
+   "opcoes": [
+    "5",
+    "50",
+    "15",
+    "30"
+   ],
+   "certa": 2,
+   "explicacao": "50% é a metade: 30 ÷ 2 = 15.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma13-f2",
+   "habilidadeId": "EF06MA13",
+   "nivel": "facil",
+   "enunciado": "Quanto é 10% de 70?",
+   "apoio": null,
+   "opcoes": [
+    "10",
+    "7",
+    "17",
+    "70"
+   ],
+   "certa": 1,
+   "explicacao": "10% é a décima parte: 70 ÷ 10 = 7.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma13-m1",
+   "habilidadeId": "EF06MA13",
+   "nivel": "medio",
+   "enunciado": "Quanto é 25% de 80?",
+   "apoio": null,
+   "opcoes": [
+    "8",
+    "40",
+    "20",
+    "25"
+   ],
+   "certa": 2,
+   "explicacao": "25% é a quarta parte: 80 ÷ 4 = 20.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma13-m2",
+   "habilidadeId": "EF06MA13",
+   "nivel": "medio",
+   "enunciado": "Numa turma de 20 alunos, 5 usam óculos. Que porcentagem usa óculos?",
+   "apoio": null,
+   "opcoes": [
+    "25%",
+    "50%",
+    "20%",
+    "5%"
+   ],
+   "certa": 0,
+   "explicacao": "5 de 20 é 1/4, que é 25%.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma13-d1",
+   "habilidadeId": "EF06MA13",
+   "nivel": "dificil",
+   "enunciado": "Um tênis de R$ 120 está com 15% de desconto. Quanto é o desconto em reais?",
+   "apoio": null,
+   "opcoes": [
+    "R$ 15",
+    "R$ 18",
+    "R$ 102",
+    "R$ 12"
+   ],
+   "certa": 1,
+   "explicacao": "10% de 120 = 12 e 5% = 6; 12 + 6 = 18.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma19-f1",
+   "habilidadeId": "EF06MA19",
+   "nivel": "facil",
+   "enunciado": "Quantos lados tem um triângulo?",
+   "apoio": null,
+   "opcoes": [
+    "6",
+    "4",
+    "3",
+    "5"
+   ],
+   "certa": 2,
+   "explicacao": "Tri = três: três lados e três vértices.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma19-f2",
+   "habilidadeId": "EF06MA19",
+   "nivel": "facil",
+   "enunciado": "Um triângulo com os três lados iguais se chama…",
+   "apoio": null,
+   "opcoes": [
+    "retângulo",
+    "isósceles",
+    "equilátero",
+    "escaleno"
+   ],
+   "certa": 2,
+   "explicacao": "Equilátero: todos os lados com a mesma medida.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma19-m1",
+   "habilidadeId": "EF06MA19",
+   "nivel": "medio",
+   "enunciado": "Um triângulo com um ângulo de 90° se chama…",
+   "apoio": null,
+   "opcoes": [
+    "retângulo",
+    "acutângulo",
+    "obtusângulo",
+    "equilátero"
+   ],
+   "certa": 0,
+   "explicacao": "O ângulo reto (90°) dá nome ao triângulo retângulo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma19-m2",
+   "habilidadeId": "EF06MA19",
+   "nivel": "medio",
+   "enunciado": "Quanto mede a soma dos ângulos internos de qualquer triângulo?",
+   "apoio": null,
+   "opcoes": [
+    "90°",
+    "360°",
+    "270°",
+    "180°"
+   ],
+   "certa": 3,
+   "explicacao": "Em todo triângulo, os três ângulos somam 180°.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06ma19-d1",
+   "habilidadeId": "EF06MA19",
+   "nivel": "dificil",
+   "enunciado": "Um triângulo tem ângulos de 50° e 60°. Quanto mede o terceiro?",
+   "apoio": null,
+   "opcoes": [
+    "80°",
+    "110°",
+    "70°",
+    "90°"
+   ],
+   "certa": 2,
+   "explicacao": "180° − 50° − 60° = 70°.",
+   "origem": "curada"
+  }
+ ]
+}

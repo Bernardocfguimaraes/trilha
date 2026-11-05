@@ -1,0 +1,327 @@
+{
+ "ano": 6,
+ "disciplinaId": "his",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef06hi01-f1",
+   "habilidadeId": "EF06HI01",
+   "nivel": "facil",
+   "enunciado": "O ano de 1500 pertence a qual século?",
+   "apoio": null,
+   "opcoes": [
+    "XIV",
+    "XX",
+    "XVI",
+    "XV"
+   ],
+   "certa": 3,
+   "explicacao": "Os anos de 1401 a 1500 formam o século XV.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi01-f2",
+   "habilidadeId": "EF06HI01",
+   "nivel": "facil",
+   "enunciado": "Um século corresponde a…",
+   "apoio": null,
+   "opcoes": [
+    "1.000 anos",
+    "100 anos",
+    "50 anos",
+    "10 anos"
+   ],
+   "certa": 1,
+   "explicacao": "Século = cem anos; década = dez; milênio = mil.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi01-m1",
+   "habilidadeId": "EF06HI01",
+   "nivel": "medio",
+   "enunciado": "O ano de 2026 pertence a qual século?",
+   "apoio": null,
+   "opcoes": [
+    "XIX",
+    "XX",
+    "XXII",
+    "XXI"
+   ],
+   "certa": 3,
+   "explicacao": "Os anos de 2001 a 2100 formam o século XXI.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi01-m2",
+   "habilidadeId": "EF06HI01",
+   "nivel": "medio",
+   "enunciado": "A escrita é usada como marco para separar…",
+   "apoio": null,
+   "opcoes": [
+    "a Idade Média da Moderna",
+    "a Antiguidade da Idade Contemporânea",
+    "o século XX do XXI",
+    "a Pré-História da História"
+   ],
+   "certa": 3,
+   "explicacao": "Tradicionalmente, a História começa com o surgimento da escrita.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi01-d1",
+   "habilidadeId": "EF06HI01",
+   "nivel": "dificil",
+   "enunciado": "Por que dividir a história em períodos (Antiguidade, Idade Média…) é uma escolha, e não uma verdade natural?",
+   "apoio": null,
+   "opcoes": [
+    "Os marcos foram definidos por historiadores, muitas vezes a partir da Europa",
+    "Porque todas as sociedades viveram as mesmas fases",
+    "Porque os períodos foram escritos na Bíblia",
+    "Porque os períodos têm sempre 1.000 anos"
+   ],
+   "certa": 0,
+   "explicacao": "A periodização é uma forma de organizar o tempo e pode deixar outras sociedades de fora.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi03-f1",
+   "habilidadeId": "EF06HI03",
+   "nivel": "facil",
+   "enunciado": "Em qual continente surgiram os primeiros seres humanos, segundo a ciência?",
+   "apoio": null,
+   "opcoes": [
+    "Oceania",
+    "América",
+    "Europa",
+    "África"
+   ],
+   "certa": 3,
+   "explicacao": "Os fósseis mais antigos do Homo sapiens foram encontrados na África.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi03-f2",
+   "habilidadeId": "EF06HI03",
+   "nivel": "facil",
+   "enunciado": "Os primeiros grupos humanos que se deslocavam em busca de alimento eram…",
+   "apoio": null,
+   "opcoes": [
+    "nômades",
+    "urbanos",
+    "sedentários",
+    "industriais"
+   ],
+   "certa": 0,
+   "explicacao": "Nômades não têm moradia fixa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi03-m1",
+   "habilidadeId": "EF06HI03",
+   "nivel": "medio",
+   "enunciado": "O que permitiu que os grupos humanos se fixassem em um lugar?",
+   "apoio": null,
+   "opcoes": [
+    "A construção de estradas de ferro",
+    "A invenção da escrita",
+    "O uso de moedas",
+    "O desenvolvimento da agricultura"
+   ],
+   "certa": 3,
+   "explicacao": "Plantar e criar animais tornou possível morar num mesmo lugar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi03-m2",
+   "habilidadeId": "EF06HI03",
+   "nivel": "medio",
+   "enunciado": "Como os cientistas estudam os povos que não deixaram escrita?",
+   "apoio": null,
+   "opcoes": [
+    "Por livros da época",
+    "Por fósseis, ferramentas e pinturas",
+    "Por gravações de áudio",
+    "Por jornais antigos"
+   ],
+   "certa": 1,
+   "explicacao": "Vestígios materiais são as fontes da Pré-História.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi03-d1",
+   "habilidadeId": "EF06HI03",
+   "nivel": "dificil",
+   "enunciado": "O sítio arqueológico da Serra da Capivara, no Piauí, é importante porque…",
+   "apoio": null,
+   "opcoes": [
+    "Guarda os primeiros fósseis de dinossauro",
+    "É onde surgiu a escrita",
+    "Tem pinturas rupestres e vestígios muito antigos da presença humana na América",
+    "Foi a capital do Império Romano"
+   ],
+   "certa": 2,
+   "explicacao": "Seus vestígios alimentam o debate sobre quando os humanos chegaram à América.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi10-f1",
+   "habilidadeId": "EF06HI10",
+   "nivel": "facil",
+   "enunciado": "Na Grécia Antiga, as cidades-estado eram chamadas de…",
+   "apoio": null,
+   "opcoes": [
+    "pólis",
+    "capitanias",
+    "impérios",
+    "feudos"
+   ],
+   "certa": 0,
+   "explicacao": "Cada pólis tinha governo, leis e exército próprios.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi10-f2",
+   "habilidadeId": "EF06HI10",
+   "nivel": "facil",
+   "enunciado": "Qual cidade grega ficou conhecida pela democracia?",
+   "apoio": null,
+   "opcoes": [
+    "Esparta",
+    "Cartago",
+    "Roma",
+    "Atenas"
+   ],
+   "certa": 3,
+   "explicacao": "Em Atenas, os cidadãos votavam nas assembleias.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi10-m1",
+   "habilidadeId": "EF06HI10",
+   "nivel": "medio",
+   "enunciado": "Quem podia participar da democracia ateniense?",
+   "apoio": null,
+   "opcoes": [
+    "Mulheres e estrangeiros",
+    "Todos os moradores, inclusive escravizados",
+    "Apenas homens adultos nascidos em Atenas",
+    "Só o rei"
+   ],
+   "certa": 2,
+   "explicacao": "Mulheres, estrangeiros e escravizados ficavam de fora.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi10-m2",
+   "habilidadeId": "EF06HI10",
+   "nivel": "medio",
+   "enunciado": "Esparta era conhecida principalmente…",
+   "apoio": null,
+   "opcoes": [
+    "pelo comércio marítimo",
+    "pelo teatro",
+    "pela formação militar",
+    "pela filosofia"
+   ],
+   "certa": 2,
+   "explicacao": "Os espartanos eram educados desde cedo para a guerra.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi10-d1",
+   "habilidadeId": "EF06HI10",
+   "nivel": "dificil",
+   "enunciado": "Por que a democracia ateniense é diferente da democracia atual?",
+   "apoio": null,
+   "opcoes": [
+    "Permitia o voto das mulheres e proibia o dos homens",
+    "Não tinha votação",
+    "Excluía a maior parte da população da cidadania",
+    "Era governada por um rei"
+   ],
+   "certa": 2,
+   "explicacao": "A cidadania era restrita; hoje, o voto é universal.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi11-f1",
+   "habilidadeId": "EF06HI11",
+   "nivel": "facil",
+   "enunciado": "Segundo a lenda, Roma foi fundada por…",
+   "apoio": null,
+   "opcoes": [
+    "Júlio César e Augusto",
+    "Zeus e Hera",
+    "Alexandre, o Grande",
+    "Rômulo e Remo"
+   ],
+   "certa": 3,
+   "explicacao": "A lenda conta que os gêmeos foram criados por uma loba.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi11-f2",
+   "habilidadeId": "EF06HI11",
+   "nivel": "facil",
+   "enunciado": "Qual língua era falada pelos antigos romanos?",
+   "apoio": null,
+   "opcoes": [
+    "árabe",
+    "grego",
+    "português",
+    "latim"
+   ],
+   "certa": 3,
+   "explicacao": "O latim deu origem ao português, ao espanhol e ao italiano.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi11-m1",
+   "habilidadeId": "EF06HI11",
+   "nivel": "medio",
+   "enunciado": "Quais foram os três períodos políticos de Roma, em ordem?",
+   "apoio": null,
+   "opcoes": [
+    "Império, República, Monarquia",
+    "Monarquia, Império, República",
+    "República, Monarquia, Império",
+    "Monarquia, República, Império"
+   ],
+   "certa": 3,
+   "explicacao": "Roma começou com reis, depois virou república e por fim império.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi11-m2",
+   "habilidadeId": "EF06HI11",
+   "nivel": "medio",
+   "enunciado": "Na sociedade romana, os patrícios eram…",
+   "apoio": null,
+   "opcoes": [
+    "os trabalhadores livres pobres",
+    "a elite proprietária de terras",
+    "os escravizados",
+    "os estrangeiros"
+   ],
+   "certa": 1,
+   "explicacao": "Patrícios tinham terras e direitos políticos; os plebeus, não.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06hi11-d1",
+   "habilidadeId": "EF06HI11",
+   "nivel": "dificil",
+   "enunciado": "Qual herança romana está presente no Brasil de hoje?",
+   "apoio": null,
+   "opcoes": [
+    "A escrita cuneiforme",
+    "O sistema de castas",
+    "O direito e a língua portuguesa, que vem do latim",
+    "A democracia direta de Atenas"
+   ],
+   "certa": 2,
+   "explicacao": "O direito romano e o latim influenciaram nossas leis e nossa língua.",
+   "origem": "curada"
+  }
+ ]
+}

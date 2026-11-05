@@ -1,0 +1,30 @@
+{
+ "ano": 6,
+ "disciplinaId": "geo",
+ "componente": "GE",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Terra, água e mapas",
+   "habilidades": [
+    {
+     "codigo": "EF06GE03",
+     "nome": "Movimentos da Terra e clima"
+    },
+    {
+     "codigo": "EF06GE04",
+     "nome": "Ciclo da água"
+    },
+    {
+     "codigo": "EF06GE05",
+     "nome": "Clima, solo, relevo e vegetação"
+    },
+    {
+     "codigo": "EF06GE08",
+     "nome": "Escalas de mapas"
+    }
+   ]
+  }
+ ]
+}

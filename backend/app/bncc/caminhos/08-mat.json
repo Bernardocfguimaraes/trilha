@@ -1,0 +1,30 @@
+{
+ "ano": 8,
+ "disciplinaId": "mat",
+ "componente": "MA",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Números, álgebra e estatística",
+   "habilidades": [
+    {
+     "codigo": "EF08MA01",
+     "nome": "Potências e notação científica"
+    },
+    {
+     "codigo": "EF08MA04",
+     "nome": "Porcentagem"
+    },
+    {
+     "codigo": "EF08MA06",
+     "nome": "Valor numérico de expressões"
+    },
+    {
+     "codigo": "EF08MA25",
+     "nome": "Média, moda e mediana"
+    }
+   ]
+  }
+ ]
+}

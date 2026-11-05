@@ -1,0 +1,30 @@
+{
+ "ano": 6,
+ "disciplinaId": "his",
+ "componente": "HI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Tempo, origens e Antiguidade",
+   "habilidades": [
+    {
+     "codigo": "EF06HI01",
+     "nome": "Tempo e periodização"
+    },
+    {
+     "codigo": "EF06HI03",
+     "nome": "Origem da humanidade"
+    },
+    {
+     "codigo": "EF06HI10",
+     "nome": "Grécia Antiga"
+    },
+    {
+     "codigo": "EF06HI11",
+     "nome": "Roma Antiga"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "ano": 6,
+ "disciplinaId": "cie",
+ "componente": "CI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Matéria, vida e Terra",
+   "habilidades": [
+    {
+     "codigo": "EF06CI01",
+     "nome": "Misturas"
+    },
+    {
+     "codigo": "EF06CI05",
+     "nome": "Células"
+    },
+    {
+     "codigo": "EF06CI11",
+     "nome": "Camadas da Terra"
+    },
+    {
+     "codigo": "EF06CI12",
+     "nome": "Rochas e fósseis"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "ano": 8,
+ "disciplinaId": "his",
+ "componente": "HI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Revoluções e independências",
+   "habilidades": [
+    {
+     "codigo": "EF08HI01",
+     "nome": "Iluminismo"
+    },
+    {
+     "codigo": "EF08HI03",
+     "nome": "Revolução Industrial"
+    },
+    {
+     "codigo": "EF08HI04",
+     "nome": "Revolução Francesa"
+    },
+    {
+     "codigo": "EF08HI12",
+     "nome": "Brasil: da Corte à independência"
+    }
+   ]
+  }
+ ]
+}

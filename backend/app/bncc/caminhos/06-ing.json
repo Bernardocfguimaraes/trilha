@@ -1,0 +1,30 @@
+{
+ "ano": 6,
+ "disciplinaId": "ing",
+ "componente": "LI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Me, my family and my routine",
+   "habilidades": [
+    {
+     "codigo": "EF06LI19",
+     "nome": "Verbo to be e rotina"
+    },
+    {
+     "codigo": "EF06LI17",
+     "nome": "Família, escola e rotina"
+    },
+    {
+     "codigo": "EF06LI23",
+     "nome": "Adjetivos possessivos"
+    },
+    {
+     "codigo": "EF06LI20",
+     "nome": "Presente contínuo"
+    }
+   ]
+  }
+ ]
+}

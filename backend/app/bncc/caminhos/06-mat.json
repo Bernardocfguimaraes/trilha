@@ -1,0 +1,30 @@
+{
+ "ano": 6,
+ "disciplinaId": "mat",
+ "componente": "MA",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Números, frações e figuras",
+   "habilidades": [
+    {
+     "codigo": "EF06MA05",
+     "nome": "Múltiplos, divisores e primos"
+    },
+    {
+     "codigo": "EF06MA07",
+     "nome": "Frações"
+    },
+    {
+     "codigo": "EF06MA13",
+     "nome": "Porcentagem"
+    },
+    {
+     "codigo": "EF06MA19",
+     "nome": "Triângulos"
+    }
+   ]
+  }
+ ]
+}

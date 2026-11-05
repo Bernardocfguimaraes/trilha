@@ -1,0 +1,327 @@
+{
+ "ano": 6,
+ "disciplinaId": "por",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef67lp04-f1",
+   "habilidadeId": "EF67LP04",
+   "nivel": "facil",
+   "enunciado": "Qual frase expressa uma opinião?",
+   "apoio": null,
+   "opcoes": [
+    "O filme estreou na sexta-feira.",
+    "O filme foi gravado no Brasil.",
+    "Esse é o filme mais emocionante do ano.",
+    "O filme tem duas horas de duração."
+   ],
+   "certa": 2,
+   "explicacao": "\"Mais emocionante\" é um julgamento pessoal; os outros podem ser verificados.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp04-f2",
+   "habilidadeId": "EF67LP04",
+   "nivel": "facil",
+   "enunciado": "Qual frase apresenta um fato?",
+   "apoio": null,
+   "opcoes": [
+    "Os livros de aventura são os melhores.",
+    "A biblioteca é o lugar mais agradável da escola.",
+    "Ler é a melhor diversão.",
+    "A biblioteca abre às 8 horas."
+   ],
+   "certa": 3,
+   "explicacao": "O horário pode ser conferido; os outros são opiniões.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp04-m1",
+   "habilidadeId": "EF67LP04",
+   "nivel": "medio",
+   "enunciado": "Em \"Infelizmente, o show foi adiado para domingo\", qual palavra mostra a opinião de quem escreve?",
+   "apoio": null,
+   "opcoes": [
+    "show",
+    "Infelizmente",
+    "adiado",
+    "domingo"
+   ],
+   "certa": 1,
+   "explicacao": "\"Infelizmente\" revela como quem escreve avalia o fato.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp04-m2",
+   "habilidadeId": "EF67LP04",
+   "nivel": "medio",
+   "enunciado": "Numa notícia, onde devem predominar os fatos?",
+   "apoio": null,
+   "opcoes": [
+    "Na seção de cartas do leitor",
+    "Nos artigos de opinião",
+    "Nas charges",
+    "No relato do acontecimento"
+   ],
+   "certa": 3,
+   "explicacao": "A notícia relata fatos; opiniões ficam em gêneros próprios.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp04-d1",
+   "habilidadeId": "EF67LP04",
+   "nivel": "dificil",
+   "enunciado": "\"Segundo a pesquisa, 60% dos alunos leem por prazer, o que é ótimo.\" O que é opinião nesse trecho?",
+   "apoio": null,
+   "opcoes": [
+    "60% dos alunos",
+    "leem por prazer",
+    "o que é ótimo",
+    "Segundo a pesquisa"
+   ],
+   "certa": 2,
+   "explicacao": "O dado vem da pesquisa; \"o que é ótimo\" é a avaliação de quem escreve.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06lp06-f1",
+   "habilidadeId": "EF06LP06",
+   "nivel": "facil",
+   "enunciado": "Complete: \"As meninas ficaram ___.\"",
+   "apoio": null,
+   "opcoes": [
+    "contentezas",
+    "contente",
+    "contentas",
+    "contentes"
+   ],
+   "certa": 3,
+   "explicacao": "\"Meninas\" está no plural, então o adjetivo também vai para o plural.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06lp06-f2",
+   "habilidadeId": "EF06LP06",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Comprei duas canetas ___.\"",
+   "apoio": null,
+   "opcoes": [
+    "azules",
+    "azulas",
+    "azuis",
+    "azul"
+   ],
+   "certa": 2,
+   "explicacao": "O plural de \"azul\" é \"azuis\", concordando com \"canetas\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06lp06-m1",
+   "habilidadeId": "EF06LP06",
+   "nivel": "medio",
+   "enunciado": "Qual frase está de acordo com a norma padrão?",
+   "apoio": null,
+   "opcoes": [
+    "Os cadernos e as mochilas estavam nova.",
+    "Os cadernos e as mochilas estavam novas.",
+    "Os cadernos e as mochilas estava novo.",
+    "Os cadernos e as mochilas estavam novos."
+   ],
+   "certa": 3,
+   "explicacao": "Com substantivos de gêneros diferentes, o adjetivo depois deles vai para o masculino plural.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06lp06-m2",
+   "habilidadeId": "EF06LP06",
+   "nivel": "medio",
+   "enunciado": "Complete: \"É ___ entrada de animais.\"",
+   "apoio": null,
+   "opcoes": [
+    "proibido a",
+    "proibida a",
+    "proibidas a",
+    "proibidos a"
+   ],
+   "certa": 1,
+   "explicacao": "Quando o substantivo vem com artigo (\"a entrada\"), o adjetivo concorda com ele.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef06lp06-d1",
+   "habilidadeId": "EF06LP06",
+   "nivel": "dificil",
+   "enunciado": "Complete: \"Elas ___ organizaram a festa.\"",
+   "apoio": null,
+   "opcoes": [
+    "mesmo",
+    "mesmos",
+    "mesmas",
+    "mesma"
+   ],
+   "certa": 2,
+   "explicacao": "\"Mesmo\" concorda com a palavra a que se refere: elas (feminino plural) → mesmas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp32-f1",
+   "habilidadeId": "EF67LP32",
+   "nivel": "facil",
+   "enunciado": "Qual palavra está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "esceção",
+    "excessão",
+    "exceção",
+    "exseção"
+   ],
+   "certa": 2,
+   "explicacao": "Grafia correta: exceção.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp32-f2",
+   "habilidadeId": "EF67LP32",
+   "nivel": "facil",
+   "enunciado": "Qual palavra está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "paraliçar",
+    "paralizar",
+    "paralisar",
+    "paralissar"
+   ],
+   "certa": 2,
+   "explicacao": "\"Paralisar\" vem de \"paralisia\", com s.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp32-m1",
+   "habilidadeId": "EF67LP32",
+   "nivel": "medio",
+   "enunciado": "Complete: \"Ele não sabe ___ faltou à aula.\"",
+   "apoio": null,
+   "opcoes": [
+    "porquê",
+    "por que",
+    "porque",
+    "por quê"
+   ],
+   "certa": 1,
+   "explicacao": "Em perguntas indiretas, no sentido de \"por qual motivo\", usa-se \"por que\" separado.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp32-m2",
+   "habilidadeId": "EF67LP32",
+   "nivel": "medio",
+   "enunciado": "Qual palavra está escrita corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "obsseção",
+    "obseção",
+    "obcessão",
+    "obsessão"
+   ],
+   "certa": 3,
+   "explicacao": "Grafia correta: obsessão.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp32-d1",
+   "habilidadeId": "EF67LP32",
+   "nivel": "dificil",
+   "enunciado": "Em qual frase \"mal\" está correto?",
+   "apoio": null,
+   "opcoes": [
+    "Ele é um menino muito mal.",
+    "Ele se sentiu mal depois do almoço.",
+    "O lobo mal apareceu.",
+    "Que mal humor!"
+   ],
+   "certa": 1,
+   "explicacao": "\"Mal\" é o contrário de \"bem\"; \"mau\" é o contrário de \"bom\" (menino mau, lobo mau, mau humor).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp38-f1",
+   "habilidadeId": "EF67LP38",
+   "nivel": "facil",
+   "enunciado": "\"Ela é forte como um leão.\" Que figura de linguagem é essa?",
+   "apoio": null,
+   "opcoes": [
+    "comparação",
+    "metáfora",
+    "onomatopeia",
+    "hipérbole"
+   ],
+   "certa": 0,
+   "explicacao": "Há comparação explícita com \"como\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp38-f2",
+   "habilidadeId": "EF67LP38",
+   "nivel": "facil",
+   "enunciado": "\"O tique-taque do relógio me acordou.\" \"Tique-taque\" é…",
+   "apoio": null,
+   "opcoes": [
+    "metáfora",
+    "ironia",
+    "comparação",
+    "onomatopeia"
+   ],
+   "certa": 3,
+   "explicacao": "Onomatopeia imita um som.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp38-m1",
+   "habilidadeId": "EF67LP38",
+   "nivel": "medio",
+   "enunciado": "\"Já te falei um milhão de vezes!\" Que figura é essa?",
+   "apoio": null,
+   "opcoes": [
+    "personificação",
+    "hipérbole",
+    "metonímia",
+    "comparação"
+   ],
+   "certa": 1,
+   "explicacao": "Hipérbole é um exagero proposital.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp38-m2",
+   "habilidadeId": "EF67LP38",
+   "nivel": "medio",
+   "enunciado": "\"O vento cantava nas árvores.\" Que figura é essa?",
+   "apoio": null,
+   "opcoes": [
+    "hipérbole",
+    "onomatopeia",
+    "personificação",
+    "comparação"
+   ],
+   "certa": 2,
+   "explicacao": "Dar ações humanas (cantar) a algo que não é humano é personificação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef67lp38-d1",
+   "habilidadeId": "EF67LP38",
+   "nivel": "dificil",
+   "enunciado": "\"Seus olhos são duas estrelas.\" Que figura é essa?",
+   "apoio": null,
+   "opcoes": [
+    "comparação",
+    "onomatopeia",
+    "metáfora",
+    "hipérbole"
+   ],
+   "certa": 2,
+   "explicacao": "É uma comparação sem \"como\": metáfora.",
+   "origem": "curada"
+  }
+ ]
+}
