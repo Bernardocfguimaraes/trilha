@@ -4,3 +4,9 @@ __pycache__/
 venv/
 .env
 .env.local
+
+# Banco SQLite local (criado por python -m app.seed ou ao subir a API)
+*.db
+*.db-wal
+*.db-shm
+*.db-journal

@@ -1,4 +1,4 @@
-"""Modelos SQLAlchemy (tabelas do Postgres).
+"""Modelos SQLAlchemy (as mesmas tabelas no SQLite e no Postgres).
 
 Guardam o que precisa sobreviver a um restart: turma, alunos (com PIN), disciplinas,
 habilidades, quais estão ativas no ciclo, o status atual por habilidade e o histórico

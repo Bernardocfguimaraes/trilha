@@ -27,10 +27,21 @@ from .esquemas import (
 )
 from .estado import ApiErro
 
-# Com DATABASE_URL definido, os dados vêm do Postgres (app/repo.py); sem ele, do estado
-# em memória (app/estado.py). Os dois expõem exatamente as mesmas funções.
+# Com DATABASE_URL definido, os dados vêm do banco — SQLite ou Postgres (app/repo.py);
+# sem ele, do estado em memória (app/estado.py). Os dois expõem as mesmas funções.
 if bd.tem_banco():
     from . import repo as fonte
+
+    # SQLite novo (arquivo ainda sem tabelas): cria e popula a demo na hora, para o app
+    # nunca subir "quebrado" por falta do seed. No Postgres o seed continua manual, porque
+    # ele apaga os dados existentes.
+    if bd.engine.dialect.name == "sqlite":
+        from sqlalchemy import inspect
+
+        if not inspect(bd.engine).has_table("turmas"):
+            from .seed import semear
+
+            semear()
 else:
     from . import estado as fonte
 
@@ -54,7 +65,7 @@ async def _api_erro(_request, exc: ApiErro):
 
 @app.get("/saude")
 def saude():
-    return {"ok": True, "turma": TURMA["codigo"]}
+    return {"ok": True, "turma": TURMA["codigo"], "banco": bd.descricao()}
 
 
 # --- Painel (professor / responsável) --------------------------------------

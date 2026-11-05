@@ -1,4 +1,4 @@
-"""Camada de dados sobre o Postgres — mesma interface pública que app/estado.py.
+"""Camada de dados sobre o banco (SQLite ou Postgres) — mesma interface pública que app/estado.py.
 
 O main.py escolhe entre estado (memória) e repo (banco) pela presença de DATABASE_URL,
 então as funções aqui têm exatamente os mesmos nomes e retornos do estado.py.

@@ -4,16 +4,35 @@ API que preenche o contrato que o frontend já consome (`src/lib/api.ts` e `src/
 
 ## Estado atual (passo 3)
 
-O backend funciona em **dois modos**, escolhidos pela variável `DATABASE_URL`:
+O backend funciona em **três modos**, escolhidos pela variável `DATABASE_URL`:
 
+- **`sqlite:///trilha.db`** → persistência num **arquivo local** (`backend/trilha.db`), sem
+  servidor e sem internet. É o modo recomendado para apresentar (ver abaixo).
+- **`postgresql://...`** → persistência no **Postgres do Supabase**.
 - **Sem `DATABASE_URL`** → estado em memória (`app/estado.py`), que espelha o mock do
   frontend. Reinicia do zero a cada restart. É o modo do passo 1.
-- **Com `DATABASE_URL`** → persistência no **Postgres do Supabase** (`app/repo.py`). Os
-  dados (alunos, PINs, status, histórico, config da turma) sobrevivem a restart.
+
+Nos dois modos com banco o código é o mesmo (`app/repo.py`): alunos, PINs, status,
+histórico e configuração da turma sobrevivem a restart.
 
 O diagnóstico de dificuldade usa um **modelo de ML** (passo 3, ver abaixo). Os dois modos
 expõem os mesmos endpoints; o `main.py` e o frontend não mudam.
 Ainda **não** tem: LLM real no chat/recomendações — próximo passo.
+
+## Apresentar sem depender da rede (SQLite)
+
+Algumas redes (como a da faculdade) bloqueiam a porta do Postgres, e aí o Supabase não
+conecta. Com SQLite o banco é um arquivo no próprio notebook:
+
+1. Em `backend/.env`: `DATABASE_URL=sqlite:///trilha.db` (e a linha do Supabase comentada).
+2. Suba a API: `uvicorn app.main:app --port 8000`. Se `backend/trilha.db` não existir, ela
+   cria as tabelas e popula a demo sozinha. Confira em http://localhost:8000/saude, que
+   deve mostrar `"banco": "sqlite"`.
+3. Para recomeçar a demo do zero antes de apresentar: `python -m app.seed`.
+
+IA (Groq) e voz continuam usando a internet normalmente. O arquivo `trilha.db` não vai
+para o git. Dá para abrir as tabelas com o [DB Browser for SQLite](https://sqlitebrowser.org/)
+para mostrar o banco.
 
 ## Passo 2 — Ligar o Supabase
 
@@ -148,10 +167,10 @@ app/
   main.py        rotas FastAPI + CORS; escolhe estado (memória) ou repo (banco)
   esquemas.py    corpos de requisição (Pydantic)
   estado.py      estado em memória + regras (modo sem banco)
-  repo.py        mesma interface, lendo/gravando no Postgres (modo com banco)
-  bd.py          conexão com o Postgres (lê DATABASE_URL do .env)
+  repo.py        mesma interface, lendo/gravando no banco (SQLite ou Postgres)
+  bd.py          conexão com o banco, SQLite ou Postgres (lê DATABASE_URL do .env)
   modelos.py     tabelas SQLAlchemy
-  seed.py        cria as tabelas e popula a demo (python -m app.seed)
+  seed.py        cria as tabelas e popula a demo (python -m app.seed; no SQLite também roda sozinho)
   dados.py       seed: turma, habilidades, alunos, PINs, banco de perguntas
   adaptacao.py   dificuldade adaptativa (mesma regra do frontend)
   chat.py        chat da turma: caminho LLM + fallback por palavra-chave

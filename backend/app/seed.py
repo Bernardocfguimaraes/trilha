@@ -1,5 +1,5 @@
 """Cria as tabelas e popula com os dados da demo — o mesmo conteúdo do mock do passo 1,
-agora persistido. Rodar uma vez após configurar o DATABASE_URL:
+agora persistido. Rodar uma vez após configurar o DATABASE_URL (SQLite ou Postgres):
 
     python -m app.seed
 
@@ -105,7 +105,7 @@ def semear() -> None:
 
         s.commit()
 
-    print("Seed concluído: tabelas criadas e populadas.")
+    print(f"Seed concluído ({bd.descricao()}): tabelas criadas e populadas.")
 
 
 if __name__ == "__main__":
