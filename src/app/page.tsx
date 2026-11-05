@@ -79,6 +79,12 @@ export default function Home() {
               Criar conta
             </Link>
           </div>
+          <p className="mt-5 text-sm text-pedra">
+            É responsável?{" "}
+            <Link href="/responsavel" className="font-semibold text-mata underline-offset-4 hover:underline">
+              Acompanhe seu filho com o código da turma e o PIN
+            </Link>
+          </p>
         </div>
       </section>
     </main>

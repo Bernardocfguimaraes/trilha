@@ -469,6 +469,11 @@ def turma_publica(codigo: str) -> dict:
     }
 
 
+def aluno_do_acesso(acesso: str) -> str | None:
+    """De quem é esta credencial de PIN (None se não existe ou foi revogada ao trocar o PIN)."""
+    return estado.acessos.get(acesso)
+
+
 def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id: str | None) -> dict:
     # Sem a credencial do PIN, ninguém abre sessão em nome de outro aluno.
     if not acesso or estado.acessos.get(acesso) != aluno_id:

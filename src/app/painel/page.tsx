@@ -4,7 +4,7 @@ import { MessagesSquare } from "lucide-react";
 import { StatusSelo, rotuloStatus } from "@/components/marca";
 import { api } from "@/lib/api";
 import { dataCurta } from "@/lib/formato";
-import { getUsuario } from "@/lib/supabase/server";
+import { getProfessor } from "@/lib/supabase/server";
 import type { AlunoResumo, HabilidadeStatus, Status } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -22,8 +22,8 @@ const FILTROS = [
 
 export default async function PainelPage({ searchParams }: PageProps<"/painel">) {
   const { filtro } = await searchParams;
-  const usuario = await getUsuario();
-  const todos = await api.alunos(usuario?.token);
+  const usuario = await getProfessor();
+  const todos = await api.alunos(usuario.token);
 
   const ordenados = [...todos].sort((a, b) => gravidade(b) - gravidade(a) || a.nome.localeCompare(b.nome));
   const alunos =
@@ -33,12 +33,11 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
 
   const comAlerta = todos.filter((a) => conta(a, "alerta") > 0).length;
   const comAtencao = todos.filter((a) => conta(a, "alerta") === 0 && conta(a, "atencao") > 0).length;
-  const professor = usuario?.papel === "professor";
 
   return (
     <div className="mx-auto max-w-6xl">
       <header>
-        <h1 className="text-3xl font-bold text-grafite">{professor ? todos[0]?.turma ?? "Sua turma" : "Acompanhamento"}</h1>
+        <h1 className="text-3xl font-bold text-grafite">{todos[0]?.turma ?? "Sua turma"}</h1>
         <p className="mt-2 max-w-prose text-lg text-pedra">
           {comAlerta === 0 && comAtencao === 0
             ? "Nenhum aluno com habilidades em alerta ou atenção."
@@ -49,15 +48,13 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
                 .filter(Boolean)
                 .join(" e ") + "."}
         </p>
-        {professor && (
-          <Link
-            href="/painel/conversa"
-            className="mt-3 inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-mata outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
-          >
-            <MessagesSquare className="size-4" />
-            Perguntar sobre a turma
-          </Link>
-        )}
+        <Link
+          href="/painel/conversa"
+          className="mt-3 inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-mata outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+        >
+          <MessagesSquare className="size-4" />
+          Perguntar sobre a turma
+        </Link>
       </header>
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4">

@@ -22,6 +22,7 @@ from .esquemas import (
     PedidoExercicio,
     PedidoPin,
     PedidoResposta,
+    PedidoProgresso,
     PedidoSessao,
     PedidoTurmaConfig,
 )
@@ -150,6 +151,18 @@ def get_turma_publica(codigo: str):
 @app.post("/acesso/pin")
 def post_pin(pedido: PedidoPin):
     return fonte.validar_pin(pedido.alunoId, pedido.pin)
+
+
+# --- Responsável (código da turma + PIN do filho, só leitura) ---------------
+
+@app.post("/responsavel/progresso")
+def post_progresso_responsavel(pedido: PedidoProgresso):
+    # O aluno vem da credencial, nunca de um id enviado pelo cliente: com o PIN de um
+    # filho não há como pedir os dados de outro aluno, da turma ou da configuração.
+    aluno_id = fonte.aluno_do_acesso(pedido.acesso)
+    if not aluno_id:
+        raise ApiErro(401, "Acesso expirado. Digite o PIN de novo.")
+    return {"aluno": fonte.aluno_detalhe(aluno_id), "historico": fonte.aluno_historico(aluno_id)}
 
 
 @app.post("/sessoes")

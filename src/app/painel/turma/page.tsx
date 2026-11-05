@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { LinkVoltar } from "@/components/voltar";
 import { CodigoTurma, FormTurma } from "@/components/painel/form-turma";
 import { PinsAlunos } from "@/components/painel/pins-alunos";
 import { api } from "@/lib/api";
-import { getUsuario } from "@/lib/supabase/server";
+import { getProfessor } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Turma" };
 
 export default async function TurmaPage() {
-  const usuario = await getUsuario();
-  if (usuario?.papel !== "professor") redirect("/painel");
+  const usuario = await getProfessor();
   const [config, alunos] = await Promise.all([api.turmaConfig(usuario.token), api.alunosTurma(usuario.token)]);
 
   return (

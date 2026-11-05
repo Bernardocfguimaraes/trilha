@@ -10,6 +10,10 @@ import { createClient, supabaseConfigurado } from "@/lib/supabase/client";
 import type { Papel } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
+// Responsável vê só o próprio filho, pela área /responsavel (código da turma + PIN);
+// o painel com a turma é só do professor.
+const destino = (papel: unknown) => (papel === "responsavel" ? "/responsavel" : "/painel");
+
 const PAPEIS: { valor: Papel; rotulo: string; dica: string }[] = [
   { valor: "responsavel", rotulo: "Responsável", dica: "Acompanho meu filho ou minha filha" },
   { valor: "professor", rotulo: "Professor", dica: "Acompanho uma ou mais turmas" },
@@ -31,7 +35,7 @@ export function FormAuth({ modo }: { modo: "entrar" | "cadastro" }) {
     const senha = String(dados.get("senha"));
 
     if (!supabaseConfigurado) {
-      router.push("/painel");
+      router.push(cadastro ? destino(papel) : "/painel");
       return;
     }
 
@@ -54,7 +58,7 @@ export function FormAuth({ modo }: { modo: "entrar" | "cadastro" }) {
       setAviso(`Enviamos um link de confirmação para ${email}. Abra o e-mail para ativar a conta.`);
       return;
     }
-    router.push("/painel");
+    router.push(destino(data.user?.user_metadata?.papel));
     router.refresh();
   }
 

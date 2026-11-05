@@ -169,6 +169,16 @@ export interface PedidoPin {
   pin: string;
 }
 
+// Responsável: entra com o código da turma + PIN do filho e só lê o progresso dele.
+export interface PedidoProgresso {
+  acesso: string;
+}
+
+export interface ProgressoResponsavel {
+  aluno: AlunoDetalhe;
+  historico: HistoricoHabilidade[];
+}
+
 export interface ResultadoPin {
   valido: boolean;
   acesso: string | null; // credencial curta exigida para abrir sessões como esse aluno

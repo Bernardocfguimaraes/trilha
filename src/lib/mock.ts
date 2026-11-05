@@ -17,6 +17,8 @@ import type {
   Nivel,
   PedidoChatTurma,
   PedidoPin,
+  PedidoProgresso,
+  ProgressoResponsavel,
   PedidoSessao,
   PedidoTurmaConfig,
   Pergunta,
@@ -550,6 +552,15 @@ function rotear(path: string, method: string, body: unknown): unknown {
   }
 
   if (path === "/acesso/pin" && method === "POST") return validarPin(body as PedidoPin);
+
+  if (path === "/responsavel/progresso" && method === "POST") {
+    // O aluno vem da credencial, nunca do cliente (igual ao backend).
+    const alunoId = estado.acessos.get((body as PedidoProgresso).acesso);
+    const aluno = ALUNOS.find((a) => a.id === alunoId);
+    if (!aluno) throw new ApiError(401, "Acesso expirado. Digite o PIN de novo.");
+    const progresso: ProgressoResponsavel = { aluno: detalhe(aluno), historico: historico(aluno) };
+    return progresso;
+  }
 
   if (path === "/turma/alunos" && method === "GET") return ALUNOS.map(cadastro);
 

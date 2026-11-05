@@ -17,6 +17,11 @@ class PedidoPin(BaseModel):
     pin: str
 
 
+class PedidoProgresso(BaseModel):
+    # Credencial devolvida por /acesso/pin; vai no corpo (não na URL) para não cair em logs.
+    acesso: str
+
+
 class PedidoSessao(BaseModel):
     codigo: str
     alunoId: str

@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import type { Papel } from "@/lib/types";
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -46,4 +47,15 @@ export async function getUsuario(): Promise<Usuario | null> {
     papel: meta.papel === "responsavel" ? "responsavel" : "professor",
     token: sessao.session?.access_token ?? null,
   };
+}
+
+/**
+ * Páginas do professor (/painel). Responsável nunca vê a turma: é mandado para a área
+ * dele, que mostra só o próprio filho. Sem login, vai para /entrar.
+ */
+export async function getProfessor(): Promise<Usuario> {
+  const usuario = await getUsuario();
+  if (!usuario) redirect("/entrar");
+  if (usuario.papel !== "professor") redirect("/responsavel");
+  return usuario;
 }

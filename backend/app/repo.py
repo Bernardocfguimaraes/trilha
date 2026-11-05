@@ -309,6 +309,11 @@ def regenerar_pin(aluno_id: str) -> dict:
         return {"id": a.id, "nome": a.nome, "pin": novo}
 
 
+def aluno_do_acesso(acesso: str) -> str | None:
+    """De quem é esta credencial de PIN (None se não existe ou foi revogada ao trocar o PIN)."""
+    return _acessos.get(acesso)
+
+
 def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id: str | None) -> dict:
     if not acesso or _acessos.get(acesso) != aluno_id:
         raise ApiErro(401, "Confirme o PIN do aluno antes de começar")

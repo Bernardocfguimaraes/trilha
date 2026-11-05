@@ -17,6 +17,11 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <Link href="/aluno" className="font-semibold text-mata underline-offset-4 hover:underline">
           Entre com o código da turma
         </Link>
+        <span className="mx-2" aria-hidden>·</span>
+        É responsável?{" "}
+        <Link href="/responsavel" className="font-semibold text-mata underline-offset-4 hover:underline">
+          Acompanhe seu filho
+        </Link>
       </p>
     </div>
   );

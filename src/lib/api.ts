@@ -9,8 +9,10 @@ import type {
   PedidoChatTurma,
   PedidoExercicio,
   PedidoPin,
+  PedidoProgresso,
   PedidoSessao,
   PedidoTurmaConfig,
+  ProgressoResponsavel,
   ResultadoPin,
   ResultadoResposta,
   ResultadoSessao,
@@ -122,4 +124,12 @@ export const api = {
     }),
   concluirSessao: (sessaoId: string) =>
     request<ResultadoSessao>(`/sessoes/${sessaoId}/concluir`, { method: "POST" }),
+
+  // Responsável: progresso só do filho dono da credencial (chamado no servidor, com o
+  // `acesso` guardado em cookie httpOnly — o navegador nunca vê a credencial).
+  progressoResponsavel: (acesso: string) =>
+    request<ProgressoResponsavel>("/responsavel/progresso", {
+      method: "POST",
+      body: { acesso } satisfies PedidoProgresso,
+    }),
 };

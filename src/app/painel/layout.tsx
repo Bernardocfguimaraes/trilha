@@ -1,9 +1,8 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { Logo } from "@/components/marca";
 import { BotaoSair, LinkInicio, NavPainel } from "@/components/painel/nav";
-import { getUsuario } from "@/lib/supabase/server";
+import { getProfessor } from "@/lib/supabase/server";
 
 export default function PainelLayout({ children }: LayoutProps<"/painel">) {
   return (
@@ -25,8 +24,7 @@ export default function PainelLayout({ children }: LayoutProps<"/painel">) {
 }
 
 async function Lateral() {
-  const usuario = await getUsuario();
-  if (!usuario) redirect("/entrar");
+  const usuario = await getProfessor();
 
   return (
     <>

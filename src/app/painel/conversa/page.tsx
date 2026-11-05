@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { LinkVoltar } from "@/components/voltar";
 import { ChatTurma } from "@/components/painel/chat-turma";
 import { api } from "@/lib/api";
-import { getUsuario } from "@/lib/supabase/server";
+import { getProfessor } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Conversa da turma" };
 
 export default async function ConversaPage() {
-  const usuario = await getUsuario();
-  if (usuario?.papel !== "professor") redirect("/painel");
+  const usuario = await getProfessor();
   const { turma } = await api.turmaConfig(usuario.token);
 
   return (
