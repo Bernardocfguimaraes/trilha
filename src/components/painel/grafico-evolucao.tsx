@@ -45,13 +45,26 @@ export function GraficoEvolucao({ historico }: { historico: HistoricoHabilidade 
           {dataCurta(ultimo.data)}
         </text>
 
-        <path d={linha} fill="none" stroke="var(--color-mata)" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+        {/* A linha se desenha da esquerda para a direita ao abrir a página; o último ponto
+            aparece quando ela chega lá. */}
+        <path
+          d={linha}
+          pathLength={1}
+          fill="none"
+          stroke="var(--color-mata)"
+          strokeWidth="2"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          className="animate-desenha"
+        />
 
         {/* rótulo direto só no último ponto */}
-        <circle cx={x(ps.length - 1)} cy={y(ultimo.desempenho)} r="4" fill="var(--color-mata)" stroke="#fff" strokeWidth="2" />
-        <text x={x(ps.length - 1) + 8} y={y(ultimo.desempenho)} dy="0.32em" className="fill-grafite text-[11px] font-bold">
-          {ultimo.desempenho}
-        </text>
+        <g className="animate-in fade-in fill-mode-backwards duration-300" style={{ animationDelay: "750ms" }}>
+          <circle cx={x(ps.length - 1)} cy={y(ultimo.desempenho)} r="4" fill="var(--color-mata)" stroke="#fff" strokeWidth="2" />
+          <text x={x(ps.length - 1) + 8} y={y(ultimo.desempenho)} dy="0.32em" className="fill-grafite text-[11px] font-bold">
+            {ultimo.desempenho}
+          </text>
+        </g>
 
         {ativo !== null && (
           <g pointerEvents="none">

@@ -98,8 +98,12 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
         </p>
       ) : (
         <ul className="mt-4 grid gap-4 lg:grid-cols-2">
-          {alunos.map((a) => (
-            <li key={a.id}>
+          {alunos.map((a, i) => (
+            <li
+              key={a.id}
+              className="animate-in fade-in slide-in-from-bottom-2 fill-mode-backwards duration-300"
+              style={{ animationDelay: `${Math.min(i, 8) * 40}ms` }}
+            >
               <CartaoAluno aluno={a} />
             </li>
           ))}
@@ -160,8 +164,8 @@ function CartaoAluno({ aluno }: { aluno: AlunoResumo }) {
     <Link
       href={`/painel/alunos/${aluno.id}`}
       className={cn(
-        "group flex h-full flex-col rounded-xl border bg-white p-5 outline-none transition-[border-color,box-shadow]",
-        "border-l-4 hover:border-mata/40 hover:shadow-[0_2px_12px_rgb(30_42_37/0.07)] focus-visible:ring-3 focus-visible:ring-ring/50",
+        "group flex h-full flex-col rounded-xl border bg-white p-5 outline-none transition-[border-color,box-shadow,transform] duration-200",
+        "border-l-4 hover:-translate-y-0.5 hover:border-mata/40 hover:shadow-[0_4px_16px_rgb(30_42_37/0.08)] focus-visible:ring-3 focus-visible:ring-ring/50",
         pior === "alerta" ? "border-l-alerta" : pior === "atencao" ? "border-l-atencao" : "border-l-mata",
       )}
     >
@@ -187,7 +191,7 @@ function CartaoAluno({ aluno }: { aluno: AlunoResumo }) {
           return (
             <div key={d.nome} className="contents">
               <dt className="font-medium text-grafite">{d.nome}</dt>
-              <dd className="flex h-2.5 min-w-0 gap-[3px]" aria-hidden>
+              <dd className="flex h-2.5 min-w-0 animate-cresce gap-[3px]" style={{ animationDelay: "150ms" }} aria-hidden>
                 {d.habilidades.map((h) => (
                   <span
                     key={h.habilidadeId}

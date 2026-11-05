@@ -75,7 +75,7 @@ export default async function AlunoPage({ params }: PageProps<"/painel/alunos/[i
                   aria-valuenow={c.concluidas}
                   className="mt-3 h-2 overflow-hidden rounded-full bg-secondary"
                 >
-                  <div className="h-full rounded-full bg-mata" style={{ width: `${(100 * c.concluidas) / Math.max(c.total, 1)}%` }} />
+                  <div className="h-full animate-cresce rounded-full bg-mata" style={{ width: `${(100 * c.concluidas) / Math.max(c.total, 1)}%` }} />
                 </div>
                 {c.atual ? (
                   <dl className="mt-4 space-y-2 text-sm">

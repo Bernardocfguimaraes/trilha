@@ -3270,6 +3270,693 @@
    "certa": 2,
    "explicacao": "A rubrica descreve a ação em cena, entre parênteses.",
    "origem": "curada"
+  },
+  {
+   "id": "ef04lp06-f3",
+   "habilidadeId": "EF04LP06",
+   "nivel": "facil",
+   "enunciado": "Complete: \"As crianças ___ no parque.\"",
+   "apoio": null,
+   "opcoes": [
+    "brincam",
+    "brincas",
+    "brinco",
+    "brinca"
+   ],
+   "certa": 0,
+   "explicacao": "\"As crianças\" é plural (eles), então o verbo também vai para o plural: brincam.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp06-m3",
+   "habilidadeId": "EF04LP06",
+   "nivel": "medio",
+   "enunciado": "Complete: \"Eu e meu primo ___ futebol aos sábados.\"",
+   "apoio": null,
+   "opcoes": [
+    "jogamos",
+    "jogo",
+    "jogam",
+    "joga"
+   ],
+   "certa": 0,
+   "explicacao": "\"Eu e meu primo\" é o mesmo que \"nós\", e com \"nós\" o verbo fica \"jogamos\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp06-d3",
+   "habilidadeId": "EF04LP06",
+   "nivel": "dificil",
+   "enunciado": "Complete: \"A turma do quarto ano ___ uma peça amanhã.\"",
+   "apoio": null,
+   "opcoes": [
+    "vamos apresentar",
+    "vão apresentar",
+    "vais apresentar",
+    "vai apresentar"
+   ],
+   "certa": 3,
+   "explicacao": "O núcleo do sujeito é \"turma\", que está no singular. Por isso o verbo fica no singular: vai apresentar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp07-f3",
+   "habilidadeId": "EF04LP07",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Comprei duas bananas ___.\"",
+   "apoio": null,
+   "opcoes": [
+    "maduros",
+    "maduras",
+    "madura",
+    "maduro"
+   ],
+   "certa": 1,
+   "explicacao": "\"Bananas\" é feminino e plural, então a palavra que a acompanha também fica no feminino plural: maduras.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp07-m3",
+   "habilidadeId": "EF04LP07",
+   "nivel": "medio",
+   "enunciado": "Complete: \"As janelas ___ deixaram o vento entrar.\"",
+   "apoio": null,
+   "opcoes": [
+    "aberta",
+    "abertas",
+    "abertos",
+    "aberto"
+   ],
+   "certa": 1,
+   "explicacao": "\"Janelas\" é feminino e plural; \"abertas\" concorda em gênero e número.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp07-d3",
+   "habilidadeId": "EF04LP07",
+   "nivel": "dificil",
+   "enunciado": "Complete: \"As ___ do jardim estavam muito ___.\"",
+   "apoio": null,
+   "opcoes": [
+    "flores / bonitas",
+    "flores / bonitos",
+    "flores / bonita",
+    "flor / bonitas"
+   ],
+   "certa": 0,
+   "explicacao": "\"As\" pede um nome no plural (flores), e \"flores\" é feminino plural, então o adjetivo fica \"bonitas\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp01-f2",
+   "habilidadeId": "EF04LP01",
+   "nivel": "facil",
+   "enunciado": "Qual dupla de letras completa a palavra? ca__oça",
+   "apoio": null,
+   "opcoes": [
+    "r",
+    "rr",
+    "s",
+    "ss"
+   ],
+   "certa": 1,
+   "explicacao": "Entre duas vogais, o som forte de R se escreve com RR: carroça.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp01-m1",
+   "habilidadeId": "EF04LP01",
+   "nivel": "medio",
+   "enunciado": "Qual letra completa a palavra? ta__bor",
+   "apoio": null,
+   "opcoes": [
+    "m",
+    "nh",
+    "r",
+    "n"
+   ],
+   "certa": 0,
+   "explicacao": "Antes de P e de B usamos M: tambor.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp01-d3",
+   "habilidadeId": "EF04LP01",
+   "nivel": "dificil",
+   "enunciado": "Qual letra completa a palavra? ma__ã",
+   "apoio": null,
+   "opcoes": [
+    "c",
+    "ss",
+    "ç",
+    "s"
+   ],
+   "certa": 2,
+   "explicacao": "O som de S antes de A, entre vogais, pode ser escrito com Ç: maçã. A letra C sem cedilha antes de A teria som de K.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp13-f3",
+   "habilidadeId": "EF35LP13",
+   "nivel": "facil",
+   "enunciado": "Qual letra completa a palavra? __oje",
+   "apoio": null,
+   "opcoes": [
+    "x",
+    "h",
+    "j",
+    "g"
+   ],
+   "certa": 1,
+   "explicacao": "\"Hoje\" começa com H, uma letra que não tem som. É preciso memorizar essa grafia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp13-m3",
+   "habilidadeId": "EF35LP13",
+   "nivel": "medio",
+   "enunciado": "Qual letra completa a palavra? __elicóptero",
+   "apoio": null,
+   "opcoes": [
+    "h",
+    "r",
+    "l",
+    "s"
+   ],
+   "certa": 0,
+   "explicacao": "\"Helicóptero\" começa com H mudo, como \"hoje\" e \"hora\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp13-d2",
+   "habilidadeId": "EF35LP13",
+   "nivel": "dificil",
+   "enunciado": "Qual letra completa a palavra? e__ame",
+   "apoio": null,
+   "opcoes": [
+    "s",
+    "z",
+    "x",
+    "ss"
+   ],
+   "certa": 2,
+   "explicacao": "\"Exame\" se escreve com X com som de Z. É uma grafia que precisa ser memorizada.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp08-f3",
+   "habilidadeId": "EF04LP08",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Ela embrulhou o presente com muita ___.\"",
+   "apoio": null,
+   "opcoes": [
+    "delicadeza",
+    "delicadoso",
+    "delicadizar",
+    "delicadagem"
+   ],
+   "certa": 0,
+   "explicacao": "O sufixo -eza forma nomes de qualidades: delicado → delicadeza.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp08-m3",
+   "habilidadeId": "EF04LP08",
+   "nivel": "medio",
+   "enunciado": "Complete: \"O bolo da vovó ficou muito ___.\"",
+   "apoio": null,
+   "opcoes": [
+    "gostagem",
+    "gostoso",
+    "gostizar",
+    "gosteza"
+   ],
+   "certa": 1,
+   "explicacao": "O sufixo -oso forma palavras que indicam \"cheio de\": gosto → gostoso.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp08-d3",
+   "habilidadeId": "EF04LP08",
+   "nivel": "dificil",
+   "enunciado": "Complete: \"Precisamos ___ as tarefas da semana.\"",
+   "apoio": null,
+   "opcoes": [
+    "organizagem",
+    "organizoso",
+    "organizar",
+    "organizeza"
+   ],
+   "certa": 2,
+   "explicacao": "O sufixo -izar forma verbos (ações): organizar. A frase pede uma ação depois de \"precisamos\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp05-f2",
+   "habilidadeId": "EF04LP05",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Que dia lindo___\"",
+   "apoio": null,
+   "opcoes": [
+    ";",
+    ",",
+    "!",
+    "?"
+   ],
+   "certa": 2,
+   "explicacao": "A frase mostra admiração, por isso termina com ponto de exclamação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp05-m2",
+   "habilidadeId": "EF04LP05",
+   "nivel": "medio",
+   "enunciado": "Complete: \"Onde você mora___\"",
+   "apoio": null,
+   "opcoes": [
+    ".",
+    ",",
+    ":",
+    "?"
+   ],
+   "certa": 3,
+   "explicacao": "\"Onde\" faz uma pergunta, então a frase termina com ponto de interrogação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp05-d2",
+   "habilidadeId": "EF04LP05",
+   "nivel": "dificil",
+   "enunciado": "Complete: \"Na feira, comprei maçãs___ peras e uvas.\"",
+   "apoio": null,
+   "opcoes": [
+    ".",
+    "!",
+    ",",
+    "?"
+   ],
+   "certa": 2,
+   "explicacao": "Numa lista de coisas, usamos vírgula entre os itens e \"e\" antes do último.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp14-f3",
+   "habilidadeId": "EF35LP14",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Laura chegou cedo. ___ trouxe um bolo.\"",
+   "apoio": null,
+   "opcoes": [
+    "Nós",
+    "Ele",
+    "Ela",
+    "Eles"
+   ],
+   "certa": 2,
+   "explicacao": "\"Ela\" retoma \"Laura\" sem repetir o nome: feminino e singular.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp14-m3",
+   "habilidadeId": "EF35LP14",
+   "nivel": "medio",
+   "enunciado": "Complete: \"Os gatos estavam com fome, então dei comida para ___.\"",
+   "apoio": null,
+   "opcoes": [
+    "eles",
+    "nós",
+    "ele",
+    "ela"
+   ],
+   "certa": 0,
+   "explicacao": "\"Eles\" retoma \"os gatos\": masculino e plural.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp14-d3",
+   "habilidadeId": "EF35LP14",
+   "nivel": "dificil",
+   "enunciado": "Complete: \"Bia e eu fomos ao cinema. ___ adoramos o filme.\"",
+   "apoio": null,
+   "opcoes": [
+    "Vocês",
+    "Elas",
+    "Eles",
+    "Nós"
+   ],
+   "certa": 3,
+   "explicacao": "\"Bia e eu\" é o mesmo que \"nós\", e o verbo \"adoramos\" confirma isso.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp22-f3",
+   "habilidadeId": "EF35LP22",
+   "nivel": "facil",
+   "enunciado": "Complete: \"— Onde está meu boné? — ___ o menino.\"",
+   "apoio": null,
+   "opcoes": [
+    "agradeceu",
+    "perguntou",
+    "respondeu",
+    "cantou"
+   ],
+   "certa": 1,
+   "explicacao": "A fala termina com ponto de interrogação, então o verbo de fala que combina é \"perguntou\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp22-m3",
+   "habilidadeId": "EF35LP22",
+   "nivel": "medio",
+   "enunciado": "Complete: \"— Muito obrigada pelo presente! — ___ a vovó.\"",
+   "apoio": null,
+   "opcoes": [
+    "agradeceu",
+    "ordenou",
+    "perguntou",
+    "reclamou"
+   ],
+   "certa": 0,
+   "explicacao": "A vovó está dizendo \"obrigada\", ou seja, está agradecendo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp13-f3",
+   "habilidadeId": "EF04LP13",
+   "nivel": "facil",
+   "enunciado": "Complete: \"___ a água na panela e espere ferver.\"",
+   "apoio": null,
+   "opcoes": [
+    "Colocarei",
+    "Colocou",
+    "Coloque",
+    "Colocando"
+   ],
+   "certa": 2,
+   "explicacao": "Textos de instrução dão ordens ao leitor, com o verbo no imperativo: coloque, espere, misture.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp13-m3",
+   "habilidadeId": "EF04LP13",
+   "nivel": "medio",
+   "enunciado": "Complete: \"Para fazer o barquinho, ___ a folha ao meio.\"",
+   "apoio": null,
+   "opcoes": [
+    "dobrou",
+    "dobrando",
+    "dobraria",
+    "dobre"
+   ],
+   "certa": 3,
+   "explicacao": "É um passo de instrução, então o verbo vem no imperativo: dobre.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp23-f3",
+   "habilidadeId": "EF35LP23",
+   "nivel": "facil",
+   "enunciado": "Complete a rima: \"O sapo pulou no lago / e ganhou um ___.\"",
+   "apoio": null,
+   "opcoes": [
+    "presente",
+    "abraço",
+    "afago",
+    "beijo"
+   ],
+   "certa": 2,
+   "explicacao": "\"Afago\" termina com o mesmo som de \"lago\" (-ago), por isso rima.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp23-m3",
+   "habilidadeId": "EF35LP23",
+   "nivel": "medio",
+   "enunciado": "Complete a rima: \"Na janela da cozinha / pousou uma ___.\"",
+   "apoio": null,
+   "opcoes": [
+    "borboleta",
+    "andorinha",
+    "abelha",
+    "coruja"
+   ],
+   "certa": 1,
+   "explicacao": "\"Andorinha\" termina com o mesmo som de \"cozinha\" (-inha).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp02-f3",
+   "habilidadeId": "EF04LP02",
+   "nivel": "facil",
+   "enunciado": "Quais letras completam a palavra? p__xe",
+   "apoio": null,
+   "opcoes": [
+    "e",
+    "i",
+    "ai",
+    "ei"
+   ],
+   "certa": 3,
+   "explicacao": "Na fala, muita gente diz \"pexe\", mas na escrita o ditongo EI aparece: peixe.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp02-m3",
+   "habilidadeId": "EF04LP02",
+   "nivel": "medio",
+   "enunciado": "Quais letras completam a palavra? c__xa",
+   "apoio": null,
+   "opcoes": [
+    "a",
+    "ei",
+    "ai",
+    "i"
+   ],
+   "certa": 2,
+   "explicacao": "Falamos às vezes \"caxa\", mas a escrita mantém o ditongo AI: caixa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp02-d3",
+   "habilidadeId": "EF04LP02",
+   "nivel": "dificil",
+   "enunciado": "Quais letras completam a palavra? l__ça",
+   "apoio": null,
+   "opcoes": [
+    "o",
+    "u",
+    "ou",
+    "au"
+   ],
+   "certa": 2,
+   "explicacao": "Na fala o OU vira só O (\"loça\"), mas na escrita ele aparece: louça.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp05-m3",
+   "habilidadeId": "EF35LP05",
+   "nivel": "medio",
+   "enunciado": "Complete com a palavra de sentido parecido com \"contente\": \"Ana ficou ___ com a notícia.\"",
+   "apoio": null,
+   "opcoes": [
+    "cansada",
+    "brava",
+    "triste",
+    "alegre"
+   ],
+   "certa": 3,
+   "explicacao": "\"Alegre\" tem sentido parecido com \"contente\"; as outras dizem o contrário ou outra coisa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp14-f4",
+   "habilidadeId": "EF35LP14",
+   "nivel": "facil",
+   "enunciado": "Leia: \"Rafael ganhou um cachorro. Ele adora brincar com o novo amigo.\" Qual palavra retoma \"Rafael\"?",
+   "apoio": null,
+   "opcoes": [
+    "Ele",
+    "amigo",
+    "brincar",
+    "cachorro"
+   ],
+   "certa": 0,
+   "explicacao": "\"Ele\" retoma \"Rafael\" para não repetir o nome. \"Amigo\" se refere ao cachorro.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp06-m3",
+   "habilidadeId": "EF35LP06",
+   "nivel": "medio",
+   "enunciado": "Leia: \"A tartaruga atravessou a estrada devagar. O réptil chegou ao lago no fim da tarde.\" Qual palavra retoma \"tartaruga\"?",
+   "apoio": null,
+   "opcoes": [
+    "estrada",
+    "lago",
+    "réptil",
+    "tarde"
+   ],
+   "certa": 2,
+   "explicacao": "\"Réptil\" é outra forma de chamar a tartaruga, para não repetir a palavra.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp22-f4",
+   "habilidadeId": "EF35LP22",
+   "nivel": "facil",
+   "enunciado": "Leia: \"— Vamos logo! — apressou a mãe, olhando o relógio.\" Qual palavra mostra como a mãe falou?",
+   "apoio": null,
+   "opcoes": [
+    "Vamos",
+    "relógio",
+    "olhando",
+    "apressou"
+   ],
+   "certa": 3,
+   "explicacao": "\"Apressou\" é o verbo de fala: mostra que a mãe falou com pressa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp15-m3",
+   "habilidadeId": "EF04LP15",
+   "nivel": "medio",
+   "enunciado": "Leia: \"O museu abriu ontem e é o lugar mais bonito da cidade.\" Qual palavra mostra uma opinião?",
+   "apoio": null,
+   "opcoes": [
+    "cidade",
+    "ontem",
+    "bonito",
+    "museu"
+   ],
+   "certa": 2,
+   "explicacao": "Achar o lugar \"bonito\" é uma opinião: outra pessoa pode achar diferente. Que o museu abriu ontem é um fato.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp05-m4",
+   "habilidadeId": "EF35LP05",
+   "nivel": "medio",
+   "enunciado": "Leia: \"Depois da corrida, Léo estava exausto e dormiu cedo.\" Qual palavra quer dizer \"muito cansado\"?",
+   "apoio": null,
+   "opcoes": [
+    "dormiu",
+    "cedo",
+    "corrida",
+    "exausto"
+   ],
+   "certa": 3,
+   "explicacao": "Pelo contexto (depois da corrida, dormiu cedo), \"exausto\" quer dizer muito cansado.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp07-d4",
+   "habilidadeId": "EF04LP07",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"As casas amarelas e o jardim florido enfeitam a rua.\" Qual palavra concorda com \"casas\"?",
+   "apoio": null,
+   "opcoes": [
+    "rua",
+    "amarelas",
+    "florido",
+    "jardim"
+   ],
+   "certa": 1,
+   "explicacao": "\"Amarelas\" está no feminino plural, como \"casas\". \"Florido\" concorda com \"jardim\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp06-m4",
+   "habilidadeId": "EF04LP06",
+   "nivel": "medio",
+   "enunciado": "Leia: \"Os passarinhos cantam cedo, e a coruja dorme de dia.\" Qual palavra é o verbo que combina com \"passarinhos\"?",
+   "apoio": null,
+   "opcoes": [
+    "coruja",
+    "cantam",
+    "cedo",
+    "dorme"
+   ],
+   "certa": 1,
+   "explicacao": "\"Cantam\" está no plural, como \"passarinhos\". \"Dorme\" combina com \"a coruja\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp04-d3",
+   "habilidadeId": "EF04LP04",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"O táxi parou perto da árvore e do café.\" Qual palavra é paroxítona e tem acento?",
+   "apoio": null,
+   "opcoes": [
+    "árvore",
+    "parou",
+    "café",
+    "táxi"
+   ],
+   "certa": 3,
+   "explicacao": "Em \"táxi\" a sílaba forte é a penúltima (TÁ-xi), e paroxítonas terminadas em I levam acento. \"Árvore\" é proparoxítona e \"café\" é oxítona.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp26-f3",
+   "habilidadeId": "EF35LP26",
+   "nivel": "facil",
+   "enunciado": "Leia: \"Na floresta, a raposa encontrou um coelho perdido ao anoitecer.\" Qual palavra diz quando a história acontece?",
+   "apoio": null,
+   "opcoes": [
+    "anoitecer",
+    "floresta",
+    "coelho",
+    "raposa"
+   ],
+   "certa": 0,
+   "explicacao": "\"Anoitecer\" indica o tempo. \"Floresta\" é o lugar, e raposa e coelho são personagens.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef04lp14-m3",
+   "habilidadeId": "EF04LP14",
+   "nivel": "medio",
+   "enunciado": "Leia: \"Ontem, bombeiros resgataram um gato no alto de uma árvore em Recife.\" Qual palavra diz onde o fato aconteceu?",
+   "apoio": null,
+   "opcoes": [
+    "gato",
+    "Recife",
+    "Ontem",
+    "bombeiros"
+   ],
+   "certa": 1,
+   "explicacao": "Numa notícia, o lugar responde à pergunta \"onde?\": em Recife. \"Ontem\" responde \"quando?\".",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp23-d3",
+   "habilidadeId": "EF35LP23",
+   "nivel": "dificil",
+   "enunciado": "Leia o verso: \"O peixe dourado nadou apressado.\" Qual palavra rima com \"dourado\"?",
+   "apoio": null,
+   "opcoes": [
+    "apressado",
+    "nadou",
+    "peixe"
+   ],
+   "certa": 0,
+   "explicacao": "\"Apressado\" termina com o mesmo som de \"dourado\" (-ado).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef35lp31-d3",
+   "habilidadeId": "EF35LP31",
+   "nivel": "dificil",
+   "enunciado": "Leia: \"A lua era uma moeda de prata no céu escuro.\" Com qual palavra o poeta compara a lua?",
+   "apoio": null,
+   "opcoes": [
+    "escuro",
+    "lua",
+    "céu",
+    "moeda"
+   ],
+   "certa": 3,
+   "explicacao": "O verso compara a lua a uma moeda (redonda e brilhante). É uma metáfora.",
+   "origem": "curada"
   }
  ]
 }

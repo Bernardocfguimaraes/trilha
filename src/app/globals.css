@@ -128,13 +128,28 @@
 .animate-balanca { animation: balanca 0.3s ease-in-out 2; }
 .animate-brilho { animation: brilho 0.9s ease-out forwards; }
 
+/* Painel: dados que "chegam" uma vez, ao abrir a página. */
+@keyframes cresce {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes desenha {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+.animate-cresce { transform-origin: left; animation: cresce 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.animate-desenha { stroke-dasharray: 1; animation: desenha 0.9s ease-out both; }
+
+/* Quem pede menos movimento no sistema não vê nenhuma animação nem transição longa —
+   vale para as nossas e para as do tw-animate-css. */
 @media (prefers-reduced-motion: reduce) {
-  .animate-pulo,
-  .animate-sobe,
-  .animate-balanca,
-  .animate-brilho,
-  .animate-estoura,
-  .animate-vira {
-    animation: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

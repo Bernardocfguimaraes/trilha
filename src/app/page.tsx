@@ -18,14 +18,24 @@ export default function Home() {
       <section className="relative flex flex-col overflow-hidden bg-ceu px-4 py-6 sm:px-10 sm:py-8">
         <Logo vibrante className="text-grafite" />
         <div className="flex flex-1 flex-col items-center justify-center gap-6 py-12 text-center">
-          <Sabia humor="feliz" className="size-36 sm:size-44" />
-          <h1 className="max-w-[14ch] font-display text-5xl leading-[0.95] font-extrabold text-grafite sm:text-6xl">
+          <Sabia humor="feliz" className="size-36 animate-in fade-in zoom-in-90 duration-500 sm:size-44" />
+          <h1
+            className="max-w-[14ch] animate-in fade-in slide-in-from-bottom-3 fill-mode-backwards font-display text-5xl leading-[0.95] font-extrabold text-grafite duration-500 sm:text-6xl"
+            style={{ animationDelay: "100ms" }}
+          >
             Bora fazer a trilha de hoje?
           </h1>
-          <p className="max-w-[30ch] font-display text-xl font-medium text-pedra">
+          <p
+            className="max-w-[30ch] animate-in fade-in slide-in-from-bottom-3 fill-mode-backwards font-display text-xl font-medium text-pedra duration-500"
+            style={{ animationDelay: "180ms" }}
+          >
             Seu professor tem o código da turma. É só digitar e começar.
           </p>
-          <Link href="/aluno" className={classesBotaoGrande("broto", "mt-2")}>
+          <Link
+            href="/aluno"
+            className={classesBotaoGrande("broto", "mt-2 animate-in fade-in slide-in-from-bottom-3 fill-mode-backwards duration-500")}
+            style={{ animationDelay: "260ms" }}
+          >
             Sou aluno
           </Link>
         </div>
@@ -37,7 +47,7 @@ export default function Home() {
 
       {/* Lado do adulto */}
       <section className="flex flex-col justify-center bg-papel px-4 py-14 sm:px-10 lg:px-16">
-        <div className="max-w-md">
+        <div className="max-w-md animate-in fade-in slide-in-from-bottom-2 fill-mode-backwards duration-500" style={{ animationDelay: "200ms" }}>
           <h2 className="text-3xl leading-tight font-bold text-grafite sm:text-4xl">
             Veja em que cada aluno precisa de ajuda, e o que fazer a respeito.
           </h2>

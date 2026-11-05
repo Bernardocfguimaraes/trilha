@@ -59,7 +59,7 @@ export function ExercicioReforco({ habilidadeId, status }: { habilidadeId: strin
           ))}
         </div>
         <Button onClick={gerar} disabled={carregando} size="sm" className="ml-auto">
-          <Sparkles />
+          <Sparkles className={cn(carregando && "animate-pulse")} />
           {carregando ? "Gerando…" : exercicio ? "Gerar outro" : "Gerar exercício"}
         </Button>
       </div>
@@ -71,7 +71,7 @@ export function ExercicioReforco({ habilidadeId, status }: { habilidadeId: strin
       )}
 
       {exercicio && !carregando && (
-        <div className="mt-3 rounded-lg bg-secondary/40 p-4">
+        <div key={exercicio.enunciado} className="mt-3 rounded-lg bg-secondary/40 p-4 animate-in fade-in slide-in-from-top-1 duration-300">
           <div className="flex items-start justify-between gap-3">
             <p className="font-semibold text-grafite">{exercicio.enunciado}</p>
             <span className="shrink-0 rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-pedra">

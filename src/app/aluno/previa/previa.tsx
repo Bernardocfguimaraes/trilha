@@ -5,9 +5,9 @@ import banco from "../../../../backend/app/bncc/perguntas/04-por.json";
 import { Quiz } from "@/components/aluno/jornada";
 import type { Pergunta, ResultadoResposta } from "@/lib/types";
 
-// Quatro frases com buraco (um e dois buracos, peças curtas e longas) e uma múltipla escolha
-// comum, para comparar os dois estilos na mesma trilha.
-const IDS = ["ef04lp06-f1", "ef04lp07-m2", "ef04lp01-f1", "ef35lp22-m2", "ef04lp06-d2"];
+// Um exemplo de cada tipo: frase com buraco (um e dois buracos), tocar no texto e múltipla escolha,
+// para comparar os estilos na mesma trilha.
+const IDS = ["ef04lp06-f1", "ef35lp14-f4", "ef04lp07-m2", "ef04lp01-f1", "ef04lp04-d3"];
 
 type DoBanco = (typeof banco.perguntas)[number];
 

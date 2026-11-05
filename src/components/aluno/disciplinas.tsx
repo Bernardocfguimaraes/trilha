@@ -31,8 +31,8 @@ export function CartaoDisciplina({
       disabled={desabilitado}
       className={cn(
         "flex min-h-28 w-full items-center gap-4 rounded-3xl px-5 py-4 text-left outline-none",
-        "transition-[transform,box-shadow] duration-75 focus-visible:ring-4 focus-visible:ring-grafite/40",
-        "active:translate-y-[6px] active:shadow-none disabled:opacity-60",
+        "transition-[transform,box-shadow] duration-150 focus-visible:ring-4 focus-visible:ring-grafite/40",
+        "hover:-translate-y-0.5 active:translate-y-[6px] active:shadow-none active:duration-75 disabled:opacity-60",
         cartao,
       )}
     >
