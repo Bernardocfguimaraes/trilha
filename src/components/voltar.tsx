@@ -19,7 +19,7 @@ export function LinkVoltar({ href, children, className }: { href: string; childr
 }
 
 const CLASSES_ALUNO =
-  "grid size-11 shrink-0 place-items-center rounded-full text-pedra outline-none hover:bg-white/70 focus-visible:ring-4 focus-visible:ring-grafite/30";
+  "grid size-11 shrink-0 place-items-center rounded-full text-pedra outline-none hover:bg-superficie/70 focus-visible:ring-4 focus-visible:ring-grafite/30";
 
 /**
  * Seta redonda do lado do aluno: alvo grande para dedos pequenos. Vira link quando tem

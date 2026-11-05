@@ -30,7 +30,7 @@ export function PinsAlunos({ alunos: iniciais }: { alunos: AlunoCadastro[] }) {
   }
 
   return (
-    <section aria-labelledby="pins" className="rounded-lg border bg-white">
+    <section aria-labelledby="pins" className="rounded-lg border bg-superficie">
       <header className="flex flex-wrap items-center justify-between gap-3 border-b px-5 py-4">
         <div>
           <h2 id="pins" className="text-lg font-bold text-grafite">

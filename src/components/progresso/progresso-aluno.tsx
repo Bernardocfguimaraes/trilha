@@ -40,7 +40,7 @@ export function ProgressoAluno({
         </p>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {aluno.caminhos.map((c) => (
-            <article key={c.disciplinaId} className="rounded-lg border bg-white p-5">
+            <article key={c.disciplinaId} className="rounded-lg border bg-superficie p-5">
               <div className="flex items-baseline justify-between gap-2">
                 <h3 className="font-bold text-grafite">
                   {c.disciplina} · {c.ano}º ano
@@ -99,7 +99,7 @@ export function ProgressoAluno({
             <article
               key={r.habilidadeId}
               className={
-                "rounded-lg border bg-white p-5 border-l-4 " +
+                "rounded-lg border bg-superficie p-5 border-l-4 " +
                 (r.status === "alerta" ? "border-l-alerta" : r.status === "atencao" ? "border-l-atencao" : "border-l-mata")
               }
             >
@@ -126,7 +126,7 @@ export function ProgressoAluno({
       </p>
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {graficos.map((h) => (
-          <figure key={h.habilidadeId} className="rounded-lg border bg-white p-4">
+          <figure key={h.habilidadeId} className="rounded-lg border bg-superficie p-4">
             <figcaption className="mb-3 flex items-start justify-between gap-2">
               <span>
                 <span className="block font-semibold text-grafite">{h.nome}</span>
@@ -139,7 +139,7 @@ export function ProgressoAluno({
         ))}
       </div>
 
-      <details className="mt-4 rounded-lg border bg-white">
+      <details className="mt-4 rounded-lg border bg-superficie">
         <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-grafite">Ver dados em tabela</summary>
         <div className="overflow-x-auto border-t">
           <table className="w-full text-sm">

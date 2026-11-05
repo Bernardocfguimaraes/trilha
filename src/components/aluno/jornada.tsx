@@ -17,6 +17,7 @@ import { extrairLacuna, fraseCompleta } from "@/lib/lacuna";
 import { extrairTocar } from "@/lib/tocar";
 import { Sabia } from "@/components/marca";
 import { VoltarAluno } from "@/components/voltar";
+import { BotaoTema } from "@/components/tema";
 import { BotaoGrande, classesBotaoGrande } from "./botao-grande";
 import { CartaoDisciplina, IconeDisciplina } from "./disciplinas";
 import { EntradaPin } from "./entrada-pin";
@@ -79,7 +80,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
             >
               <button
                 onClick={() => setEtapa({ tipo: "pin", aluno: a })}
-                className="flex w-full flex-col items-center gap-2 rounded-2xl bg-white p-4 shadow-[0_4px_0_var(--color-ceu-forte)] ring-2 ring-ceu-forte transition-[transform,box-shadow] duration-150 outline-none hover:-translate-y-0.5 hover:shadow-[0_6px_0_var(--color-ceu-forte)] focus-visible:ring-4 focus-visible:ring-grafite/40 active:translate-y-1 active:shadow-none active:duration-75"
+                className="flex w-full flex-col items-center gap-2 rounded-2xl bg-superficie p-4 shadow-[0_4px_0_var(--color-ceu-forte)] ring-2 ring-ceu-forte transition-[transform,box-shadow] duration-150 outline-none hover:-translate-y-0.5 hover:shadow-[0_6px_0_var(--color-ceu-forte)] focus-visible:ring-4 focus-visible:ring-grafite/40 active:translate-y-1 active:shadow-none active:duration-75"
               >
                 <span
                   className={cn(
@@ -120,7 +121,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
           </h1>
         </div>
         {turma.disciplinas.length === 0 ? (
-          <p className="mt-8 rounded-2xl bg-white px-5 py-4 font-display text-xl font-semibold text-grafite">
+          <p className="mt-8 rounded-2xl bg-superficie px-5 py-4 font-display text-xl font-semibold text-grafite">
             Seu professor ainda não liberou nenhuma matéria. Volte daqui a pouco!
           </p>
         ) : (
@@ -223,7 +224,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
             // As estrelas ganhas "acendem" uma de cada vez, depois que a tela aparece.
             className={cn(
               "grid size-12 place-items-center rounded-full animate-in zoom-in-50 fade-in fill-mode-backwards duration-300",
-              i < etapa.resultado.estrelas ? "bg-sol" : "bg-white",
+              i < etapa.resultado.estrelas ? "bg-sol" : "bg-superficie",
             )}
             style={{ animationDelay: `${300 + i * 120}ms` }}
           >
@@ -310,8 +311,11 @@ function ConfirmarPin({
 
 function Tela({ children, centro, voltar }: { children: React.ReactNode; centro?: boolean; voltar?: React.ReactNode }) {
   return (
-    <main className={cn("flex flex-1 flex-col bg-ceu px-4", voltar ? "pt-4 pb-8" : "py-8")}>
-      {voltar && <div className="mx-auto mb-2 w-full max-w-xl">{voltar}</div>}
+    <main className="flex flex-1 flex-col bg-ceu px-4 pt-4 pb-8">
+      <div className="mx-auto mb-2 flex w-full max-w-xl items-center justify-between">
+        {voltar ?? <span />}
+        <BotaoTema variante="aluno" />
+      </div>
       <div
         className={cn(
           "mx-auto flex w-full max-w-xl flex-1 flex-col animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out",
@@ -407,7 +411,7 @@ export function Quiz({
           onClick={() => (comecou ? setConfirmarSaida(true) : onSair())}
           aria-label="Voltar para as matérias"
           title="Voltar para as matérias"
-          className="grid size-11 shrink-0 place-items-center rounded-full text-pedra outline-none hover:bg-white/70 focus-visible:ring-4 focus-visible:ring-grafite/30"
+          className="grid size-11 shrink-0 place-items-center rounded-full text-pedra outline-none hover:bg-superficie/70 focus-visible:ring-4 focus-visible:ring-grafite/30"
         >
           <ArrowLeft className="size-7" strokeWidth={3} />
         </button>
@@ -418,7 +422,7 @@ export function Quiz({
           className="mt-6"
         />
         <span
-          className="flex shrink-0 items-center gap-1 rounded-full bg-white px-3 py-1 font-display text-xl font-bold text-grafite"
+          className="flex shrink-0 items-center gap-1 rounded-full bg-superficie px-3 py-1 font-display text-xl font-bold text-grafite"
           aria-label={`${estrelas} estrelas`}
         >
           <span className="grid size-6 place-items-center rounded-full bg-sol">
@@ -438,15 +442,15 @@ export function Quiz({
           <span key={resultado ? (resultado.correta ? "festa" : "triste") : "pensando"} className={cn("shrink-0", resultado?.correta && "animate-pulo")}>
             <Sabia humor={resultado ? (resultado.correta ? "festa" : "triste") : "pensando"} className="size-20" />
           </span>
-          <div className="relative flex-1 rounded-2xl bg-white p-4 shadow-[0_4px_0_var(--color-ceu-forte)]">
-            <span className="absolute top-6 -left-2 size-4 rotate-45 bg-white" aria-hidden />
+          <div className="relative flex-1 rounded-2xl bg-superficie p-4 shadow-[0_4px_0_var(--color-ceu-forte)]">
+            <span className="absolute top-6 -left-2 size-4 rotate-45 bg-superficie" aria-hidden />
             <h1 className="relative font-display text-2xl leading-snug font-bold text-grafite sm:text-[1.75rem]">
               {enunciado}
             </h1>
             {fala.disponivel && (
               <button
                 onClick={() => fala.falar(paraOuvir)}
-                className="relative mt-2 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 -ml-2 font-display text-lg font-semibold text-[#2a8fc4] outline-none hover:bg-ceu focus-visible:ring-4 focus-visible:ring-[#2a8fc4]/30"
+                className="relative mt-2 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 -ml-2 font-display text-lg font-semibold text-agua outline-none hover:bg-ceu focus-visible:ring-4 focus-visible:ring-agua/30"
               >
                 <Volume2 className="size-5" strokeWidth={2.5} />
                 Ouvir
@@ -456,7 +460,7 @@ export function Quiz({
         </div>
 
         {pergunta.apoio && (
-          <p className="mt-6 rounded-2xl bg-white/60 px-4 py-5 text-center text-4xl leading-relaxed tracking-wide" aria-hidden>
+          <p className="mt-6 rounded-2xl bg-superficie/60 px-4 py-5 text-center text-4xl leading-relaxed tracking-wide" aria-hidden>
             {pergunta.apoio}
           </p>
         )}
@@ -492,18 +496,18 @@ export function Quiz({
                 // As opções chegam uma depois da outra (só na entrada da pergunta).
                 style={resultado ? undefined : { animationDelay: `${120 + i * 50}ms` }}
                 className={cn(
-                  "relative min-h-16 rounded-2xl border-[3px] bg-white px-4 py-3 font-display font-bold text-grafite outline-none",
+                  "relative min-h-16 rounded-2xl border-[3px] bg-superficie px-4 py-3 font-display font-bold text-grafite outline-none",
                   "transition-[transform,box-shadow,background-color,border-color] duration-75 focus-visible:ring-4 focus-visible:ring-grafite/30",
                   curtas ? "text-4xl" : "text-left text-2xl leading-tight",
                   !resultado && "animate-in fade-in slide-in-from-bottom-3 fill-mode-backwards duration-300 active:translate-y-1 active:shadow-none",
                   marcada && !resultado
-                    ? "border-[#2a8fc4] bg-[#d8effa] shadow-[0_4px_0_#2a8fc4]"
+                    ? "border-agua bg-agua-clara shadow-[0_4px_0_var(--color-agua)]"
                     : "border-ceu-forte shadow-[0_4px_0_var(--color-ceu-forte)]",
-                  certa && "border-broto bg-[#d6f5e6] shadow-[0_4px_0_var(--color-broto-escuro)]",
+                  certa && "border-broto bg-broto-clara shadow-[0_4px_0_var(--color-broto-escuro)]",
                   // Acertou: a certa "pula". Errou: ela pula um instante depois do balanço da
                   // errada, para levar o olho até a resposta.
                   certa && (resultado?.correta ? "animate-estoura" : "animate-estoura [animation-delay:450ms]"),
-                  errada && "animate-balanca border-coral bg-coral-claro shadow-[0_4px_0_#d9583a]",
+                  errada && "animate-balanca border-coral bg-coral-claro shadow-[0_4px_0_var(--color-coral-escuro)]",
                   resultado && !certa && !errada && "opacity-50",
                 )}
               >
@@ -520,7 +524,7 @@ export function Quiz({
         className={cn(
           "fixed inset-x-0 bottom-0 border-t-2 px-4 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]",
           !resultado && "border-ceu-forte bg-ceu",
-          resultado?.correta && "animate-sobe border-broto bg-[#d6f5e6]",
+          resultado?.correta && "animate-sobe border-broto bg-broto-clara",
           resultado && !resultado.correta && "animate-sobe border-coral bg-coral-claro",
         )}
       >
@@ -573,7 +577,7 @@ function ConfirmarSaida({ onFicar, onSair }: { onFicar: () => void; onSair: () =
         aria-modal="true"
         aria-labelledby="sair-titulo"
         aria-describedby="sair-texto"
-        className="w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-[0_6px_0_var(--color-ceu-forte)] animate-in zoom-in-95 duration-200"
+        className="w-full max-w-sm rounded-3xl bg-superficie p-6 text-center shadow-[0_6px_0_var(--color-ceu-forte)] animate-in zoom-in-95 duration-200"
       >
         <Sabia humor="pensando" className="mx-auto size-20" />
         <h2 id="sair-titulo" className="mt-2 font-display text-3xl leading-tight font-extrabold text-grafite">

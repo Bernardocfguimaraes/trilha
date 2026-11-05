@@ -43,7 +43,7 @@ export default async function ProgressoResponsavelPage() {
         <form action="/responsavel/sair" method="post">
           <button
             type="submit"
-            className="inline-flex items-center gap-2 rounded-md border bg-white px-3 py-2 text-sm font-semibold text-pedra outline-none hover:text-grafite focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="inline-flex items-center gap-2 rounded-md border bg-superficie px-3 py-2 text-sm font-semibold text-pedra outline-none hover:text-grafite focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             <LogOut className="size-4" aria-hidden />
             Sair

@@ -63,7 +63,7 @@ export function FormTurma({ config }: { config: TurmaConfig }) {
           <ItemHabilidade key={h.id} h={h} ligada={ativas.has(h.id)} onAlternar={(v) => alternar(h.id, v)} />
         );
         return (
-          <section key={d.id} aria-labelledby={`disc-${d.id}`} className="rounded-lg border bg-white">
+          <section key={d.id} aria-labelledby={`disc-${d.id}`} className="rounded-lg border bg-superficie">
             <header className="flex items-center justify-between gap-4 border-b px-5 py-4">
               <div>
                 <h2 id={`disc-${d.id}`} className="text-lg font-bold text-grafite">
@@ -183,9 +183,9 @@ export function CodigoTurma({ codigo }: { codigo: string }) {
     setTimeout(() => setCopiado(false), 2000);
   }
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg bg-mata p-5 text-white">
+    <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg bg-primary p-5 text-primary-foreground">
       <div>
-        <p className="text-sm text-white/80">Código para os alunos entrarem</p>
+        <p className="text-sm text-primary-foreground/80">Código para os alunos entrarem</p>
         <p className="mt-1 font-display text-4xl leading-none font-extrabold tracking-[0.15em]">{codigo}</p>
       </div>
       <Button variant="secondary" onClick={copiar} className="h-10 px-4 text-base">

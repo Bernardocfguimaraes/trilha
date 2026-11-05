@@ -54,7 +54,7 @@ export function TrilhaProgresso({
       aria-label={`Pergunta ${Math.min(atual + 1, marcos.length)} de ${marcos.length}`}
     >
       <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 size-full overflow-visible" aria-hidden>
-        <path d={caminho(ps)} fill="none" stroke="#fff" strokeWidth="10" strokeLinecap="round" />
+        <path d={caminho(ps)} fill="none" stroke="var(--color-superficie)" strokeWidth="10" strokeLinecap="round" />
         {ate.length > 1 && (
           <path
             d={caminho(ate)}
@@ -74,7 +74,7 @@ export function TrilhaProgresso({
             "absolute grid size-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-[3px] text-sm sm:size-9",
             m === "acerto" && "border-sol-escuro bg-sol",
             m === "erro" && "border-broto-escuro bg-broto",
-            m === "pendente" && "border-ceu-forte bg-white",
+            m === "pendente" && "border-ceu-forte bg-superficie",
           )}
           style={{ left: `${(ps[i].x / W) * 100}%`, top: `${(ps[i].y / H) * 100}%` }}
         >
@@ -111,8 +111,8 @@ export function Estrela({ className, apagada }: { className?: string; apagada?: 
     <svg viewBox="0 0 24 24" className={className} aria-hidden>
       <path
         d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z"
-        fill={apagada ? "#d5dde0" : "#fff"}
-        stroke={apagada ? "#b9c4c8" : "var(--color-sol-escuro)"}
+        fill={apagada ? "var(--color-desligado)" : "#fff"}
+        stroke={apagada ? "var(--color-desligado-sombra)" : "var(--color-sol-escuro)"}
         strokeWidth="1.5"
         strokeLinejoin="round"
       />

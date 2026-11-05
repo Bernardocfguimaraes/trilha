@@ -33,7 +33,7 @@ export function QuestaoTocar({
         role="radiogroup"
         aria-label="Palavras do texto que podem ser a resposta"
         className={cn(
-          "mt-6 rounded-2xl border-[3px] bg-white px-5 py-5 font-display text-[1.65rem] leading-[1.9] font-semibold text-grafite",
+          "mt-6 rounded-2xl border-[3px] bg-superficie px-5 py-5 font-display text-[1.65rem] leading-[1.9] font-semibold text-grafite",
           "transition-colors duration-200",
           !resultado && "border-transparent",
           resultado?.correta && "border-broto",
@@ -61,9 +61,9 @@ export function QuestaoTocar({
                 onClick={() => onEscolher(id)}
                 className={cn(
                   "relative inline-block rounded-lg px-1 py-0.5 align-baseline leading-tight font-bold outline-none",
-                  "transition-[background-color,color,box-shadow] duration-150 focus-visible:ring-4 focus-visible:ring-[#2a8fc4]/40",
-                  !resultado && !marcada && "bg-ceu/70 underline decoration-[#2a8fc4]/50 decoration-dotted decoration-[3px] underline-offset-[6px] hover:bg-ceu-forte",
-                  marcada && !resultado && "bg-[#2a8fc4] text-white shadow-[0_3px_0_#1f6f99]",
+                  "transition-[background-color,color,box-shadow] duration-150 focus-visible:ring-4 focus-visible:ring-agua/40",
+                  !resultado && !marcada && "bg-ceu/70 underline decoration-agua/50 decoration-dotted decoration-[3px] underline-offset-[6px] hover:bg-ceu-forte",
+                  marcada && !resultado && "bg-agua text-white shadow-[0_3px_0_var(--color-agua-escura)]",
                   certa && "animate-estoura bg-broto text-white shadow-[0_3px_0_var(--color-broto-escuro)]",
                   errada && "animate-balanca bg-coral text-white line-through decoration-white/80 decoration-[3px]",
                   resultado && !certa && !errada && "text-grafite/70",

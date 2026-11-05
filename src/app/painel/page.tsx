@@ -68,7 +68,7 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
                 aria-current={ativo ? "page" : undefined}
                 className={cn(
                   "rounded-md px-3 py-1.5 text-sm font-semibold outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-                  ativo ? "bg-white text-grafite shadow-sm" : "text-pedra hover:text-grafite",
+                  ativo ? "bg-superficie text-grafite shadow-sm" : "text-pedra hover:text-grafite",
                 )}
               >
                 {f.rotulo}
@@ -87,7 +87,7 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
       </div>
 
       {alunos.length === 0 ? (
-        <p className="mt-6 rounded-lg border bg-white p-6 text-pedra">
+        <p className="mt-6 rounded-lg border bg-superficie p-6 text-pedra">
           Nenhum aluno neste filtro.{" "}
           <Link href="/painel" className="font-semibold text-mata underline-offset-4 hover:underline">
             Ver todos os alunos
@@ -139,7 +139,7 @@ function resumoDisciplina(hs: HabilidadeStatus[]): { texto: string; classe: stri
   const alertas = iniciadas.filter((h) => h.status === "alerta").length;
   const atencoes = iniciadas.filter((h) => h.status === "atencao").length;
   if (alertas) return { texto: `${alertas} em alerta`, classe: "text-alerta" };
-  if (atencoes) return { texto: `${atencoes} em atenção`, classe: "text-[#7a4f12]" };
+  if (atencoes) return { texto: `${atencoes} em atenção`, classe: "text-atencao-texto" };
   if (!iniciadas.length) return { texto: "Não começou", classe: "text-pedra" };
   return { texto: "Em dia", classe: "text-mata" };
 }
@@ -161,7 +161,7 @@ function CartaoAluno({ aluno }: { aluno: AlunoResumo }) {
     <Link
       href={`/painel/alunos/${aluno.id}`}
       className={cn(
-        "group flex h-full flex-col rounded-xl border bg-white p-5 outline-none transition-[border-color,box-shadow,transform] duration-200",
+        "group flex h-full flex-col rounded-xl border bg-superficie p-5 outline-none transition-[border-color,box-shadow,transform] duration-200",
         "border-l-4 hover:-translate-y-0.5 hover:border-mata/40 hover:shadow-[0_4px_16px_rgb(30_42_37/0.08)] focus-visible:ring-3 focus-visible:ring-ring/50",
         pior === "alerta" ? "border-l-alerta" : pior === "atencao" ? "border-l-atencao" : "border-l-mata",
       )}
@@ -219,7 +219,7 @@ function CartaoAluno({ aluno }: { aluno: AlunoResumo }) {
                 key={h.habilidadeId}
                 className={cn(
                   "rounded-md px-2 py-0.5 text-xs font-medium",
-                  h.status === "alerta" ? "bg-alerta-clara text-alerta" : "bg-atencao-clara text-[#7a4f12]",
+                  h.status === "alerta" ? "bg-alerta-clara text-alerta" : "bg-atencao-clara text-atencao-texto",
                 )}
               >
                 {h.nome}

@@ -63,7 +63,7 @@ export function EntradaResponsavel({ turma }: { turma: TurmaPublica }) {
                 <button
                   type="button"
                   onClick={() => setAluno(a)}
-                  className="flex w-full items-center gap-3 rounded-lg border bg-white px-4 py-3 text-left font-semibold text-grafite outline-none transition-[border-color,box-shadow] hover:border-mata/50 hover:shadow-sm focus-visible:ring-3 focus-visible:ring-ring/50"
+                  className="flex w-full items-center gap-3 rounded-lg border bg-superficie px-4 py-3 text-left font-semibold text-grafite outline-none transition-[border-color,box-shadow] hover:border-mata/50 hover:shadow-sm focus-visible:ring-3 focus-visible:ring-ring/50"
                 >
                   <span className="grid size-9 shrink-0 place-items-center rounded-full bg-mata-clara text-mata-escura" aria-hidden>
                     {a.nome[0]}
@@ -113,7 +113,7 @@ export function EntradaResponsavel({ turma }: { turma: TurmaPublica }) {
             onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 4))}
             aria-invalid={!!erro}
             aria-describedby={erro ? "erro-pin" : undefined}
-            className="mt-1.5 h-12 w-40 rounded-lg border border-input bg-white px-3 text-center text-2xl font-semibold tracking-[0.5em] text-grafite outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-alerta"
+            className="mt-1.5 h-12 w-40 rounded-lg border border-input bg-superficie px-3 text-center text-2xl font-semibold tracking-[0.5em] text-grafite outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-alerta"
           />
           <p id="erro-pin" role="alert" className="mt-3 min-h-5 text-sm font-semibold text-alerta">
             {erro && MENSAGENS[erro]}

@@ -42,7 +42,7 @@ export default async function ResponsavelPage({ searchParams }: PageProps<"/resp
             placeholder="ABC123"
             aria-invalid={erro === "codigo"}
             aria-describedby={mensagem ? "erro-codigo" : undefined}
-            className="mt-1.5 h-11 w-full rounded-lg border border-input bg-white px-3 text-lg font-semibold tracking-[0.15em] text-grafite uppercase outline-none placeholder:font-normal placeholder:tracking-normal placeholder:text-pedra/50 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-alerta"
+            className="mt-1.5 h-11 w-full rounded-lg border border-input bg-superficie px-3 text-lg font-semibold tracking-[0.15em] text-grafite uppercase outline-none placeholder:font-normal placeholder:tracking-normal placeholder:text-pedra/50 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-alerta"
           />
           {mensagem && (
             <p id="erro-codigo" role="alert" className="mt-3 rounded-md bg-alerta-clara px-3 py-2 text-sm font-semibold text-alerta">

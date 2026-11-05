@@ -60,7 +60,7 @@ export function GraficoEvolucao({ historico }: { historico: HistoricoHabilidade 
 
         {/* rótulo direto só no último ponto */}
         <g className="animate-in fade-in fill-mode-backwards duration-300" style={{ animationDelay: "750ms" }}>
-          <circle cx={x(ps.length - 1)} cy={y(ultimo.desempenho)} r="4" fill="var(--color-mata)" stroke="#fff" strokeWidth="2" />
+          <circle cx={x(ps.length - 1)} cy={y(ultimo.desempenho)} r="4" fill="var(--color-mata)" stroke="var(--color-superficie)" strokeWidth="2" />
           <text x={x(ps.length - 1) + 8} y={y(ultimo.desempenho)} dy="0.32em" className="fill-grafite text-[11px] font-bold">
             {ultimo.desempenho}
           </text>
@@ -69,7 +69,7 @@ export function GraficoEvolucao({ historico }: { historico: HistoricoHabilidade 
         {ativo !== null && (
           <g pointerEvents="none">
             <line x1={x(ativo)} x2={x(ativo)} y1={M.t} y2={H - M.b} stroke="var(--color-pedra)" strokeWidth="1" strokeDasharray="2 2" />
-            <circle cx={x(ativo)} cy={y(ps[ativo].desempenho)} r="4" fill="var(--color-mata)" stroke="#fff" strokeWidth="2" />
+            <circle cx={x(ativo)} cy={y(ps[ativo].desempenho)} r="4" fill="var(--color-mata)" stroke="var(--color-superficie)" strokeWidth="2" />
           </g>
         )}
         <rect
@@ -84,7 +84,7 @@ export function GraficoEvolucao({ historico }: { historico: HistoricoHabilidade 
       </svg>
       {ativo !== null && (
         <div
-          className="pointer-events-none absolute top-0 z-10 -translate-x-1/2 -translate-y-full rounded-md bg-grafite px-2 py-1 text-xs whitespace-nowrap text-white"
+          className="pointer-events-none absolute top-0 z-10 -translate-x-1/2 -translate-y-full rounded-md bg-grafite px-2 py-1 text-xs whitespace-nowrap text-papel"
           style={{ left: `${(x(ativo) / W) * 100}%` }}
         >
           {dataLonga(ps[ativo].data)}: <strong>{ps[ativo].desempenho}</strong>

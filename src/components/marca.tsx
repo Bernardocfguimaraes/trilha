@@ -30,7 +30,7 @@ export function Logo({ className, vibrante = false }: { className?: string; vibr
 
 const STATUS_INFO: Record<Status, { rotulo: string; cor: string; fundo: string; marcas: number }> = {
   ok: { rotulo: "Ok", cor: "bg-mata", fundo: "bg-mata-clara text-mata-escura", marcas: 1 },
-  atencao: { rotulo: "Atenção", cor: "bg-atencao", fundo: "bg-atencao-clara text-[#7a4f12]", marcas: 2 },
+  atencao: { rotulo: "Atenção", cor: "bg-atencao", fundo: "bg-atencao-clara text-atencao-texto", marcas: 2 },
   alerta: { rotulo: "Alerta", cor: "bg-alerta", fundo: "bg-alerta-clara text-alerta", marcas: 3 },
 };
 

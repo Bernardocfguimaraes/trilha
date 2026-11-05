@@ -51,8 +51,8 @@ export function EntradaPin({
           <span
             key={i}
             className={cn(
-              "grid size-16 place-items-center rounded-2xl border-[3px] bg-white transition-colors",
-              errou ? "border-coral" : i < digitos.length ? "border-[#2a8fc4]" : "border-ceu-forte",
+              "grid size-16 place-items-center rounded-2xl border-[3px] bg-superficie transition-colors",
+              errou ? "border-coral" : i < digitos.length ? "border-agua" : "border-ceu-forte",
             )}
           >
             {i < digitos.length && <span className="size-5 rounded-full bg-grafite" />}
@@ -72,7 +72,7 @@ export function EntradaPin({
               disabled={desabilitado}
               aria-label={t === "apagar" ? "Apagar" : t}
               className={cn(
-                "grid h-16 place-items-center rounded-2xl bg-white font-display text-3xl font-bold text-grafite",
+                "grid h-16 place-items-center rounded-2xl bg-superficie font-display text-3xl font-bold text-grafite",
                 "shadow-[0_4px_0_var(--color-ceu-forte)] ring-2 ring-ceu-forte transition-transform duration-75",
                 "outline-none focus-visible:ring-4 focus-visible:ring-grafite/40 active:translate-y-1 active:shadow-none",
                 "disabled:opacity-50",

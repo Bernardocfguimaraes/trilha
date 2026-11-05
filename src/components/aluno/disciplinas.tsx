@@ -4,14 +4,14 @@ import { cn } from "@/lib/utils";
 
 // Cor e ícone de cada disciplina no lado do aluno (por id do contrato).
 const VISUAL: Record<string, { icone: LucideIcon; cartao: string; frase: string }> = {
-  por: { icone: BookOpen, cartao: "bg-coral text-white shadow-[0_6px_0_#d9583a]", frase: "Ler e escrever" },
-  mat: { icone: Calculator, cartao: "bg-sol text-grafite shadow-[0_6px_0_var(--color-sol-escuro)]", frase: "Contas e números" },
-  geo: { icone: Globe, cartao: "bg-[#4bb3e6] text-white shadow-[0_6px_0_#2a8fc4]", frase: "Mapas e lugares" },
+  por: { icone: BookOpen, cartao: "bg-coral text-white shadow-[0_6px_0_var(--color-coral-escuro)]", frase: "Ler e escrever" },
+  mat: { icone: Calculator, cartao: "bg-sol text-tinta shadow-[0_6px_0_var(--color-sol-escuro)]", frase: "Contas e números" },
+  geo: { icone: Globe, cartao: "bg-[#4bb3e6] text-white shadow-[0_6px_0_var(--color-agua)]", frase: "Mapas e lugares" },
   cie: { icone: FlaskConical, cartao: "bg-broto text-white shadow-[0_6px_0_var(--color-broto-escuro)]", frase: "Bichos, plantas e água" },
   ing: { icone: Languages, cartao: "bg-[#9b7fe6] text-white shadow-[0_6px_0_#7a5fc4]", frase: "Palavras em inglês" },
 };
 
-const PADRAO = { icone: Sparkles, cartao: "bg-white text-grafite shadow-[0_6px_0_var(--color-ceu-forte)]", frase: "" };
+const PADRAO = { icone: Sparkles, cartao: "bg-superficie text-grafite shadow-[0_6px_0_var(--color-ceu-forte)]", frase: "" };
 
 export const visualDisciplina = (id: string) => VISUAL[id] ?? PADRAO;
 

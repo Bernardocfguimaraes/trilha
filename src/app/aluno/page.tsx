@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Sabia } from "@/components/marca";
 import { classesBotaoGrande } from "@/components/aluno/botao-grande";
+import { BotaoTema } from "@/components/tema";
 
 export const metadata: Metadata = { title: "Entrar na turma" };
 
@@ -12,13 +13,16 @@ export default async function AlunoPage({ searchParams }: PageProps<"/aluno">) {
 
   return (
     <main className="flex flex-1 flex-col bg-ceu px-4 py-6">
-      <Link
-        href="/"
-        aria-label="Voltar"
-        className="grid size-11 place-items-center rounded-full text-pedra outline-none hover:bg-white/70 focus-visible:ring-4 focus-visible:ring-grafite/30"
-      >
-        <ArrowLeft className="size-7" strokeWidth={3} />
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link
+          href="/"
+          aria-label="Voltar"
+          className="grid size-11 place-items-center rounded-full text-pedra outline-none hover:bg-superficie/70 focus-visible:ring-4 focus-visible:ring-grafite/30"
+        >
+          <ArrowLeft className="size-7" strokeWidth={3} />
+        </Link>
+        <BotaoTema variante="aluno" />
+      </div>
 
       <form action="/aluno/entrar" className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center text-center">
         <Sabia humor={codigoInvalido ? "triste" : "feliz"} className="size-32" />
@@ -39,7 +43,7 @@ export default async function AlunoPage({ searchParams }: PageProps<"/aluno">) {
           placeholder="ABC123"
           aria-invalid={codigoInvalido}
           aria-describedby={codigoInvalido ? "erro-codigo" : undefined}
-          className="mt-8 h-20 w-full rounded-2xl border-[3px] border-ceu-forte bg-white text-center font-display text-5xl font-extrabold tracking-[0.2em] text-grafite uppercase shadow-[0_5px_0_var(--color-ceu-forte)] outline-none placeholder:text-[#c5d3d8] focus:border-[#2a8fc4] aria-invalid:border-coral"
+          className="mt-8 h-20 w-full rounded-2xl border-[3px] border-ceu-forte bg-superficie text-center font-display text-5xl font-extrabold tracking-[0.2em] text-grafite uppercase shadow-[0_5px_0_var(--color-ceu-forte)] outline-none placeholder:text-desligado-texto/60 focus:border-agua aria-invalid:border-coral"
         />
         {codigoInvalido && (
           <p id="erro-codigo" role="alert" className="mt-4 rounded-xl bg-coral-claro px-4 py-2 font-display text-xl font-semibold text-grafite">

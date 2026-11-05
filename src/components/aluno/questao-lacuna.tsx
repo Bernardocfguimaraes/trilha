@@ -101,9 +101,9 @@ export function QuestaoLacuna({
       <div
         ref={fraseRef}
         className={cn(
-          "relative mt-6 rounded-2xl border-[3px] bg-white px-5 py-6 font-display text-3xl leading-[1.9] font-bold text-grafite",
+          "relative mt-6 rounded-2xl border-[3px] bg-superficie px-5 py-6 font-display text-3xl leading-[1.9] font-bold text-grafite",
           "transition-[border-color,background-color] duration-150",
-          !resultado && (sobreFrase ? "border-dashed border-[#2a8fc4] bg-[#f1f9fd]" : "border-transparent"),
+          !resultado && (sobreFrase ? "border-dashed border-agua bg-agua-clara/40" : "border-transparent"),
           resultado?.correta && "border-broto",
           resultado && !resultado.correta && (mostrarCerta ? "border-broto" : "border-coral"),
         )}
@@ -214,12 +214,12 @@ export function QuestaoLacuna({
                 "relative min-h-16 touch-none rounded-2xl border-[3px] px-5 py-2 font-display text-2xl font-bold text-grafite outline-none select-none",
                 "transition-[box-shadow,background-color,border-color,opacity] duration-100 focus-visible:ring-4 focus-visible:ring-grafite/30",
                 arrastando === o.id && "z-10 cursor-grabbing shadow-[0_10px_20px_rgb(30_42_37/0.18)] transition-none",
-                !resultado && !usada && "cursor-grab border-ceu-forte bg-white shadow-[0_4px_0_var(--color-ceu-forte)] active:shadow-none",
+                !resultado && !usada && "cursor-grab border-ceu-forte bg-superficie shadow-[0_4px_0_var(--color-ceu-forte)] active:shadow-none",
                 // Peça já na frase: fica o "molde" pontilhado no banco, sem pular o layout.
                 usada && !resultado && "border-dashed border-ceu-forte bg-transparent text-transparent shadow-none",
-                certa && "border-broto bg-[#d6f5e6] shadow-[0_4px_0_var(--color-broto-escuro)]",
-                errada && "border-coral bg-coral-claro text-grafite line-through decoration-coral decoration-[3px] shadow-[0_4px_0_#d9583a]",
-                resultado && !certa && !errada && "border-ceu-forte bg-white opacity-50 shadow-[0_4px_0_var(--color-ceu-forte)]",
+                certa && "border-broto bg-broto-clara shadow-[0_4px_0_var(--color-broto-escuro)]",
+                errada && "border-coral bg-coral-claro text-grafite line-through decoration-coral decoration-[3px] shadow-[0_4px_0_var(--color-coral-escuro)]",
+                resultado && !certa && !errada && "border-ceu-forte bg-superficie opacity-50 shadow-[0_4px_0_var(--color-ceu-forte)]",
               )}
             >
               {texto}
@@ -244,7 +244,7 @@ function Buraco({
 }) {
   if (!texto) {
     return (
-      <span className="inline-block h-[1.15em] w-[4.5ch] translate-y-[0.2em] rounded-lg border-[3px] border-dashed border-[#2a8fc4]/60 bg-ceu/60 align-baseline" />
+      <span className="inline-block h-[1.15em] w-[4.5ch] translate-y-[0.2em] rounded-lg border-[3px] border-dashed border-agua/60 bg-ceu/60 align-baseline" />
     );
   }
   return (
@@ -255,11 +255,11 @@ function Buraco({
       onClick={estado === "aberto" ? onTirar : undefined}
       className={cn(
         "relative inline-block rounded-xl border-[3px] px-2 leading-tight",
-        estado === "aberto" && "cursor-pointer border-[#2a8fc4] bg-[#d8effa] text-grafite",
-        estado === "acerto" && "animate-estoura border-broto bg-[#d6f5e6]",
+        estado === "aberto" && "cursor-pointer border-agua bg-agua-clara text-grafite",
+        estado === "acerto" && "animate-estoura border-broto bg-broto-clara",
         estado === "erro" && "animate-balanca border-coral bg-coral-claro",
-        estado === "parcial" && "border-broto bg-[#d6f5e6]",
-        estado === "corrigido" && "animate-vira border-broto bg-[#d6f5e6]",
+        estado === "parcial" && "border-broto bg-broto-clara",
+        estado === "corrigido" && "animate-vira border-broto bg-broto-clara",
       )}
     >
       {texto}

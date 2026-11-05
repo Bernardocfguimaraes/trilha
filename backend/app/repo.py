@@ -166,7 +166,7 @@ def _buscar_aluno(s, aluno_id: str) -> Aluno:
 def lista_alunos_resumo() -> list[dict]:
     with bd.SessionLocal() as s:
         ctx = _contexto(s)
-        alunos = s.execute(select(Aluno).order_by(Aluno.id)).scalars().all()
+        alunos = s.execute(select(Aluno).order_by(Aluno.nome)).scalars().all()
         return [_resumo(s, a, ctx) for a in alunos]
 
 
@@ -201,7 +201,7 @@ def aluno_historico(aluno_id: str) -> list[dict]:
 
 def lista_cadastros() -> list[dict]:
     with bd.SessionLocal() as s:
-        alunos = s.execute(select(Aluno).order_by(Aluno.id)).scalars().all()
+        alunos = s.execute(select(Aluno).order_by(Aluno.nome)).scalars().all()
         return [{"id": a.id, "nome": a.nome, "pin": a.pin} for a in alunos]
 
 
@@ -261,7 +261,7 @@ def turma_publica(codigo: str) -> dict:
         turma = _turma(s)
         if codigo.upper() != turma.codigo:
             raise ApiErro(404, "Turma não encontrada")
-        alunos = s.execute(select(Aluno).order_by(Aluno.id)).scalars().all()
+        alunos = s.execute(select(Aluno).order_by(Aluno.nome)).scalars().all()
         discs = list(s.execute(select(Disciplina).order_by(Disciplina.ordem)).scalars())
         com_perguntas = []
         for d in discs:
@@ -455,7 +455,7 @@ def responder_chat_turma(pergunta: str, historico: list[dict] | None = None) -> 
     with bd.SessionLocal() as s:
         turma = _turma(s)
         ctx = _contexto(s)
-        alunos = s.execute(select(Aluno).order_by(Aluno.id)).scalars().all()
+        alunos = s.execute(select(Aluno).order_by(Aluno.nome)).scalars().all()
         por_aluno = [{"a": a, "habilidades": _habilidades_de(s, a.id, ctx)} for a in alunos]
         ativas = por_aluno[0]["habilidades"] if por_aluno else []
         semana_passada = (datetime.now(timezone.utc) - timedelta(days=7)).date().isoformat()

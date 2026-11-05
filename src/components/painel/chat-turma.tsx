@@ -133,7 +133,7 @@ export function ChatTurma({ turma }: { turma: Turma }) {
   return (
     <section
       aria-label={`Conversa sobre a turma ${turma.nome}`}
-      className="flex h-[calc(100dvh-13rem)] min-h-[28rem] flex-col rounded-lg border bg-white"
+      className="flex h-[calc(100dvh-13rem)] min-h-[28rem] flex-col rounded-lg border bg-superficie"
     >
       <header className="flex items-center justify-between gap-3 border-b px-5 py-3">
         <p className="text-sm text-pedra">
@@ -194,7 +194,7 @@ export function ChatTurma({ turma }: { turma: Turma }) {
               </li>
             ) : (
               <li key={m.id} className="flex gap-3">
-                <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-mata text-white" aria-hidden>
+                <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground" aria-hidden>
                   <Sparkles className="size-3.5" />
                 </span>
                 <div className="max-w-[85%] min-w-0">
@@ -208,7 +208,7 @@ export function ChatTurma({ turma }: { turma: Turma }) {
           )}
           {pensando && (
             <li className="flex items-center gap-3 text-sm text-pedra">
-              <span className="grid size-7 shrink-0 place-items-center rounded-full bg-mata text-white" aria-hidden>
+              <span className="grid size-7 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground" aria-hidden>
                 <Sparkles className="size-3.5" />
               </span>
               <span className="flex items-center gap-1" role="status">
@@ -272,7 +272,7 @@ export function ChatTurma({ turma }: { turma: Turma }) {
             maxLength={1000}
             placeholder="Ex.: quais habilidades devo retomar antes da prova?"
             className={cn(
-              "max-h-32 min-h-10 flex-1 resize-none [field-sizing:content] rounded-md border border-input bg-white px-3 py-2 text-base text-grafite outline-none",
+              "max-h-32 min-h-10 flex-1 resize-none [field-sizing:content] rounded-md border border-input bg-superficie px-3 py-2 text-base text-grafite outline-none",
               "placeholder:text-pedra/70 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
             )}
           />

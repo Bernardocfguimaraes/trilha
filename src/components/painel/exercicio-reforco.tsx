@@ -74,7 +74,7 @@ export function ExercicioReforco({ habilidadeId, status }: { habilidadeId: strin
         <div key={exercicio.enunciado} className="mt-3 rounded-lg bg-secondary/40 p-4 animate-in fade-in slide-in-from-top-1 duration-300">
           <div className="flex items-start justify-between gap-3">
             <p className="font-semibold text-grafite">{exercicio.enunciado}</p>
-            <span className="shrink-0 rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-pedra">
+            <span className="shrink-0 rounded bg-superficie px-1.5 py-0.5 text-xs font-semibold text-pedra">
               {exercicio.origem === "ia" ? "Gerado por IA" : "Do banco"}
             </span>
           </div>
@@ -91,7 +91,7 @@ export function ExercicioReforco({ habilidadeId, status }: { habilidadeId: strin
                   key={i}
                   className={cn(
                     "flex items-center gap-2 rounded-md border px-3 py-2 text-[0.9375rem] text-grafite",
-                    correta ? "border-mata bg-mata-clara font-semibold" : "border-transparent bg-white",
+                    correta ? "border-mata bg-mata-clara font-semibold" : "border-transparent bg-superficie",
                   )}
                 >
                   <span className="text-pedra">{LETRA[i]})</span>

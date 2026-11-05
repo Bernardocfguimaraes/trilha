@@ -25,6 +25,19 @@
   --color-atencao-clara: #fbf1dd;
   --color-alerta: #b83a26;
   --color-alerta-clara: #f8e3df;
+
+  /* Tokens semânticos: o que muda entre o modo claro e o escuro (ver .dark abaixo). */
+  --color-superficie: #ffffff; /* cartões, balões, campos */
+  --color-tinta: #1e2a25; /* texto sobre cores vivas (sol), igual nos dois modos */
+  --color-agua: #2a8fc4; /* seleção do aluno */
+  --color-agua-clara: #d8effa;
+  --color-agua-escura: #1f6f99;
+  --color-broto-clara: #d6f5e6;
+  --color-coral-escuro: #d9583a;
+  --color-atencao-texto: #7a4f12;
+  --color-desligado: #d5dde0;
+  --color-desligado-texto: #8a979c;
+  --color-desligado-sombra: #b9c4c8;
 }
 
 @theme inline {
@@ -78,6 +91,56 @@
   --input: #cfd7d2;
   --ring: #0f6e50;
   --radius: 0.5rem;
+  color-scheme: light;
+}
+
+/* Modo escuro: "a mata à noite". Mesma marca, contraste conferido para texto (AA).
+   A classe .dark vai no <html> (script no layout raiz, antes da página pintar). */
+.dark {
+  color-scheme: dark;
+  --color-mata: #4cc492;
+  --color-mata-escura: #9ae3c3;
+  --color-mata-clara: #173a2e;
+  --color-broto-escuro: #0e7a50;
+  --color-ceu: #0e1c24;
+  --color-ceu-forte: #24404f;
+  --color-coral-claro: #3d2520;
+  --color-papel: #0e1613;
+  --color-grafite: #e7efea;
+  --color-pedra: #a3b4ac;
+  --color-atencao: #e6ad4f;
+  --color-atencao-clara: #3a2d14;
+  --color-alerta: #ff8f78;
+  --color-alerta-clara: #3e201b;
+  --color-superficie: #182723;
+  --color-agua: #45afe6;
+  --color-agua-clara: #133349;
+  --color-agua-escura: #0f5a80;
+  --color-broto-clara: #12392a;
+  --color-coral-escuro: #b8452b;
+  --color-atencao-texto: #f2c97c;
+  --color-desligado: #2b3835;
+  --color-desligado-texto: #73867e;
+  --color-desligado-sombra: #1d2826;
+
+  --background: #0e1613;
+  --foreground: #e7efea;
+  --card: #182723;
+  --card-foreground: #e7efea;
+  --popover: #182723;
+  --popover-foreground: #e7efea;
+  --primary: #1a8f60;
+  --primary-foreground: #ffffff;
+  --secondary: #1f302b;
+  --secondary-foreground: #e7efea;
+  --muted: #1f302b;
+  --muted-foreground: #a3b4ac;
+  --accent: #173a2e;
+  --accent-foreground: #9ae3c3;
+  --destructive: #ff8f78;
+  --border: #2a3b36;
+  --input: #34463f;
+  --ring: #4cc492;
 }
 
 @layer base {
