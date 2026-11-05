@@ -3,7 +3,9 @@ import Link from "next/link";
 import { Logo } from "@/components/marca";
 import { BotaoSair, LinkInicio, NavPainel } from "@/components/painel/nav";
 import { BotaoTema } from "@/components/tema";
-import { getProfessor } from "@/lib/auth";
+import { cookies } from "next/headers";
+import { SeletorTurma } from "@/components/painel/seletor-turma";
+import { COOKIE_TURMA, turmasDoProfessor } from "@/lib/auth";
 
 export default function PainelLayout({ children }: LayoutProps<"/painel">) {
   return (
@@ -25,7 +27,9 @@ export default function PainelLayout({ children }: LayoutProps<"/painel">) {
 }
 
 async function Lateral() {
-  const usuario = await getProfessor();
+  const { professor: usuario, turmas } = await turmasDoProfessor();
+  const escolhida = (await cookies()).get(COOKIE_TURMA)?.value;
+  const atual = turmas.find((t) => t.id === escolhida) ?? turmas[0] ?? null;
 
   return (
     <>
@@ -39,7 +43,8 @@ async function Lateral() {
           <BotaoSair />
         </div>
       </div>
-      <NavPainel />
+      <SeletorTurma turmas={turmas} atual={atual} />
+      {atual && <NavPainel />}
       <div className="mt-auto hidden border-t pt-4 md:block">
         <div className="flex items-center justify-between gap-2 pr-1">
           <p className="truncate px-3 text-sm font-semibold text-grafite">{usuario.nome}</p>

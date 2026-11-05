@@ -1,4 +1,4 @@
-import { BookOpen, Calculator, FlaskConical, Globe, Languages, Sparkles, type LucideIcon } from "lucide-react";
+import { BookOpen, Calculator, FlaskConical, Globe, Landmark, Languages, Sparkles, type LucideIcon } from "lucide-react";
 import type { DisciplinaPublica } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -8,6 +8,7 @@ const VISUAL: Record<string, { icone: LucideIcon; cartao: string; frase: string 
   mat: { icone: Calculator, cartao: "bg-sol text-tinta shadow-[0_6px_0_var(--color-sol-escuro)]", frase: "Contas e números" },
   geo: { icone: Globe, cartao: "bg-[#4bb3e6] text-white shadow-[0_6px_0_var(--color-agua)]", frase: "Mapas e lugares" },
   cie: { icone: FlaskConical, cartao: "bg-broto text-white shadow-[0_6px_0_var(--color-broto-escuro)]", frase: "Bichos, plantas e água" },
+  his: { icone: Landmark, cartao: "bg-[#c97b3f] text-white shadow-[0_6px_0_#9a5a28]", frase: "Povos, tempos e lugares" },
   ing: { icone: Languages, cartao: "bg-[#9b7fe6] text-white shadow-[0_6px_0_#7a5fc4]", frase: "Palavras em inglês" },
 };
 

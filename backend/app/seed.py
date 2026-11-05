@@ -12,7 +12,18 @@ import math
 from datetime import datetime, timedelta, timezone
 
 from . import bd, seguranca
-from .dados import ALUNOS, DISCIPLINAS, HABILIDADES, PINS_INICIAIS, STATUS_INICIAL, TURMA
+from .dados import (
+    ALUNOS,
+    ALUNOS_8,
+    ANOS,
+    DISCIPLINAS,
+    HABILIDADES,
+    PINS_INICIAIS,
+    STATUS_INICIAL,
+    TURMA,
+    TURMA_8,
+    habilidades_do_ano,
+)
 from .modelos import (
     Aluno,
     AlunoHabilidadeStatus,
@@ -67,33 +78,48 @@ def _historico_sintetico(a: dict) -> list[dict]:
 
 
 def semear() -> None:
-    if not bd.tem_banco():
-        raise SystemExit("DATABASE_URL não definido. Configure o .env antes de rodar o seed.")
-
     Base.metadata.drop_all(bd.engine)
     Base.metadata.create_all(bd.engine)
 
+    conta = seguranca.professor_do_env()
+    dono = conta["email"] if conta else None
+
     with bd.SessionLocal() as s:
-        s.add(Turma(id=TURMA["id"], nome=TURMA["nome"], codigo=TURMA["codigo"], ciclo="4º bimestre de 2026", ano=TURMA["ano"]))
-        s.flush()  # turma antes das disciplinas/habilidades/alunos que apontam para ela
+        # As duas turmas de demonstração ficam com o professor do .env.
+        for t in (TURMA, TURMA_8):
+            s.add(Turma(id=t["id"], nome=t["nome"], codigo=t["codigo"], ciclo="4º bimestre de 2026", ano=t["ano"], professor_email=dono))
+        s.flush()  # turmas antes das disciplinas/habilidades/alunos que apontam para elas
 
         for ordem, d in enumerate(DISCIPLINAS):
             s.add(Disciplina(id=d["id"], nome=d["nome"], ordem=ordem))
         s.flush()
 
-        for ordem, h in enumerate(HABILIDADES):
-            s.add(Habilidade(
-                id=h["id"], nome=h["nome"], disciplina_id=_id_disciplina_por_nome(h["disciplina"]),
-                descricao=h["descricao"], ordem=ordem, codigo_bncc=h["codigoBncc"], unidade=h["unidade"],
-            ))
+        # Habilidades avaliáveis de todos os anos (ids únicos), na ordem do catálogo.
+        vistas: set[str] = set()
+        ordem = 0
+        for ano in ANOS:
+            for h in habilidades_do_ano(ano):
+                if h["id"] in vistas:
+                    continue
+                vistas.add(h["id"])
+                s.add(Habilidade(
+                    id=h["id"], nome=h["nome"], disciplina_id=_id_disciplina_por_nome(h["disciplina"]),
+                    descricao=h["descricao"], ordem=ordem, codigo_bncc=h["codigoBncc"], unidade=h["unidade"],
+                ))
+                ordem += 1
         s.flush()
 
-        # Disciplinas e habilidades (avaliáveis) ativas: todas.
-        for d in DISCIPLINAS:
-            s.add(TurmaDisciplinaAtiva(turma_id=TURMA["id"], disciplina_id=d["id"]))
-        for h in HABILIDADES:
-            s.add(TurmaHabilidadeAtiva(turma_id=TURMA["id"], habilidade_id=h["id"]))
+        # Disciplinas e habilidades (avaliáveis) do ano de cada turma: todas ativas.
+        for t in (TURMA, TURMA_8):
+            for d in DISCIPLINAS:
+                s.add(TurmaDisciplinaAtiva(turma_id=t["id"], disciplina_id=d["id"]))
+            for h in habilidades_do_ano(t["ano"]):
+                s.add(TurmaHabilidadeAtiva(turma_id=t["id"], habilidade_id=h["id"]))
         s.flush()
+
+        # Turma de teste do 8º ano: alunos sem histórico (começa do zero).
+        for a in ALUNOS_8:
+            s.add(Aluno(id=a["id"], turma_id=TURMA_8["id"], nome=a["nome"], pin=a["pin"], ultima_atividade=None))
 
         for a in ALUNOS:
             s.add(Aluno(id=a["id"], turma_id=TURMA["id"], nome=a["nome"], pin=PINS_INICIAIS[a["id"]], ultima_atividade=a["ultima"]))
@@ -105,7 +131,6 @@ def semear() -> None:
                 s.add(Historico(aluno_id=a["id"], habilidade_id=linha["habilidade_id"], data=linha["data"], desempenho=linha["desempenho"]))
 
         # Conta do professor (do .env), com a senha só em hash.
-        conta = seguranca.professor_do_env()
         if conta:
             s.add(Professor(email=conta["email"], nome=conta["nome"], senha_hash=seguranca.hash_senha(conta["senha"])))
 
@@ -115,4 +140,6 @@ def semear() -> None:
 
 
 if __name__ == "__main__":
+    if bd.EM_MEMORIA:
+        raise SystemExit("DATABASE_URL não definido: sem banco em arquivo não há o que semear (a API já sobe com a demo em memória).")
     semear()

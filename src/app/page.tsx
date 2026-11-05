@@ -109,8 +109,8 @@ function Hero() {
             className="mt-6 max-w-[46ch] animate-in fade-in slide-in-from-bottom-3 fill-mode-backwards text-lg leading-relaxed text-pedra duration-500 sm:text-xl"
             style={{ animationDelay: "90ms" }}
           >
-            Atividades curtas e interativas do 4º ano, alinhadas à BNCC. A criança aprende brincando, o professor vê onde a
-            turma trava e a família acompanha o próprio filho.
+            Atividades curtas e interativas para o ensino fundamental, alinhadas à BNCC. A criança aprende brincando, o
+            professor vê onde a turma trava e a família acompanha o próprio filho.
           </p>
           <div
             className="mt-9 flex animate-in flex-wrap items-center gap-4 fade-in slide-in-from-bottom-3 fill-mode-backwards duration-500"
@@ -406,7 +406,8 @@ function Rodape() {
         <div>
           <Logo className="text-grafite" />
           <p className="mt-3 max-w-[36ch] text-sm leading-relaxed text-pedra">
-            Atividades do 4º ano alinhadas à BNCC, com diagnóstico por habilidade para quem acompanha cada criança.
+            Atividades alinhadas à BNCC para o 4º, o 6º e o 8º ano, em seis matérias, com diagnóstico por habilidade para
+            quem acompanha cada criança.
           </p>
         </div>
         <nav aria-label="Acessos" className="flex flex-wrap gap-x-10 gap-y-3 text-sm font-semibold">

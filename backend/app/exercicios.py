@@ -16,7 +16,10 @@ import random
 import re
 
 from . import llm
-from .dados import BANCO, HABILIDADES, TURMA
+from .dados import BANCO, HAB_POR_ID
+
+# Habilidades do catálogo antigo (sem ano no catálogo) são do 4º ano.
+_ANO_LEGADO = 4
 
 NIVEIS = ("facil", "medio", "dificil")
 
@@ -68,7 +71,7 @@ _NIVEL_DESC = {
 
 
 def _habilidade(habilidade_id: str) -> dict | None:
-    return next((h for h in HABILIDADES if h["id"] == habilidade_id), None)
+    return HAB_POR_ID.get(habilidade_id)
 
 
 def _extrair_json(texto: str) -> dict | None:
@@ -201,7 +204,7 @@ def _revisar(hab: dict, q: dict) -> bool:
     opcoes = "\n".join(f"{i}. {o}" for i, o in enumerate(q["opcoes"]))
     prompt = (
         f"Habilidade ({hab.get('codigoBncc') or hab['nome']}): {hab['descricao']}\n"
-        f"Ano: {hab.get('ano') or TURMA['ano']}º ano do ensino fundamental.\n"
+        f"Ano: {hab.get('ano') or _ANO_LEGADO}º ano do ensino fundamental.\n"
         + (f"Nota do especialista sobre a habilidade: {hab['dica']}\n" if hab.get("dica") else "")
         + f"\nQuestão: {q['enunciado']}\n{opcoes}"
     )
@@ -237,7 +240,7 @@ def gerar_exercicio(habilidade_id: str, nivel: str = "medio", evitar: list[str] 
     gerado = None
     if llm.disponivel():
         prompt = _prompt(hab, nivel, evitar or [])
-        sistema = _sistema(hab.get("ano") or TURMA["ano"])
+        sistema = _sistema(hab.get("ano") or _ANO_LEGADO)
         for _ in range(3):  # re-tenta: descartamos saídas inválidas (ex.: opções equivalentes)
             bruto = llm.gerar(sistema, [{"role": "user", "content": prompt}], max_tokens=1200)
             dados = _extrair_json(bruto or "")

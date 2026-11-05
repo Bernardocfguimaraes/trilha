@@ -1,7 +1,6 @@
 """Regras do "caminho" (trilha ordenada de habilidades BNCC por ano/disciplina).
 
-Funções puras, usadas tanto pelo estado em memória (estado.py) quanto pelo Postgres
-(repo.py), para as duas fontes não divergirem.
+Funções puras, usadas pela camada de dados (repo.py).
 
 - Uma habilidade está CONCLUÍDA quando o diagnóstico diz "ok" e já há pelo menos
   REGISTROS_PARA_CONCLUIR dias de desempenho nela (um acerto isolado não conclui).

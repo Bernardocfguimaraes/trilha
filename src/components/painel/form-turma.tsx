@@ -43,7 +43,7 @@ export function FormTurma({ config }: { config: TurmaConfig }) {
   async function salvar() {
     setEstado("salvando");
     try {
-      await api.salvarTurmaConfig([...ativas], [...disciplinas]);
+      await api.salvarTurmaConfig(config.turma.id, [...ativas], [...disciplinas]);
       setSalvas(new Set(ativas));
       setDisciplinasSalvas(new Set(disciplinas));
       setEstado("salvo");

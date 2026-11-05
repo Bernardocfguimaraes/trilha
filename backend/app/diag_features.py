@@ -4,7 +4,7 @@ A MESMA função é usada no treino (ml/treinar.py) e na inferência (app/diagno
 para garantir que o modelo veja exatamente as mesmas features nos dois momentos.
 
 Entrada: uma série de desempenho por habilidade — lista de {"data": str, "desempenho": int}
-na ordem cronológica (é o que estado.py e repo.py já produzem em `_serie`).
+na ordem cronológica (é o que repo.py produz em `_serie`).
 
 Só usa a biblioteca padrão (statistics) — nada de numpy/pandas — para a inferência rodar
 em qualquer máquina sem instalar nada.

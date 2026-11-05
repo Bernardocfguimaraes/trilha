@@ -1,6 +1,6 @@
 """Corpos de requisição (Pydantic). Os campos usam exatamente os nomes que o frontend
 envia (camelCase), para o JSON casar sem apelidos. As respostas são montadas como dicts
-em estado.py, com as mesmas chaves que o contrato em src/lib/types.ts define.
+em repo.py, com as mesmas chaves que o contrato em src/lib/types.ts define.
 """
 from __future__ import annotations
 
@@ -18,6 +18,19 @@ AutorMensagem = Literal["professor", "assistente"]
 class PedidoLogin(BaseModel):
     email: str = Field(min_length=3, max_length=200)
     senha: str = Field(min_length=1, max_length=200)
+
+
+NomePessoa = Annotated[str, Field(min_length=2, max_length=80)]
+
+
+class PedidoNovaTurma(BaseModel):
+    nome: str = Field(min_length=1, max_length=40)
+    ano: int = Field(ge=4, le=9)
+    alunos: list[NomePessoa] = Field(default=[], max_length=60)
+
+
+class PedidoNovoAluno(BaseModel):
+    nome: NomePessoa
 
 
 class PedidoPin(BaseModel):

@@ -22,6 +22,8 @@ class Turma(Base):
     codigo: Mapped[str] = mapped_column(String, unique=True, index=True)
     ciclo: Mapped[str] = mapped_column(String)
     ano: Mapped[int] = mapped_column(Integer, default=4)  # ano escolar (4º–9º); define o catálogo BNCC
+    # Professor dono da turma: só ele vê alunos, PINs e configuração dela.
+    professor_email: Mapped[str | None] = mapped_column(String, nullable=True, index=True)
 
 
 class Disciplina(Base):

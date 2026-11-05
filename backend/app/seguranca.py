@@ -21,7 +21,7 @@ import time
 
 from fastapi import Header
 
-from .estado import ApiErro
+from .regras import ApiErro
 
 ITERACOES = 200_000
 VALIDADE_TOKEN_S = 12 * 60 * 60

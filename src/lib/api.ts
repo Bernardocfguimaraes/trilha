@@ -9,6 +9,7 @@ import type {
   PedidoChatTurma,
   PedidoExercicio,
   PedidoLogin,
+  PedidoNovaTurma,
   PedidoPin,
   PedidoProgresso,
   PedidoSessao,
@@ -19,7 +20,9 @@ import type {
   ResultadoResposta,
   ResultadoSessao,
   Sessao,
+  AnoDisponivel,
   TurmaConfig,
+  TurmaResumo,
   TurmaPublica,
 } from "./types";
 
@@ -77,15 +80,25 @@ export const api = {
     request<RespostaLogin>("/auth/entrar", { method: "POST", body: { email, senha } satisfies PedidoLogin }),
   eu: (token: string) => request<{ nome: string; email: string }>("/auth/eu", { token }),
 
+  // Turmas do professor (cada um vê só as próprias).
+  turmas: (token?: string | null) => request<TurmaResumo[]>("/turmas", { token, professor: true }),
+  anos: (token?: string | null) => request<AnoDisponivel[]>("/anos", { token, professor: true }),
+  criarTurma: (pedido: PedidoNovaTurma) =>
+    request<TurmaResumo>("/turmas", { method: "POST", body: pedido, professor: true }),
+  adicionarAluno: (turmaId: string, nome: string) =>
+    request<AlunoCadastro>(`/turmas/${turmaId}/alunos`, { method: "POST", body: { nome }, professor: true }),
+
   // Painel do professor. No servidor recebe o token; no navegador passa pela ponte.
-  alunos: (token?: string | null) => request<AlunoResumo[]>("/alunos", { token, professor: true }),
+  alunos: (turmaId: string, token?: string | null) =>
+    request<AlunoResumo[]>(`/turmas/${turmaId}/alunos`, { token, professor: true }),
   aluno: (id: string, token?: string | null) =>
     request<AlunoDetalhe>(`/alunos/${id}`, { token, professor: true }),
   historico: (id: string, token?: string | null) =>
     request<HistoricoHabilidade[]>(`/alunos/${id}/historico`, { token, professor: true }),
-  turmaConfig: (token?: string | null) => request<TurmaConfig>("/turma/configuracao", { token, professor: true }),
-  salvarTurmaConfig: (habilidadesAtivas: string[], disciplinasAtivas?: string[]) =>
-    request<TurmaConfig>("/turma/configuracao", {
+  turmaConfig: (turmaId: string, token?: string | null) =>
+    request<TurmaConfig>(`/turmas/${turmaId}/configuracao`, { token, professor: true }),
+  salvarTurmaConfig: (turmaId: string, habilidadesAtivas: string[], disciplinasAtivas?: string[]) =>
+    request<TurmaConfig>(`/turmas/${turmaId}/configuracao`, {
       method: "PUT",
       body: { habilidadesAtivas, disciplinasAtivas } satisfies PedidoTurmaConfig,
       professor: true,
@@ -119,9 +132,10 @@ export const api = {
     if (!res.ok) throw new ApiError(res.status, await res.text().catch(() => res.statusText));
     return res.json() as Promise<{ texto: string }>;
   },
-  alunosTurma: (token?: string | null) => request<AlunoCadastro[]>("/turma/alunos", { token, professor: true }),
+  alunosTurma: (turmaId: string, token?: string | null) =>
+    request<AlunoCadastro[]>(`/turmas/${turmaId}/cadastros`, { token, professor: true }),
   regenerarPin: (alunoId: string) =>
-    request<AlunoCadastro>(`/turma/alunos/${alunoId}/pin`, { method: "POST", professor: true }),
+    request<AlunoCadastro>(`/alunos/${alunoId}/pin`, { method: "POST", professor: true }),
 
   // Aluno (sem conta: entra pelo código da turma e confirma quem é com o PIN)
   turmaPublica: (codigo: string) =>

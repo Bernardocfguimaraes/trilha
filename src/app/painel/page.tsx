@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MessagesSquare } from "lucide-react";
+import { MessagesSquare, UserPlus } from "lucide-react";
 import { StatusSelo, rotuloStatus } from "@/components/marca";
 import { api } from "@/lib/api";
 import { dataCurta } from "@/lib/formato";
-import { getProfessor } from "@/lib/auth";
+import { getTurmaAtual } from "@/lib/auth";
 import type { AlunoResumo, HabilidadeStatus, Status } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -22,8 +22,9 @@ const FILTROS = [
 
 export default async function PainelPage({ searchParams }: PageProps<"/painel">) {
   const { filtro } = await searchParams;
-  const usuario = await getProfessor();
-  const todos = await api.alunos(usuario.token);
+  const { professor, turma } = await getTurmaAtual();
+  const todos = await api.alunos(turma.id, professor.token);
+  const ninguemPraticou = todos.length > 0 && todos.every((a) => !a.ultimaAtividade);
 
   const ordenados = [...todos].sort((a, b) => gravidade(b) - gravidade(a) || a.nome.localeCompare(b.nome));
   const alunos =
@@ -37,9 +38,16 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
   return (
     <div className="mx-auto max-w-6xl">
       <header>
-        <h1 className="text-3xl font-bold text-grafite">{todos[0]?.turma ?? "Sua turma"}</h1>
-        <p className="mt-2 max-w-prose text-lg text-pedra">
-          {comAlerta === 0 && comAtencao === 0
+        <h1 className="text-3xl font-bold text-grafite">{turma.nome}</h1>
+        <p className="mt-1 text-sm text-pedra">
+          {turma.ano}º ano · código da turma <span className="font-mono font-semibold tracking-wider text-grafite">{turma.codigo}</span>
+        </p>
+        <p className="mt-3 max-w-prose text-lg text-pedra">
+          {todos.length === 0
+            ? "Esta turma ainda não tem alunos."
+            : ninguemPraticou
+              ? "Ninguém fez atividades ainda. Passe o código da turma para os alunos começarem."
+              : comAlerta === 0 && comAtencao === 0
             ? "Nenhum aluno com habilidades em alerta ou atenção."
             : [
                 comAlerta > 0 && `${comAlerta} ${comAlerta === 1 ? "aluno tem" : "alunos têm"} habilidades em alerta`,
@@ -86,7 +94,21 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
         </ul>
       </div>
 
-      {alunos.length === 0 ? (
+      {todos.length === 0 ? (
+        <div className="mt-6 rounded-xl border bg-superficie p-8 text-center">
+          <p className="text-lg font-semibold text-grafite">Cadastre os alunos para começar</p>
+          <p className="mx-auto mt-1 max-w-prose text-pedra">
+            Cada aluno recebe um PIN de 4 números para entrar com o código {turma.codigo}.
+          </p>
+          <Link
+            href="/painel/turma#alunos"
+            className="mt-5 inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 font-semibold text-primary-foreground outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            <UserPlus className="size-4" aria-hidden />
+            Adicionar alunos
+          </Link>
+        </div>
+      ) : alunos.length === 0 ? (
         <p className="mt-6 rounded-lg border bg-superficie p-6 text-pedra">
           Nenhum aluno neste filtro.{" "}
           <Link href="/painel" className="font-semibold text-mata underline-offset-4 hover:underline">
@@ -182,7 +204,10 @@ function CartaoAluno({ aluno }: { aluno: AlunoResumo }) {
         )}
       </div>
 
-      <dl className="mt-4 grid grid-cols-[auto_1fr_auto] items-center gap-x-3 gap-y-2.5 text-sm">
+      {disciplinas.length === 0 && (
+        <p className="mt-4 text-sm text-pedra">As barras por disciplina aparecem depois das primeiras atividades da turma.</p>
+      )}
+      <dl className="mt-4 grid grid-cols-[auto_1fr_auto] items-center gap-x-3 gap-y-2.5 text-sm empty:hidden">
         {disciplinas.map((d) => {
           const resumo = resumoDisciplina(d.habilidades);
           return (

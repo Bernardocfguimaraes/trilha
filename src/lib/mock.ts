@@ -16,11 +16,13 @@ import type {
   MensagemChat,
   Nivel,
   PedidoChatTurma,
+  AnoDisponivel,
   PedidoLogin,
   PedidoPin,
   PedidoProgresso,
   ProgressoResponsavel,
   RespostaLogin,
+  TurmaResumo,
   PedidoSessao,
   PedidoTurmaConfig,
   Pergunta,
@@ -546,7 +548,26 @@ const CONTA_MOCK = {
   senha: process.env.PROFESSOR_SENHA ?? "trilha-demo",
 };
 const tokensMock = new Map<string, number>(); // token -> expira (ms)
-const ROTAS_PROFESSOR = [/^\/alunos/, /^\/turma\//, /^\/diagnostico\//, /^\/turmas\/[^/]+\/chat$/, /^\/exercicios\//, /^\/voz\//];
+const ROTAS_PROFESSOR = [
+  /^\/anos$/,
+  /^\/turmas$/,
+  /^\/turmas\/[^/]+\/(alunos|cadastros|configuracao|diagnostico|chat)$/,
+  /^\/alunos/,
+  /^\/exercicios\//,
+  /^\/voz\//,
+];
+
+/** O mock tem uma turma só (a de demonstração): traduz as rotas por turma para as dele. */
+function rotaDaTurma(path: string, method: string): string {
+  const partes = path.split("/").filter(Boolean);
+  if (partes[0] === "turmas" && partes.length === 3 && partes[2] !== "chat") {
+    if (partes[1] !== TURMA.id) throw new ApiError(404, "Turma não encontrada");
+    if (partes[2] === "alunos" && method === "POST") throw new ApiError(503, "Cadastrar alunos precisa do backend.");
+    return { alunos: "/alunos", cadastros: "/turma/alunos", configuracao: "/turma/configuracao", diagnostico: "/diagnostico/reavaliar" }[partes[2]] ?? path;
+  }
+  if (partes[0] === "alunos" && partes[2] === "pin") return `/turma/alunos/${partes[1]}/pin`;
+  return path;
+}
 
 function exigirProfessor(path: string, token: string | null | undefined) {
   if (!ROTAS_PROFESSOR.some((r) => r.test(path))) return;
@@ -554,9 +575,19 @@ function exigirProfessor(path: string, token: string | null | undefined) {
   if (!expira || expira < Date.now()) throw new ApiError(401, "Entre como professor para continuar.");
 }
 
-function rotear(path: string, method: string, body: unknown, token?: string | null): unknown {
+function rotear(caminho: string, method: string, body: unknown, token?: string | null): unknown {
+  exigirProfessor(caminho, token);
+  if (caminho === "/turmas" && method === "GET") {
+    const turmas: TurmaResumo[] = [{ id: TURMA.id, nome: TURMA.nome, codigo: TURMA.codigo, ano: TURMA.ano, alunos: ALUNOS.length }];
+    return turmas;
+  }
+  if (caminho === "/turmas" && method === "POST") throw new ApiError(503, "Criar turmas precisa do backend.");
+  if (caminho === "/anos") {
+    const anos: AnoDisponivel[] = [{ ano: TURMA.ano, disciplinas: DISCIPLINAS.map((d) => d.nome) }];
+    return anos;
+  }
+  const path = rotaDaTurma(caminho, method);
   const partes = path.split("/").filter(Boolean);
-  exigirProfessor(path, token);
 
   if (path === "/auth/entrar" && method === "POST") {
     const { email, senha } = body as PedidoLogin;

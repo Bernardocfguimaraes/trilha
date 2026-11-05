@@ -1,7 +1,7 @@
 """Conexão com o banco: SQLite (arquivo local) ou Postgres (Supabase).
 
-Lê DATABASE_URL do ambiente (.env). Sem essa variável, `engine` fica None e o app
-usa o estado em memória (app/estado.py) — mesmo padrão mock/real do frontend.
+Lê DATABASE_URL do ambiente (.env). Sem essa variável, o app usa um SQLite em memória
+(populado com a demo ao subir e perdido ao reiniciar): assim existe uma camada de dados só.
 
 - `sqlite:///trilha.db` → um arquivo dentro de backend/, sem servidor e sem internet.
   É o modo para apresentar em redes que bloqueiam a porta do Postgres. Caminho relativo
@@ -18,6 +18,7 @@ from pathlib import Path
 
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
 try:
     # Carrega backend/.env automaticamente, se o python-dotenv estiver instalado.
@@ -46,34 +47,35 @@ def _normaliza(url: str) -> str:
     return url
 
 
-engine = None
-SessionLocal = None
+EM_MEMORIA = not DATABASE_URL
 
-if DATABASE_URL:
-    url = _normaliza(DATABASE_URL)
-    if url.startswith("sqlite"):
-        # O FastAPI atende cada requisição numa thread do pool; o SQLite precisa ser
-        # avisado de que a conexão pode trocar de thread.
-        engine = create_engine(url, future=True, connect_args={"check_same_thread": False})
+url = _normaliza(DATABASE_URL) if DATABASE_URL else "sqlite://"
+if url.startswith("sqlite"):
+    # O FastAPI atende cada requisição numa thread do pool; o SQLite precisa ser avisado
+    # de que a conexão pode trocar de thread. Em memória, uma conexão só (StaticPool),
+    # senão cada conexão nova veria um banco vazio.
+    extra = {"poolclass": StaticPool} if EM_MEMORIA else {}
+    engine = create_engine(url, future=True, connect_args={"check_same_thread": False}, **extra)
 
-        @event.listens_for(engine, "connect")
-        def _pragmas(conexao, _registro):
-            cur = conexao.cursor()
-            cur.execute("PRAGMA foreign_keys=ON")  # o SQLite só checa chaves estrangeiras se pedirmos
+    @event.listens_for(engine, "connect")
+    def _pragmas(conexao, _registro):
+        cur = conexao.cursor()
+        cur.execute("PRAGMA foreign_keys=ON")  # o SQLite só checa chaves estrangeiras se pedirmos
+        if not EM_MEMORIA:
             cur.execute("PRAGMA journal_mode=WAL")  # leituras não esperam a escrita terminar
-            cur.close()
-    else:
-        # connect_timeout: se a porta estiver bloqueada pela rede, falha rápido em vez de pendurar.
-        engine = create_engine(url, pool_pre_ping=True, future=True, connect_args={"connect_timeout": 10})
-    SessionLocal = sessionmaker(bind=engine, expire_on_commit=False, future=True)
+        cur.close()
+else:
+    # connect_timeout: se a porta estiver bloqueada pela rede, falha rápido em vez de pendurar.
+    engine = create_engine(url, pool_pre_ping=True, future=True, connect_args={"connect_timeout": 10})
+SessionLocal = sessionmaker(bind=engine, expire_on_commit=False, future=True)
 
 
 def tem_banco() -> bool:
-    return engine is not None
+    return True
 
 
 def descricao() -> str:
     """Qual banco está em uso, para logs e para a rota /saude (sem expor senha)."""
-    if engine is None:
+    if EM_MEMORIA:
         return "memória"
     return "sqlite" if engine.dialect.name == "sqlite" else engine.dialect.name

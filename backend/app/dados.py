@@ -1,18 +1,20 @@
-"""Dados de exemplo (seed) — port de src/lib/mock.ts e src/lib/mock-perguntas.ts.
+"""Conteúdo e dados de demonstração.
 
-Enquanto o banco real (Supabase) não entra, estes dados vivem em memória. O formato
-é o mesmo que o frontend já espera. Quando o Postgres assumir, só a origem dos dados
-muda; os esquemas e as regras continuam iguais.
+Conteúdo (vale para todas as turmas):
+- Catálogo por ano: disciplinas com caminho BNCC (app/bncc/caminhos/AA-disc.json) usam o
+  código BNCC como id; no 4º ano, Matemática, Geografia, Ciências e Inglês ainda usam o
+  catálogo antigo, escrito à mão. Um ano só fica disponível para turmas novas se tiver
+  questões em pelo menos uma disciplina (ANOS_COM_CONTEUDO).
+- BANCO: todas as questões de todos os anos (ids únicos).
 
-Catálogo: disciplinas que já têm caminho BNCC (app/bncc/caminhos/) vêm de catalogo.py, com
-o código BNCC como id. As demais ainda usam o catálogo antigo, escrito à mão (piloto: só
-Português do 4º ano já está na BNCC).
+Demonstração (seed): a turma "4º ano B" com histórico e a turma de teste "8º ano A".
 """
 from __future__ import annotations
 
 from . import catalogo
 
 TURMA = {"id": "t1", "nome": "4º ano B", "codigo": "SABIA4", "ano": 4}
+ANOS = [4, 5, 6, 7, 8, 9]
 
 # Ordem em que as disciplinas aparecem para o aluno.
 DISCIPLINAS = [
@@ -20,6 +22,7 @@ DISCIPLINAS = [
     {"id": "mat", "nome": "Matemática"},
     {"id": "geo", "nome": "Geografia"},
     {"id": "cie", "nome": "Ciências"},
+    {"id": "his", "nome": "História"},
     {"id": "ing", "nome": "Inglês"},
 ]
 
@@ -62,37 +65,47 @@ _LEGADO = {
     ],
 }
 
-# Ordem da matriz do painel: Matemática, Português, Geografia, Ciências, Inglês.
-_ORDEM_MATRIZ = ["mat", "por", "geo", "cie", "ing"]
+# Ordem da matriz do painel.
+ORDEM_MATRIZ = ["mat", "por", "geo", "cie", "his", "ing"]
+
+_CATALOGOS: dict[int, list[dict]] = {}
 
 
-def _catalogo_completo(ano: int) -> list[dict]:
-    saida: list[dict] = []
-    for did in _ORDEM_MATRIZ:
-        if catalogo.tem_caminho(ano, did):
-            saida.extend(catalogo.caminho(ano, did, nome_disciplina(did)))
-        else:
-            saida.extend(_LEGADO.get(did, []))
-    return saida
+def catalogo_do_ano(ano: int) -> list[dict]:
+    """Catálogo inteiro do ano, inclusive habilidades "em sala" (não avaliáveis): é o que o
+    professor vê na configuração do caminho. O catálogo antigo só existe no 4º ano."""
+    if ano not in _CATALOGOS:
+        saida: list[dict] = []
+        for did in ORDEM_MATRIZ:
+            if catalogo.tem_caminho(ano, did):
+                saida.extend(catalogo.caminho(ano, did, nome_disciplina(did)))
+            elif ano == 4:
+                saida.extend(_LEGADO.get(did, []))
+        _CATALOGOS[ano] = saida
+    return _CATALOGOS[ano]
 
 
-# Catálogo inteiro da turma, inclusive habilidades "em sala" (não avaliáveis): é o que o
-# professor vê na configuração do caminho.
-CATALOGO = _catalogo_completo(TURMA["ano"])
-# Só as avaliáveis: entram no quiz, no diagnóstico e na matriz do painel.
-HABILIDADES = [h for h in CATALOGO if h["avaliavel"]]
+def habilidades_do_ano(ano: int) -> list[dict]:
+    """Só as avaliáveis: entram no quiz, no diagnóstico e na matriz do painel."""
+    return [h for h in catalogo_do_ano(ano) if h["avaliavel"]]
 
 
-def ordem_caminho(disciplina_id: str) -> list[str] | None:
+# Todas as habilidades conhecidas, de todos os anos (ids únicos: código BNCC ou id antigo).
+HAB_POR_ID: dict[str, dict] = {h["id"]: h for ano in ANOS for h in catalogo_do_ano(ano)}
+
+# Compatibilidade: o 4º ano é o da turma de demonstração com histórico.
+CATALOGO = catalogo_do_ano(4)
+HABILIDADES = habilidades_do_ano(4)
+
+
+def ordem_caminho(ano: int, disciplina_id: str) -> list[str] | None:
     """Ids do caminho BNCC da disciplina que o aluno consegue praticar (avaliáveis e com
     questões no banco), em ordem; None se ainda é catálogo antigo. Habilidade sem questão
-    fica de fora para o caminho não travar nela (a sessão não teria o que perguntar); ela
-    entra sozinha quando o lote de geração cobrir."""
-    if not catalogo.tem_caminho(TURMA["ano"], disciplina_id):
+    fica de fora para o caminho não travar nela (a sessão não teria o que perguntar)."""
+    if not catalogo.tem_caminho(ano, disciplina_id):
         return None
     nome = nome_disciplina(disciplina_id)
-    com_perguntas = {p["habilidadeId"] for p in BANCO}
-    return [h["id"] for h in HABILIDADES if h["disciplina"] == nome and h["id"] in com_perguntas]
+    return [h["id"] for h in habilidades_do_ano(ano) if h["disciplina"] == nome and h["id"] in COM_PERGUNTAS]
 
 
 # Status de exemplo da demo (o: ok, a: atenção, x: alerta). Matemática, Geografia, Ciências e
@@ -281,7 +294,7 @@ def _embaralhar(id_: str, opcoes: list[str]) -> dict:
 
 def _construir_banco() -> list[dict]:
     banco: list[dict] = []
-    ids = {h["id"] for h in HABILIDADES}
+    ids = set(HAB_POR_ID)
     for habilidade_id, linhas in _BANCO_POR_HABILIDADE.items():
         if habilidade_id not in ids:
             continue
@@ -295,5 +308,29 @@ def _construir_banco() -> list[dict]:
     return banco
 
 
-# Banco curado (fallback) + questões geradas por IA e validadas (app/bncc/perguntas/).
-BANCO = _construir_banco() + [p for p in catalogo.perguntas_geradas() if p["habilidadeId"] in _IDS]
+# Banco curado (catálogo antigo) + questões dos caminhos BNCC (app/bncc/perguntas/), de todos os anos.
+BANCO = _construir_banco() + [p for p in catalogo.perguntas_geradas() if p["habilidadeId"] in HAB_POR_ID]
+COM_PERGUNTAS = {p["habilidadeId"] for p in BANCO}
+
+
+def disciplinas_com_conteudo(ano: int) -> list[str]:
+    """Disciplinas do ano com pelo menos uma habilidade que tem questões."""
+    ids_ano = {h["id"] for h in habilidades_do_ano(ano)} & COM_PERGUNTAS
+    return [d["id"] for d in DISCIPLINAS if any(HAB_POR_ID[h]["disciplina"] == d["nome"] for h in ids_ano)]
+
+
+# Anos em que já dá para criar turma (têm atividades em pelo menos uma disciplina).
+ANOS_COM_CONTEUDO = [ano for ano in ANOS if disciplinas_com_conteudo(ano)]
+
+
+# --- Turma de teste do 8º ano (sem histórico: começa do zero) ------------------
+
+TURMA_8 = {"id": "t8", "nome": "8º ano A", "codigo": "TUCANO8", "ano": 8}
+ALUNOS_8 = [
+    {"id": "b1", "nome": "Beatriz Gomes", "pin": "4821"},
+    {"id": "b2", "nome": "Larissa Campos", "pin": "3175"},
+    {"id": "b3", "nome": "Lucas Andrade", "pin": "9064"},
+    {"id": "b4", "nome": "Mariana Ribeiro", "pin": "2738"},
+    {"id": "b5", "nome": "Rafael Teixeira", "pin": "5912"},
+    {"id": "b6", "nome": "Thiago Moreira", "pin": "6340"},
+]

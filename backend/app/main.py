@@ -1,7 +1,8 @@
 """API do Trilha (FastAPI). Preenche o contrato que o frontend já consome (src/lib/api.ts).
 
 Três públicos, três níveis de acesso:
-- Professor: login (e-mail + senha) → token; todas as rotas da turma exigem o token.
+- Professor: login (e-mail + senha) → token. Pode ter várias turmas; todas as rotas da turma
+  exigem o token e só enxergam as turmas desse professor.
 - Aluno: código da turma + PIN → credencial curta para abrir e responder sessões.
 - Responsável: a mesma credencial do PIN, só para ler o progresso daquele aluno.
 
@@ -17,41 +18,38 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
 
 from . import bd, exercicios, seguranca, voz
-from .dados import TURMA
+from . import repo as fonte
 from .esquemas import (
     PedidoChatTurma,
     PedidoExercicio,
     PedidoLogin,
+    PedidoNovaTurma,
+    PedidoNovoAluno,
     PedidoPin,
     PedidoProgresso,
     PedidoResposta,
     PedidoSessao,
     PedidoTurmaConfig,
 )
-from .estado import ApiErro
+from .regras import ApiErro
 
-# Com DATABASE_URL definido, os dados vêm do banco — SQLite ou Postgres (app/repo.py);
-# sem ele, do estado em memória (app/estado.py). Os dois expõem as mesmas funções.
-if bd.tem_banco():
-    from . import repo as fonte
+# Os dados vêm do banco (app/repo.py): SQLite em arquivo, Postgres, ou — sem DATABASE_URL —
+# SQLite em memória. No SQLite, banco novo ou de uma versão antiga (sem várias turmas) é
+# recriado com a demo na hora, para o app nunca subir "quebrado". No Postgres o seed
+# continua manual, porque ele apaga os dados existentes.
+if bd.engine.dialect.name == "sqlite":
+    from sqlalchemy import inspect
 
-    # SQLite novo (arquivo ainda sem tabelas): cria e popula a demo na hora, para o app
-    # nunca subir "quebrado" por falta do seed. No Postgres o seed continua manual, porque
-    # ele apaga os dados existentes.
-    if bd.engine.dialect.name == "sqlite":
-        from sqlalchemy import inspect
+    from .modelos import Base
 
-        if not inspect(bd.engine).has_table("turmas"):
-            from .seed import semear
+    _insp = inspect(bd.engine)
+    _antigo = not _insp.has_table("turmas") or "professor_email" not in {c["name"] for c in _insp.get_columns("turmas")}
+    if bd.EM_MEMORIA or _antigo:
+        from .seed import semear
 
-            semear()
-        else:
-            # Banco criado antes da tabela de professores: cria só as tabelas que faltam.
-            from .modelos import Base
-
-            Base.metadata.create_all(bd.engine)
-else:
-    from . import estado as fonte
+        semear()
+    else:
+        Base.metadata.create_all(bd.engine)  # só cria tabelas que faltarem
 
 app = FastAPI(title="Trilha API", version="0.2.0")
 
@@ -94,6 +92,7 @@ if _conta:
     )
     if not _atualizada:
         fonte.salvar_professor(_conta["email"], _conta["nome"], seguranca.hash_senha(_conta["senha"]))
+    fonte.adotar_turmas_orfas(_conta["email"])
 else:
     print("[trilha] Sem PROFESSOR_EMAIL/PROFESSOR_SENHA (mínimo 8 caracteres) no .env: ninguém consegue entrar no painel.")
 if seguranca.SEGREDO_TEMPORARIO:
@@ -105,7 +104,7 @@ _HASH_FALSO = seguranca.hash_senha("senha-que-nunca-confere")
 
 @app.get("/saude")
 def saude():
-    return {"ok": True, "turma": TURMA["codigo"], "banco": bd.descricao()}
+    return {"ok": True, "banco": bd.descricao()}
 
 
 # --- Login do professor -------------------------------------------------------
@@ -132,57 +131,78 @@ def get_eu(professor: dict = Depends(seguranca.professor_atual)):
 
 
 # --- Painel do professor (todas exigem login) ---------------------------------
+# O e-mail vem do token; o repo confere que a turma/aluno é desse professor (senão, 404).
 
 PROFESSOR = [Depends(seguranca.professor_atual)]
+Professor = Depends(seguranca.professor_atual)
 
 
-@app.get("/alunos", dependencies=PROFESSOR)
-def get_alunos():
-    return fonte.lista_alunos_resumo()
+@app.get("/anos")
+def get_anos(professor: dict = Professor):
+    """Anos em que já dá para criar turma (com as disciplinas que têm atividades)."""
+    return fonte.anos_disponiveis()
 
 
-@app.get("/alunos/{aluno_id}", dependencies=PROFESSOR)
-def get_aluno(aluno_id: str):
-    return fonte.aluno_detalhe(aluno_id)
+@app.get("/turmas")
+def get_turmas(professor: dict = Professor):
+    return fonte.listar_turmas(professor["sub"])
 
 
-@app.get("/alunos/{aluno_id}/historico", dependencies=PROFESSOR)
-def get_historico(aluno_id: str):
-    return fonte.aluno_historico(aluno_id)
+@app.post("/turmas", status_code=201)
+def post_turma(pedido: PedidoNovaTurma, professor: dict = Professor):
+    return fonte.criar_turma(professor["sub"], pedido.nome, pedido.ano, pedido.alunos)
 
 
-@app.get("/turma/configuracao", dependencies=PROFESSOR)
-def get_config():
-    return fonte.config()
+@app.get("/turmas/{turma_id}/alunos")
+def get_alunos(turma_id: str, professor: dict = Professor):
+    return fonte.lista_alunos_resumo(professor["sub"], turma_id)
 
 
-@app.put("/turma/configuracao", dependencies=PROFESSOR)
-def put_config(pedido: PedidoTurmaConfig):
-    return fonte.salvar_config(pedido.habilidadesAtivas, pedido.disciplinasAtivas)
+@app.post("/turmas/{turma_id}/alunos", status_code=201)
+def post_aluno(turma_id: str, pedido: PedidoNovoAluno, professor: dict = Professor):
+    return fonte.adicionar_aluno(professor["sub"], turma_id, pedido.nome)
 
 
-@app.get("/turma/alunos", dependencies=PROFESSOR)
-def get_turma_alunos():
-    return fonte.lista_cadastros()
+@app.get("/turmas/{turma_id}/cadastros")
+def get_cadastros(turma_id: str, professor: dict = Professor):
+    return fonte.lista_cadastros(professor["sub"], turma_id)
 
 
-@app.post("/diagnostico/reavaliar", dependencies=PROFESSOR)
-def post_reavaliar():
-    # Re-roda o diagnóstico de ML sobre o histórico de toda a turma.
-    return fonte.reavaliar_diagnostico()
+@app.get("/turmas/{turma_id}/configuracao")
+def get_config(turma_id: str, professor: dict = Professor):
+    return fonte.config(professor["sub"], turma_id)
 
 
-@app.post("/turma/alunos/{aluno_id}/pin", dependencies=PROFESSOR)
-def post_regenerar_pin(aluno_id: str):
-    return fonte.regenerar_pin(aluno_id)
+@app.put("/turmas/{turma_id}/configuracao")
+def put_config(turma_id: str, pedido: PedidoTurmaConfig, professor: dict = Professor):
+    return fonte.salvar_config(professor["sub"], turma_id, pedido.habilidadesAtivas, pedido.disciplinasAtivas)
 
 
-@app.post("/turmas/{turma_id}/chat", dependencies=PROFESSOR)
-def post_chat(turma_id: str, pedido: PedidoChatTurma):
-    if turma_id != TURMA["id"]:
-        return JSONResponse("Turma não encontrada", status_code=404)
+@app.post("/turmas/{turma_id}/diagnostico")
+def post_reavaliar(turma_id: str, professor: dict = Professor):
+    # Re-roda o diagnóstico de ML sobre o histórico da turma.
+    return fonte.reavaliar_diagnostico(professor["sub"], turma_id)
+
+
+@app.post("/turmas/{turma_id}/chat")
+def post_chat(turma_id: str, pedido: PedidoChatTurma, professor: dict = Professor):
     historico = [m.model_dump() for m in pedido.historico]
-    return fonte.responder_chat_turma(pedido.pergunta, historico)
+    return fonte.responder_chat_turma(professor["sub"], turma_id, pedido.pergunta, historico)
+
+
+@app.get("/alunos/{aluno_id}")
+def get_aluno(aluno_id: str, professor: dict = Professor):
+    return fonte.aluno_detalhe(professor["sub"], aluno_id)
+
+
+@app.get("/alunos/{aluno_id}/historico")
+def get_historico(aluno_id: str, professor: dict = Professor):
+    return fonte.aluno_historico(professor["sub"], aluno_id)
+
+
+@app.post("/alunos/{aluno_id}/pin")
+def post_regenerar_pin(aluno_id: str, professor: dict = Professor):
+    return fonte.regenerar_pin(professor["sub"], aluno_id)
 
 
 @app.post("/exercicios/gerar", dependencies=PROFESSOR)
@@ -232,7 +252,7 @@ def post_progresso_responsavel(pedido: PedidoProgresso):
     aluno_id = fonte.aluno_do_acesso(pedido.acesso)
     if not aluno_id:
         raise ApiErro(401, "Acesso expirado. Digite o PIN de novo.")
-    return {"aluno": fonte.aluno_detalhe(aluno_id), "historico": fonte.aluno_historico(aluno_id)}
+    return fonte.progresso_do_aluno(aluno_id)
 
 
 # Sessões: abrir exige a credencial do PIN; responder e concluir usam o id da sessão,

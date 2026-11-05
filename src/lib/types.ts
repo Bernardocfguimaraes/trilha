@@ -100,6 +100,27 @@ export interface PedidoTurmaConfig {
   disciplinasAtivas?: string[]; // ausente = mantém as disciplinas como estão
 }
 
+// Turmas do professor (GET /turmas). Cada professor vê só as próprias.
+export interface TurmaResumo {
+  id: string;
+  nome: string;
+  codigo: string;
+  ano: number;
+  alunos: number; // quantos alunos cadastrados
+}
+
+// Anos em que já dá para criar turma, com as disciplinas que têm atividades (GET /anos).
+export interface AnoDisponivel {
+  ano: number;
+  disciplinas: string[];
+}
+
+export interface PedidoNovaTurma {
+  nome: string;
+  ano: number;
+  alunos: string[];
+}
+
 export interface TurmaConfig {
   turma: Turma;
   ciclo: string;

@@ -9,8 +9,8 @@ O backend funciona em **três modos**, escolhidos pela variável `DATABASE_URL`:
 - **`sqlite:///trilha.db`** → persistência num **arquivo local** (`backend/trilha.db`), sem
   servidor e sem internet. É o modo recomendado para apresentar (ver abaixo).
 - **`postgresql://...`** → persistência no **Postgres do Supabase**.
-- **Sem `DATABASE_URL`** → estado em memória (`app/estado.py`), que espelha o mock do
-  frontend. Reinicia do zero a cada restart. É o modo do passo 1.
+- **Sem `DATABASE_URL`** → SQLite em memória, populado com a demo ao subir. Reinicia do
+  zero a cada restart.
 
 Nos dois modos com banco o código é o mesmo (`app/repo.py`): alunos, PINs, status,
 histórico e configuração da turma sobrevivem a restart.
@@ -168,39 +168,56 @@ e reinicie o `next dev`. Sem essa variável, nada muda — o mock continua valen
 |---|---|---|
 | POST | `/auth/entrar` | Login do professor (e-mail + senha) → token |
 | GET | `/auth/eu` | Professor do token (confere o login) |
-| GET | `/alunos` | Lista de alunos com status por habilidade |
-| GET | `/alunos/{id}` | Detalhe do aluno + recomendações |
-| GET | `/alunos/{id}/historico` | Evolução por habilidade ao longo do tempo |
-| GET | `/turma/configuracao` | Disciplinas e habilidades ativas no ciclo |
-| PUT | `/turma/configuracao` | Salva disciplinas/habilidades ativas |
-| GET | `/turma/alunos` | Cadastro dos alunos com PIN (visão do professor) |
-| POST | `/turma/alunos/{id}/pin` | Gera um novo PIN para o aluno |
-| POST | `/diagnostico/reavaliar` | Re-roda o diagnóstico de ML sobre toda a turma |
-| GET | `/turmas/{codigo}` | Dados públicos da turma (lista de nomes, disciplinas) |
+| GET | `/anos` | Anos em que já dá para criar turma (com as disciplinas que têm atividades) |
+| GET | `/turmas` | Turmas do professor |
+| POST | `/turmas` | Cria turma (nome, ano, alunos) com código e PINs gerados |
+| GET | `/turmas/{id}/alunos` | Alunos da turma com status por habilidade |
+| POST | `/turmas/{id}/alunos` | Cadastra um aluno (PIN gerado) |
+| GET | `/turmas/{id}/cadastros` | Alunos com PIN (visão do professor) |
+| GET/PUT | `/turmas/{id}/configuracao` | Disciplinas e habilidades ativas da turma |
+| POST | `/turmas/{id}/diagnostico` | Re-roda o diagnóstico de ML sobre a turma |
+| POST | `/turmas/{id}/chat` | Conversa sobre a turma (LLM) |
+| GET | `/alunos/{id}` | Detalhe do aluno + recomendações + caminhos |
+| GET | `/alunos/{id}/historico` | Evolução por habilidade |
+| POST | `/alunos/{id}/pin` | Gera um novo PIN (o anterior para de valer) |
+| POST | `/exercicios/gerar` | Exercício de reforço para uma habilidade |
+| POST | `/voz/transcrever` | Transcrição de áudio (Whisper) |
+| GET | `/turmas/{codigo}` | Dados públicos da turma pelo código (nomes curtos, disciplinas) |
 | POST | `/acesso/pin` | Valida o PIN do aluno e devolve a credencial de acesso |
 | POST | `/sessoes` | Inicia uma sessão de atividades (exige a credencial) |
 | POST | `/sessoes/{id}/respostas` | Registra a resposta e devolve a próxima pergunta (adaptativa) |
 | POST | `/sessoes/{id}/concluir` | Fecha a sessão e grava no histórico |
-| POST | `/turmas/{id}/chat` | Chat da turma para o professor (LLM) |
-| POST | `/exercicios/gerar` | Exercício de reforço para uma habilidade |
-| POST | `/voz/transcrever` | Transcrição de áudio (Whisper) |
 | POST | `/responsavel/progresso` | Progresso só do aluno dono da credencial do PIN |
 
-As rotas do painel (de `/auth/eu` a `/voz/transcrever`, exceto as do aluno e do responsável)
-exigem `Authorization: Bearer <token>`.
+As rotas de `/auth/eu` a `/voz/transcrever` exigem `Authorization: Bearer <token>`, e cada
+professor só enxerga as próprias turmas (turma ou aluno de outro professor responde 404).
+
+## Turmas e conteúdo
+
+- Um professor pode ter várias turmas; no primeiro acesso, o painel leva para "criar a primeira turma".
+- Cada turma tem um ano (4º a 9º). O conteúdo vem do ano: hoje há atividades no **4º, 6º e 8º
+  ano**, nas seis matérias (Português, Matemática, Geografia, Ciências, História e Inglês).
+  Anos sem atividades aparecem como "em breve" na criação de turma.
+- Conteúdo: `app/bncc/caminhos/AA-disc.json` (habilidades BNCC em ordem) e
+  `app/bncc/perguntas/AA-disc.json` (questões). Para abrir um ano novo, basta criar esses
+  arquivos; o ano passa a aparecer sozinho.
+- A demo vem com o "4º ano B" (código SABIA4, com histórico) e o "8º ano A" (código TUCANO8,
+  6 alunos, começando do zero), ambos do professor do `.env`.
 
 ## Estrutura
 
 ```
 app/
-  main.py        rotas FastAPI + CORS; escolhe estado (memória) ou repo (banco)
-  esquemas.py    corpos de requisição (Pydantic)
-  estado.py      estado em memória + regras (modo sem banco)
-  repo.py        mesma interface, lendo/gravando no banco (SQLite ou Postgres)
-  bd.py          conexão com o banco, SQLite ou Postgres (lê DATABASE_URL do .env)
+  main.py        rotas FastAPI + CORS + cabeçalhos de segurança
+  esquemas.py    corpos de requisição (Pydantic, com limites de tamanho)
+  repo.py        camada de dados: turmas, alunos, sessões (SQLite, Postgres ou SQLite em memória)
+  regras.py      regras puras: pontuação, escolha de pergunta, PIN
+  seguranca.py   login do professor: hash de senha, token assinado, bloqueio por tentativas
+  credenciais.py credenciais do PIN e ids de sessão (aleatórios, com validade)
+  bd.py          conexão com o banco (lê DATABASE_URL do .env)
   modelos.py     tabelas SQLAlchemy
   seed.py        cria as tabelas e popula a demo (python -m app.seed; no SQLite também roda sozinho)
-  dados.py       seed: turma, habilidades, alunos, PINs, banco de perguntas
+  dados.py       conteúdo por ano (catálogo + banco de questões) e dados da demo
   adaptacao.py   dificuldade adaptativa (mesma regra do frontend)
   chat.py        chat da turma: caminho LLM + fallback por palavra-chave
   llm.py         cliente de LLM (compatível com OpenAI; stdlib; fallback gracioso)

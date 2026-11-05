@@ -5,11 +5,10 @@ import { COOKIE_PROFESSOR } from "@/lib/auth";
 // backend: lê o token do cookie httpOnly e o anexa. Só repassa as rotas do painel.
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const PERMITIDAS = [
-  /^alunos(\/[\w-]+(\/historico)?)?$/,
-  /^turma\/configuracao$/,
-  /^turma\/alunos(\/[\w-]+\/pin)?$/,
-  /^diagnostico\/reavaliar$/,
-  /^turmas\/[\w-]+\/chat$/,
+  /^anos$/,
+  /^turmas$/,
+  /^turmas\/[\w-]+\/(alunos|cadastros|configuracao|diagnostico|chat)$/,
+  /^alunos\/[\w-]+(\/(historico|pin))?$/,
   /^exercicios\/gerar$/,
   /^voz\/transcrever$/,
 ];
