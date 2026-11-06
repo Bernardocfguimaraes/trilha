@@ -6,6 +6,7 @@ import { responderChat, type RetratoTurma } from "./mock-chat";
 import { BANCO, type PerguntaBanco } from "./mock-perguntas";
 import caminho04Por from "../../backend/app/bncc/caminhos/04-por.json";
 import oficialEf from "../../backend/app/bncc/oficial_ef.json";
+import metricasModelo from "../../backend/app/modelo_metricas.json";
 import type {
   AlunoCadastro,
   AlunoDetalhe,
@@ -550,6 +551,7 @@ const CONTA_MOCK = {
 const tokensMock = new Map<string, number>(); // token -> expira (ms)
 const ROTAS_PROFESSOR = [
   /^\/anos$/,
+  /^\/modelo$/,
   /^\/turmas$/,
   /^\/turmas\/[^/]+\/(alunos|cadastros|configuracao|diagnostico|chat)$/,
   /^\/alunos/,
@@ -582,6 +584,10 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
     return turmas;
   }
   if (caminho === "/turmas" && method === "POST") throw new ApiError(503, "Criar turmas precisa do backend.");
+  // Métricas do modelo: o mesmo arquivo que o backend gera ao treinar.
+  if (caminho === "/modelo") return metricasModelo;
+  // Explicação por habilidade precisa do modelo de ML, que roda no backend.
+  if (/^\/alunos\/[^/]+\/diagnostico$/.test(caminho)) return [];
   if (caminho === "/anos") {
     const anos: AnoDisponivel[] = [{ ano: TURMA.ano, disciplinas: DISCIPLINAS.map((d) => d.nome) }];
     return anos;

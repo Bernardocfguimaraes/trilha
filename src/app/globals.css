@@ -23,7 +23,7 @@
   --color-pedra: #5d6b65;
   --color-atencao: #b7791f;
   --color-atencao-clara: #fbf1dd;
-  --color-alerta: #b83a26;
+  --color-alerta: #c62f2f; /* separação de "atenção" validada (ΔE normal 15,5) */
   --color-alerta-clara: #f8e3df;
 
   /* Tokens semânticos: o que muda entre o modo claro e o escuro (ver .dark abaixo). */
@@ -38,6 +38,7 @@
   --color-desligado: #d5dde0;
   --color-desligado-texto: #8a979c;
   --color-desligado-sombra: #b9c4c8;
+  --color-sobre-mata: #ffffff; /* texto sobre preenchimento forte de mata (mapa de calor) */
 }
 
 @theme inline {
@@ -108,9 +109,9 @@
   --color-papel: #0e1613;
   --color-grafite: #e7efea;
   --color-pedra: #a3b4ac;
-  --color-atencao: #e6ad4f;
+  --color-atencao: #f2c94c; /* escuro: validado contra daltonismo (ΔE 11 entre status) */
   --color-atencao-clara: #3a2d14;
-  --color-alerta: #ff8f78;
+  --color-alerta: #ff6b6b;
   --color-alerta-clara: #3e201b;
   --color-superficie: #182723;
   --color-agua: #45afe6;
@@ -122,6 +123,7 @@
   --color-desligado: #2b3835;
   --color-desligado-texto: #73867e;
   --color-desligado-sombra: #1d2826;
+  --color-sobre-mata: #0e1613;
 
   --background: #0e1613;
   --foreground: #e7efea;

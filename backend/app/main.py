@@ -17,7 +17,7 @@ from fastapi import Depends, FastAPI, File, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
 
-from . import bd, exercicios, seguranca, voz
+from . import bd, diagnostico, exercicios, seguranca, voz
 from . import repo as fonte
 from .esquemas import (
     PedidoChatTurma,
@@ -198,6 +198,21 @@ def get_aluno(aluno_id: str, professor: dict = Professor):
 @app.get("/alunos/{aluno_id}/historico")
 def get_historico(aluno_id: str, professor: dict = Professor):
     return fonte.aluno_historico(professor["sub"], aluno_id)
+
+
+@app.get("/alunos/{aluno_id}/diagnostico")
+def get_diagnostico_aluno(aluno_id: str, professor: dict = Professor):
+    # Explicação do modelo de ML para cada habilidade praticada pelo aluno.
+    return fonte.diagnostico_do_aluno(professor["sub"], aluno_id)
+
+
+@app.get("/modelo")
+def get_modelo(professor: dict = Professor):
+    # Métricas do último treino do modelo de diagnóstico (ml/treinar.py).
+    m = diagnostico.metricas()
+    if m is None:
+        raise ApiErro(404, "Modelo ainda não treinado (rode python -m ml.treinar).")
+    return m
 
 
 @app.post("/alunos/{aluno_id}/pin")

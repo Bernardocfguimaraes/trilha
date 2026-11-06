@@ -6,9 +6,10 @@ import { COOKIE_PROFESSOR } from "@/lib/auth";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const PERMITIDAS = [
   /^anos$/,
+  /^modelo$/,
   /^turmas$/,
   /^turmas\/[\w-]+\/(alunos|cadastros|configuracao|diagnostico|chat)$/,
-  /^alunos\/[\w-]+(\/(historico|pin))?$/,
+  /^alunos\/[\w-]+(\/(historico|pin|diagnostico))?$/,
   /^exercicios\/gerar$/,
   /^voz\/transcrever$/,
 ];

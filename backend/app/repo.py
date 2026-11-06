@@ -315,6 +315,22 @@ def aluno_historico(email: str, aluno_id: str) -> list[dict]:
         return _historico(s, t, a)
 
 
+def diagnostico_do_aluno(email: str, aluno_id: str) -> list[dict]:
+    """Por que cada habilidade está ok, em atenção ou em alerta: a decisão do modelo de ML,
+    a confiança dele e os indicadores que ele usou (média recente, tendência, oscilação…)."""
+    with bd.SessionLocal() as s:
+        a, t = _aluno_do_professor(s, aluno_id, email)
+        saida = []
+        for h in _habilidades_de(s, t, a.id):
+            if not h["iniciada"]:
+                continue
+            serie = _serie(s, a.id, h["habilidadeId"])
+            if serie:
+                saida.append({"habilidadeId": h["habilidadeId"], "nome": h["nome"], "disciplina": h["disciplina"],
+                              **diagnostico.explicar(serie)})
+        return saida
+
+
 def progresso_do_aluno(aluno_id: str) -> dict:
     """Responsável: quem chama já conferiu a credencial do PIN deste aluno."""
     with bd.SessionLocal() as s:

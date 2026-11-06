@@ -9,7 +9,11 @@ import { getProfessor } from "@/lib/auth";
 async function carregar(id: string) {
   const usuario = await getProfessor();
   try {
-    return await Promise.all([api.aluno(id, usuario.token), api.historico(id, usuario.token)]);
+    return await Promise.all([
+      api.aluno(id, usuario.token),
+      api.historico(id, usuario.token),
+      api.diagnosticoAluno(id, usuario.token),
+    ]);
   } catch (e) {
     if (e instanceof ApiError && e.status === 404) notFound();
     throw e;
@@ -20,7 +24,7 @@ export const metadata: Metadata = { title: "Aluno" };
 
 export default async function AlunoPage({ params }: PageProps<"/painel/alunos/[id]">) {
   const { id } = await params;
-  const [aluno, historico] = await carregar(id);
+  const [aluno, historico, diagnosticos] = await carregar(id);
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -36,7 +40,7 @@ export default async function AlunoPage({ params }: PageProps<"/painel/alunos/[i
         </p>
       </header>
 
-      <ProgressoAluno aluno={aluno} historico={historico} comExercicio />
+      <ProgressoAluno aluno={aluno} historico={historico} comExercicio diagnosticos={diagnosticos} />
     </div>
   );
 }

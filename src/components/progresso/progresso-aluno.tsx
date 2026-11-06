@@ -2,7 +2,8 @@ import { StatusSelo } from "@/components/marca";
 import { ExercicioReforco } from "@/components/painel/exercicio-reforco";
 import { GraficoEvolucao } from "@/components/painel/grafico-evolucao";
 import { dataCurta, dataLonga } from "@/lib/formato";
-import type { AlunoDetalhe, HistoricoHabilidade, Status } from "@/lib/types";
+import type { AlunoDetalhe, DiagnosticoHabilidade, HistoricoHabilidade, Status } from "@/lib/types";
+import { ExplicacaoDiagnostico } from "./explicacao-diagnostico";
 
 const ORDEM: Record<Status, number> = { alerta: 0, atencao: 1, ok: 2 };
 
@@ -15,11 +16,15 @@ export function ProgressoAluno({
   aluno,
   historico,
   comExercicio = false,
+  diagnosticos,
 }: {
   aluno: AlunoDetalhe;
   historico: HistoricoHabilidade[];
   comExercicio?: boolean;
+  /** Explicação do modelo por habilidade (só o professor vê). */
+  diagnosticos?: DiagnosticoHabilidade[];
 }) {
+  const explicacao = new Map((diagnosticos ?? []).map((d) => [d.habilidadeId, d]));
   const recomendacoes = [...aluno.recomendacoes].sort((a, b) => ORDEM[a.status] - ORDEM[b.status]);
   const statusPor = new Map(aluno.habilidades.map((h) => [h.habilidadeId, h.status]));
   const graficos = [...historico].sort(
@@ -135,6 +140,7 @@ export function ProgressoAluno({
               {statusPor.get(h.habilidadeId) && <StatusSelo status={statusPor.get(h.habilidadeId)!} className="text-xs" />}
             </figcaption>
             <GraficoEvolucao historico={h} />
+            {explicacao.get(h.habilidadeId) && <ExplicacaoDiagnostico d={explicacao.get(h.habilidadeId)!} />}
           </figure>
         ))}
       </div>

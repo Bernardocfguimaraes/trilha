@@ -21,6 +21,8 @@ import type {
   ResultadoSessao,
   Sessao,
   AnoDisponivel,
+  DiagnosticoHabilidade,
+  MetricasModelo,
   TurmaConfig,
   TurmaResumo,
   TurmaPublica,
@@ -95,6 +97,11 @@ export const api = {
     request<AlunoDetalhe>(`/alunos/${id}`, { token, professor: true }),
   historico: (id: string, token?: string | null) =>
     request<HistoricoHabilidade[]>(`/alunos/${id}/historico`, { token, professor: true }),
+  diagnosticoAluno: (id: string, token?: string | null) =>
+    request<DiagnosticoHabilidade[]>(`/alunos/${id}/diagnostico`, { token, professor: true }),
+  metricasModelo: (token?: string | null) => request<MetricasModelo>("/modelo", { token, professor: true }),
+  reavaliarTurma: (turmaId: string) =>
+    request<{ reavaliados: number; modelo: "ml" | "regra" }>(`/turmas/${turmaId}/diagnostico`, { method: "POST", professor: true }),
   turmaConfig: (turmaId: string, token?: string | null) =>
     request<TurmaConfig>(`/turmas/${turmaId}/configuracao`, { token, professor: true }),
   salvarTurmaConfig: (turmaId: string, habilidadesAtivas: string[], disciplinasAtivas?: string[]) =>

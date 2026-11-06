@@ -100,6 +100,40 @@ export interface PedidoTurmaConfig {
   disciplinasAtivas?: string[]; // ausente = mantém as disciplinas como estão
 }
 
+// Diagnóstico explicado (GET /alunos/{id}/diagnostico): a decisão do modelo de ML para
+// cada habilidade praticada, a confiança e os indicadores que ele usou.
+export interface DiagnosticoHabilidade {
+  habilidadeId: string;
+  nome: string;
+  disciplina: string;
+  status: Status;
+  modelo: "ml" | "regra";
+  confianca: number | null; // probabilidade da classe escolhida (0–1)
+  probabilidades: Record<Status, number> | null;
+  indicadores: Record<string, number>;
+  motivos: string[];
+}
+
+export interface MetricasClassificacao {
+  acuracia: number;
+  f1Macro: number;
+  porClasse: Record<Status, { precisao: number; recall: number; f1: number; suporte: number }>;
+  matriz: number[][]; // linhas = real, colunas = previsto, na ordem de `classes`
+}
+
+// Métricas do último treino do modelo (GET /modelo), geradas por backend/ml/treinar.py.
+export interface MetricasModelo {
+  treinadoEm: string;
+  dados: { origem: string; amostras: number; treino: number; teste: number; distribuicao: Record<string, number> };
+  modelo: { nome: string; arvores: number; parametros: Record<string, string | number | null>; validacaoCruzadaF1Macro: number };
+  classes: Status[];
+  implantado: MetricasClassificacao;
+  antesDoAjuste: MetricasClassificacao;
+  arvoreDeDecisao: MetricasClassificacao;
+  baseline: MetricasClassificacao & { descricao: string };
+  importancias: { feature: string; nome: string; valor: number }[];
+}
+
 // Turmas do professor (GET /turmas). Cada professor vê só as próprias.
 export interface TurmaResumo {
   id: string;

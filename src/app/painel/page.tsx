@@ -5,6 +5,7 @@ import { StatusSelo, rotuloStatus } from "@/components/marca";
 import { api } from "@/lib/api";
 import { dataCurta } from "@/lib/formato";
 import { getTurmaAtual } from "@/lib/auth";
+import { BotaoReavaliar } from "@/components/painel/botao-reavaliar";
 import type { AlunoResumo, HabilidadeStatus, Status } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -56,13 +57,16 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
                 .filter(Boolean)
                 .join(" e ") + "."}
         </p>
-        <Link
-          href="/painel/conversa"
-          className="mt-3 inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-mata outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
-        >
-          <MessagesSquare className="size-4" />
-          Perguntar sobre a turma
-        </Link>
+        <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2">
+          <Link
+            href="/painel/conversa"
+            className="inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-mata outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            <MessagesSquare className="size-4" />
+            Perguntar sobre a turma
+          </Link>
+          {todos.length > 0 && <BotaoReavaliar turmaId={turma.id} />}
+        </div>
       </header>
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
