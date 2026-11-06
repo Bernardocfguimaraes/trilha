@@ -84,9 +84,15 @@ tem uma proficiência e uma tendência latentes, geramos uma série de desempenh
 rotulamos pela situação "efetiva" (nível + peso forte da tendência). Isso torna o problema
 genuinamente de ML: a regra de limiar na média não enxerga a tendência, o modelo sim.
 
-**Resultado (ml/relatorio_treino.txt):** Random Forest **0.755** de acurácia no teste contra
-**0.659** da regra de limiar — **+9,6 pontos**. As features mais importantes são a média
-recente e a **tendência**. A classe "atenção" (o meio-termo) é a mais difícil, como esperado.
+**Resultado (ml/relatorio_treino.txt):** o Random Forest implantado tem **F1 macro 0,710** e
+acurácia 0,751, contra F1 macro 0,591 e acurácia 0,659 da regra de limiar (**+0,119 de F1 macro**).
+As features mais importantes são a média recente e a **tendência**.
+
+**Por que F1 macro.** "Atenção" é a classe menor e a mais difícil (fica entre ok e alerta). A
+primeira versão tinha boa acurácia mas reconhecia só 29% dos alunos em atenção — justamente os
+que mais se beneficiam de ajuda cedo. Com classes balanceadas e hiperparâmetros escolhidos por
+validação cruzada (5 dobras, otimizando F1 macro), o recall de "atenção" foi de **0,29 para 0,56**,
+sem perder acurácia. As métricas completas vão para `app/modelo_metricas.json`, que o painel mostra.
 
 **Treino x produção.** O treino usa scikit-learn e roda com:
 ```bash
