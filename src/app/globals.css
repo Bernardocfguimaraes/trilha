@@ -218,3 +218,8 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Impressão (relatório do aluno): margens de papel. */
+@page {
+  margin: 16mm;
+}

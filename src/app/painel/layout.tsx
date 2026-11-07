@@ -9,8 +9,8 @@ import { COOKIE_TURMA, turmasDoProfessor } from "@/lib/auth";
 
 export default function PainelLayout({ children }: LayoutProps<"/painel">) {
   return (
-    <div className="flex flex-1 flex-col bg-papel md:flex-row">
-      <aside className="flex flex-col gap-4 border-b bg-superficie px-4 py-3 md:sticky md:top-0 md:h-dvh md:w-60 md:shrink-0 md:gap-8 md:border-r md:border-b-0 md:px-3 md:py-5">
+    <div className="flex flex-1 flex-col bg-papel md:flex-row print:bg-white">
+      <aside className="flex flex-col print:hidden gap-4 border-b bg-superficie px-4 py-3 md:sticky md:top-0 md:h-dvh md:w-60 md:shrink-0 md:gap-8 md:border-r md:border-b-0 md:px-3 md:py-5">
         <Suspense
           fallback={
             <div className="md:px-3">
@@ -21,7 +21,7 @@ export default function PainelLayout({ children }: LayoutProps<"/painel">) {
           <Lateral />
         </Suspense>
       </aside>
-      <main className="min-w-0 flex-1 px-4 py-6 sm:px-8 md:py-10">{children}</main>
+      <main className="min-w-0 flex-1 px-4 py-6 sm:px-8 md:py-10 print:p-0">{children}</main>
     </div>
   );
 }

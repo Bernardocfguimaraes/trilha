@@ -397,6 +397,38 @@ def grupos_da_turma(email: str, turma_id: str) -> dict:
     return {"turma": t.nome, **grupos.formar_grupos(alunos, habilidades)}
 
 
+_ROTULO = {"ok": "Ok", "atencao": "Atenção", "alerta": "Alerta"}
+
+
+def relatorio_turma_csv(email: str, turma_id: str) -> tuple[str, str]:
+    """Planilha da turma (uma linha por aluno e habilidade praticada), separada por ";" e com
+    BOM UTF-8, para abrir direto no Excel em português. Devolve (nome do arquivo, conteúdo)."""
+    import csv
+    import io
+
+    with bd.SessionLocal() as s:
+        t = _turma_do_professor(s, turma_id, email)
+        ctx = _contexto(s, t)
+        saida = io.StringIO()
+        w = csv.writer(saida, delimiter=";", lineterminator="\r\n")
+        w.writerow(["Aluno", "Disciplina", "Habilidade", "Código BNCC", "Status", "Confiança do modelo",
+                    "Pode cair para alerta", "Dias com atividade", "Última atividade"])
+        for a in _alunos(s, t):
+            # Só habilidades com histórico de verdade (o status inicial da demo não conta).
+            linhas = [(h, serie) for h in _habilidades_de(s, t, a.id, ctx) if h["iniciada"]
+                      for serie in [_serie(s, a.id, h["habilidadeId"])] if serie]
+            if not linhas:
+                w.writerow([a.nome, "", "", "", "Sem atividades", "", "", "0", ""])
+                continue
+            for h, serie in linhas:
+                probs = diagnostico.probabilidades(serie)
+                confianca = f"{round(max(probs.values()) * 100)}%" if probs else ""
+                w.writerow([a.nome, h["disciplina"], h["nome"], h["codigoBncc"] or "", _ROTULO[h["status"]], confianca,
+                            "Sim" if h["emRisco"] else "Não", str(len(serie)), a.ultima_atividade or ""])
+        nome = f"trilha-{t.nome.lower().replace(' ', '-').replace('º', '')}-{hoje()}.csv"
+        return nome, "﻿" + saida.getvalue()
+
+
 def progresso_do_aluno(aluno_id: str) -> dict:
     """Responsável: quem chama já conferiu a credencial do PIN deste aluno."""
     with bd.SessionLocal() as s:

@@ -56,3 +56,15 @@ def test_professor_nao_ve_turma_de_outro(cliente, auth):
     dele = cliente.post("/turmas", json={"nome": "8º C", "ano": 8, "alunos": []}, headers=h).json()
     assert dele["id"] not in {t["id"] for t in cliente.get("/turmas", headers=auth).json()}
     assert cliente.get(f"/turmas/{dele['id']}/alunos", headers=auth).status_code == 404
+
+
+def test_relatorio_csv_da_turma(cliente, auth):
+    r = cliente.get("/turmas/t1/relatorio.csv", headers=auth)
+    assert r.status_code == 200 and r.headers["content-type"].startswith("text/csv")
+    assert "attachment" in r.headers["content-disposition"] and ".csv" in r.headers["content-disposition"]
+    texto = r.content.decode("utf-8-sig")
+    linhas = texto.strip().splitlines()
+    assert linhas[0].startswith("Aluno;Disciplina;Habilidade")
+    assert any(l.startswith("Ana Clara Souza;") for l in linhas)
+    assert any(";Sem atividades;" in l for l in linhas)  # Gabriel ainda não fez atividades
+    assert cliente.get("/turmas/t1/relatorio.csv").status_code == 401

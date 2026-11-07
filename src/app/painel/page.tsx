@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MessagesSquare, TrendingDown, UserPlus } from "lucide-react";
+import { Download, MessagesSquare, TrendingDown, UserPlus } from "lucide-react";
 import { StatusSelo, rotuloStatus } from "@/components/marca";
 import { api } from "@/lib/api";
 import { dataCurta } from "@/lib/formato";
@@ -72,6 +72,17 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
             Perguntar sobre a turma
           </Link>
           {todos.length > 0 && <BotaoReavaliar turmaId={turma.id} />}
+          {todos.length > 0 && (
+            // Download pela ponte do painel (o token fica no cookie httpOnly).
+            <a
+              href={`/api/professor/turmas/${turma.id}/relatorio.csv`}
+              download
+              className="inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-mata outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+            >
+              <Download className="size-4" aria-hidden />
+              Baixar planilha da turma
+            </a>
+          )}
         </div>
         {comRisco > 0 && (
           <p className="mt-3 inline-flex items-center gap-1.5 text-sm text-grafite">

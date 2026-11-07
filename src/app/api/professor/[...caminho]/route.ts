@@ -9,6 +9,7 @@ const PERMITIDAS = [
   /^modelo$/,
   /^turmas$/,
   /^turmas\/[\w-]+\/(alunos|cadastros|configuracao|diagnostico|chat|grupos)$/,
+  /^turmas\/[\w-]+\/relatorio\.csv$/,
   /^alunos\/[\w-]+(\/(historico|pin|diagnostico))?$/,
   /^alunos\/[\w-]+\/diagnostico\/[\w-]+$/,
   /^exercicios\/gerar$/,
@@ -27,6 +28,7 @@ async function repassar(request: NextRequest, ctx: RouteContext<"/api/professor/
   if (!API_URL) {
     // Sem backend: o mock do front responde (mesmas regras de login).
     if (multipart) return new NextResponse("Transcrição de voz precisa do backend", { status: 503 });
+    if (rota.endsWith(".csv")) return new NextResponse("A planilha precisa do backend", { status: 503 });
     const { mockRequest } = await import("@/lib/mock");
     const { ApiError } = await import("@/lib/api");
     try {
@@ -47,9 +49,13 @@ async function repassar(request: NextRequest, ctx: RouteContext<"/api/professor/
     body: request.method === "GET" ? undefined : await request.arrayBuffer(),
     cache: "no-store",
   });
+  const disposicao = resposta.headers.get("content-disposition");
   return new NextResponse(resposta.body, {
     status: resposta.status,
-    headers: { "Content-Type": resposta.headers.get("content-type") ?? "application/json" },
+    headers: {
+      "Content-Type": resposta.headers.get("content-type") ?? "application/json",
+      ...(disposicao ? { "Content-Disposition": disposicao } : {}),
+    },
   });
 }
 

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { FileText } from "lucide-react";
 import { notFound } from "next/navigation";
 import { LinkVoltar } from "@/components/voltar";
 import { ProgressoAluno } from "@/components/progresso/progresso-aluno";
@@ -38,6 +40,13 @@ export default async function AlunoPage({ params }: PageProps<"/painel/alunos/[i
             ? `Última atividade em ${dataLonga(aluno.ultimaAtividade)}.`
             : "Ainda não fez nenhuma atividade."}
         </p>
+        <Link
+          href={`/painel/alunos/${aluno.id}/relatorio`}
+          className="mt-3 inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-mata outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+        >
+          <FileText className="size-4" aria-hidden />
+          Relatório para reunião com a família
+        </Link>
       </header>
 
       <ProgressoAluno aluno={aluno} historico={historico} comExercicio diagnosticos={diagnosticos} />

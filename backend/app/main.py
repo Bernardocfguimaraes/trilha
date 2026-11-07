@@ -15,7 +15,7 @@ import os
 
 from fastapi import Depends, FastAPI, File, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.responses import JSONResponse, PlainTextResponse, Response
 
 from . import bd, diagnostico, exercicios, risco, seguranca, voz
 from . import repo as fonte
@@ -183,6 +183,14 @@ def put_config(turma_id: str, pedido: PedidoTurmaConfig, professor: dict = Profe
 def post_reavaliar(turma_id: str, professor: dict = Professor):
     # Re-roda o diagnóstico de ML sobre o histórico da turma.
     return fonte.reavaliar_diagnostico(professor["sub"], turma_id)
+
+
+@app.get("/turmas/{turma_id}/relatorio.csv")
+def get_relatorio_csv(turma_id: str, professor: dict = Professor):
+    # Planilha da turma para baixar (abre no Excel em português: ";" e BOM UTF-8).
+    nome, conteudo = fonte.relatorio_turma_csv(professor["sub"], turma_id)
+    return Response(conteudo, media_type="text/csv; charset=utf-8",
+                    headers={"Content-Disposition": f'attachment; filename="{nome}"'})
 
 
 @app.get("/turmas/{turma_id}/grupos")
