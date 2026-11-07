@@ -12,6 +12,7 @@ a demo nunca fica sem exercício.
 from __future__ import annotations
 
 import json
+import os
 import random
 import re
 
@@ -219,6 +220,17 @@ def _revisar(hab: dict, q: dict) -> bool:
         and r.get("conteudoCorreto") is True
         and r.get("avaliaHabilidade") is True
     )
+
+
+_AVALIACAO = os.path.join(os.path.dirname(__file__), "avaliacao_llm.json")
+
+
+def avaliacao() -> dict | None:
+    """Resultado de ml/avaliar_llm.py (revisor do próprio modelo x revisor de outro modelo)."""
+    if not os.path.exists(_AVALIACAO):
+        return None
+    with open(_AVALIACAO, encoding="utf-8") as f:
+        return json.load(f)
 
 
 def gerar_exercicio(habilidade_id: str, nivel: str = "medio", evitar: list[str] | None = None,

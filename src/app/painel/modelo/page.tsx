@@ -4,7 +4,7 @@ import { rotuloStatus } from "@/components/marca";
 import { api } from "@/lib/api";
 import { getProfessor } from "@/lib/auth";
 import { dataLonga } from "@/lib/formato";
-import type { MetricasClassificacao, MetricasModelo, Status } from "@/lib/types";
+import type { AvaliacaoLlm, MetricasClassificacao, MetricasModelo, Status } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Como o diagnóstico funciona" };
@@ -269,6 +269,8 @@ export default async function ModeloPage() {
         </p>
       </section>
 
+      {m.llm && <SecaoLlm a={m.llm} />}
+
       <section className="mt-12 rounded-lg border bg-superficie p-6" aria-labelledby="limites">
         <h2 id="limites" className="text-xl font-bold text-grafite">
           Dados e limites
@@ -285,6 +287,89 @@ export default async function ModeloPage() {
         <p className="mt-4 text-sm text-pedra">Último treino em {dataLonga(m.treinadoEm)}.</p>
       </section>
     </div>
+  );
+}
+
+const pctOu = (v: number | null) => (v === null ? "—" : pct(v));
+
+/** Avaliação do revisor de questões geradas por IA (ml/avaliar_llm.py). */
+function SecaoLlm({ a }: { a: AvaliacaoLlm }) {
+  const nome = (modelo: string) => modelo.split("/").pop();
+  const linhas: { rotulo: string; nota: string; chave: "errosPegos" | "boasRecusadas" | "erroEntreAprovadas"; melhorAlto: boolean }[] = [
+    { rotulo: "Erros pegos", nota: "das questões com gabarito errado, quantas reprovou", chave: "errosPegos", melhorAlto: true },
+    { rotulo: "Questões boas recusadas", nota: "das questões corretas, quantas recusou à toa", chave: "boasRecusadas", melhorAlto: false },
+    { rotulo: "Erro entre as aprovadas", nota: "o que chegaria ao aluno com erro", chave: "erroEntreAprovadas", melhorAlto: false },
+  ];
+  const g = a.geracao;
+  return (
+    <section className="mt-12" aria-labelledby="ia">
+      <h2 id="ia" className="text-xl font-bold text-grafite">
+        A IA que cria exercícios também é avaliada
+      </h2>
+      <p className="mt-1 max-w-prose text-pedra">
+        O professor pode pedir exercícios novos, gerados por IA ({nome(a.modelos.gerador)}). Antes de chegar ao aluno, cada
+        questão passa por um checador de formato e por um revisor que resolve a questão sem ver o gabarito. Na geração do
+        banco de questões, quando o próprio gerador revisava o que tinha feito, cerca de 30% das aprovadas ainda tinham erro
+        na conferência manual. Por isso o revisor passou a ser um modelo de outra família ({nome(a.modelos.revisor)}), que
+        também tem cota gratuita própria.
+      </p>
+      <p className="mt-2 max-w-prose text-pedra">
+        Para medir, usamos {a.metodo.amostra} questões do banco curado (gabarito conhecido) e as mesmas questões com o gabarito
+        trocado de propósito. Os dois revisores recebem as mesmas instruções; só muda o modelo.
+      </p>
+      <div className="mt-4 overflow-x-auto rounded-lg border bg-superficie">
+        <table className="w-full text-sm">
+          <caption className="sr-only">Revisor do próprio modelo comparado com revisor de outro modelo</caption>
+          <thead>
+            <tr className="border-b text-left text-pedra">
+              <th scope="col" className="px-4 py-3 font-semibold">Medida</th>
+              <th scope="col" className="px-4 py-3 text-right font-semibold">
+                Próprio gerador <span className="block text-xs font-normal">{nome(a.modelos.gerador)}</span>
+              </th>
+              <th scope="col" className="px-4 py-3 text-right font-semibold">
+                Outro modelo (em uso) <span className="block text-xs font-normal">{nome(a.modelos.revisor)}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {linhas.map((l) => {
+              const va = a.autoRevisao[l.chave];
+              const vo = a.outroModelo[l.chave];
+              const melhor = va !== null && vo !== null && va !== vo ? ((vo > va) === l.melhorAlto ? "outro" : "auto") : null;
+              return (
+                <tr key={l.chave} className="border-b last:border-0">
+                  <th scope="row" className="px-4 py-3 text-left font-normal text-grafite">
+                    {l.rotulo}
+                    <span className="block text-xs text-pedra">{l.nota}</span>
+                  </th>
+                  <td className={cn("px-4 py-3 text-right text-grafite tabular-nums", melhor === "auto" && "font-bold")}>{pctOu(va)}</td>
+                  <td className={cn("px-4 py-3 text-right text-grafite tabular-nums", melhor === "outro" && "font-bold")}>{pctOu(vo)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      {a.autoRevisao.errosPegos !== null && a.autoRevisao.errosPegos === a.outroModelo.errosPegos && (
+        <p className="mt-3 max-w-prose text-sm text-pedra">
+          Neste teste os dois revisores empataram: gabarito trocado é um erro fácil de pegar. A diferença aparece nos erros
+          sutis das questões novas, como duas respostas defensáveis ou uma rima imperfeita, e medir isso exige conferir à mão
+          uma amostra de questões geradas. Esse é o próximo passo da avaliação.
+        </p>
+      )}
+      {g.validasFormato > 0 && (
+        <p className="mt-3 max-w-prose text-sm text-pedra">
+          Geração ao vivo: das {g.pedidas} questões pedidas à IA, {g.validasFormato} passaram no checador de formato. O próprio
+          gerador aprovaria {g.aprovadasAuto} e o revisor de outro modelo aprovou {g.aprovadasOutro}: ele é mais rigoroso e,
+          às vezes, recusa uma questão aceitável. Os dois discordaram em {g.discordancias}.
+        </p>
+      )}
+      <p className="mt-2 text-sm text-pedra">
+        Amostra pequena (plano gratuito da IA), reproduzível com <code className="text-xs">python -m ml.avaliar_llm</code>.
+        Avaliado em {dataLonga(a.avaliadoEm)}.
+        {a.interrompido && " A cota diária acabou no meio: parte dos casos ficou de fora."}
+      </p>
+    </section>
   );
 }
 

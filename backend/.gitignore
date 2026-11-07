@@ -13,3 +13,4 @@ venv/
 
 # Dataset real exportado do banco (ml/exportar_reais.py)
 ml/dados_reais.csv
+ml/avaliacao_llm_cache.jsonl

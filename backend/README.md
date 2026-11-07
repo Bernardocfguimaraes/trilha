@@ -108,6 +108,23 @@ o diagnóstico cai na regra de limiar antiga — nada quebra.
 O endpoint `POST /diagnostico/reavaliar` re-roda o modelo sobre o histórico de toda a turma
 (útil para demonstrar o ML classificando a turma de uma vez).
 
+### Previsão de risco (segundo modelo)
+
+`ml/risco.py` treina um modelo de **previsão**: para habilidades que hoje ainda não estão em
+alerta, qual a chance de a média das próximas 3 sessões ficar abaixo de 55? Trajetórias
+simuladas são cortadas em passado (o que o modelo vê) e futuro (de onde sai o rótulo).
+Random Forest balanceado, ponto de corte escolhido por validação cruzada. Resultado
+(`ml/relatorio_risco.txt`): **AUC 0,92**, quedas avisadas 73% (regra simples: 61%), avisos
+confirmados 49% (regra: 32%), com quedas em só 10,6% dos casos. Inferência em `app/risco.py`;
+o painel mostra "Pode cair para alerta" e o filtro "Em risco".
+
+### Grupos de reforço (não supervisionado)
+
+`app/grupos.py` agrupa os alunos da turma por **k-means** sobre a média recente em cada
+habilidade (k de 2 a 4 pelo maior coeficiente de silhueta) e descreve cada grupo pelas
+habilidades em que ele fica abaixo da turma. Python puro, validado contra o scikit-learn
+(mesma silhueta, ARI 1,0). Rota `GET /turmas/{id}/grupos`, página "Grupos" no painel.
+
 ## Passo 4 — LLM nas recomendações e no chat
 
 Dois pontos deixaram de usar texto pronto e passaram a ser gerados por um LLM:
@@ -141,6 +158,17 @@ ex.: Gemini do Google AI Studio, sem cartão), usado quando a cota do dia acaba.
 caminhos BNCC são geradas em lote e versionadas (`python -m app.bncc.gerar_perguntas 4 por`):
 quando a cota acaba o lote para sozinho e, rodando de novo no dia seguinte, continua de onde parou.
 O app ao vivo não gasta cota com isso.
+
+**Avaliação do revisor** (`python -m ml.avaliar_llm`). Mede, com gabarito conhecido, se vale
+a pena o revisor ser de outro modelo: questões do banco curado (devem ser aprovadas) e as
+mesmas com o gabarito trocado (devem ser reprovadas), revisadas pelo próprio gerador e pelo
+modelo revisor com o mesmo prompt; mais uma rodada de geração ao vivo. Respostas ficam em
+cache (`ml/avaliacao_llm_cache.jsonl`, fora do git) para retomar se a cota acabar. Resultado
+em `app/avaliacao_llm.json` e `ml/relatorio_llm.txt`, exibido na página do modelo.
+Última rodada (20 + 20 casos, 12 gerações): os dois revisores pegaram 100% dos gabaritos
+trocados sem recusar questão boa — erro fácil, não separa os dois. Na geração ao vivo o revisor
+de outro modelo foi mais rigoroso (aprovou 7 de 10; o próprio gerador, 8). Para medir erros
+sutis falta conferir à mão uma amostra de questões geradas.
 
 ## Rodar local
 
@@ -197,6 +225,11 @@ e reinicie o `next dev`. Sem essa variável, nada muda — o mock continua valen
 | GET/PUT | `/turmas/{id}/configuracao` | Disciplinas e habilidades ativas da turma |
 | POST | `/turmas/{id}/diagnostico` | Re-roda o diagnóstico de ML sobre a turma |
 | POST | `/turmas/{id}/chat` | Conversa sobre a turma (LLM) |
+| GET | `/turmas/{id}/grupos` | Grupos de reforço (k-means) |
+| GET | `/turmas/{id}/relatorio.csv` | Planilha da turma (abre no Excel em português) |
+| GET | `/alunos/{id}/diagnostico` | Diagnóstico explicado por habilidade (+ previsão de risco) |
+| PUT | `/alunos/{id}/diagnostico/{habilidade}` | Professor confirma ou corrige o diagnóstico |
+| GET | `/modelo` | Métricas do diagnóstico, da previsão e da avaliação do LLM |
 | GET | `/alunos/{id}` | Detalhe do aluno + recomendações + caminhos |
 | GET | `/alunos/{id}/historico` | Evolução por habilidade |
 | POST | `/alunos/{id}/pin` | Gera um novo PIN (o anterior para de valer) |
@@ -245,10 +278,16 @@ app/
   diag_features.py  features do diagnóstico (stdlib; treino e inferência usam a mesma)
   diagnostico.py    inferência do ML em Python puro (lê modelo_diagnostico.json; fallback regra)
   modelo_diagnostico.json  Random Forest exportado (gerado por ml/treinar.py)
+  risco.py          previsão de risco de alerta (lê modelo_risco.json, gerado por ml/risco.py)
+  grupos.py         grupos de reforço: k-means + silhueta em Python puro
+  avaliacao_llm.json  resultado de ml/avaliar_llm.py
 ml/
   gerar_dados.py          gera o dataset sintético (caminho A)
   treinar.py              treina, avalia e exporta o modelo (scikit-learn)
   requirements-treino.txt dependências só do treino (não do backend)
   dados_sinteticos.csv    dataset gerado
   relatorio_treino.txt    métricas da última execução do treino
+  risco.py                treina o modelo de previsão de risco (relatorio_risco.txt)
+  avaliar_llm.py          avalia o revisor de questões (auto-revisão x outro modelo)
+  exportar_reais.py       exporta os rótulos dos professores para o retreino
 ```

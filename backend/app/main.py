@@ -233,7 +233,8 @@ def get_modelo(professor: dict = Professor):
     m = diagnostico.metricas()
     if m is None:
         raise ApiErro(404, "Modelo ainda não treinado (rode python -m ml.treinar).")
-    return {**m, "professores": fonte.concordancia_professores(), "risco": risco.metricas()}
+    return {**m, "professores": fonte.concordancia_professores(), "risco": risco.metricas(),
+            "llm": exercicios.avaliacao()}
 
 
 @app.post("/alunos/{aluno_id}/pin")

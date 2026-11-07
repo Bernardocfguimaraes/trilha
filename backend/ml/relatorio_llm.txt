@@ -1,0 +1,6 @@
+=== Avaliação do LLM — revisor de questões ===
+Gerador: openai/gpt-oss-120b   Revisor: qwen/qwen3.8-27b
+Amostra: 20 questões curadas + 20 com gabarito trocado
+Auto-revisão (openai/gpt-oss-120b): erros pegos 100%, boas recusadas 0%, erro entre aprovadas 0% (40 vereditos)
+Outro modelo (qwen/qwen3.8-27b): erros pegos 100%, boas recusadas 0%, erro entre aprovadas 0% (40 vereditos)
+Geração ao vivo: 12 pedidas, 10 no formato, aprovadas auto 8, outro 7, discordâncias 1

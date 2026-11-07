@@ -1,0 +1,59 @@
+{
+ "avaliadoEm": "2026-11-07T00:46:10+00:00",
+ "modelos": {
+  "gerador": "openai/gpt-oss-120b",
+  "revisor": "qwen/qwen3.8-27b"
+ },
+ "metodo": {
+  "amostra": 20,
+  "descricao": "Questões do banco curado (gabarito conhecido) e as mesmas com o gabarito trocado para uma opção errada.",
+  "semente": 11
+ },
+ "autoRevisao": {
+  "avaliadas": 40,
+  "errosPegos": 1.0,
+  "boasRecusadas": 0.0,
+  "erroEntreAprovadas": 0.0,
+  "nCorretas": 20,
+  "nErros": 20
+ },
+ "outroModelo": {
+  "avaliadas": 40,
+  "errosPegos": 1.0,
+  "boasRecusadas": 0.0,
+  "erroEntreAprovadas": 0.0,
+  "nCorretas": 20,
+  "nErros": 20
+ },
+ "geracao": {
+  "pedidas": 12,
+  "validasFormato": 10,
+  "aprovadasAuto": 8,
+  "aprovadasOutro": 7,
+  "discordancias": 1,
+  "exemplosDiscordancia": [
+   {
+    "habilidade": "Rimas e versos",
+    "enunciado": "Leia o trecho abaixo:\n\"O vento sopra forte, a árvore balança,\nas folhas caem, formando uma dança.\"\nQual das alternativas apresenta a palavra que rima com \"balança\"?",
+    "opcoes": [
+     "cansa",
+     "casa",
+     "cansaço",
+     "cansado"
+    ],
+    "gabarito": 0,
+    "auto": {
+     "aprovada": true,
+     "resposta": 0,
+     "motivo": ""
+    },
+    "outro": {
+     "aprovada": false,
+     "resposta": 0,
+     "motivo": "A opção 0 ('cansa') não constitui uma rima perfeita com 'balança' (a sequência de sons a partir da vogal tônica é /ãs/ vs /ãsa/), o que é um erro de conteúdo técnico para uma questão que pede especifi"
+    }
+   }
+  ]
+ },
+ "interrompido": null
+}

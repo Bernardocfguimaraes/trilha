@@ -158,6 +158,26 @@ export interface MetricasModelo {
   // Ao vivo: quanto o modelo atual concorda com as avaliações dos professores no banco.
   professores: { avaliacoes: number; concordancia: number | null };
   risco: MetricasRisco | null;
+  llm: AvaliacaoLlm | null;
+}
+
+export interface ResumoRevisor {
+  avaliadas: number;
+  errosPegos: number | null; // dos erros plantados, quantos o revisor reprovou
+  boasRecusadas: number | null; // das questões curadas (corretas), quantas recusou
+  erroEntreAprovadas: number | null;
+  nCorretas: number;
+  nErros: number;
+}
+
+export interface AvaliacaoLlm {
+  avaliadoEm: string;
+  modelos: { gerador: string; revisor: string };
+  metodo: { amostra: number; descricao: string };
+  autoRevisao: ResumoRevisor;
+  outroModelo: ResumoRevisor;
+  geracao: { pedidas: number; validasFormato: number; aprovadasAuto: number; aprovadasOutro: number; discordancias: number };
+  interrompido: string | null;
 }
 
 // Grupos de reforço (GET /turmas/{id}/grupos): k-means sobre o perfil dos alunos.

@@ -124,3 +124,14 @@ def test_grupos_da_turma(cliente, auth):
     assert len(alunos) == len(set(alunos)) == r["alunosConsiderados"]
     vazia = cliente.post("/turmas", json={"nome": "6º vazio", "ano": 6, "alunos": ["Um Aluno"]}, headers=auth).json()
     assert cliente.get(f"/turmas/{vazia['id']}/grupos", headers=auth).json()["grupos"] == []
+
+
+def test_avaliacao_do_llm_publicada(cliente, auth):
+    """O relatório de ml/avaliar_llm.py chega à página do modelo, com as duas colunas."""
+    llm = cliente.get("/modelo", headers=auth).json()["llm"]
+    assert llm["modelos"]["gerador"] and llm["modelos"]["revisor"]
+    assert llm["modelos"]["gerador"] != llm["modelos"]["revisor"]
+    for lado in ("autoRevisao", "outroModelo"):
+        r = llm[lado]
+        assert r["nCorretas"] > 0 and r["nErros"] > 0
+        assert all(0 <= r[k] <= 1 for k in ("errosPegos", "boasRecusadas"))
