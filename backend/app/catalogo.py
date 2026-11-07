@@ -18,8 +18,10 @@ Só usa a biblioteca padrão; nada aqui importa dados.py (dados.py é que import
 from __future__ import annotations
 
 import glob
+import hashlib
 import json
 import os
+import random
 import re
 from functools import lru_cache
 
@@ -104,10 +106,20 @@ def caminho(ano: int, disciplina_id: str, disciplina_nome: str) -> list[dict]:
     return saida
 
 
+def _embaralhar(q: dict) -> dict:
+    """Ordem das opções sorteada por questão (determinística: semente = id). Nos arquivos a
+    resposta certa às vezes se acumula numa posição; sorteando, "chutar sempre a última"
+    deixa de funcionar e cada aluno vê a mesma ordem em toda sessão."""
+    ordem = list(range(len(q["opcoes"])))
+    random.Random(hashlib.sha256(q["id"].encode()).hexdigest()).shuffle(ordem)
+    return {**q, "opcoes": [q["opcoes"][i] for i in ordem], "certa": ordem.index(q["certa"])}
+
+
 def perguntas_geradas() -> list[dict]:
-    """Todas as questões geradas por IA já gravadas em app/bncc/perguntas/*.json."""
+    """Todas as questões dos caminhos BNCC gravadas em app/bncc/perguntas/*.json, com a
+    ordem das opções sorteada."""
     saida: list[dict] = []
     for arq in sorted(glob.glob(os.path.join(_DIR, "perguntas", "*.json"))):
         with open(arq, encoding="utf-8") as f:
-            saida.extend(json.load(f)["perguntas"])
+            saida.extend(_embaralhar(q) for q in json.load(f)["perguntas"])
     return saida

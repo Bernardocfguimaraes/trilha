@@ -23,7 +23,7 @@
    "id": "ef06hi01-f2",
    "habilidadeId": "EF06HI01",
    "nivel": "facil",
-   "enunciado": "Um século corresponde a…",
+   "enunciado": "Quantos anos tem um século?",
    "apoio": null,
    "opcoes": [
     "1.000 anos",
@@ -55,7 +55,7 @@
    "id": "ef06hi01-m2",
    "habilidadeId": "EF06HI01",
    "nivel": "medio",
-   "enunciado": "A escrita é usada como marco para separar…",
+   "enunciado": "A invenção da escrita é usada como marco para separar quais períodos?",
    "apoio": null,
    "opcoes": [
     "a Idade Média da Moderna",
@@ -74,10 +74,10 @@
    "enunciado": "Por que dividir a história em períodos (Antiguidade, Idade Média…) é uma escolha, e não uma verdade natural?",
    "apoio": null,
    "opcoes": [
-    "Os marcos foram definidos por historiadores, muitas vezes a partir da Europa",
-    "Porque todas as sociedades viveram as mesmas fases",
-    "Porque os períodos foram escritos na Bíblia",
-    "Porque os períodos têm sempre 1.000 anos"
+    "Os marcos foram escolhidos por historiadores europeus",
+    "Todas as sociedades viveram as mesmas fases, na mesma ordem",
+    "Os períodos foram registrados assim na Bíblia",
+    "Cada período dura sempre exatamente mil anos"
    ],
    "certa": 0,
    "explicacao": "A periodização é uma forma de organizar o tempo e pode deixar outras sociedades de fora.",
@@ -103,7 +103,7 @@
    "id": "ef06hi03-f2",
    "habilidadeId": "EF06HI03",
    "nivel": "facil",
-   "enunciado": "Os primeiros grupos humanos que se deslocavam em busca de alimento eram…",
+   "enunciado": "Como eram chamados os primeiros grupos humanos que se deslocavam em busca de alimento?",
    "apoio": null,
    "opcoes": [
     "nômades",
@@ -138,10 +138,10 @@
    "enunciado": "Como os cientistas estudam os povos que não deixaram escrita?",
    "apoio": null,
    "opcoes": [
-    "Por livros da época",
-    "Por fósseis, ferramentas e pinturas",
-    "Por gravações de áudio",
-    "Por jornais antigos"
+    "Por livros escritos na época",
+    "Por ferramentas e pinturas",
+    "Por gravações de áudio antigas",
+    "Por jornais e cartas da época"
    ],
    "certa": 1,
    "explicacao": "Vestígios materiais são as fontes da Pré-História.",
@@ -151,13 +151,13 @@
    "id": "ef06hi03-d1",
    "habilidadeId": "EF06HI03",
    "nivel": "dificil",
-   "enunciado": "O sítio arqueológico da Serra da Capivara, no Piauí, é importante porque…",
+   "enunciado": "Por que o sítio arqueológico da Serra da Capivara, no Piauí, é importante?",
    "apoio": null,
    "opcoes": [
-    "Guarda os primeiros fósseis de dinossauro",
-    "É onde surgiu a escrita",
-    "Tem pinturas rupestres e vestígios muito antigos da presença humana na América",
-    "Foi a capital do Império Romano"
+    "Guarda os primeiros fósseis de dinossauro do mundo",
+    "É o lugar onde a escrita foi inventada",
+    "Tem vestígios muito antigos de humanos na América",
+    "Foi a capital do Império Romano na América"
    ],
    "certa": 2,
    "explicacao": "Seus vestígios alimentam o debate sobre quando os humanos chegaram à América.",
@@ -167,7 +167,7 @@
    "id": "ef06hi10-f1",
    "habilidadeId": "EF06HI10",
    "nivel": "facil",
-   "enunciado": "Na Grécia Antiga, as cidades-estado eram chamadas de…",
+   "enunciado": "Como eram chamadas as cidades-estado da Grécia Antiga?",
    "apoio": null,
    "opcoes": [
     "pólis",
@@ -215,13 +215,13 @@
    "id": "ef06hi10-m2",
    "habilidadeId": "EF06HI10",
    "nivel": "medio",
-   "enunciado": "Esparta era conhecida principalmente…",
+   "enunciado": "Pelo que Esparta era conhecida principalmente?",
    "apoio": null,
    "opcoes": [
-    "pelo comércio marítimo",
-    "pelo teatro",
-    "pela formação militar",
-    "pela filosofia"
+    "Pelo comércio marítimo",
+    "Pelo teatro",
+    "Pela formação militar",
+    "Pela filosofia"
    ],
    "certa": 2,
    "explicacao": "Os espartanos eram educados desde cedo para a guerra.",
@@ -247,7 +247,7 @@
    "id": "ef06hi11-f1",
    "habilidadeId": "EF06HI11",
    "nivel": "facil",
-   "enunciado": "Segundo a lenda, Roma foi fundada por…",
+   "enunciado": "Segundo a lenda, quem fundou Roma?",
    "apoio": null,
    "opcoes": [
     "Júlio César e Augusto",
@@ -295,13 +295,13 @@
    "id": "ef06hi11-m2",
    "habilidadeId": "EF06HI11",
    "nivel": "medio",
-   "enunciado": "Na sociedade romana, os patrícios eram…",
+   "enunciado": "Quem eram os patrícios na sociedade romana?",
    "apoio": null,
    "opcoes": [
-    "os trabalhadores livres pobres",
-    "a elite proprietária de terras",
-    "os escravizados",
-    "os estrangeiros"
+    "Os trabalhadores livres e pobres",
+    "A elite dona de terras",
+    "Os escravizados",
+    "Os estrangeiros"
    ],
    "certa": 1,
    "explicacao": "Patrícios tinham terras e direitos políticos; os plebeus, não.",
@@ -314,9 +314,9 @@
    "enunciado": "Qual herança romana está presente no Brasil de hoje?",
    "apoio": null,
    "opcoes": [
-    "A escrita cuneiforme",
-    "O sistema de castas",
-    "O direito e a língua portuguesa, que vem do latim",
+    "A escrita cuneiforme da Mesopotâmia",
+    "O sistema de castas da Índia",
+    "O direito e a língua, vinda do latim",
     "A democracia direta de Atenas"
    ],
    "certa": 2,

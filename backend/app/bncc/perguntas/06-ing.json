@@ -119,7 +119,7 @@
    "id": "ef06li17-m1",
    "habilidadeId": "EF06LI17",
    "nivel": "medio",
-   "enunciado": "\"My father's brother\" é o meu…",
+   "enunciado": "Em inglês, como se chama \"my father's brother\"?",
    "apoio": null,
    "opcoes": [
     "cousin",
@@ -263,13 +263,13 @@
    "id": "ef06li20-f2",
    "habilidadeId": "EF06LI20",
    "nivel": "facil",
-   "enunciado": "\"They are playing soccer.\" A frase descreve uma ação…",
+   "enunciado": "\"They are playing soccer.\" Quando acontece a ação dessa frase?",
    "apoio": null,
    "opcoes": [
-    "que já terminou",
-    "que nunca acontece",
-    "que vai acontecer ano que vem",
-    "acontecendo agora"
+    "Já terminou",
+    "Nunca acontece",
+    "Vai acontecer ano que vem",
+    "Está acontecendo agora"
    ],
    "certa": 3,
    "explicacao": "O presente contínuo descreve ações em andamento.",

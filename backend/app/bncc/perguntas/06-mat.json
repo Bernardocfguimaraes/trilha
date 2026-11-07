@@ -42,9 +42,9 @@
    "enunciado": "Quais são todos os divisores de 12?",
    "apoio": null,
    "opcoes": [
-    "12, 24 e 36",
-    "1, 2, 3 e 4",
-    "2, 4, 6 e 12",
+    "1, 2, 3, 4, 6 e 8",
+    "2, 3, 4, 6, 12 e 24",
+    "1, 2, 4, 6, 8 e 12",
     "1, 2, 3, 4, 6 e 12"
    ],
    "certa": 3,
@@ -263,7 +263,7 @@
    "id": "ef06ma19-f2",
    "habilidadeId": "EF06MA19",
    "nivel": "facil",
-   "enunciado": "Um triângulo com os três lados iguais se chama…",
+   "enunciado": "Como se chama um triângulo com os três lados iguais?",
    "apoio": null,
    "opcoes": [
     "retângulo",
@@ -279,7 +279,7 @@
    "id": "ef06ma19-m1",
    "habilidadeId": "EF06MA19",
    "nivel": "medio",
-   "enunciado": "Um triângulo com um ângulo de 90° se chama…",
+   "enunciado": "Como se chama um triângulo que tem um ângulo de 90°?",
    "apoio": null,
    "opcoes": [
     "retângulo",

@@ -7,7 +7,7 @@
    "id": "ef06ci01-f1",
    "habilidadeId": "EF06CI01",
    "nivel": "facil",
-   "enunciado": "Água e óleo juntos formam uma mistura…",
+   "enunciado": "Que tipo de mistura a água e o óleo formam juntos?",
    "apoio": null,
    "opcoes": [
     "homogênea",
@@ -23,7 +23,7 @@
    "id": "ef06ci01-f2",
    "habilidadeId": "EF06CI01",
    "nivel": "facil",
-   "enunciado": "Água com sal bem dissolvido é uma mistura…",
+   "enunciado": "Que tipo de mistura é a água com sal bem dissolvido?",
    "apoio": null,
    "opcoes": [
     "com duas fases",
@@ -87,13 +87,13 @@
    "id": "ef06ci05-f1",
    "habilidadeId": "EF06CI05",
    "nivel": "facil",
-   "enunciado": "A célula é considerada…",
+   "enunciado": "O que é a célula?",
    "apoio": null,
    "opcoes": [
-    "um tipo de rocha",
-    "a menor unidade viva dos seres vivos",
-    "um planeta",
-    "um órgão do corpo"
+    "Um tipo de rocha microscópica",
+    "A menor unidade de um ser vivo",
+    "Um pequeno planeta do sistema solar",
+    "Um órgão do corpo humano"
    ],
    "certa": 1,
    "explicacao": "Todos os seres vivos são formados por células.",
@@ -183,7 +183,7 @@
    "id": "ef06ci11-f2",
    "habilidadeId": "EF06CI11",
    "nivel": "facil",
-   "enunciado": "A camada de gases que envolve a Terra se chama…",
+   "enunciado": "Como se chama a camada de gases que envolve a Terra?",
    "apoio": null,
    "opcoes": [
     "hidrosfera",
@@ -215,7 +215,7 @@
    "id": "ef06ci11-m2",
    "habilidadeId": "EF06CI11",
    "nivel": "medio",
-   "enunciado": "O conjunto de toda a água do planeta se chama…",
+   "enunciado": "Como se chama o conjunto de toda a água do planeta?",
    "apoio": null,
    "opcoes": [
     "biosfera",
@@ -247,10 +247,10 @@
    "id": "ef06ci12-f1",
    "habilidadeId": "EF06CI12",
    "nivel": "facil",
-   "enunciado": "Rochas formadas pelo resfriamento do magma se chamam…",
+   "enunciado": "Como se chamam as rochas formadas pelo resfriamento do magma?",
    "apoio": null,
    "opcoes": [
-    "magmáticas (ígneas)",
+    "magmáticas",
     "sedimentares",
     "fósseis",
     "metamórficas"
@@ -282,10 +282,10 @@
    "enunciado": "O que é um fóssil?",
    "apoio": null,
    "opcoes": [
-    "Restos ou marcas de seres vivos preservados em rochas",
-    "Um mineral raro",
-    "Uma rocha brilhante",
-    "Uma camada da atmosfera"
+    "Restos de seres vivos preservados em rochas",
+    "Um mineral raro encontrado em cavernas",
+    "Uma rocha brilhante formada por vulcões",
+    "Uma camada antiga da atmosfera da Terra"
    ],
    "certa": 0,
    "explicacao": "Ossos, conchas e pegadas antigas podem virar fósseis.",
@@ -295,7 +295,7 @@
    "id": "ef06ci12-m2",
    "habilidadeId": "EF06CI12",
    "nivel": "medio",
-   "enunciado": "Rochas transformadas por calor e pressão se chamam…",
+   "enunciado": "Como se chamam as rochas transformadas por calor e pressão?",
    "apoio": null,
    "opcoes": [
     "magmáticas",
@@ -314,10 +314,10 @@
    "enunciado": "Por que os fósseis ajudam a estudar a história da Terra?",
    "apoio": null,
    "opcoes": [
-    "Brilham no escuro",
-    "Mostram que seres viviam em cada época e ambiente",
-    "Indicam onde há petróleo sempre",
-    "Informam a temperatura de hoje"
+    "Brilham no escuro e são fáceis de achar",
+    "Mostram que seres viviam em cada época",
+    "Indicam sempre onde existe petróleo",
+    "Informam a temperatura atual da Terra"
    ],
    "certa": 1,
    "explicacao": "As camadas e os fósseis revelam como a vida e os ambientes mudaram.",

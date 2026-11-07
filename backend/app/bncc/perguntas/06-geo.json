@@ -7,7 +7,7 @@
    "id": "ef06ge03-f1",
    "habilidadeId": "EF06GE03",
    "nivel": "facil",
-   "enunciado": "O movimento que a Terra faz em volta do Sol se chama…",
+   "enunciado": "Como se chama o movimento que a Terra faz em volta do Sol?",
    "apoio": null,
    "opcoes": [
     "rotação",
@@ -23,13 +23,13 @@
    "id": "ef06ge03-f2",
    "habilidadeId": "EF06GE03",
    "nivel": "facil",
-   "enunciado": "A rotação da Terra é responsável…",
+   "enunciado": "Pelo que a rotação da Terra é responsável?",
    "apoio": null,
    "opcoes": [
-    "pelas estações do ano",
-    "pelas marés de areia",
-    "pelos terremotos",
-    "pelo dia e pela noite"
+    "Pelas estações do ano",
+    "Pelas marés de areia",
+    "Pelos terremotos",
+    "Pelo dia e pela noite"
    ],
    "certa": 3,
    "explicacao": "Ao girar, metade da Terra fica iluminada e a outra no escuro.",
@@ -42,10 +42,10 @@
    "enunciado": "Por que as regiões perto da Linha do Equador costumam ser mais quentes?",
    "apoio": null,
    "opcoes": [
-    "Têm mais montanhas",
-    "Ficam mais perto da Lua",
-    "Recebem os raios do Sol de forma mais direta",
-    "Não recebem chuva"
+    "Têm mais montanhas altas e vulcões",
+    "Estão mais perto da Lua do que o resto",
+    "Recebem a luz do Sol mais direta",
+    "Quase não recebem chuva durante o ano"
    ],
    "certa": 2,
    "explicacao": "Os raios chegam mais perpendiculares e concentrados.",
@@ -58,10 +58,10 @@
    "enunciado": "Qual a diferença entre tempo e clima?",
    "apoio": null,
    "opcoes": [
-    "São a mesma coisa",
-    "Clima muda a cada hora",
-    "Tempo só existe no verão",
-    "Tempo é o estado do momento; clima é o padrão de muitos anos"
+    "São a mesma coisa, só mudam de nome",
+    "Clima muda a cada hora; tempo, não",
+    "Tempo só existe no verão; clima, o ano todo",
+    "Tempo é o agora; clima, o padrão de anos"
    ],
    "certa": 3,
    "explicacao": "\"Hoje está chovendo\" é tempo; \"aqui chove muito no verão\" é clima.",
@@ -74,10 +74,10 @@
    "enunciado": "Por que o Hemisfério Sul tem verão quando o Norte tem inverno?",
    "apoio": null,
    "opcoes": [
-    "O Sul gira mais rápido",
-    "A Lua bloqueia o Sol no Norte",
+    "O Hemisfério Sul gira mais rápido que o Norte",
+    "A Lua bloqueia a luz do Sol no Hemisfério Norte",
     "A Terra fica mais perto do Sol no verão do Sul",
-    "A inclinação do eixo faz cada hemisfério receber mais luz em épocas diferentes"
+    "A inclinação do eixo da Terra"
    ],
    "certa": 3,
    "explicacao": "É a inclinação do eixo, e não a distância do Sol, que causa as estações.",
@@ -87,7 +87,7 @@
    "id": "ef06ge04-f1",
    "habilidadeId": "EF06GE04",
    "nivel": "facil",
-   "enunciado": "Quando a água dos rios e mares vira vapor, isso se chama…",
+   "enunciado": "Como se chama a passagem da água dos rios e mares para vapor?",
    "apoio": null,
    "opcoes": [
     "precipitação",
@@ -103,7 +103,7 @@
    "id": "ef06ge04-f2",
    "habilidadeId": "EF06GE04",
    "nivel": "facil",
-   "enunciado": "A chuva é um exemplo de…",
+   "enunciado": "A chuva é um exemplo de qual etapa do ciclo da água?",
    "apoio": null,
    "opcoes": [
     "transpiração",
@@ -119,13 +119,13 @@
    "id": "ef06ge04-m1",
    "habilidadeId": "EF06GE04",
    "nivel": "medio",
-   "enunciado": "As nuvens se formam quando o vapor de água…",
+   "enunciado": "Como as nuvens se formam?",
    "apoio": null,
    "opcoes": [
-    "congela no chão",
-    "se condensa ao esfriar",
-    "evapora de novo",
-    "se infiltra no solo"
+    "O vapor de água congela no chão",
+    "O vapor se condensa ao esfriar",
+    "O vapor evapora de novo no céu",
+    "O vapor se infiltra no solo"
    ],
    "certa": 1,
    "explicacao": "O vapor esfria lá no alto e vira gotinhas: condensação.",
@@ -138,10 +138,10 @@
    "enunciado": "Por que nas cidades a água da chuva escorre mais e infiltra menos?",
    "apoio": null,
    "opcoes": [
-    "Asfalto e concreto impermeabilizam o solo",
-    "Chove menos nas cidades",
-    "As árvores bebem toda a água",
-    "O solo da cidade é mais úmido"
+    "Asfalto e concreto impedem a infiltração",
+    "Chove bem menos nas cidades do que no campo",
+    "As árvores da cidade bebem toda a água",
+    "O solo da cidade já está sempre úmido"
    ],
    "certa": 0,
    "explicacao": "Superfícies impermeáveis aumentam o escoamento e as enchentes.",
@@ -154,10 +154,10 @@
    "enunciado": "Qual é a importância da infiltração no ciclo da água?",
    "apoio": null,
    "opcoes": [
-    "Aumenta a evaporação do mar",
-    "Forma as nuvens",
-    "Abastece os lençóis freáticos e os aquíferos",
-    "Impede a chuva"
+    "Aumenta a evaporação da água do mar",
+    "É ela que forma as nuvens de chuva",
+    "Abastece os aquíferos subterrâneos",
+    "Impede que a chuva caia de novo"
    ],
    "certa": 2,
    "explicacao": "A água que infiltra recarrega a água subterrânea e alimenta rios.",
@@ -167,13 +167,13 @@
    "id": "ef06ge05-f1",
    "habilidadeId": "EF06GE05",
    "nivel": "facil",
-   "enunciado": "A Amazônia tem clima…",
+   "enunciado": "Qual é o clima da Amazônia?",
    "apoio": null,
    "opcoes": [
-    "polar",
-    "frio e seco",
-    "desértico",
-    "quente e úmido"
+    "Polar",
+    "Frio e seco",
+    "Desértico",
+    "Quente e úmido"
    ],
    "certa": 3,
    "explicacao": "Calor e chuvas abundantes favorecem a floresta densa.",
@@ -183,13 +183,13 @@
    "id": "ef06ge05-f2",
    "habilidadeId": "EF06GE05",
    "nivel": "facil",
-   "enunciado": "A vegetação típica do clima semiárido do Nordeste é…",
+   "enunciado": "Qual é a vegetação típica do clima semiárido do Nordeste?",
    "apoio": null,
    "opcoes": [
-    "o Pampa gelado",
-    "a Mata de Araucárias",
-    "a Floresta Amazônica",
-    "a Caatinga"
+    "O Pampa gelado",
+    "A Mata de Araucárias",
+    "A Floresta Amazônica",
+    "A Caatinga"
    ],
    "certa": 3,
    "explicacao": "A Caatinga é adaptada à pouca chuva.",
@@ -234,10 +234,10 @@
    "enunciado": "Por que o desmatamento pode levar à erosão do solo?",
    "apoio": null,
    "opcoes": [
-    "A chuva para de cair",
-    "As plantas produzem erosão",
-    "Sem plantas, a chuva arrasta o solo com mais facilidade",
-    "O solo fica mais pesado"
+    "Sem árvores, a chuva para de cair",
+    "As próprias plantas causam a erosão",
+    "Sem plantas, a chuva arrasta o solo",
+    "Sem raízes, o solo fica mais pesado"
    ],
    "certa": 2,
    "explicacao": "As raízes seguram o solo e as folhas diminuem o impacto da chuva.",
@@ -250,10 +250,10 @@
    "enunciado": "Para que serve a escala de um mapa?",
    "apoio": null,
    "opcoes": [
-    "Indicar o nome do autor",
-    "Mostrar a população",
-    "Mostrar quantas vezes a realidade foi reduzida",
-    "Mostrar a temperatura"
+    "Indicar o nome de quem fez o mapa",
+    "Mostrar quantas pessoas vivem ali",
+    "Mostrar quanto o real foi reduzido",
+    "Mostrar a temperatura de cada lugar"
    ],
    "certa": 2,
    "explicacao": "A escala relaciona a distância no mapa com a distância real.",
@@ -263,13 +263,13 @@
    "id": "ef06ge08-f2",
    "habilidadeId": "EF06GE08",
    "nivel": "facil",
-   "enunciado": "Numa escala 1:100, 1 cm no mapa equivale a…",
+   "enunciado": "Numa escala 1:100, quanto vale na realidade 1 cm do mapa?",
    "apoio": null,
    "opcoes": [
     "10 cm",
     "1 km",
     "1.000 m",
-    "100 cm na realidade"
+    "100 cm"
    ],
    "certa": 3,
    "explicacao": "1:100 quer dizer que cada centímetro representa 100 centímetros.",
@@ -279,7 +279,7 @@
    "id": "ef06ge08-m1",
    "habilidadeId": "EF06GE08",
    "nivel": "medio",
-   "enunciado": "Numa escala 1:100.000, 1 cm no mapa equivale a…",
+   "enunciado": "Numa escala 1:100.000, quanto vale na realidade 1 cm do mapa?",
    "apoio": null,
    "opcoes": [
     "100 m",

@@ -39,13 +39,13 @@
    "id": "ef08lp06-m1",
    "habilidadeId": "EF08LP06",
    "nivel": "medio",
-   "enunciado": "Em \"Choveu muito ontem\", o sujeito é…",
+   "enunciado": "Em \"Choveu muito ontem\", qual é o sujeito?",
    "apoio": null,
    "opcoes": [
-    "inexistente (oração sem sujeito)",
+    "inexistente",
     "muito",
     "ontem",
-    "oculto: ele"
+    "oculto (ele)"
    ],
    "certa": 0,
    "explicacao": "Verbos que indicam fenômenos da natureza não têm sujeito.",
@@ -55,13 +55,13 @@
    "id": "ef08lp06-m2",
    "habilidadeId": "EF08LP06",
    "nivel": "medio",
-   "enunciado": "Em \"Fomos ao cinema no sábado\", o sujeito é…",
+   "enunciado": "Em \"Fomos ao cinema no sábado\", qual é o sujeito?",
    "apoio": null,
    "opcoes": [
     "o cinema",
     "oculto (nós)",
     "inexistente",
-    "sábado"
+    "indeterminado"
    ],
    "certa": 1,
    "explicacao": "A terminação do verbo indica \"nós\", mesmo sem a palavra aparecer.",
@@ -71,10 +71,10 @@
    "id": "ef08lp06-d1",
    "habilidadeId": "EF08LP06",
    "nivel": "dificil",
-   "enunciado": "Em \"Precisa-se de ajudantes\", o sujeito é…",
+   "enunciado": "Em \"Precisa-se de ajudantes\", qual é o sujeito?",
    "apoio": null,
    "opcoes": [
-    "oculto",
+    "oculto (eles)",
     "se",
     "indeterminado",
     "ajudantes"
@@ -91,8 +91,8 @@
    "apoio": null,
    "opcoes": [
     "O bolo foi feito pela avó.",
-    "A avó vai fazer o bolo.",
-    "A avó faz bolos.",
+    "A avó vai fazer o bolo amanhã.",
+    "A avó faz bolos aos domingos.",
     "A avó fez o bolo."
    ],
    "certa": 0,
@@ -107,7 +107,7 @@
    "apoio": null,
    "opcoes": [
     "Os jogadores escolhem o técnico.",
-    "O técnico foi escolhido pelos jogadores.",
+    "O técnico foi escolhido pelos seus jogadores.",
     "Os jogadores foram escolhidos pelo técnico.",
     "Os jogadores escolheram o técnico."
    ],
@@ -167,7 +167,7 @@
    "id": "ef08lp13-f1",
    "habilidadeId": "EF08LP13",
    "nivel": "facil",
-   "enunciado": "Em \"Estudou muito, mas não passou\", a conjunção \"mas\" indica…",
+   "enunciado": "Em \"Estudou muito, mas não passou\", que ideia a conjunção \"mas\" indica?",
    "apoio": null,
    "opcoes": [
     "tempo",
@@ -183,7 +183,7 @@
    "id": "ef08lp13-f2",
    "habilidadeId": "EF08LP13",
    "nivel": "facil",
-   "enunciado": "Em \"Faltou à aula porque estava doente\", \"porque\" indica…",
+   "enunciado": "Em \"Faltou à aula porque estava doente\", que ideia \"porque\" indica?",
    "apoio": null,
    "opcoes": [
     "condição",
@@ -215,7 +215,7 @@
    "id": "ef08lp13-m2",
    "habilidadeId": "EF08LP13",
    "nivel": "medio",
-   "enunciado": "Em \"Iremos à praia, se não chover\", a ideia é de…",
+   "enunciado": "Em \"Iremos à praia, se não chover\", qual é a ideia expressa?",
    "apoio": null,
    "opcoes": [
     "condição",
@@ -236,7 +236,7 @@
    "opcoes": [
     "Terminou a prova, logo estava cansado.",
     "Embora estivesse cansado, terminou a prova.",
-    "Se estivesse cansado, terminaria a prova.",
+    "Se estivesse cansado, ela terminaria a prova.",
     "Porque estava cansado, terminou a prova."
    ],
    "certa": 1,
@@ -247,13 +247,13 @@
    "id": "ef08lp05-f1",
    "habilidadeId": "EF08LP05",
    "nivel": "facil",
-   "enunciado": "A palavra \"guarda-chuva\" foi formada por…",
+   "enunciado": "Como foi formada a palavra \"guarda-chuva\"?",
    "apoio": null,
    "opcoes": [
     "derivação sufixal",
     "composição por justaposição",
     "derivação prefixal",
-    "aglutinação"
+    "composição por aglutinação"
    ],
    "certa": 1,
    "explicacao": "Duas palavras se juntam sem perder sons: justaposição.",
@@ -263,10 +263,10 @@
    "id": "ef08lp05-f2",
    "habilidadeId": "EF08LP05",
    "nivel": "facil",
-   "enunciado": "A palavra \"infeliz\" foi formada por…",
+   "enunciado": "Como foi formada a palavra \"infeliz\"?",
    "apoio": null,
    "opcoes": [
-    "abreviação",
+    "abreviação vocabular",
     "derivação prefixal",
     "composição",
     "derivação sufixal"
@@ -279,12 +279,12 @@
    "id": "ef08lp05-m1",
    "habilidadeId": "EF08LP05",
    "nivel": "medio",
-   "enunciado": "\"Planalto\" (plano + alto) é exemplo de…",
+   "enunciado": "\"Planalto\" vem de plano + alto. Que processo formou essa palavra?",
    "apoio": null,
    "opcoes": [
     "derivação sufixal",
     "composição por aglutinação",
-    "justaposição",
+    "composição por justaposição",
     "derivação regressiva"
    ],
    "certa": 1,
@@ -311,7 +311,7 @@
    "id": "ef08lp05-d1",
    "habilidadeId": "EF08LP05",
    "nivel": "dificil",
-   "enunciado": "\"O jantar estava ótimo\": o verbo \"jantar\" virou substantivo. Esse processo se chama…",
+   "enunciado": "\"O jantar estava ótimo\": o verbo \"jantar\" virou substantivo. Como se chama esse processo?",
    "apoio": null,
    "opcoes": [
     "hibridismo",

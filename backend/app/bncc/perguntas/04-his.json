@@ -10,10 +10,10 @@
    "enunciado": "Qual destes objetos as pessoas usavam antigamente para ver as horas?",
    "apoio": null,
    "opcoes": [
-    "Televisão",
+    "Telefone celular",
     "Relógio de sol",
-    "Computador",
-    "Celular"
+    "Computador portátil",
+    "Televisão"
    ],
    "certa": 1,
    "explicacao": "Antes dos relógios mecânicos, a sombra do sol marcava as horas.",
@@ -23,13 +23,13 @@
    "id": "ef04hi02-f2",
    "habilidadeId": "EF04HI02",
    "nivel": "facil",
-   "enunciado": "Algo que mudou muito do tempo dos seus avós para hoje é…",
+   "enunciado": "O que mudou muito do tempo dos seus avós para hoje?",
    "apoio": null,
    "opcoes": [
-    "o nascer do sol",
-    "o céu ter estrelas",
-    "a forma de se comunicar",
-    "a necessidade de comer"
+    "O horário do nascer do sol",
+    "O céu ter estrelas à noite",
+    "O jeito de se comunicar",
+    "A necessidade de comer"
    ],
    "certa": 2,
    "explicacao": "A comunicação mudou com telefone, internet e celular.",
@@ -55,13 +55,13 @@
    "id": "ef04hi02-m2",
    "habilidadeId": "EF04HI02",
    "nivel": "medio",
-   "enunciado": "A invenção da escrita é considerada um grande marco porque…",
+   "enunciado": "Por que a invenção da escrita é considerada um grande marco?",
    "apoio": null,
    "opcoes": [
-    "criou os computadores",
-    "acabou com a fala",
-    "permitiu registrar e guardar informações",
-    "fez as pessoas pararem de desenhar"
+    "Porque criou os primeiros computadores",
+    "Porque fez as pessoas pararem de falar",
+    "Porque permitiu registrar informações",
+    "Porque acabou com os desenhos nas cavernas"
    ],
    "certa": 2,
    "explicacao": "Com a escrita, conhecimentos passaram a ser registrados e transmitidos.",
@@ -71,13 +71,13 @@
    "id": "ef04hi02-d1",
    "habilidadeId": "EF04HI02",
    "nivel": "dificil",
-   "enunciado": "Fotos antigas da sua cidade ajudam a estudar história porque…",
+   "enunciado": "Por que fotos antigas da sua cidade ajudam a estudar história?",
    "apoio": null,
    "opcoes": [
-    "mostram o que mudou e o que permaneceu",
-    "têm sempre a data certa de tudo",
-    "mostram o futuro da cidade",
-    "substituem todas as outras fontes"
+    "Mostram o que mudou e o que permaneceu",
+    "Sempre têm a data certa escrita atrás",
+    "Mostram como a cidade vai ser no futuro",
+    "Substituem todos os outros documentos"
    ],
    "certa": 0,
    "explicacao": "Comparando fotos de épocas diferentes, vemos mudanças e permanências.",
@@ -87,7 +87,7 @@
    "id": "ef04hi04-f1",
    "habilidadeId": "EF04HI04",
    "nivel": "facil",
-   "enunciado": "Os primeiros grupos humanos que mudavam de lugar em busca de comida eram chamados de…",
+   "enunciado": "Como eram chamados os primeiros grupos humanos que mudavam de lugar em busca de comida?",
    "apoio": null,
    "opcoes": [
     "operários",
@@ -107,9 +107,9 @@
    "apoio": null,
    "opcoes": [
     "Caçavam, pescavam e coletavam frutos",
-    "Compravam no mercado",
-    "Pediam por telefone",
-    "Plantavam em estufas"
+    "Compravam tudo pronto no mercado",
+    "Trocavam comida com povos de outros países",
+    "Plantavam em grandes estufas de vidro"
    ],
    "certa": 0,
    "explicacao": "Antes da agricultura, a comida vinha da caça, da pesca e da coleta.",
@@ -122,9 +122,9 @@
    "enunciado": "O que fez os grupos humanos começarem a morar num mesmo lugar?",
    "apoio": null,
    "opcoes": [
-    "A construção de shoppings",
-    "A invenção do carro",
-    "A chegada da internet",
+    "A construção de shoppings e lojas",
+    "A invenção do carro e das estradas asfaltadas",
+    "A chegada da internet e da luz elétrica",
     "A agricultura e a criação de animais"
    ],
    "certa": 3,
@@ -138,10 +138,10 @@
    "enunciado": "Por que os primeiros povoados costumavam surgir perto de rios?",
    "apoio": null,
    "opcoes": [
-    "Os rios davam água para beber e para as plantações",
-    "Não havia animais perto dos rios",
-    "Os rios eram mais quentes",
-    "Era proibido morar longe"
+    "Os rios davam água para beber e plantar",
+    "Perto dos rios não havia nenhum animal",
+    "A água dos rios deixava o lugar mais quente",
+    "Era proibido morar longe da água"
    ],
    "certa": 0,
    "explicacao": "Água é essencial para as pessoas e para a agricultura.",
@@ -154,9 +154,9 @@
    "enunciado": "Qual mudança aconteceu quando os grupos deixaram de ser nômades?",
    "apoio": null,
    "opcoes": [
-    "Surgiram as primeiras aldeias e o trabalho foi dividido",
-    "Todos passaram a viajar mais",
-    "Os rios secaram",
+    "Surgiram as primeiras aldeias",
+    "Todos passaram a viajar ainda mais",
+    "Os rios da região secaram",
     "As pessoas pararam de comer carne"
    ],
    "certa": 0,
@@ -183,13 +183,13 @@
    "id": "ef04hi08-f2",
    "habilidadeId": "EF04HI08",
    "nivel": "facil",
-   "enunciado": "Antes da escrita, as histórias eram passadas de geração em geração…",
+   "enunciado": "Antes da escrita, como as histórias eram passadas de geração em geração?",
    "apoio": null,
    "opcoes": [
-    "pela fala (cultura oral)",
-    "por mensagens no celular",
-    "por e-mail",
-    "pela televisão"
+    "Pela fala (cultura oral)",
+    "Por mensagens no celular",
+    "Por e-mail",
+    "Pela televisão"
    ],
    "certa": 0,
    "explicacao": "Os mais velhos contavam as histórias para os mais novos.",
@@ -218,10 +218,10 @@
    "enunciado": "Como a invenção da imprensa mudou a comunicação?",
    "apoio": null,
    "opcoes": [
-    "Livros e jornais puderam ser feitos em grande quantidade",
-    "Fez as cartas desaparecerem",
-    "Acabou com a leitura",
-    "Criou o telefone"
+    "Livros puderam ser feitos em grande quantidade",
+    "As cartas desapareceram de uma vez por todas",
+    "As pessoas pararam de ler e de escrever",
+    "Foi criado o primeiro telefone do mundo"
    ],
    "certa": 0,
    "explicacao": "Com a prensa, copiar textos ficou mais rápido e barato.",
@@ -231,13 +231,13 @@
    "id": "ef04hi08-d1",
    "habilidadeId": "EF04HI08",
    "nivel": "dificil",
-   "enunciado": "Uma mudança trazida pela internet na comunicação foi…",
+   "enunciado": "Qual mudança a internet trouxe para a comunicação?",
    "apoio": null,
    "opcoes": [
-    "impedir o envio de fotos",
-    "fazer as cartas chegarem em meses",
-    "receber notícias do mundo todo em segundos",
-    "acabar com todas as conversas presenciais"
+    "Ficou impossível enviar fotos",
+    "As cartas passaram a demorar meses",
+    "Notícias chegam em segundos",
+    "Acabaram as conversas cara a cara"
    ],
    "certa": 2,
    "explicacao": "Hoje informações viajam quase na mesma hora para qualquer lugar.",
@@ -266,10 +266,10 @@
    "enunciado": "Quais povos formaram a base da população brasileira?",
    "apoio": null,
    "opcoes": [
-    "Só indígenas",
-    "Só asiáticos",
+    "Indígenas, asiáticos e árabes",
+    "Europeus, asiáticos e russos",
     "Indígenas, africanos e europeus",
-    "Só europeus"
+    "Africanos, árabes e indianos"
    ],
    "certa": 2,
    "explicacao": "A sociedade brasileira nasceu do encontro desses povos.",
@@ -279,13 +279,13 @@
    "id": "ef04hi10-m1",
    "habilidadeId": "EF04HI10",
    "nivel": "medio",
-   "enunciado": "Os africanos vieram para o Brasil, no período colonial, principalmente…",
+   "enunciado": "Como os africanos vieram para o Brasil no período colonial?",
    "apoio": null,
    "opcoes": [
-    "como turistas",
-    "para fundar escolas",
-    "trazidos à força e escravizados",
-    "para estudar"
+    "Como turistas, em viagens de passeio",
+    "Para fundar escolas nas vilas",
+    "Trazidos à força e escravizados",
+    "Para estudar nas universidades"
    ],
    "certa": 2,
    "explicacao": "Milhões de africanos foram escravizados e trazidos contra a vontade.",
@@ -311,13 +311,13 @@
    "id": "ef04hi10-d1",
    "habilidadeId": "EF04HI10",
    "nivel": "dificil",
-   "enunciado": "No final do século XIX e início do XX, muitos imigrantes chegaram ao Brasil vindos de…",
+   "enunciado": "No final do século XIX e no início do XX, de onde vieram muitos imigrantes que chegaram ao Brasil?",
    "apoio": null,
    "opcoes": [
-    "apenas da Austrália",
-    "Marte e da Lua",
-    "Itália, Japão, Alemanha e outros países",
-    "apenas Portugal"
+    "Austrália, Canadá e Nova Zelândia",
+    "Estados Unidos, México e Cuba",
+    "Itália, Japão, Alemanha e outros",
+    "Apenas de Portugal"
    ],
    "certa": 2,
    "explicacao": "Imigrantes vieram trabalhar no campo e nas cidades, trazendo seus costumes.",

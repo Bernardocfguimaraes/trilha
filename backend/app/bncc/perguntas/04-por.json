@@ -142,10 +142,10 @@
    "enunciado": "\"No fim de semana, Lucas ajudou sua avó a preparar um bolo de chocolate. Enquanto misturava os ingredientes, ela contou histórias da infância e eles riram juntos. Depois, dividiram o bolo com os vizinhos, que elogiaram o sabor e a amizade que se espalhava pela rua.\" Qual é a ideia central desse texto?",
    "apoio": null,
    "opcoes": [
-    "A família e os vizinhos compartilharam um momento de amizade ao dividir o bolo.",
+    "Família e vizinhos dividem o bolo e a amizade.",
     "O bolo de chocolate era o melhor da cidade.",
     "A avó de Lucas contou histórias enquanto cozinhavam.",
-    "Lucas aprendeu a fazer um bolo de chocolate sozinho."
+    "Lucas aprendeu a fazer o bolo sozinho e sem ajuda."
    ],
    "certa": 0,
    "explicacao": "A ideia central destaca o ato de compartilhar o bolo e a amizade que se espalha, não apenas a receita ou as histórias.",
@@ -158,9 +158,9 @@
    "enunciado": "\"Mariana encontrou um livro antigo na biblioteca da escola. Ao abrir, descobriu que contava a história de uma cidade que mudou ao longo dos séculos. Ela leu sobre as casas, as ruas e as pessoas que viviam ali, percebendo como tudo evoluiu com o tempo.\" Qual é a ideia central desse texto?",
    "apoio": null,
    "opcoes": [
-    "A curiosidade de Mariana ao encontrar o livro.",
-    "Os detalhes das casas e ruas da cidade antiga.",
-    "A história de como a cidade descrita no livro mudou ao longo dos séculos.",
+    "A curiosidade de Mariana ao achar o livro antigo.",
+    "Os detalhes das casas e das ruas da cidade antiga.",
+    "Como a cidade do livro mudou com o tempo.",
     "A importância da biblioteca para os estudantes."
    ],
    "certa": 2,
@@ -238,10 +238,10 @@
    "enunciado": "\"Carlos saiu de casa e viu que a rua estava molhada, as calçadas brilhavam ao sol e as pessoas carregavam sacolas de compras vazias. Ele ouviu o barulho de um carro passando rápido e sentiu o cheiro de gasolina no ar.\" O que Carlos pode estar pensando que aconteceu recentemente?",
    "apoio": null,
    "opcoes": [
-    "Que há um incêndio próximo",
-    "Que acabou de chover e o sol está aparecendo agora",
-    "Que o trânsito está parado",
-    "Que está nevando na cidade"
+    "Que há um incêndio perto de onde ele está",
+    "Que acabou de chover e o sol voltou",
+    "Que o trânsito está parado há horas",
+    "Que começou a nevar na cidade toda"
    ],
    "certa": 1,
    "explicacao": "A rua molhada, calçadas brilhantes e cheiro de gasolina indicam que acabou de chover e o sol já apareceu, permitindo a inferência correta.",
@@ -366,9 +366,9 @@
    "enunciado": "Leia o trecho: \"No fim da tarde, o sol se pôs e o céu ficou coberto de nuvens cinzentas, anunciando que a chuva estava prestes a chegar.\" Qual é o sentido da palavra \"anunciando\" no contexto da frase?",
    "apoio": null,
    "opcoes": [
-    "escrevendo uma notícia",
-    "cantando uma música",
-    "falando em voz alta",
+    "escrevendo uma notícia no jornal",
+    "cantando uma música bem alto",
+    "falando em voz alta com alguém",
     "mostrando que algo vai acontecer"
    ],
    "certa": 3,
@@ -542,9 +542,9 @@
    "enunciado": "Leia o texto: \"No mural da escola, foi afixado um cartaz com a frase ‘Dia da Saúde Mental – Traga sua história e participe das rodas de conversa às 15h no auditório’. O cartaz foi criado pela equipe de psicologia da escola e está destinado a todos os estudantes, professores e funcionários, para que conheçam a atividade e se sintam convidados a participar.\" Qual é a principal função desse texto?",
    "apoio": null,
    "opcoes": [
-    "Vender um produto relacionado ao bem‑estar",
-    "Informar sobre um evento e convidar a comunidade escolar a participar",
-    "Ensinar como cuidar da saúde mental em casa",
+    "Vender um produto ligado ao bem-estar",
+    "Informar sobre o evento e convidar a todos",
+    "Ensinar a cuidar da saúde mental em casa",
     "Contar uma história sobre saúde mental"
    ],
    "certa": 1,
@@ -718,10 +718,10 @@
    "enunciado": "Leia: \"Quando Pedro chegou, o bolo já tinha acabado e só sobravam migalhas no prato.\" O que podemos concluir?",
    "apoio": null,
    "opcoes": [
-    "Outras pessoas comeram o bolo antes de Pedro chegar.",
+    "Outras pessoas comeram o bolo antes.",
     "O bolo ainda não tinha sido feito.",
     "Pedro comeu o bolo inteiro sozinho.",
-    "Pedro chegou antes de todos."
+    "Pedro chegou antes de todo mundo."
    ],
    "certa": 0,
    "explicacao": "O texto não diz quem comeu, mas as migalhas e o bolo acabado mostram que outros comeram antes.",
@@ -1454,10 +1454,10 @@
    "enunciado": "Leia as instruções de um jogo: \"Separe as cartas. Embaralhe bem. Distribua cinco cartas para cada jogador.\" Que tipo de palavra começa cada passo?",
    "apoio": null,
    "opcoes": [
-    "Palavras que indicam lugar",
-    "Nomes de pessoas",
-    "Perguntas para o leitor",
-    "Verbos que dão uma ordem, como separe e embaralhe"
+    "Palavras que indicam um lugar",
+    "Nomes de pessoas e de cartas",
+    "Perguntas feitas ao leitor",
+    "Verbos que dão uma ordem"
    ],
    "certa": 3,
    "explicacao": "Textos instrucionais usam verbos no imperativo.",
@@ -1502,8 +1502,8 @@
    "enunciado": "Por que as instruções de um jogo costumam ser numeradas (1, 2, 3...)?",
    "apoio": null,
    "opcoes": [
-    "Para enfeitar o texto",
-    "Para mostrar a ordem em que os passos devem ser feitos",
+    "Para enfeitar e colorir o texto",
+    "Para mostrar a ordem dos passos",
     "Para mostrar quantos pontos cada um fez",
     "Para contar quantos jogadores existem"
    ],
@@ -1534,9 +1534,9 @@
    "enunciado": "Leia: \"1. Coloque o tabuleiro na mesa. 2. ___ 3. Comece pela casa de saída.\" Qual frase completa melhor o passo 2?",
    "apoio": null,
    "opcoes": [
-    "Ontem joguei com meu primo.",
-    "Eu adoro esse jogo!",
-    "Posicione os peões na casa de saída.",
+    "Ontem eu joguei com meu primo.",
+    "Eu adoro muito esse jogo de tabuleiro!",
+    "Posicione os peões na saída.",
     "O tabuleiro é verde e azul."
    ],
    "certa": 2,
@@ -1582,10 +1582,10 @@
    "enunciado": "Em uma conta de luz, o campo \"Consumo do mês\" informa:",
    "apoio": null,
    "opcoes": [
-    "a data de pagamento",
-    "quanta energia foi gasta no mês",
-    "o nome do cliente",
-    "o endereço da empresa"
+    "a data de pagamento da conta",
+    "quanta energia foi gasta",
+    "o nome completo do cliente",
+    "o endereço da empresa de luz"
    ],
    "certa": 1,
    "explicacao": "O consumo mostra a energia usada, medida em kWh.",
@@ -1615,8 +1615,8 @@
    "apoio": null,
    "opcoes": [
     "Para indicar o nome do cliente",
-    "Para o banco ou a máquina lerem os dados do pagamento rapidamente",
-    "Para enfeitar o papel",
+    "Para a máquina ler o pagamento",
+    "Para enfeitar o papel do boleto",
     "Para mostrar o consumo de energia"
    ],
    "certa": 1,
@@ -1695,9 +1695,9 @@
    "apoio": null,
    "opcoes": [
     "No meio da reclamação",
-    "No título da carta",
+    "No título, no alto da carta",
     "No começo, antes da data",
-    "Na despedida, antes da assinatura"
+    "Na despedida, antes do nome"
    ],
    "certa": 3,
    "explicacao": "É uma fórmula de despedida da carta.",
@@ -1711,9 +1711,9 @@
    "apoio": null,
    "opcoes": [
     "Para contar uma história inventada",
-    "Para mostrar as consequências do problema e reforçar o pedido",
+    "Para mostrar o problema e reforçar o pedido",
     "Para elogiar o trabalho do prefeito",
-    "Para convidar os moradores para uma festa"
+    "Para convidar os moradores a uma festa"
    ],
    "certa": 1,
    "explicacao": "Mostrar os prejuízos causados pelo problema torna a reclamação mais convincente.",
@@ -1726,9 +1726,9 @@
    "enunciado": "Qual frase é mais adequada para uma carta de reclamação enviada a uma empresa?",
    "apoio": null,
    "opcoes": [
-    "Ei, troca logo isso aí!",
-    "Que produto lindo eu comprei!",
-    "Solicito que o produto com defeito seja trocado.",
+    "Ei, troca logo esse produto aí, tá?",
+    "Que produto lindo que eu comprei!",
+    "Solicito a troca do produto com defeito.",
     "Era uma vez um produto com defeito."
    ],
    "certa": 2,
@@ -1758,10 +1758,10 @@
    "enunciado": "Leia a notícia: \"Na manhã de ontem, alunos da Escola Municipal Rio Azul, em Recife, plantaram 50 mudas de árvores no pátio da escola. A ação fez parte da Semana do Meio Ambiente.\" Quem participou do fato?",
    "apoio": null,
    "opcoes": [
-    "Jogadores de futebol",
-    "Bombeiros da cidade",
-    "Turistas estrangeiros",
-    "Alunos da Escola Municipal Rio Azul"
+    "Jogadores do time de futebol",
+    "Bombeiros e policiais da cidade",
+    "Turistas que visitavam a escola",
+    "Alunos da Escola Rio Azul"
    ],
    "certa": 3,
    "explicacao": "Os participantes foram os alunos da escola.",
@@ -1839,9 +1839,9 @@
    "apoio": null,
    "opcoes": [
     "A última frase da notícia",
-    "A legenda da foto",
+    "A legenda que fica embaixo da foto",
     "A assinatura de quem escreveu",
-    "O título principal, em destaque, que chama a atenção do leitor"
+    "O título principal, em destaque"
    ],
    "certa": 3,
    "explicacao": "A manchete é o título em destaque.",
@@ -1870,9 +1870,9 @@
    "enunciado": "Em uma notícia, o lide (primeiro parágrafo) costuma:",
    "apoio": null,
    "opcoes": [
-    "trazer a opinião do leitor",
+    "trazer a opinião do leitor sobre o fato",
     "listar os materiais de uma receita",
-    "resumir o fato principal: o que, quem, quando e onde",
+    "resumir o fato: o que, quem, quando, onde",
     "contar o final de uma história inventada"
    ],
    "certa": 2,
@@ -1904,8 +1904,8 @@
    "opcoes": [
     "Praia de Itapuã recebe novos quiosques",
     "Domingo terá sol forte em Itapuã",
-    "Turistas lotam praia no feriado",
-    "Voluntários recolhem duas toneladas de lixo em praia"
+    "Turistas lotam praia no feriado de domingo",
+    "Voluntários recolhem lixo em praia"
    ],
    "certa": 3,
    "explicacao": "A manchete resume o fato principal da notícia.",
@@ -1920,8 +1920,8 @@
    "opcoes": [
     "Porque manchetes não podem ter verbos",
     "Porque o fato ainda vai acontecer",
-    "Porque é um erro de escrita",
-    "Para deixar a notícia mais atual e chamar a atenção"
+    "Porque é um erro comum de escrita",
+    "Para a notícia parecer mais atual"
    ],
    "certa": 3,
    "explicacao": "O presente é uma convenção das manchetes para dar sensação de atualidade.",
@@ -1983,9 +1983,9 @@
    "apoio": null,
    "opcoes": [
     "O suco mais gostoso que você vai provar!",
-    "Feito com laranjas",
-    "Colhidas no dia",
-    "Suco Natu"
+    "Feito com laranjas colhidas na fazenda",
+    "As laranjas foram colhidas no dia",
+    "O nome do suco é Suco Natu"
    ],
    "certa": 0,
    "explicacao": "Dizer que é o mais gostoso é uma opinião usada para convencer.",
@@ -1998,10 +1998,10 @@
    "enunciado": "Qual frase junta um fato e uma opinião?",
    "apoio": null,
    "opcoes": [
-    "O time venceu por 3 a 0.",
-    "O time venceu por 3 a 0 e jogou de forma maravilhosa.",
-    "O jogo foi no domingo à tarde.",
-    "O time é maravilhoso."
+    "O time venceu o jogo por 3 a 0.",
+    "O time venceu por 3 a 0 e jogou lindamente.",
+    "O jogo foi no domingo, às quatro da tarde.",
+    "O time é maravilhoso e o melhor de todos."
    ],
    "certa": 1,
    "explicacao": "O placar é fato; \"jogou de forma maravilhosa\" é opinião.",
@@ -2015,9 +2015,9 @@
    "apoio": null,
    "opcoes": [
     "Porque opiniões são sempre mentiras",
-    "Para o leitor saber o que aconteceu e o que é o ponto de vista de alguém",
+    "Para saber o que é fato e o que é opinião",
     "Porque notícias só podem ter opiniões",
-    "Porque fatos são sempre inventados"
+    "Porque os fatos são sempre inventados"
    ],
    "certa": 1,
    "explicacao": "Distinguir fato de opinião ajuda a ler com senso crítico.",
@@ -2063,9 +2063,9 @@
    "apoio": null,
    "opcoes": [
     "Fazer mel dentro da colmeia",
-    "Buscar água nos rios",
-    "Levar o pólen de uma flor para outra",
-    "Plantar sementes na terra"
+    "Buscar água nos rios e lagos",
+    "Levar o pólen de uma flor a outra",
+    "Plantar as sementes na terra"
    ],
    "certa": 2,
    "explicacao": "A definição está no próprio texto.",
@@ -2159,9 +2159,9 @@
    "apoio": null,
    "opcoes": [
     "Porque tabelas são mais engraçadas",
-    "Porque a tabela mostra os números de forma organizada e fácil de comparar",
+    "Porque organiza os números para comparar",
     "Porque tabelas servem para contar histórias",
-    "Porque o texto não tinha números"
+    "Porque o texto não tinha nenhum número"
    ],
    "certa": 1,
    "explicacao": "A tabela facilita ver e comparar os dados.",
@@ -2174,10 +2174,10 @@
    "enunciado": "Um texto sobre o clima diz: \"Veja no gráfico de barras quantos dias choveu em cada mês.\" O gráfico serve para:",
    "apoio": null,
    "opcoes": [
-    "contar uma lenda sobre a chuva",
+    "contar uma lenda antiga sobre a chuva",
     "ensinar a fazer um guarda-chuva",
-    "mostrar os dados de forma visual para comparar os meses",
-    "explicar como se forma a chuva"
+    "mostrar os dados para comparar os meses",
+    "explicar como as nuvens formam a chuva"
    ],
    "certa": 2,
    "explicacao": "O gráfico apresenta os dados de forma visual.",
@@ -2190,10 +2190,10 @@
    "enunciado": "Leia a tabela: \"Livros lidos — janeiro: 2; fevereiro: 4; março: 6.\" O que a tabela mostra ao longo dos meses?",
    "apoio": null,
    "opcoes": [
-    "Que a quantidade diminuiu",
-    "Que a quantidade de livros lidos aumentou",
-    "Que em março ninguém leu",
-    "Que foi sempre igual"
+    "Que a quantidade diminuiu a cada mês",
+    "Que a quantidade aumentou",
+    "Que em março ninguém leu nenhum livro",
+    "Que foi sempre a mesma quantidade"
    ],
    "certa": 1,
    "explicacao": "Os números crescem de 2 para 4 e depois para 6.",
@@ -2222,10 +2222,10 @@
    "enunciado": "Em uma enciclopédia, o que é o título do verbete?",
    "apoio": null,
    "opcoes": [
-    "A palavra ou o assunto que será explicado, como \"Tartaruga\"",
+    "A palavra ou assunto explicado",
     "A última informação do texto",
-    "Uma pergunta para o leitor",
-    "O nome de quem escreveu"
+    "Uma pergunta feita para o leitor",
+    "O nome de quem escreveu o texto"
    ],
    "certa": 0,
    "explicacao": "O verbete começa pelo termo que vai ser explicado.",
@@ -2286,9 +2286,9 @@
    "enunciado": "Qual é a principal finalidade de um verbete de enciclopédia?",
    "apoio": null,
    "opcoes": [
-    "Explicar um assunto com informações confiáveis e organizadas",
+    "Explicar um assunto com informações certas",
     "Dar a opinião do autor sobre um tema",
-    "Contar uma aventura inventada",
+    "Contar uma aventura inventada pelo autor",
     "Convencer o leitor a comprar algo"
    ],
    "certa": 0,
@@ -2302,10 +2302,10 @@
    "enunciado": "Qual frase é mais adequada para começar um verbete sobre \"Vulcão\"?",
    "apoio": null,
    "opcoes": [
-    "Vulcão: abertura na superfície da Terra por onde saem lava, gases e cinzas.",
-    "Vamos visitar um vulcão nas férias?",
-    "Eu acho os vulcões assustadores.",
-    "Era uma vez um vulcão muito bravo."
+    "Vulcão: abertura na Terra por onde sai lava.",
+    "Vamos visitar um vulcão nas próximas férias?",
+    "Eu acho os vulcões muito assustadores.",
+    "Era uma vez um vulcão muito, muito bravo."
    ],
    "certa": 0,
    "explicacao": "O verbete começa pelo título e uma definição objetiva.",
@@ -2350,9 +2350,9 @@
    "enunciado": "Nos quadrinhos, um balão com contorno em zigue-zague, cheio de pontas, geralmente indica que o personagem está:",
    "apoio": null,
    "opcoes": [
-    "cochichando",
-    "gritando ou falando muito alto",
-    "sonhando",
+    "cochichando baixinho",
+    "gritando",
+    "sonhando acordado",
     "pensando em silêncio"
    ],
    "certa": 1,
@@ -2398,7 +2398,7 @@
    "enunciado": "Em uma tirinha, as letras da fala aparecem muito grandes e em negrito. O que isso indica?",
    "apoio": null,
    "opcoes": [
-    "Que o personagem está falando alto ou com emoção forte",
+    "Que fala alto ou com emoção forte",
     "Que a fala é de outro personagem",
     "Que o personagem está cochichando",
     "Que o personagem está dormindo"
@@ -2478,9 +2478,9 @@
    "enunciado": "Leia: \"Numa tarde de verão, na fazenda do avô, Tiago encontrou um filhote de coruja caído do ninho. Com cuidado, ele o levou até o celeiro e cuidou dele até que pudesse voar.\" Qual é o resumo do enredo?",
    "apoio": null,
    "opcoes": [
-    "Tiago encontra um filhote de coruja e cuida dele até ele voar",
+    "Tiago cuida de um filhote de coruja até ele voar",
     "O avô de Tiago constrói um celeiro novo",
-    "Tiago visita o avô e brinca no celeiro",
+    "Tiago visita o avô e brinca no celeiro o dia todo",
     "Uma coruja ensina Tiago a voar"
    ],
    "certa": 0,
@@ -2542,10 +2542,10 @@
    "enunciado": "Leia: \"O pequeno Rui queria participar da corrida da escola, mas tinha machucado o pé. Durante uma semana, fez os exercícios que o médico indicou. No dia da prova, já estava bem, correu e chegou em segundo lugar.\" Qual é o conflito da história?",
    "apoio": null,
    "opcoes": [
-    "O médico indicou exercícios",
-    "Rui chegou em segundo lugar",
+    "O médico indicou exercícios para Rui",
+    "Rui chegou em segundo lugar na prova",
     "A escola organizou uma corrida",
-    "Rui queria correr, mas estava com o pé machucado"
+    "Rui queria correr, mas se machucou"
    ],
    "certa": 3,
    "explicacao": "O conflito é o problema que move a história.",
@@ -2558,9 +2558,9 @@
    "enunciado": "Leia: \"O pequeno Rui queria participar da corrida da escola, mas tinha machucado o pé. Durante uma semana, fez os exercícios que o médico indicou. No dia da prova, já estava bem, correu e chegou em segundo lugar.\" Como o conflito foi resolvido?",
    "apoio": null,
    "opcoes": [
-    "A corrida foi cancelada",
-    "Rui fez os exercícios, melhorou e conseguiu correr",
-    "Rui desistiu da corrida",
+    "A corrida foi cancelada pela escola",
+    "Rui fez os exercícios e melhorou",
+    "Rui desistiu da corrida e foi assistir",
     "Outro aluno correu no lugar de Rui"
    ],
    "certa": 1,
@@ -2672,8 +2672,8 @@
    "opcoes": [
     "Porque são erros de digitação",
     "Para indicar que o personagem está dormindo",
-    "Para mostrar o jeito de falar do personagem, típico de uma região do país",
-    "Para mostrar a fala do narrador"
+    "Para mostrar o jeito de falar da região",
+    "Para mostrar que é a fala do narrador"
    ],
    "certa": 2,
    "explicacao": "No discurso direto, o autor pode registrar a variedade linguística do personagem.",
@@ -2687,9 +2687,9 @@
    "apoio": null,
    "opcoes": [
     "Não há nenhuma diferença de sentido",
-    "No primeiro, a mãe está gritando",
+    "No primeiro, a mãe está gritando muito",
     "No segundo, a mãe está fazendo uma pergunta",
-    "No segundo, a mãe fala de forma mais firme, dando uma ordem"
+    "No segundo, a mãe fala com mais firmeza"
    ],
    "certa": 3,
    "explicacao": "O verbo de enunciação muda o sentido da fala: pedir é mais suave que ordenar.",
@@ -2784,7 +2784,7 @@
    "opcoes": [
     "Para esconder o que o personagem falou",
     "Porque o discurso indireto é proibido",
-    "Para mostrar as palavras exatas do personagem e dar mais vida à cena",
+    "Para mostrar as palavras exatas da personagem",
     "Para resumir a fala com as palavras do narrador"
    ],
    "certa": 2,
@@ -2862,9 +2862,9 @@
    "enunciado": "Leia: \"O rato roeu a roupa do rei de Roma.\" Que recurso sonoro aparece nessa frase?",
    "apoio": null,
    "opcoes": [
-    "Aliteração: a repetição do som do r",
-    "Nenhum som repetido",
-    "Refrão",
+    "Aliteração (repetição do som r)",
+    "Nenhum som repetido na frase",
+    "Refrão repetido no final",
     "Rima no fim dos versos"
    ],
    "certa": 0,
@@ -2927,8 +2927,8 @@
    "apoio": null,
    "opcoes": [
     "Explica como o vento se forma",
-    "Dá ao vento uma ação de pessoa, criando uma imagem poética",
-    "Dá uma ordem ao leitor",
+    "Dá ao vento uma ação de pessoa",
+    "Dá uma ordem direta ao leitor",
     "Conta quantas janelas a casa tem"
    ],
    "certa": 1,
@@ -2943,7 +2943,7 @@
    "apoio": null,
    "opcoes": [
     "Porque conta uma notícia sobre tigres",
-    "Porque repete sons parecidos e fica difícil falar rápido",
+    "Porque repete sons e é difícil de falar",
     "Porque não tem nenhum som repetido",
     "Porque ensina a fazer pratos de trigo"
    ],
@@ -2974,10 +2974,10 @@
    "enunciado": "Leia: \"Quem cochicha o rabo espicha.\" Por que essa frase é divertida de ouvir?",
    "apoio": null,
    "opcoes": [
-    "Porque \"cochicha\" e \"espicha\" rimam e têm sons parecidos",
-    "Porque explica o que é um rabo",
+    "Porque \"cochicha\" e \"espicha\" rimam",
+    "Porque explica para que serve o rabo",
     "Porque é uma notícia verdadeira",
-    "Porque não tem rima nenhuma"
+    "Porque não tem nenhuma rima"
    ],
    "certa": 0,
    "explicacao": "O jogo sonoro (rima) torna a frase divertida.",
@@ -3038,10 +3038,10 @@
    "enunciado": "Por que muitos poemas têm versos com ritmo marcado?",
    "apoio": null,
    "opcoes": [
-    "Para parecerem uma notícia",
-    "Para não terem rimas",
-    "Para ficarem mais longos",
-    "Para criar musicalidade e tornar a leitura mais agradável"
+    "Para parecerem uma notícia de jornal",
+    "Para não precisarem ter rimas",
+    "Para ficarem mais longos e cansativos",
+    "Para criar musicalidade na leitura"
    ],
    "certa": 3,
    "explicacao": "O ritmo dá sonoridade ao poema.",
@@ -3151,9 +3151,9 @@
    "apoio": null,
    "opcoes": [
     "Para mostrar quem escreveu a peça",
-    "Para os atores saberem quem deve dizer cada fala",
-    "Porque o nome é o título da peça",
-    "Para enfeitar o texto"
+    "Para os atores saberem quem fala",
+    "Porque o nome dela é o título da peça",
+    "Para enfeitar o texto da peça"
    ],
    "certa": 1,
    "explicacao": "É o marcador da fala da personagem.",
@@ -3166,10 +3166,10 @@
    "enunciado": "Qual é a principal diferença entre um conto e um texto teatral?",
    "apoio": null,
    "opcoes": [
-    "O conto sempre tem rimas e o texto teatral não",
-    "Não há diferença entre eles",
+    "O conto sempre tem rimas e o teatral não",
+    "Não há nenhuma diferença entre eles",
     "O texto teatral não tem personagens",
-    "O texto teatral é organizado em falas de personagens para ser encenado; o conto é contado por um narrador"
+    "O teatral tem falas para ser encenado"
    ],
    "certa": 3,
    "explicacao": "O teatro se organiza em falas e rubricas; o conto, em narração.",
@@ -3182,9 +3182,9 @@
    "enunciado": "Leia: \"MÃE (abrindo a porta): Chegou cedo hoje, filho!\" O trecho entre parênteses indica:",
    "apoio": null,
    "opcoes": [
-    "o nome do autor",
-    "o título da peça",
-    "o que a personagem faz enquanto fala",
+    "o nome do autor da peça",
+    "o título da peça de teatro",
+    "o que a personagem faz",
     "a fala de outra personagem"
    ],
    "certa": 2,
@@ -3230,9 +3230,9 @@
    "enunciado": "Leia: \"(A luz se apaga. Ouve-se um trovão.)\" Esse trecho é:",
    "apoio": null,
    "opcoes": [
-    "o título da cena",
-    "uma rubrica que indica o que acontece em cena",
-    "um verso de poema",
+    "o título da cena que começa",
+    "uma rubrica sobre a cena",
+    "um verso de um poema",
     "uma fala da personagem principal"
    ],
    "certa": 1,

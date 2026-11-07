@@ -40,6 +40,8 @@ def _sistema(ano: int) -> str:
     "aparecer juntas; 0,5 e 1/2 também). Antes de responder, confira que só existe UMA resposta "
     "correta entre as quatro. indiceCorreta é a posição (0 a 3) da opção certa; não numere nem "
     "rotule as opções (nada de 'a)', '1.'). "
+    "As quatro opções devem ter tamanho e nível de detalhe parecidos: a correta NÃO pode ser a "
+    "mais longa nem a mais completa (o aluno não pode acertar só pelo tamanho). "
     "Em questão de ortografia ('qual está escrita corretamente'), as opções erradas têm de ser "
     "grafias que NÃO existem; nunca use outra palavra real como distrator (ex.: 'coro' para "
     "'carro', 'fera' para 'feira'), senão haverá duas opções corretas. "
@@ -47,7 +49,7 @@ def _sistema(ano: int) -> str:
     "ou gráfico que não esteja escrito no enunciado. Se a habilidade for de leitura ou "
     "interpretação, coloque no próprio enunciado um texto curto (2 a 5 frases, entre aspas) e "
     "depois a pergunta sobre ele. O enunciado SEMPRE termina com a pergunta (com ponto de "
-    "interrogação) ou com um comando terminado em dois-pontos — nunca só com o texto."
+    "interrogação) ou com um comando terminado em dois-pontos — nunca só com o texto, nem com reticências."
     )
 
 

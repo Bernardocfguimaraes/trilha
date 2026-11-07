@@ -23,13 +23,13 @@
    "id": "ef08li14-f2",
    "habilidadeId": "EF08LI14",
    "nivel": "facil",
-   "enunciado": "\"She is going to travel next week.\" A frase fala de…",
+   "enunciado": "\"She is going to travel next week.\" Do que a frase fala?",
    "apoio": null,
    "opcoes": [
-    "algo que já aconteceu",
-    "uma ordem",
-    "um plano para o futuro",
-    "um hábito"
+    "De algo que já aconteceu",
+    "De uma ordem dada a alguém",
+    "De um plano para o futuro",
+    "De um hábito de todo dia"
    ],
    "certa": 2,
    "explicacao": "\"Going to\" expressa planos e intenções.",

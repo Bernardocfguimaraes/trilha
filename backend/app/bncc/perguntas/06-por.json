@@ -13,7 +13,7 @@
     "O filme estreou na sexta-feira.",
     "O filme foi gravado no Brasil.",
     "Esse é o filme mais emocionante do ano.",
-    "O filme tem duas horas de duração."
+    "O filme tem duas horas e dez minutos de duração."
    ],
    "certa": 2,
    "explicacao": "\"Mais emocionante\" é um julgamento pessoal; os outros podem ser verificados.",
@@ -234,10 +234,10 @@
    "enunciado": "Em qual frase \"mal\" está correto?",
    "apoio": null,
    "opcoes": [
-    "Ele é um menino muito mal.",
+    "Ele é um menino muito mal com todos.",
     "Ele se sentiu mal depois do almoço.",
-    "O lobo mal apareceu.",
-    "Que mal humor!"
+    "O lobo mal apareceu na floresta escura.",
+    "Que mal humor ele tem hoje de manhã!"
    ],
    "certa": 1,
    "explicacao": "\"Mal\" é o contrário de \"bem\"; \"mau\" é o contrário de \"bom\" (menino mau, lobo mau, mau humor).",
@@ -263,7 +263,7 @@
    "id": "ef67lp38-f2",
    "habilidadeId": "EF67LP38",
    "nivel": "facil",
-   "enunciado": "\"O tique-taque do relógio me acordou.\" \"Tique-taque\" é…",
+   "enunciado": "\"O tique-taque do relógio me acordou.\" Que figura de linguagem é \"tique-taque\"?",
    "apoio": null,
    "opcoes": [
     "metáfora",

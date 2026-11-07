@@ -37,7 +37,7 @@ const BANCO_POR_HABILIDADE: Record<string, Linha[]> = {
   ],
   "mat-fracoes": [
     ["p5", "facil", "Qual pedaço é a metade da pizza?", ["1 de 2 pedaços", "1 de 3 pedaços", "1 de 4 pedaços", "2 de 3 pedaços"], { apoio: "🍕", certa: 0 }],
-    ["fr2", "facil", "Uma barra de chocolate foi dividida em 2 partes iguais. Cada parte é…", ["a metade", "um terço", "um quarto", "a barra inteira"]],
+    ["fr2", "facil", "Uma barra de chocolate foi dividida em 2 partes iguais. Que parte da barra é cada pedaço?", ["a metade", "um terço", "um quarto", "a barra inteira"]],
     ["fr3", "medio", "Uma pizza foi cortada em 4 pedaços iguais. Comi 1. Que parte da pizza eu comi?", ["um quarto", "um terço", "a metade", "quatro pizzas"]],
     ["fr4", "medio", "Qual é a metade de 10?", ["5", "2", "20", "8"]],
     ["fr5", "dificil", "Qual pedaço é maior: um terço ou um quarto da mesma pizza?", ["um terço", "um quarto", "são iguais", "não dá para saber"]],
@@ -91,7 +91,7 @@ const BANCO_POR_HABILIDADE: Record<string, Linha[]> = {
   "geo-paisagem": [
     ["gp1", "facil", "Qual destes foi feito pela natureza?", ["Rio", "Ponte", "Prédio", "Rua"]],
     ["gp2", "facil", "Qual destes foi construído pelas pessoas?", ["Ponte", "Montanha", "Mar", "Floresta"]],
-    ["gp3", "medio", "Uma paisagem com prédios, ruas e muitos carros é do…", ["Cidade", "Campo", "Deserto", "Fundo do mar"]],
+    ["gp3", "medio", "Uma paisagem com prédios, ruas e muitos carros é de onde?", ["Cidade", "Campo", "Deserto", "Fundo do mar"]],
     ["gp4", "medio", "Onde é mais comum ver plantações e criação de animais?", ["No campo", "No centro da cidade", "No shopping", "No aeroporto"]],
     ["gp5", "dificil", "Por que cortar as árvores da beira de um rio prejudica o rio?", ["A terra escorre para o rio e ele fica raso", "O rio fica mais limpo", "A água fica mais gelada", "Os peixes ficam maiores"]],
     ["gp6", "dificil", "Uma cidade asfaltou muitas ruas. O que pode acontecer quando chove forte?", ["Alagamentos, porque a água não entra no chão", "Nada muda", "O sol aparece mais rápido", "Os rios secam"]],
@@ -107,7 +107,7 @@ const BANCO_POR_HABILIDADE: Record<string, Linha[]> = {
     ["cs6", "dificil", "Por que as plantas são chamadas de produtoras?", ["Fazem o próprio alimento com a luz do sol", "Comem outros animais", "Produzem pedras", "Vivem para sempre"]],
   ],
   "cie-materia": [
-    ["cm1", "facil", "O gelo derretendo vira…", ["Água", "Pedra", "Fogo", "Areia"], { apoio: "🧊" }],
+    ["cm1", "facil", "O que o gelo vira quando derrete?", ["Água", "Pedra", "Fogo", "Areia"], { apoio: "🧊" }],
     ["cm2", "facil", "Qual destes materiais é transparente?", ["Vidro", "Madeira", "Ferro", "Papelão"]],
     ["cm3", "medio", "O que acontece com a água quando ferve bastante?", ["Vira vapor", "Vira gelo", "Fica mais pesada", "Muda de cor"]],
     ["cm4", "medio", "Qual objeto o ímã atrai?", ["Prego de ferro", "Borracha", "Lápis de madeira", "Copo de vidro"], { apoio: "🧲" }],
@@ -129,7 +129,7 @@ const BANCO_POR_HABILIDADE: Record<string, Linha[]> = {
     ["if2", "facil", "O que quer dizer \"Thank you\"?", ["Obrigado", "Desculpa", "Tchau", "Bom dia"]],
     ["if3", "medio", "Alguém pergunta \"What is your name?\". O que você responde?", ["My name is Ana.", "I am fine.", "Good night.", "It is blue."]],
     ["if4", "medio", "Quando a gente diz \"Good morning\"?", ["De manhã", "À noite", "Na hora de dormir", "Só no almoço"], { apoio: "☀️" }],
-    ["if5", "dificil", "A pergunta \"How old are you?\" quer saber…", ["Sua idade", "Seu nome", "Onde você mora", "Sua cor favorita"]],
+    ["if5", "dificil", "O que a pergunta \"How old are you?\" quer saber?", ["Sua idade", "Seu nome", "Onde você mora", "Sua cor favorita"]],
     ["if6", "dificil", "Complete: \"She ___ a dog.\"", ["has", "have", "is", "are"]],
   ],
 };

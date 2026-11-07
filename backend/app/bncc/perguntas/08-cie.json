@@ -71,13 +71,13 @@
    "id": "ef08ci01-d1",
    "habilidadeId": "EF08CI01",
    "nivel": "dificil",
-   "enunciado": "Uma desvantagem ambiental das grandes hidrelétricas é…",
+   "enunciado": "Qual é uma desvantagem ambiental das grandes hidrelétricas?",
    "apoio": null,
    "opcoes": [
-    "produzir lixo radioativo",
-    "depender de vento constante",
-    "alagar grandes áreas e afetar ecossistemas",
-    "emitir muita fumaça preta"
+    "Produzem lixo radioativo perigoso",
+    "Dependem de vento forte e constante",
+    "Alagam grandes áreas de floresta",
+    "Soltam muita fumaça preta no ar"
    ],
    "certa": 2,
    "explicacao": "O reservatório inunda florestas e muda o curso dos rios.",
@@ -92,7 +92,7 @@
    "opcoes": [
     "Volt",
     "Litro",
-    "kWh (quilowatt-hora)",
+    "kWh",
     "Ampère"
    ],
    "certa": 2,
@@ -171,9 +171,9 @@
    "apoio": null,
    "opcoes": [
     "Cerca de 29 dias",
-    "1 ano",
-    "7 dias",
-    "1 dia"
+    "Cerca de 1 ano",
+    "Cerca de 7 dias",
+    "Cerca de 1 dia"
    ],
    "certa": 0,
    "explicacao": "O ciclo completo das fases dura cerca de 29,5 dias.",
@@ -183,13 +183,13 @@
    "id": "ef08ci12-f2",
    "habilidadeId": "EF08CI12",
    "nivel": "facil",
-   "enunciado": "Na lua nova, a face da Lua voltada para a Terra está…",
+   "enunciado": "Na lua nova, como está a face da Lua voltada para a Terra?",
    "apoio": null,
    "opcoes": [
-    "sem iluminação do Sol",
-    "totalmente iluminada",
-    "vermelha",
-    "metade iluminada"
+    "Sem luz do Sol",
+    "Toda iluminada",
+    "Vermelha",
+    "Metade iluminada"
    ],
    "certa": 0,
    "explicacao": "Na lua nova, o lado iluminado está voltado para o Sol, e não para nós.",
@@ -203,9 +203,9 @@
    "apoio": null,
    "opcoes": [
     "A sombra da Terra cobre a Lua todo mês",
-    "Vemos partes diferentes da sua face iluminada pelo Sol",
-    "A Lua produz luz própria que varia",
-    "A Lua muda de tamanho"
+    "Vemos partes diferentes do lado iluminado",
+    "A Lua tem luz própria, que varia no mês",
+    "A Lua muda de tamanho ao longo do mês"
    ],
    "certa": 1,
    "explicacao": "A Lua é sempre metade iluminada; o que muda é quanto dessa metade vemos.",
@@ -234,10 +234,10 @@
    "enunciado": "Por que não há eclipse da Lua todo mês, na lua cheia?",
    "apoio": null,
    "opcoes": [
-    "A órbita da Lua é inclinada em relação à da Terra",
-    "Os eclipses só ocorrem no verão",
-    "A Lua fica longe demais da Terra",
-    "O Sol não ilumina a Lua na lua cheia"
+    "A órbita da Lua é um pouco inclinada",
+    "Os eclipses só acontecem no verão",
+    "A Lua fica longe demais para ter sombra",
+    "Na lua cheia, o Sol não ilumina a Lua"
    ],
    "certa": 0,
    "explicacao": "Na maioria dos meses a Lua passa acima ou abaixo da sombra da Terra.",
@@ -247,7 +247,7 @@
    "id": "ef08ci13-f1",
    "habilidadeId": "EF08CI13",
    "nivel": "facil",
-   "enunciado": "O movimento da Terra em torno do próprio eixo se chama…",
+   "enunciado": "Como se chama o movimento da Terra em torno do próprio eixo?",
    "apoio": null,
    "opcoes": [
     "revolução lunar",
@@ -263,13 +263,13 @@
    "id": "ef08ci13-f2",
    "habilidadeId": "EF08CI13",
    "nivel": "facil",
-   "enunciado": "O dia e a noite acontecem por causa…",
+   "enunciado": "Por que acontecem o dia e a noite?",
    "apoio": null,
    "opcoes": [
-    "das fases da Lua",
-    "da translação da Terra",
-    "da distância do Sol",
-    "da rotação da Terra"
+    "Por causa das fases da Lua",
+    "Por causa da translação da Terra",
+    "Por causa da distância do Sol",
+    "Por causa da rotação da Terra"
    ],
    "certa": 3,
    "explicacao": "Ao girar, cada lado da Terra fica voltado para o Sol ou não.",
@@ -282,9 +282,9 @@
    "enunciado": "Quanto tempo dura uma translação completa da Terra?",
    "apoio": null,
    "opcoes": [
-    "12 horas",
-    "24 horas",
-    "29 dias",
+    "Cerca de 12 horas",
+    "Cerca de 24 horas",
+    "Cerca de 29 dias",
     "Cerca de 365 dias"
    ],
    "certa": 3,
@@ -295,13 +295,13 @@
    "id": "ef08ci13-m2",
    "habilidadeId": "EF08CI13",
    "nivel": "medio",
-   "enunciado": "As estações do ano existem principalmente por causa…",
+   "enunciado": "Por que existem as estações do ano?",
    "apoio": null,
    "opcoes": [
-    "da inclinação do eixo da Terra",
-    "das fases da Lua",
-    "da distância variável até o Sol",
-    "da rotação da Terra"
+    "Pela inclinação do eixo da Terra",
+    "Pelas mudanças nas fases da Lua",
+    "Pela distância variável até o Sol",
+    "Pela rotação da Terra a cada dia"
    ],
    "certa": 0,
    "explicacao": "A inclinação faz os hemisférios receberem luz mais direta em épocas diferentes.",

@@ -7,13 +7,13 @@
    "id": "ef08hi01-f1",
    "habilidadeId": "EF08HI01",
    "nivel": "facil",
-   "enunciado": "O Iluminismo valorizava principalmente…",
+   "enunciado": "O que o Iluminismo valorizava principalmente?",
    "apoio": null,
    "opcoes": [
-    "a superstição",
-    "a razão",
-    "o isolamento dos povos",
-    "a obediência ao rei absolutista"
+    "A superstição",
+    "A razão",
+    "O isolamento dos povos",
+    "A obediência ao rei absolutista"
    ],
    "certa": 1,
    "explicacao": "Os iluministas defendiam a razão como guia do conhecimento e da política.",
@@ -39,7 +39,7 @@
    "id": "ef08hi01-m1",
    "habilidadeId": "EF08HI01",
    "nivel": "medio",
-   "enunciado": "A ideia de dividir o poder em Executivo, Legislativo e Judiciário é de…",
+   "enunciado": "De quem é a ideia de dividir o poder em Executivo, Legislativo e Judiciário?",
    "apoio": null,
    "opcoes": [
     "Rousseau",
@@ -55,13 +55,13 @@
    "id": "ef08hi01-m2",
    "habilidadeId": "EF08HI01",
    "nivel": "medio",
-   "enunciado": "O Iluminismo criticava…",
+   "enunciado": "O que o Iluminismo criticava?",
    "apoio": null,
    "opcoes": [
-    "a ciência",
-    "a educação",
-    "a liberdade de expressão",
-    "o absolutismo e os privilégios da nobreza"
+    "O avanço da ciência",
+    "A educação do povo",
+    "A liberdade de expressão e de imprensa",
+    "O poder absoluto dos reis"
    ],
    "certa": 3,
    "explicacao": "Os iluministas questionavam o poder absoluto e os privilégios de nascimento.",
@@ -74,10 +74,10 @@
    "enunciado": "Que ideia iluminista aparece em constituições atuais?",
    "apoio": null,
    "opcoes": [
-    "Proibição de qualquer imprensa",
+    "Proibição de qualquer imprensa livre",
     "Igualdade de todos perante a lei",
-    "Poder divino dos reis",
-    "Privilégios por nascimento"
+    "Poder dos reis vindo de Deus",
+    "Privilégios para quem nasce nobre"
    ],
    "certa": 1,
    "explicacao": "A igualdade jurídica é herança direta do pensamento iluminista.",
@@ -107,8 +107,8 @@
    "apoio": null,
    "opcoes": [
     "Computador",
-    "Avião",
-    "Celular",
+    "Avião a jato",
+    "Telefone celular",
     "Máquina a vapor"
    ],
    "certa": 3,
@@ -122,10 +122,10 @@
    "enunciado": "Como era o trabalho nas primeiras fábricas?",
    "apoio": null,
    "opcoes": [
-    "Jornadas curtas e férias pagas",
-    "Era feito em casa pelo artesão",
-    "Só trabalhavam adultos com carteira assinada",
-    "Jornadas longas, salários baixos e trabalho infantil"
+    "Jornadas curtas, férias e salário justo",
+    "Trabalho em casa, no ritmo do artesão",
+    "Só adultos, com direitos garantidos por lei",
+    "Jornadas longas e trabalho infantil"
    ],
    "certa": 3,
    "explicacao": "Não havia leis trabalhistas; crianças trabalhavam muitas horas.",
@@ -135,13 +135,13 @@
    "id": "ef08hi03-m2",
    "habilidadeId": "EF08HI03",
    "nivel": "medio",
-   "enunciado": "Uma consequência da Revolução Industrial foi…",
+   "enunciado": "Qual foi uma consequência da Revolução Industrial?",
    "apoio": null,
    "opcoes": [
-    "a volta ao trabalho artesanal",
-    "o fim do comércio",
-    "a diminuição da população urbana",
-    "o crescimento acelerado das cidades"
+    "A volta ao trabalho artesanal",
+    "O fim do comércio entre países",
+    "A diminuição da população urbana",
+    "O crescimento rápido das cidades"
    ],
    "certa": 3,
    "explicacao": "Muitas pessoas deixaram o campo para trabalhar nas fábricas.",
@@ -154,9 +154,9 @@
    "enunciado": "O que foi o movimento ludista?",
    "apoio": null,
    "opcoes": [
-    "Uma escola de pintura",
-    "Uma revolta camponesa no Brasil",
-    "Trabalhadores que quebravam máquinas em protesto",
+    "Uma escola de pintura inglesa",
+    "Uma revolta de camponeses no Brasil",
+    "Operários que quebravam máquinas",
     "Um grupo de cientistas inventores"
    ],
    "certa": 2,
@@ -186,10 +186,10 @@
    "enunciado": "Qual era o lema da Revolução Francesa?",
    "apoio": null,
    "opcoes": [
-    "Paz e Amor",
+    "Paz, Pão e Terra para todos",
     "Liberdade, Igualdade, Fraternidade",
-    "Ordem e Progresso",
-    "Deus, Pátria e Família"
+    "Ordem, Progresso e Fraternidade",
+    "Deus, Rei, Pátria e Tradição"
    ],
    "certa": 1,
    "explicacao": "O lema resumia os ideais iluministas da revolução.",
@@ -202,10 +202,10 @@
    "enunciado": "O que foi a Bastilha?",
    "apoio": null,
    "opcoes": [
-    "Um navio francês",
-    "Uma universidade",
-    "O palácio de Napoleão",
-    "Uma prisão que simbolizava o poder do rei"
+    "Um navio de guerra francês",
+    "Uma universidade de Paris",
+    "O palácio onde Napoleão morava em Paris",
+    "Uma prisão símbolo do poder real"
    ],
    "certa": 3,
    "explicacao": "Derrubá-la simbolizou o fim do absolutismo.",
@@ -215,13 +215,13 @@
    "id": "ef08hi04-m2",
    "habilidadeId": "EF08HI04",
    "nivel": "medio",
-   "enunciado": "Antes da revolução, a sociedade francesa era dividida em…",
+   "enunciado": "Antes da revolução, como a sociedade francesa era dividida?",
    "apoio": null,
    "opcoes": [
-    "castas religiosas",
-    "três estados: clero, nobreza e povo",
-    "tribos",
-    "duas classes: patrões e operários"
+    "Em castas religiosas, como na Índia",
+    "Em três estados: clero, nobreza e povo",
+    "Em tribos lideradas por chefes",
+    "Em duas classes: patrões e operários pobres"
    ],
    "certa": 1,
    "explicacao": "O Terceiro Estado (povo) pagava impostos que os outros não pagavam.",
@@ -234,10 +234,10 @@
    "enunciado": "Qual documento de 1789 afirmou direitos do cidadão?",
    "apoio": null,
    "opcoes": [
-    "Constituição do Império do Brasil",
+    "Constituição do Império do Brasil de 1824",
     "Declaração dos Direitos do Homem e do Cidadão",
-    "Tratado de Tordesilhas",
-    "Lei Áurea"
+    "Carta de Pero Vaz de Caminha",
+    "Declaração de Independência dos Estados Unidos"
    ],
    "certa": 1,
    "explicacao": "Ela afirmou liberdade e igualdade perante a lei.",
@@ -282,9 +282,9 @@
    "enunciado": "Por que a família real veio para o Brasil em 1808?",
    "apoio": null,
    "opcoes": [
-    "Para fugir da invasão de Napoleão a Portugal",
-    "Para proclamar a república",
-    "Para conhecer a Amazônia",
+    "Para fugir da invasão de Napoleão",
+    "Para proclamar a república no Brasil",
+    "Para conhecer a floresta Amazônica",
     "Para acabar com a escravidão"
    ],
    "certa": 0,
@@ -295,13 +295,13 @@
    "id": "ef08hi12-m2",
    "habilidadeId": "EF08HI12",
    "nivel": "medio",
-   "enunciado": "Uma medida de Dom João no Brasil foi…",
+   "enunciado": "Qual foi uma medida de Dom João no Brasil?",
    "apoio": null,
    "opcoes": [
-    "a criação de Brasília",
-    "a proclamação da república",
-    "a abolição da escravidão",
-    "a abertura dos portos às nações amigas"
+    "A criação da cidade de Brasília",
+    "A proclamação da república",
+    "A abolição da escravidão",
+    "A abertura dos portos"
    ],
    "certa": 3,
    "explicacao": "Os portos foram abertos ao comércio, principalmente com a Inglaterra.",
@@ -314,10 +314,10 @@
    "enunciado": "Por que a independência do Brasil é vista como diferente das hispano-americanas?",
    "apoio": null,
    "opcoes": [
-    "Manteve a monarquia e a unidade do território",
+    "Manteve a monarquia e a unidade do país",
     "Dividiu o país em várias repúblicas",
-    "Foi feita por um presidente eleito",
-    "Acabou com a escravidão imediatamente"
+    "Foi feita por um presidente eleito pelo povo",
+    "Acabou com a escravidão no mesmo dia"
    ],
    "certa": 0,
    "explicacao": "O Brasil virou um império unido, governado por um herdeiro português.",

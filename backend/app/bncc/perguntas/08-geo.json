@@ -7,13 +7,13 @@
    "id": "ef08ge03-f1",
    "habilidadeId": "EF08GE03",
    "nivel": "facil",
-   "enunciado": "Taxa de natalidade é…",
+   "enunciado": "O que é a taxa de natalidade?",
    "apoio": null,
    "opcoes": [
-    "o número de mortes por ano",
-    "o número de nascimentos em relação à população",
-    "a idade média da população",
-    "o número de pessoas que mudam de país"
+    "O número de mortes em relação à população",
+    "Os nascimentos em relação à população",
+    "A idade média da população do país",
+    "As pessoas que mudam de país por ano"
    ],
    "certa": 1,
    "explicacao": "Natalidade mede quantos nascem para cada mil habitantes.",
@@ -27,9 +27,9 @@
    "apoio": null,
    "opcoes": [
     "A diferença entre nascimentos e mortes",
-    "A chegada de imigrantes",
-    "O aumento das florestas",
-    "O crescimento das cidades"
+    "A soma de imigrantes e emigrantes",
+    "O aumento das plantações e florestas",
+    "O crescimento das cidades sobre o campo"
    ],
    "certa": 0,
    "explicacao": "Nascimentos menos mortes, sem contar migrações.",
@@ -43,9 +43,9 @@
    "apoio": null,
    "opcoes": [
     "A pirâmide vira um triângulo perfeito",
-    "Nada muda",
-    "A base fica mais larga",
-    "A base fica mais estreita e o topo mais largo"
+    "Nada muda no formato da pirâmide",
+    "A base fica mais larga e o topo, estreito",
+    "A base estreita e o topo alarga"
    ],
    "certa": 3,
    "explicacao": "Menos nascimentos estreitam a base; mais idosos alargam o topo.",
@@ -55,13 +55,13 @@
    "id": "ef08ge03-m2",
    "habilidadeId": "EF08GE03",
    "nivel": "medio",
-   "enunciado": "Expectativa de vida é…",
+   "enunciado": "O que é expectativa de vida?",
    "apoio": null,
    "opcoes": [
-    "o número de filhos por mulher",
-    "a idade mínima para votar",
-    "a idade da população mais jovem",
-    "quantos anos, em média, as pessoas devem viver"
+    "O número médio de filhos por mulher",
+    "A idade mínima para poder votar",
+    "A idade média das pessoas mais jovens",
+    "Quanto tempo, em média, se vive"
    ],
    "certa": 3,
    "explicacao": "Indica a média de anos de vida esperada ao nascer.",
@@ -71,13 +71,13 @@
    "id": "ef08ge03-d1",
    "habilidadeId": "EF08GE03",
    "nivel": "dificil",
-   "enunciado": "Um país com natalidade e mortalidade baixas tende a ter…",
+   "enunciado": "Que tendência tem um país com natalidade e mortalidade baixas?",
    "apoio": null,
    "opcoes": [
-    "população muito jovem",
-    "crescimento explosivo",
-    "pirâmide de base larga",
-    "população envelhecendo e crescimento lento"
+    "População muito jovem e crescendo rápido",
+    "Crescimento explosivo da população",
+    "Pirâmide etária de base bem larga",
+    "População envelhecendo e crescendo pouco"
    ],
    "certa": 3,
    "explicacao": "Poucos nascimentos e vidas mais longas aumentam a proporção de idosos.",
@@ -103,13 +103,13 @@
    "id": "ef08ge05-f2",
    "habilidadeId": "EF08GE05",
    "nivel": "facil",
-   "enunciado": "Nação é…",
+   "enunciado": "O que é uma nação?",
    "apoio": null,
    "opcoes": [
-    "um conjunto de leis",
-    "a moeda de um país",
-    "um povo que compartilha cultura, história e identidade",
-    "o prédio do governo"
+    "Um conjunto de leis escritas de um país",
+    "A moeda oficial usada num país",
+    "Um povo com cultura e história comuns",
+    "O prédio onde o governo trabalha"
    ],
    "certa": 2,
    "explicacao": "Nação se refere à identidade comum de um povo.",
@@ -122,10 +122,10 @@
    "enunciado": "Qual a diferença entre Estado e governo?",
    "apoio": null,
    "opcoes": [
-    "O Estado é permanente; o governo é quem o administra por um tempo",
-    "Estado é só a capital",
-    "O governo é permanente; o Estado muda a cada eleição",
-    "São a mesma coisa"
+    "O Estado é permanente; o governo, temporário",
+    "O Estado é só a capital; o governo, o país",
+    "O governo é permanente; o Estado, temporário",
+    "São a mesma coisa com nomes diferentes"
    ],
    "certa": 0,
    "explicacao": "Governos passam; o Estado (instituições, território, povo) permanece.",
@@ -135,13 +135,13 @@
    "id": "ef08ge05-m2",
    "habilidadeId": "EF08GE05",
    "nivel": "medio",
-   "enunciado": "Os curdos são um exemplo de…",
+   "enunciado": "Os curdos são um exemplo de quê?",
    "apoio": null,
    "opcoes": [
-    "país da América do Sul",
-    "nação sem Estado próprio",
-    "bloco econômico",
-    "Estado sem nação"
+    "Um país da América do Sul",
+    "Uma nação sem Estado próprio",
+    "Um bloco econômico da Ásia",
+    "Um Estado sem nação"
    ],
    "certa": 1,
    "explicacao": "Os curdos têm identidade comum, mas vivem divididos entre vários países.",
@@ -151,13 +151,13 @@
    "id": "ef08ge05-d1",
    "habilidadeId": "EF08GE05",
    "nivel": "dificil",
-   "enunciado": "Soberania de um Estado significa…",
+   "enunciado": "O que significa a soberania de um Estado?",
    "apoio": null,
    "opcoes": [
-    "ter a maior população do continente",
-    "fazer parte da ONU",
-    "ter uma única língua oficial",
-    "poder de decidir sobre seu território sem interferência externa"
+    "Ter a maior população do continente",
+    "Fazer parte da ONU e do Mercosul",
+    "Ter uma única língua oficial no país",
+    "Mandar no próprio território"
    ],
    "certa": 3,
    "explicacao": "Soberania é a autoridade máxima do Estado dentro de suas fronteiras.",
@@ -167,13 +167,13 @@
    "id": "ef08ge12-f1",
    "habilidadeId": "EF08GE12",
    "nivel": "facil",
-   "enunciado": "O Mercosul é…",
+   "enunciado": "O que é o Mercosul?",
    "apoio": null,
    "opcoes": [
-    "um bloco econômico da América do Sul",
-    "um rio da Argentina",
-    "um país",
-    "uma moeda"
+    "Um bloco econômico da América do Sul",
+    "Um rio que passa pela Argentina",
+    "Um país formado após uma guerra",
+    "Uma moeda usada por vários países do sul"
    ],
    "certa": 0,
    "explicacao": "É um acordo de integração entre países sul-americanos.",
@@ -199,13 +199,13 @@
    "id": "ef08ge12-m1",
    "habilidadeId": "EF08GE12",
    "nivel": "medio",
-   "enunciado": "Um objetivo do Mercosul é…",
+   "enunciado": "Qual é um objetivo do Mercosul?",
    "apoio": null,
    "opcoes": [
-    "unificar todas as línguas",
-    "acabar com as fronteiras físicas",
-    "facilitar o comércio entre os países membros",
-    "criar um único governo"
+    "Unificar as línguas dos países membros",
+    "Acabar com as fronteiras entre os países",
+    "Facilitar o comércio entre os membros",
+    "Criar um único governo para a região"
    ],
    "certa": 2,
    "explicacao": "Reduzir tarifas e ampliar o comércio na região.",
@@ -235,9 +235,9 @@
    "apoio": null,
    "opcoes": [
     "A zona de livre-comércio tem moeda única",
-    "A união aduaneira proíbe exportações",
-    "Não há diferença",
-    "Na união aduaneira os membros também adotam tarifa comum para quem é de fora"
+    "A união aduaneira proíbe exportar para fora",
+    "Não há nenhuma diferença entre as duas",
+    "Na união aduaneira há tarifa externa comum"
    ],
    "certa": 3,
    "explicacao": "A união aduaneira soma uma Tarifa Externa Comum ao livre-comércio interno.",
@@ -247,13 +247,13 @@
    "id": "ef08ge15-f1",
    "habilidadeId": "EF08GE15",
    "nivel": "facil",
-   "enunciado": "O Aquífero Guarani é…",
+   "enunciado": "O que é o Aquífero Guarani?",
    "apoio": null,
    "opcoes": [
-    "um oceano",
-    "uma represa",
-    "uma grande reserva de água subterrânea",
-    "um rio da Amazônia"
+    "Um oceano no sul do continente",
+    "Uma grande represa de hidrelétrica",
+    "Uma reserva de água subterrânea",
+    "Um grande rio da bacia Amazônica"
    ],
    "certa": 2,
    "explicacao": "É um dos maiores reservatórios de água doce subterrânea do mundo.",
@@ -282,9 +282,9 @@
    "enunciado": "Quais países compartilham o Aquífero Guarani?",
    "apoio": null,
    "opcoes": [
-    "Só o Brasil",
-    "Brasil e Chile",
-    "Peru, Bolívia e Equador",
+    "Brasil, Venezuela, Colômbia e Peru",
+    "Chile, Bolívia, Peru e Equador",
+    "Venezuela, Colômbia e Brasil",
     "Brasil, Argentina, Paraguai e Uruguai"
    ],
    "certa": 3,
@@ -298,10 +298,10 @@
    "enunciado": "Por que proteger as áreas de recarga de um aquífero?",
    "apoio": null,
    "opcoes": [
-    "É por elas que a água da chuva infiltra e o abastece",
-    "Para impedir que chova",
-    "Porque ali nascem os oceanos",
-    "Para aumentar a temperatura da água"
+    "Por elas a chuva entra e abastece o aquífero",
+    "Para impedir que chova demais na região",
+    "Ali nascem os rios que formam os oceanos",
+    "Para a água ficar mais quente e limpa"
    ],
    "certa": 0,
    "explicacao": "Contaminar ou impermeabilizar essas áreas compromete a água subterrânea.",
@@ -314,10 +314,10 @@
    "enunciado": "Por que a água é um recurso estratégico na geopolítica da América Latina?",
    "apoio": null,
    "opcoes": [
-    "Porque é infinita e sem valor",
-    "Porque só existe no Brasil",
-    "Porque não pode ser usada na agricultura",
-    "É essencial e está distribuída de forma desigual, podendo gerar disputas"
+    "É infinita e por isso não gera conflitos",
+    "Só existe em território brasileiro",
+    "Não pode ser usada na agricultura",
+    "É essencial e desigualmente distribuída"
    ],
    "certa": 3,
    "explicacao": "Recursos hídricos compartilhados exigem acordos entre países.",
