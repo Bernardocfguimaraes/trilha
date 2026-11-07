@@ -157,6 +157,20 @@ uvicorn app.main:app --reload --port 8000
 
 Abra http://localhost:8000/docs para ver e testar todos os endpoints (Swagger).
 
+## Testes
+
+O app inteiro roda em memória nos testes (SQLite em memória, sem rede e sem LLM):
+
+```bash
+pip install -r requirements-dev.txt
+python -m pytest          # 43 testes: segurança, turmas, responsável, ML e conteúdo
+```
+
+O teste de paridade com o scikit-learn só roda com as dependências de treino instaladas
+(`pip install -r ml/requirements-treino.txt`). No frontend, `npm test` testa os leitores das
+questões interativas sobre o banco inteiro. O GitHub roda tudo a cada push
+(`.github/workflows/testes.yml`).
+
 ## Ligar o frontend a este backend
 
 Por padrão, o frontend usa o mock interno dele. Para ele falar com esta API, crie

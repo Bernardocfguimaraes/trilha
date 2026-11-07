@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON --test tests/",
+    "test:backend": "cd backend && python -m pytest"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
