@@ -162,6 +162,43 @@ export default async function ModeloPage() {
         </p>
       </section>
 
+      {m.risco && (
+        <section className="mt-12" aria-labelledby="previsao">
+          <h2 id="previsao" className="text-xl font-bold text-grafite">
+            Previsão: quem pode cair para alerta
+          </h2>
+          <p className="mt-1 max-w-prose text-pedra">
+            Um segundo modelo olha para a frente. Para habilidades que hoje ainda não estão em alerta, ele estima a chance de a
+            média das próximas 3 sessões ficar abaixo de 55. Quando passa de {pct(m.risco.modelo.limiar)}, o painel avisa
+            “Pode cair para alerta”: dá para agir antes de o aluno travar.
+          </p>
+          <dl className="mt-4 grid gap-4 sm:grid-cols-3">
+            <Indicador
+              rotulo="Quedas avisadas antes"
+              valor={pct(m.risco.implantado.recall)}
+              comparacao={`regra simples: ${pct(m.risco.baseline.recall)}`}
+              nota="Das habilidades que de fato caíram, quantas o modelo apontou."
+            />
+            <Indicador
+              rotulo="Avisos que se confirmaram"
+              valor={pct(m.risco.implantado.precisao)}
+              comparacao={`regra simples: ${pct(m.risco.baseline.precisao)}`}
+              nota={`Quedas são raras (${pct(m.risco.dados.taxaDeQueda)} dos casos): um aviso em dois se confirmar já é bem acima do acaso.`}
+            />
+            <Indicador
+              rotulo="AUC ROC"
+              valor={dec(m.risco.implantado.aucRoc)}
+              comparacao={`validação cruzada: ${dec(m.risco.modelo.validacaoCruzadaAuc)}`}
+              nota="Quanto o modelo separa quem vai cair de quem não vai (0,5 = acaso, 1 = perfeito)."
+            />
+          </dl>
+          <p className="mt-2 text-sm text-pedra">
+            Regra simples comparada: {m.risco.baseline.descricao.toLowerCase()}. O ponto de corte foi escolhido por validação
+            cruzada, priorizando não deixar passar quem vai cair.
+          </p>
+        </section>
+      )}
+
       <section className="mt-12" aria-labelledby="reais">
         <h2 id="reais" className="text-xl font-bold text-grafite">
           Com dados reais da escola

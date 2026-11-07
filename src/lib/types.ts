@@ -14,6 +14,8 @@ export interface HabilidadeStatus {
   // false = este aluno ainda não chegou nesta habilidade do caminho (status vem "ok" só
   // para preencher; a matriz mostra a célula neutra e ela não conta em alertas)
   iniciada: boolean;
+  // Previsão (modelo de risco): ainda não está em alerta, mas tende a cair nas próximas sessões.
+  emRisco?: boolean;
 }
 
 export interface AlunoResumo {
@@ -113,6 +115,16 @@ export interface DiagnosticoHabilidade {
   indicadores: Record<string, number>;
   motivos: string[];
   avaliacaoProfessor: Status | null; // o que o professor disse que é (rótulo real), se já avaliou
+  risco: { probabilidade: number; emRisco: boolean } | null; // previsão de cair para alerta
+}
+
+export interface MetricasRisco {
+  pergunta: string;
+  recorte: string;
+  dados: { amostras: number; taxaDeQueda: number };
+  modelo: { limiar: number; validacaoCruzadaAuc: number };
+  implantado: { aucRoc: number; precisao: number; recall: number; acuracia: number };
+  baseline: { descricao: string; precisao: number; recall: number; acuracia: number };
 }
 
 export interface MetricasClassificacao {
@@ -145,6 +157,7 @@ export interface MetricasModelo {
   } | null;
   // Ao vivo: quanto o modelo atual concorda com as avaliações dos professores no banco.
   professores: { avaliacoes: number; concordancia: number | null };
+  risco: MetricasRisco | null;
 }
 
 // Turmas do professor (GET /turmas). Cada professor vê só as próprias.

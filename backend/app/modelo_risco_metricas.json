@@ -1,0 +1,91 @@
+{
+ "treinadoEm": "2026-11-07T00:22:00+00:00",
+ "pergunta": "A média das próximas 3 sessões vai ficar abaixo de 55?",
+ "dados": {
+  "origem": "sintéticos",
+  "amostras": 5000,
+  "treino": 3750,
+  "teste": 1250,
+  "taxaDeQueda": 0.1064
+ },
+ "recorte": "Só habilidades com média recente ≥ 55 (hoje fora do alerta)",
+ "modelo": {
+  "nome": "Random Forest",
+  "arvores": 150,
+  "parametros": {
+   "max_depth": 7,
+   "min_samples_leaf": 20
+  },
+  "validacaoCruzadaAuc": 0.9143,
+  "limiar": 0.72
+ },
+ "implantado": {
+  "acuracia": 0.8896,
+  "precisao": 0.4874,
+  "recall": 0.7293,
+  "matriz": [
+   [
+    1015,
+    102
+   ],
+   [
+    36,
+    97
+   ]
+  ],
+  "aucRoc": 0.9191
+ },
+ "baseline": {
+  "descricao": "Tendência negativa e média recente abaixo de 70",
+  "acuracia": 0.8208,
+  "precisao": 0.3202,
+  "recall": 0.609,
+  "matriz": [
+   [
+    945,
+    172
+   ],
+   [
+    52,
+    81
+   ]
+  ]
+ },
+ "importancias": [
+  {
+   "feature": "recente",
+   "nome": "Média recente",
+   "valor": 0.3143
+  },
+  {
+   "feature": "media",
+   "nome": "Média geral",
+   "valor": 0.239
+  },
+  {
+   "feature": "minimo",
+   "nome": "Pior dia",
+   "valor": 0.1657
+  },
+  {
+   "feature": "inicial",
+   "nome": "Média inicial",
+   "valor": 0.1475
+  },
+  {
+   "feature": "tendencia",
+   "nome": "Tendência (subindo ou caindo)",
+   "valor": 0.0854
+  },
+  {
+   "feature": "desvio",
+   "nome": "Oscilação entre os dias",
+   "valor": 0.0255
+  },
+  {
+   "feature": "n_dias",
+   "nome": "Dias com atividade",
+   "valor": 0.0224
+  }
+ ]
+}

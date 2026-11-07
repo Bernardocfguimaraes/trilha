@@ -16,7 +16,7 @@ from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import delete, distinct, func, select
 
-from . import bd, caminho, chat, credenciais, diagnostico
+from . import bd, caminho, chat, credenciais, diagnostico, risco
 from . import recomendacoes as rec
 from .adaptacao import estado_inicial_adaptacao, registrar_resposta
 from .dados import (
@@ -130,13 +130,17 @@ def _habilidades_de(s, turma: Turma, aluno_id: str, ctx=None) -> list[dict]:
     saida = []
     for h in habs:
         if h.id in hab_ativas and h.disciplina_id in disc_ativas and h.id in praticadas:
+            st = status.get(h.id, "ok")
+            # Previsão só para quem ainda não está em alerta (modelo de risco, ml/risco.py).
+            previsao = risco.prever(_serie(s, aluno_id, h.id)) if h.id in status and st != "alerta" else None
             saida.append({
                 "habilidadeId": h.id,
                 "nome": h.nome,
                 "disciplina": disc_nome[h.disciplina_id],
                 "codigoBncc": h.codigo_bncc,
-                "status": status.get(h.id, "ok"),
+                "status": st,
                 "iniciada": h.id in status,
+                "emRisco": bool(previsao and previsao["emRisco"]),
             })
     return saida
 
@@ -328,8 +332,10 @@ def diagnostico_do_aluno(email: str, aluno_id: str) -> list[dict]:
                 continue
             serie = _serie(s, a.id, h["habilidadeId"])
             if serie:
+                explicacao = diagnostico.explicar(serie)
+                previsao = risco.prever(serie) if explicacao["status"] != "alerta" else None
                 saida.append({"habilidadeId": h["habilidadeId"], "nome": h["nome"], "disciplina": h["disciplina"],
-                              **diagnostico.explicar(serie), "avaliacaoProfessor": rotulos.get(h["habilidadeId"])})
+                              **explicacao, "avaliacaoProfessor": rotulos.get(h["habilidadeId"]), "risco": previsao})
         return saida
 
 

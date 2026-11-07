@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MessagesSquare, UserPlus } from "lucide-react";
+import { MessagesSquare, TrendingDown, UserPlus } from "lucide-react";
 import { StatusSelo, rotuloStatus } from "@/components/marca";
 import { api } from "@/lib/api";
 import { dataCurta } from "@/lib/formato";
@@ -19,7 +19,10 @@ const FILTROS = [
   { valor: undefined, rotulo: "Todos" },
   { valor: "alerta", rotulo: "Com alerta" },
   { valor: "atencao", rotulo: "Com atenção" },
+  { valor: "risco", rotulo: "Em risco" },
 ] as const;
+
+const emRisco = (a: AlunoResumo) => a.habilidades.filter((h) => h.emRisco);
 
 export default async function PainelPage({ searchParams }: PageProps<"/painel">) {
   const { filtro } = await searchParams;
@@ -31,7 +34,10 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
   const alunos =
     filtro === "alerta" || filtro === "atencao"
       ? ordenados.filter((a) => conta(a, filtro) > 0)
-      : ordenados;
+      : filtro === "risco"
+        ? ordenados.filter((a) => emRisco(a).length > 0)
+        : ordenados;
+  const comRisco = todos.filter((a) => emRisco(a).length > 0).length;
 
   const comAlerta = todos.filter((a) => conta(a, "alerta") > 0).length;
   const comAtencao = todos.filter((a) => conta(a, "alerta") === 0 && conta(a, "atencao") > 0).length;
@@ -67,12 +73,21 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
           </Link>
           {todos.length > 0 && <BotaoReavaliar turmaId={turma.id} />}
         </div>
+        {comRisco > 0 && (
+          <p className="mt-3 inline-flex items-center gap-1.5 text-sm text-grafite">
+            <TrendingDown className="size-4 text-atencao" aria-hidden />
+            A previsão indica que {comRisco} {comRisco === 1 ? "aluno pode" : "alunos podem"} cair para alerta nas próximas sessões.{" "}
+            <Link href="/painel?filtro=risco" className="font-semibold text-mata underline-offset-4 hover:underline">
+              Ver quem
+            </Link>
+          </p>
+        )}
       </header>
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
         <nav className="flex gap-1 rounded-lg bg-secondary p-1" aria-label="Filtrar alunos">
           {FILTROS.map((f) => {
-            const ativo = filtro === f.valor || (!f.valor && filtro !== "alerta" && filtro !== "atencao");
+            const ativo = filtro === f.valor || (!f.valor && filtro !== "alerta" && filtro !== "atencao" && filtro !== "risco");
             return (
               <Link
                 key={f.rotulo}
@@ -238,6 +253,19 @@ function CartaoAluno({ aluno }: { aluno: AlunoResumo }) {
           );
         })}
       </dl>
+
+      {aluno.habilidades.some((h) => h.emRisco) && (
+        <p className="mt-4 flex items-start gap-1.5 border-t pt-3 text-xs text-grafite">
+          <TrendingDown className="mt-0.5 size-3.5 shrink-0 text-atencao" aria-hidden />
+          <span>
+            <span className="font-semibold">Pode cair para alerta:</span>{" "}
+            {aluno.habilidades
+              .filter((h) => h.emRisco)
+              .map((h) => h.nome)
+              .join(", ")}
+          </span>
+        </p>
+      )}
 
       {visiveis.length > 0 && (
         <div className="mt-4 border-t pt-3">

@@ -7,6 +7,7 @@ import { BANCO, type PerguntaBanco } from "./mock-perguntas";
 import caminho04Por from "../../backend/app/bncc/caminhos/04-por.json";
 import oficialEf from "../../backend/app/bncc/oficial_ef.json";
 import metricasModelo from "../../backend/app/modelo_metricas.json";
+import metricasRisco from "../../backend/app/modelo_risco_metricas.json";
 import type {
   AlunoCadastro,
   AlunoDetalhe,
@@ -585,7 +586,7 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
   }
   if (caminho === "/turmas" && method === "POST") throw new ApiError(503, "Criar turmas precisa do backend.");
   // Métricas do modelo: o mesmo arquivo que o backend gera ao treinar.
-  if (caminho === "/modelo") return { ...metricasModelo, professores: { avaliacoes: 0, concordancia: null } };
+  if (caminho === "/modelo") return { ...metricasModelo, professores: { avaliacoes: 0, concordancia: null }, risco: metricasRisco };
   // Explicação por habilidade precisa do modelo de ML, que roda no backend.
   if (/^\/alunos\/[^/]+\/diagnostico$/.test(caminho)) return [];
   if (caminho === "/anos") {

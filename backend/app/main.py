@@ -17,7 +17,7 @@ from fastapi import Depends, FastAPI, File, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
 
-from . import bd, diagnostico, exercicios, seguranca, voz
+from . import bd, diagnostico, exercicios, risco, seguranca, voz
 from . import repo as fonte
 from .esquemas import (
     PedidoAvaliacao,
@@ -219,7 +219,7 @@ def get_modelo(professor: dict = Professor):
     m = diagnostico.metricas()
     if m is None:
         raise ApiErro(404, "Modelo ainda não treinado (rode python -m ml.treinar).")
-    return {**m, "professores": fonte.concordancia_professores()}
+    return {**m, "professores": fonte.concordancia_professores(), "risco": risco.metricas()}
 
 
 @app.post("/alunos/{aluno_id}/pin")

@@ -78,3 +78,27 @@ def test_avaliacao_do_professor_vira_dado_real(cliente, auth):
     vivo = cliente.get("/modelo", headers=auth).json()["professores"]
     assert vivo["avaliacoes"] >= 1 and vivo["concordancia"] is not None
     assert cliente.put(f"/alunos/a8/diagnostico/{d['habilidadeId']}", json={"status": "talvez"}, headers=auth).status_code == 422
+
+
+def test_previsao_de_risco_so_vale_fora_do_alerta():
+    from app import risco
+    assert risco.prever(_serie([40, 38, 35, 33])) is None  # já está em alerta: é diagnóstico, não previsão
+    assert risco.prever(_serie([80, 78])) is None  # menos de 3 dias de histórico
+    caindo = risco.prever(_serie([80, 74, 68, 62, 57, 56]))
+    estavel = risco.prever(_serie([82, 84, 83, 85, 84, 86]))
+    assert 0 <= estavel["probabilidade"] < caindo["probabilidade"] <= 1
+    assert caindo["emRisco"] and not estavel["emRisco"]
+
+
+def test_previsao_de_risco_supera_a_regra_simples():
+    from app import risco
+    m = risco.metricas()
+    assert m["implantado"]["recall"] > m["baseline"]["recall"]
+    assert m["implantado"]["precisao"] > m["baseline"]["precisao"]
+    assert m["implantado"]["aucRoc"] > 0.85
+
+
+def test_painel_marca_habilidades_em_risco(cliente, auth):
+    alunos = cliente.get("/turmas/t1/alunos", headers=auth).json()
+    marcadas = [h for a in alunos for h in a["habilidades"] if h["emRisco"]]
+    assert all(h["status"] != "alerta" and h["iniciada"] for h in marcadas)

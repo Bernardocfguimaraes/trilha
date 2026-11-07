@@ -49,6 +49,12 @@ export function ExplicacaoDiagnostico({ d, alunoId }: { d: DiagnosticoHabilidade
             </ul>
           </>
         )}
+        {d.risco && (
+          <p className={cn("mt-3 rounded-md px-3 py-2 text-xs", d.risco.emRisco ? "bg-atencao-clara text-atencao-texto" : "bg-secondary text-pedra")}>
+            <span className="font-semibold">Previsão:</span> {pct(d.risco.probabilidade)} de chance de cair para alerta nas
+            próximas sessões{d.risco.emRisco ? " — vale agir antes." : "."}
+          </p>
+        )}
         <ul className="mt-3 space-y-1 text-sm leading-snug text-grafite">
           {d.motivos.map((m) => (
             <li key={m} className="flex gap-2">
