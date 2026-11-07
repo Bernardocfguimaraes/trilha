@@ -20,6 +20,7 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 from . import bd, diagnostico, exercicios, seguranca, voz
 from . import repo as fonte
 from .esquemas import (
+    PedidoAvaliacao,
     PedidoChatTurma,
     PedidoExercicio,
     PedidoLogin,
@@ -206,13 +207,19 @@ def get_diagnostico_aluno(aluno_id: str, professor: dict = Professor):
     return fonte.diagnostico_do_aluno(professor["sub"], aluno_id)
 
 
+@app.put("/alunos/{aluno_id}/diagnostico/{habilidade_id}")
+def put_avaliacao(aluno_id: str, habilidade_id: str, pedido: PedidoAvaliacao, professor: dict = Professor):
+    # O professor diz se o diagnóstico está certo: vira rótulo real para medir e retreinar o modelo.
+    return fonte.avaliar_diagnostico(professor["sub"], aluno_id, habilidade_id, pedido.status)
+
+
 @app.get("/modelo")
 def get_modelo(professor: dict = Professor):
-    # Métricas do último treino do modelo de diagnóstico (ml/treinar.py).
+    # Métricas do último treino (ml/treinar.py) + concordância ao vivo com os professores.
     m = diagnostico.metricas()
     if m is None:
         raise ApiErro(404, "Modelo ainda não treinado (rode python -m ml.treinar).")
-    return m
+    return {**m, "professores": fonte.concordancia_professores()}
 
 
 @app.post("/alunos/{aluno_id}/pin")

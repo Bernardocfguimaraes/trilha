@@ -140,7 +140,7 @@ export function ProgressoAluno({
               {statusPor.get(h.habilidadeId) && <StatusSelo status={statusPor.get(h.habilidadeId)!} className="text-xs" />}
             </figcaption>
             <GraficoEvolucao historico={h} />
-            {explicacao.get(h.habilidadeId) && <ExplicacaoDiagnostico d={explicacao.get(h.habilidadeId)!} />}
+            {explicacao.get(h.habilidadeId) && <ExplicacaoDiagnostico d={explicacao.get(h.habilidadeId)!} alunoId={aluno.id} />}
           </figure>
         ))}
       </div>

@@ -14,6 +14,11 @@ Por que F1 macro, e não acurácia: "atenção" é a classe menor (cerca de 19% 
 mais difícil (fica entre ok e alerta). Um modelo pode ter boa acurácia quase ignorando
 essa classe — e é justamente o aluno em atenção que mais se beneficia de agir cedo.
 
+Dados reais: se existir ml/dados_reais.csv (python -m ml.exportar_reais — histórico real +
+avaliação do professor), o treino mede o modelo nesses dados e compara, por validação cruzada
+SÓ nos dados reais, "treinado com sintéticos" contra "sintéticos + reais". Com amostras
+suficientes, o modelo implantado passa a incluir os dados reais (com peso maior).
+
 Uso: python -m ml.treinar
 Requer scikit-learn + numpy (ml/requirements-treino.txt). O BACKEND não precisa deles:
 ele lê o JSON e classifica sem scikit-learn.
@@ -45,8 +50,11 @@ CSV = os.path.join(AQUI, "dados_sinteticos.csv")
 RELATORIO = os.path.join(AQUI, "relatorio_treino.txt")
 MODELO_JSON = os.path.join(AQUI, os.pardir, "app", "modelo_diagnostico.json")
 METRICAS_JSON = os.path.join(AQUI, os.pardir, "app", "modelo_metricas.json")
+REAIS = os.path.join(AQUI, "dados_reais.csv")
 CLASSES = ["alerta", "atencao", "ok"]  # ordem fixa
 SEMENTE = 42
+MIN_REAIS = 20     # abaixo disso, só medimos (não retreinamos com dados reais)
+PESO_REAL = 5.0    # uma amostra avaliada por professor vale mais que uma simulada
 
 # Nome de cada feature para a interface (o que o professor entende).
 NOMES_LEGIVEIS = {
@@ -163,6 +171,12 @@ def treinar(caminho_dados: str = CSV, origem: str = "sintéticos") -> dict:
     reg(f"Baseline (regra de limiar na média recente): acurácia {baseline['acuracia']:.3f}, F1 macro {baseline['f1Macro']:.3f}")
     reg(f"Random Forest ajustado sobre o baseline: acurácia +{depois['acuracia'] - baseline['acuracia']:.3f}, F1 macro +{depois['f1Macro'] - baseline['f1Macro']:.3f}")
 
+    reais = None
+    if os.path.exists(REAIS):
+        rf_final, reais = _com_dados_reais(Xtr, ytr, rf_final, busca.best_params_, reg)
+        if reais.get("incluidosNoModelo"):
+            origem = f"{origem} + {reais['amostras']} reais"
+
     # Exporta o modelo implantado (JSON, inferência em Python puro no backend).
     pacote = {
         "tipo": "random_forest",
@@ -186,6 +200,7 @@ def treinar(caminho_dados: str = CSV, origem: str = "sintéticos") -> dict:
         "arvoreDeDecisao": resultados["Árvore de Decisão"],
         "baseline": {"descricao": "Limiar na média recente (≥70 ok, ≥55 atenção)", **baseline},
         "importancias": [{"feature": n, "nome": NOMES_LEGIVEIS[n], "valor": round(float(v), 4)} for n, v in importancias],
+        "reais": reais,
     }
     with open(METRICAS_JSON, "w", encoding="utf-8") as f:
         json.dump(metricas, f, ensure_ascii=False, indent=1)
@@ -195,6 +210,54 @@ def treinar(caminho_dados: str = CSV, origem: str = "sintéticos") -> dict:
     with open(RELATORIO, "w", encoding="utf-8") as f:
         f.write("\n".join(linhas) + "\n")
     return metricas
+
+
+def _com_dados_reais(Xtr, ytr, rf_sintetico, params, reg):
+    """Mede o modelo nos dados reais e, havendo amostras suficientes, retreina com eles."""
+    Xr, yr = carregar(REAIS)
+    info = {"amostras": int(len(Xr)), "distribuicao": dict(Counter(yr.tolist())), "incluidosNoModelo": False}
+    reg("")
+    reg(f"=== Dados reais (avaliação de professores): {len(Xr)} amostras {info['distribuicao']} ===")
+    if len(Xr) == 0:
+        return rf_sintetico, info
+    info["concordanciaModeloSintetico"] = round(float(accuracy_score(yr, rf_sintetico.predict(Xr))), 4)
+    reg(f"Concordância do modelo treinado só com sintéticos: {info['concordanciaModeloSintetico']:.3f}")
+
+    menor = min(Counter(yr.tolist()).values())
+    if len(Xr) < MIN_REAIS or len(set(yr.tolist())) < 2 or menor < 2:
+        info["observacao"] = f"Poucas avaliações para retreinar (mínimo {MIN_REAIS}, com pelo menos 2 de cada status presente)."
+        reg(info["observacao"])
+        return rf_sintetico, info
+
+    # Validação cruzada só nos dados reais: o modelo nunca é testado num caso real que viu no treino.
+    so_sint, com_reais, reais_verdade = [], [], []
+    for itr, ite in StratifiedKFold(n_splits=min(5, menor), shuffle=True, random_state=SEMENTE).split(Xr, yr):
+        a = RandomForestClassifier(n_estimators=200, random_state=SEMENTE, n_jobs=-1, **params).fit(Xtr, ytr)
+        X_mix = np.vstack([Xtr, Xr[itr]])
+        y_mix = np.concatenate([ytr, yr[itr]])
+        peso = np.concatenate([np.ones(len(Xtr)), np.full(len(itr), PESO_REAL)])
+        b = RandomForestClassifier(n_estimators=200, random_state=SEMENTE, n_jobs=-1, **params).fit(X_mix, y_mix, sample_weight=peso)
+        so_sint.extend(a.predict(Xr[ite]))
+        com_reais.extend(b.predict(Xr[ite]))
+        reais_verdade.extend(yr[ite])
+    info["validacaoSoSinteticos"] = _metricas(reais_verdade, so_sint)
+    info["validacaoComReais"] = _metricas(reais_verdade, com_reais)
+    reg(f"Validação cruzada nos reais — só sintéticos: acurácia {info['validacaoSoSinteticos']['acuracia']:.3f}, F1 macro {info['validacaoSoSinteticos']['f1Macro']:.3f}")
+    reg(f"Validação cruzada nos reais — sintéticos + reais: acurácia {info['validacaoComReais']['acuracia']:.3f}, F1 macro {info['validacaoComReais']['f1Macro']:.3f}")
+
+    # Só implanta se os dados reais não piorarem a validação (rótulos ruidosos ou poucos
+    # casos podem atrapalhar; nesse caso o modelo continua o treinado com simulados).
+    if info["validacaoComReais"]["f1Macro"] < info["validacaoSoSinteticos"]["f1Macro"]:
+        info["observacao"] = "Os casos reais não melhoraram a validação; o modelo em uso continua o treinado com dados simulados."
+        reg(info["observacao"])
+        return rf_sintetico, info
+    final = RandomForestClassifier(n_estimators=200, random_state=SEMENTE, n_jobs=-1, **params).fit(
+        np.vstack([Xtr, Xr]), np.concatenate([ytr, yr]),
+        sample_weight=np.concatenate([np.ones(len(Xtr)), np.full(len(Xr), PESO_REAL)]),
+    )
+    info["incluidosNoModelo"] = True
+    reg(f"Modelo implantado retreinado com os {len(Xr)} casos reais (peso {PESO_REAL:g}).")
+    return final, info
 
 
 if __name__ == "__main__":

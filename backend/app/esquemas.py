@@ -33,6 +33,10 @@ class PedidoNovoAluno(BaseModel):
     nome: NomePessoa
 
 
+class PedidoAvaliacao(BaseModel):
+    status: Literal["ok", "atencao", "alerta"]
+
+
 class PedidoPin(BaseModel):
     alunoId: Id
     pin: str = Field(pattern=r"^\d{4}$")

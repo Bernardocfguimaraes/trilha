@@ -162,6 +162,76 @@ export default async function ModeloPage() {
         </p>
       </section>
 
+      <section className="mt-12" aria-labelledby="reais">
+        <h2 id="reais" className="text-xl font-bold text-grafite">
+          Com dados reais da escola
+        </h2>
+        <p className="mt-1 max-w-prose text-pedra">
+          Na página de cada aluno, o professor responde se o diagnóstico está certo. Cada resposta vira um caso real
+          rotulado: serve para medir o modelo e para retreiná-lo.
+        </p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-lg border bg-superficie p-5">
+            <p className="text-sm font-semibold text-pedra">Concordância com os professores, agora</p>
+            {m.professores.avaliacoes === 0 ? (
+              <p className="mt-2 text-grafite">
+                Ainda não há avaliações. Elas aparecem quando um professor responde “O diagnóstico está certo?” em “Por que está
+                em…”, na página de um aluno.
+              </p>
+            ) : (
+              <>
+                <p className="mt-1 text-4xl font-bold text-grafite tabular-nums">{pct(m.professores.concordancia ?? 0)}</p>
+                <p className="mt-1 text-sm text-pedra">
+                  em {m.professores.avaliacoes} {m.professores.avaliacoes === 1 ? "avaliação" : "avaliações"} de professores
+                </p>
+              </>
+            )}
+          </div>
+          <div className="rounded-lg border bg-superficie p-5">
+            <p className="text-sm font-semibold text-pedra">No último treino</p>
+            {!m.reais ? (
+              <p className="mt-2 text-grafite">O modelo em uso foi treinado só com dados simulados.</p>
+            ) : m.reais.validacaoSoSinteticos && m.reais.validacaoComReais ? (
+              <table className="mt-2 w-full text-sm">
+                <caption className="sr-only">Validação cruzada nos casos reais</caption>
+                <thead>
+                  <tr className="text-left text-pedra">
+                    <th className="py-1 font-semibold">Treinado com</th>
+                    <th className="py-1 text-right font-semibold">F1 macro</th>
+                    <th className="py-1 text-right font-semibold">Acurácia</th>
+                  </tr>
+                </thead>
+                <tbody className="text-grafite">
+                  <tr>
+                    <th scope="row" className="py-1 text-left font-medium">Só simulados</th>
+                    <td className="py-1 text-right tabular-nums">{dec(m.reais.validacaoSoSinteticos.f1Macro)}</td>
+                    <td className="py-1 text-right tabular-nums">{pct(m.reais.validacaoSoSinteticos.acuracia)}</td>
+                  </tr>
+                  <tr className="font-semibold">
+                    <th scope="row" className="py-1 text-left">Simulados + {m.reais.amostras} reais</th>
+                    <td className="py-1 text-right tabular-nums">{dec(m.reais.validacaoComReais.f1Macro)}</td>
+                    <td className="py-1 text-right tabular-nums">{pct(m.reais.validacaoComReais.acuracia)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            ) : (
+              <p className="mt-2 text-grafite">
+                {m.reais.amostras} casos reais medidos
+                {m.reais.concordanciaModeloSintetico !== undefined && ` (concordância ${pct(m.reais.concordanciaModeloSintetico)})`}.{" "}
+                {m.reais.observacao}
+              </p>
+            )}
+            <p className="mt-3 text-xs text-pedra">
+              Medido por validação cruzada só nos casos reais: o modelo nunca é testado num caso que viu no treino.
+            </p>
+          </div>
+        </div>
+        <p className="mt-3 text-sm text-pedra">
+          Para retreinar: <code className="rounded bg-secondary px-1 py-0.5 text-xs">python -m ml.exportar_reais</code> e depois{" "}
+          <code className="rounded bg-secondary px-1 py-0.5 text-xs">python -m ml.treinar</code>, na pasta do backend.
+        </p>
+      </section>
+
       <section className="mt-12 rounded-lg border bg-superficie p-6" aria-labelledby="limites">
         <h2 id="limites" className="text-xl font-bold text-grafite">
           Dados e limites
@@ -172,10 +242,7 @@ export default async function ModeloPage() {
             anos de dados de alunos reais, as trajetórias foram simuladas: cada aluno tem um nível e uma tendência ocultos, e o
             desempenho de cada dia vem com ruído. O modelo só vê o desempenho, nunca o nível oculto.
           </li>
-          <li>
-            Cada sessão real fica gravada no histórico, e o modelo pode ser retreinado com esses dados (
-            <code className="rounded bg-secondary px-1 py-0.5 text-xs">python -m ml.treinar</code>).
-          </li>
+          <li>Cada sessão real fica gravada no histórico; com as avaliações dos professores, ela vira dado de treino.</li>
           <li>O diagnóstico apoia o professor: ele aponta onde olhar, e a decisão pedagógica continua sendo de quem conhece o aluno.</li>
         </ul>
         <p className="mt-4 text-sm text-pedra">Último treino em {dataLonga(m.treinadoEm)}.</p>

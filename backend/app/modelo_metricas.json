@@ -1,5 +1,5 @@
 {
- "treinadoEm": "2026-11-06T23:41:13+00:00",
+ "treinadoEm": "2026-11-06T23:59:38+00:00",
  "dados": {
   "origem": "sintéticos",
   "amostras": 4000,
@@ -227,5 +227,6 @@
    "nome": "Dias com atividade",
    "valor": 0.0272
   }
- ]
+ ],
+ "reais": null
 }

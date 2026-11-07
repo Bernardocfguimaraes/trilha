@@ -19,6 +19,7 @@ import type {
   ResultadoPin,
   ResultadoResposta,
   ResultadoSessao,
+  Status,
   Sessao,
   AnoDisponivel,
   DiagnosticoHabilidade,
@@ -99,6 +100,11 @@ export const api = {
     request<HistoricoHabilidade[]>(`/alunos/${id}/historico`, { token, professor: true }),
   diagnosticoAluno: (id: string, token?: string | null) =>
     request<DiagnosticoHabilidade[]>(`/alunos/${id}/diagnostico`, { token, professor: true }),
+  avaliarDiagnostico: (alunoId: string, habilidadeId: string, status: Status) =>
+    request<{ habilidadeId: string; avaliacaoProfessor: Status; statusModelo: Status }>(
+      `/alunos/${alunoId}/diagnostico/${encodeURIComponent(habilidadeId)}`,
+      { method: "PUT", body: { status }, professor: true },
+    ),
   metricasModelo: (token?: string | null) => request<MetricasModelo>("/modelo", { token, professor: true }),
   reavaliarTurma: (turmaId: string) =>
     request<{ reavaliados: number; modelo: "ml" | "regra" }>(`/turmas/${turmaId}/diagnostico`, { method: "POST", professor: true }),

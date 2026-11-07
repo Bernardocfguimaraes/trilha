@@ -3,6 +3,7 @@ import { ChevronDown } from "lucide-react";
 import { rotuloStatus } from "@/components/marca";
 import type { DiagnosticoHabilidade, Status } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { AvaliacaoDiagnostico } from "./avaliacao-diagnostico";
 
 const ORDEM: Status[] = ["alerta", "atencao", "ok"];
 const COR: Record<Status, string> = { alerta: "bg-alerta", atencao: "bg-atencao", ok: "bg-mata" };
@@ -13,7 +14,7 @@ const pct = (v: number) => `${Math.round(v * 100)}%`;
  * que pesaram. A barra mostra a probabilidade de cada status (voto das 200 árvores); cada
  * parte tem nome e porcentagem escritos, então a cor nunca é a única pista.
  */
-export function ExplicacaoDiagnostico({ d }: { d: DiagnosticoHabilidade }) {
+export function ExplicacaoDiagnostico({ d, alunoId }: { d: DiagnosticoHabilidade; alunoId: string }) {
   const rotulo = rotuloStatus(d.status).toLowerCase();
   return (
     <details className="group mt-3 border-t pt-2">
@@ -56,6 +57,9 @@ export function ExplicacaoDiagnostico({ d }: { d: DiagnosticoHabilidade }) {
             </li>
           ))}
         </ul>
+        {d.modelo === "ml" && (
+          <AvaliacaoDiagnostico alunoId={alunoId} habilidadeId={d.habilidadeId} statusModelo={d.status} inicial={d.avaliacaoProfessor} />
+        )}
         <p className="mt-3 text-xs text-pedra">
           {d.modelo === "ml" ? "Decisão do modelo de diagnóstico (Random Forest). " : "Modelo indisponível: regra simples de média. "}
           <Link href="/painel/modelo" className="font-semibold text-mata underline-offset-4 hover:underline">

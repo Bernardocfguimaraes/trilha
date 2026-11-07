@@ -89,3 +89,17 @@ class Professor(Base):
     email: Mapped[str] = mapped_column(String, primary_key=True)
     nome: Mapped[str] = mapped_column(String)
     senha_hash: Mapped[str] = mapped_column(String)
+
+
+class RotuloProfessor(Base):
+    """Avaliação do professor sobre o diagnóstico de uma habilidade ("está certo?" / "na verdade
+    está…"). É o rótulo REAL que falta para medir e retreinar o modelo com dados da escola:
+    junto com o histórico do aluno vira uma amostra rotulada (ml/exportar_reais.py)."""
+
+    __tablename__ = "rotulos_professor"
+    aluno_id: Mapped[str] = mapped_column(ForeignKey("alunos.id"), primary_key=True)
+    habilidade_id: Mapped[str] = mapped_column(ForeignKey("habilidades.id"), primary_key=True)
+    status: Mapped[str] = mapped_column(String)  # o que o professor diz que é: ok | atencao | alerta
+    status_modelo: Mapped[str] = mapped_column(String)  # o que o modelo dizia no momento
+    professor_email: Mapped[str] = mapped_column(String)
+    criado_em: Mapped[str] = mapped_column(String)  # ISO date

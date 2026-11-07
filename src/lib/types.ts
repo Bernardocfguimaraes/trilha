@@ -112,6 +112,7 @@ export interface DiagnosticoHabilidade {
   probabilidades: Record<Status, number> | null;
   indicadores: Record<string, number>;
   motivos: string[];
+  avaliacaoProfessor: Status | null; // o que o professor disse que é (rótulo real), se já avaliou
 }
 
 export interface MetricasClassificacao {
@@ -132,6 +133,18 @@ export interface MetricasModelo {
   arvoreDeDecisao: MetricasClassificacao;
   baseline: MetricasClassificacao & { descricao: string };
   importancias: { feature: string; nome: string; valor: number }[];
+  // Dados reais usados no último treino (avaliações de professores exportadas do banco).
+  reais: {
+    amostras: number;
+    distribuicao: Record<string, number>;
+    incluidosNoModelo: boolean;
+    concordanciaModeloSintetico?: number;
+    validacaoSoSinteticos?: MetricasClassificacao;
+    validacaoComReais?: MetricasClassificacao;
+    observacao?: string;
+  } | null;
+  // Ao vivo: quanto o modelo atual concorda com as avaliações dos professores no banco.
+  professores: { avaliacoes: number; concordancia: number | null };
 }
 
 // Turmas do professor (GET /turmas). Cada professor vê só as próprias.

@@ -10,6 +10,7 @@ const PERMITIDAS = [
   /^turmas$/,
   /^turmas\/[\w-]+\/(alunos|cadastros|configuracao|diagnostico|chat)$/,
   /^alunos\/[\w-]+(\/(historico|pin|diagnostico))?$/,
+  /^alunos\/[\w-]+\/diagnostico\/[\w-]+$/,
   /^exercicios\/gerar$/,
   /^voz\/transcrever$/,
 ];

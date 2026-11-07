@@ -40,6 +40,7 @@ from .modelos import (
     Habilidade,
     Historico,
     Professor,
+    RotuloProfessor,
     Turma,
     TurmaDisciplinaAtiva,
     TurmaHabilidadeAtiva,
@@ -320,6 +321,7 @@ def diagnostico_do_aluno(email: str, aluno_id: str) -> list[dict]:
     a confiança dele e os indicadores que ele usou (média recente, tendência, oscilação…)."""
     with bd.SessionLocal() as s:
         a, t = _aluno_do_professor(s, aluno_id, email)
+        rotulos = {r.habilidade_id: r.status for r in s.execute(select(RotuloProfessor).where(RotuloProfessor.aluno_id == a.id)).scalars()}
         saida = []
         for h in _habilidades_de(s, t, a.id):
             if not h["iniciada"]:
@@ -327,8 +329,45 @@ def diagnostico_do_aluno(email: str, aluno_id: str) -> list[dict]:
             serie = _serie(s, a.id, h["habilidadeId"])
             if serie:
                 saida.append({"habilidadeId": h["habilidadeId"], "nome": h["nome"], "disciplina": h["disciplina"],
-                              **diagnostico.explicar(serie)})
+                              **diagnostico.explicar(serie), "avaliacaoProfessor": rotulos.get(h["habilidadeId"])})
         return saida
+
+
+def avaliar_diagnostico(email: str, aluno_id: str, habilidade_id: str, status: str) -> dict:
+    """Guarda o que o professor diz sobre o diagnóstico (a última avaliação vale)."""
+    with bd.SessionLocal() as s:
+        a, _ = _aluno_do_professor(s, aluno_id, email)
+        serie = _serie(s, a.id, habilidade_id)
+        if not serie:
+            raise ApiErro(404, "Esta habilidade ainda não tem atividades deste aluno")
+        modelo = diagnostico.classificar(serie)
+        r = s.get(RotuloProfessor, {"aluno_id": a.id, "habilidade_id": habilidade_id})
+        if r:
+            r.status, r.status_modelo, r.professor_email, r.criado_em = status, modelo, email, hoje()
+        else:
+            s.add(RotuloProfessor(aluno_id=a.id, habilidade_id=habilidade_id, status=status, status_modelo=modelo,
+                                  professor_email=email, criado_em=hoje()))
+        s.commit()
+        return {"habilidadeId": habilidade_id, "avaliacaoProfessor": status, "statusModelo": modelo}
+
+
+def dados_reais() -> list[dict]:
+    """Amostras reais rotuladas: histórico do aluno + avaliação do professor. Usado para medir
+    o modelo ao vivo (/modelo) e para exportar o dataset (ml/exportar_reais.py)."""
+    with bd.SessionLocal() as s:
+        saida = []
+        for r in s.execute(select(RotuloProfessor)).scalars():
+            serie = _serie(s, r.aluno_id, r.habilidade_id)
+            if serie:
+                saida.append({"aluno_id": r.aluno_id, "habilidade_id": r.habilidade_id, "serie": serie, "status": r.status})
+        return saida
+
+
+def concordancia_professores() -> dict:
+    """Quanto o modelo atual concorda com as avaliações dos professores (dados reais)."""
+    amostras = dados_reais()
+    acertos = sum(diagnostico.classificar(a["serie"]) == a["status"] for a in amostras)
+    return {"avaliacoes": len(amostras), "concordancia": round(acertos / len(amostras), 4) if amostras else None}
 
 
 def progresso_do_aluno(aluno_id: str) -> dict:
