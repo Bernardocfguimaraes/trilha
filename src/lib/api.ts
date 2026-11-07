@@ -23,6 +23,7 @@ import type {
   Sessao,
   AnoDisponivel,
   DiagnosticoHabilidade,
+  GruposTurma,
   MetricasModelo,
   TurmaConfig,
   TurmaResumo,
@@ -105,6 +106,8 @@ export const api = {
       `/alunos/${alunoId}/diagnostico/${encodeURIComponent(habilidadeId)}`,
       { method: "PUT", body: { status }, professor: true },
     ),
+  gruposTurma: (turmaId: string, token?: string | null) =>
+    request<GruposTurma>(`/turmas/${turmaId}/grupos`, { token, professor: true }),
   metricasModelo: (token?: string | null) => request<MetricasModelo>("/modelo", { token, professor: true }),
   reavaliarTurma: (turmaId: string) =>
     request<{ reavaliados: number; modelo: "ml" | "regra" }>(`/turmas/${turmaId}/diagnostico`, { method: "POST", professor: true }),

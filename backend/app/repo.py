@@ -16,7 +16,7 @@ from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import delete, distinct, func, select
 
-from . import bd, caminho, chat, credenciais, diagnostico, risco
+from . import bd, caminho, chat, credenciais, diagnostico, grupos, risco
 from . import recomendacoes as rec
 from .adaptacao import estado_inicial_adaptacao, registrar_resposta
 from .dados import (
@@ -374,6 +374,27 @@ def concordancia_professores() -> dict:
     amostras = dados_reais()
     acertos = sum(diagnostico.classificar(a["serie"]) == a["status"] for a in amostras)
     return {"avaliacoes": len(amostras), "concordancia": round(acertos / len(amostras), 4) if amostras else None}
+
+
+def grupos_da_turma(email: str, turma_id: str) -> dict:
+    """Grupos de reforço (k-means) com alunos de perfil parecido, a partir da média recente
+    de cada um em cada habilidade que a turma já praticou."""
+    with bd.SessionLocal() as s:
+        t = _turma_do_professor(s, turma_id, email)
+        disc_ativas, hab_ativas, disc_nome, habs = _contexto(s, t)
+        praticadas = _praticadas_na_turma(s, t)
+        habilidades = [{"habilidadeId": h.id, "nome": h.nome, "disciplina": disc_nome[h.disciplina_id]}
+                       for h in habs if h.id in praticadas and h.id in hab_ativas and h.disciplina_id in disc_ativas]
+        alunos = []
+        for a in _alunos(s, t):
+            recentes = {}
+            for h in habilidades:
+                serie = _serie(s, a.id, h["habilidadeId"])
+                if serie:
+                    ultimos = [p["desempenho"] for p in serie[-3:]]
+                    recentes[h["habilidadeId"]] = sum(ultimos) / len(ultimos)
+            alunos.append({"id": a.id, "nome": a.nome, "recentes": recentes})
+    return {"turma": t.nome, **grupos.formar_grupos(alunos, habilidades)}
 
 
 def progresso_do_aluno(aluno_id: str) -> dict:

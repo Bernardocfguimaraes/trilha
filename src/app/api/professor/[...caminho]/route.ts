@@ -8,7 +8,7 @@ const PERMITIDAS = [
   /^anos$/,
   /^modelo$/,
   /^turmas$/,
-  /^turmas\/[\w-]+\/(alunos|cadastros|configuracao|diagnostico|chat)$/,
+  /^turmas\/[\w-]+\/(alunos|cadastros|configuracao|diagnostico|chat|grupos)$/,
   /^alunos\/[\w-]+(\/(historico|pin|diagnostico))?$/,
   /^alunos\/[\w-]+\/diagnostico\/[\w-]+$/,
   /^exercicios\/gerar$/,

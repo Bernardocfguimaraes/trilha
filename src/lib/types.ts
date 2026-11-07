@@ -160,6 +160,23 @@ export interface MetricasModelo {
   risco: MetricasRisco | null;
 }
 
+// Grupos de reforço (GET /turmas/{id}/grupos): k-means sobre o perfil dos alunos.
+export interface GrupoReforco {
+  nome: string;
+  alunos: { id: string; nome: string }[];
+  foco: { habilidadeId: string; nome: string; disciplina: string; mediaGrupo: number; mediaTurma: number }[];
+  mediaGeral: number;
+}
+
+export interface GruposTurma {
+  turma: string;
+  grupos: GrupoReforco[];
+  k: number;
+  silhueta: number | null;
+  alunosConsiderados: number;
+  observacao: string | null;
+}
+
 // Turmas do professor (GET /turmas). Cada professor vê só as próprias.
 export interface TurmaResumo {
   id: string;

@@ -102,3 +102,25 @@ def test_painel_marca_habilidades_em_risco(cliente, auth):
     alunos = cliente.get("/turmas/t1/alunos", headers=auth).json()
     marcadas = [h for a in alunos for h in a["habilidades"] if h["emRisco"]]
     assert all(h["status"] != "alerta" and h["iniciada"] for h in marcadas)
+
+
+def test_kmeans_recupera_perfis_conhecidos():
+    import random
+    from app import grupos
+    rng = random.Random(1)
+    perfis = [[80] * 6, [45, 50, 80, 80, 80, 80], [80, 80, 80, 40, 45, 80]]
+    pontos = [[v + rng.gauss(0, 5) for v in perfis[i % 3]] for i in range(24)]
+    rotulos = grupos.kmeans(pontos, 3)
+    # Cada perfil plantado cai inteiro num grupo só.
+    for p in range(3):
+        assert len({rotulos[i] for i in range(24) if i % 3 == p}) == 1
+    assert grupos.silhueta(pontos, rotulos) > 0.5
+
+
+def test_grupos_da_turma(cliente, auth):
+    r = cliente.get("/turmas/t1/grupos", headers=auth).json()
+    assert 2 <= r["k"] <= 4 and len(r["grupos"]) == r["k"]
+    alunos = [a["id"] for g in r["grupos"] for a in g["alunos"]]
+    assert len(alunos) == len(set(alunos)) == r["alunosConsiderados"]
+    vazia = cliente.post("/turmas", json={"nome": "6º vazio", "ano": 6, "alunos": ["Um Aluno"]}, headers=auth).json()
+    assert cliente.get(f"/turmas/{vazia['id']}/grupos", headers=auth).json()["grupos"] == []

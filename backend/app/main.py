@@ -185,6 +185,12 @@ def post_reavaliar(turma_id: str, professor: dict = Professor):
     return fonte.reavaliar_diagnostico(professor["sub"], turma_id)
 
 
+@app.get("/turmas/{turma_id}/grupos")
+def get_grupos(turma_id: str, professor: dict = Professor):
+    # Grupos de reforço por k-means sobre o perfil de desempenho dos alunos.
+    return fonte.grupos_da_turma(professor["sub"], turma_id)
+
+
 @app.post("/turmas/{turma_id}/chat")
 def post_chat(turma_id: str, pedido: PedidoChatTurma, professor: dict = Professor):
     historico = [m.model_dump() for m in pedido.historico]

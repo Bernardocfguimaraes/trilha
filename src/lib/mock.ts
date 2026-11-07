@@ -19,6 +19,7 @@ import type {
   Nivel,
   PedidoChatTurma,
   AnoDisponivel,
+  GruposTurma,
   PedidoLogin,
   PedidoPin,
   PedidoProgresso,
@@ -554,7 +555,7 @@ const ROTAS_PROFESSOR = [
   /^\/anos$/,
   /^\/modelo$/,
   /^\/turmas$/,
-  /^\/turmas\/[^/]+\/(alunos|cadastros|configuracao|diagnostico|chat)$/,
+  /^\/turmas\/[^/]+\/(alunos|cadastros|configuracao|diagnostico|chat|grupos)$/,
   /^\/alunos/,
   /^\/exercicios\//,
   /^\/voz\//,
@@ -589,6 +590,10 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
   if (caminho === "/modelo") return { ...metricasModelo, professores: { avaliacoes: 0, concordancia: null }, risco: metricasRisco };
   // Explicação por habilidade precisa do modelo de ML, que roda no backend.
   if (/^\/alunos\/[^/]+\/diagnostico$/.test(caminho)) return [];
+  if (/^\/turmas\/[^/]+\/grupos$/.test(caminho)) {
+    const g: GruposTurma = { turma: TURMA.nome, grupos: [], k: 0, silhueta: null, alunosConsiderados: 0, observacao: "Os grupos são formados pelo backend (k-means)." };
+    return g;
+  }
   if (caminho === "/anos") {
     const anos: AnoDisponivel[] = [{ ano: TURMA.ano, disciplinas: DISCIPLINAS.map((d) => d.nome) }];
     return anos;
