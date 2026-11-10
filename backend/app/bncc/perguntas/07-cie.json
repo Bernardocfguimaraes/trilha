@@ -1,0 +1,327 @@
+{
+ "ano": 7,
+ "disciplinaId": "cie",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef07ci02-f1",
+   "habilidadeId": "EF07CI02",
+   "nivel": "facil",
+   "enunciado": "Que instrumento mede a temperatura?",
+   "apoio": null,
+   "opcoes": [
+    "Régua",
+    "Bússola",
+    "Termômetro",
+    "Balança"
+   ],
+   "certa": 2,
+   "explicacao": "O termômetro mede o quanto algo está quente ou frio.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci02-f2",
+   "habilidadeId": "EF07CI02",
+   "nivel": "facil",
+   "enunciado": "Quando colocamos um café quente numa xícara fria, o calor passa de onde para onde?",
+   "apoio": null,
+   "opcoes": [
+    "Da xícara para o café",
+    "Não passa calor",
+    "Do ar para o café",
+    "Do café para a xícara"
+   ],
+   "certa": 3,
+   "explicacao": "O calor vai do corpo mais quente para o mais frio.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci02-m1",
+   "habilidadeId": "EF07CI02",
+   "nivel": "medio",
+   "enunciado": "Qual é a diferença entre temperatura e calor?",
+   "apoio": null,
+   "opcoes": [
+    "Calor só existe nos dias de verão",
+    "Calor é energia que passa",
+    "Temperatura é energia que passa",
+    "São exatamente a mesma coisa"
+   ],
+   "certa": 1,
+   "explicacao": "Calor é energia em trânsito; temperatura mede a agitação das partículas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci02-m2",
+   "habilidadeId": "EF07CI02",
+   "nivel": "medio",
+   "enunciado": "Por que um piso de cerâmica parece mais frio que um tapete no mesmo quarto?",
+   "apoio": null,
+   "opcoes": [
+    "O tapete produz calor próprio",
+    "A cerâmica conduz melhor o calor",
+    "O tapete fica sempre exposto ao sol",
+    "A cerâmica está bem mais gelada"
+   ],
+   "certa": 1,
+   "explicacao": "Os dois têm a mesma temperatura; a cerâmica conduz melhor o calor.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci02-d1",
+   "habilidadeId": "EF07CI02",
+   "nivel": "dificil",
+   "enunciado": "Por que garrafas térmicas têm paredes duplas com vácuo entre elas?",
+   "apoio": null,
+   "opcoes": [
+    "O vácuo deixa o líquido mais doce",
+    "O vácuo esquenta o líquido",
+    "O vácuo dificulta a passagem de calor",
+    "Para a garrafa ficar mais pesada e firme"
+   ],
+   "certa": 2,
+   "explicacao": "Sem matéria entre as paredes, quase não há condução de calor.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci10-f1",
+   "habilidadeId": "EF07CI10",
+   "nivel": "facil",
+   "enunciado": "Para que serve a vacina?",
+   "apoio": null,
+   "opcoes": [
+    "Deixar a pessoa mais alta",
+    "Proteger contra doenças",
+    "Curar uma fratura",
+    "Substituir a alimentação"
+   ],
+   "certa": 1,
+   "explicacao": "Ela prepara o corpo para combater um micróbio.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci10-f2",
+   "habilidadeId": "EF07CI10",
+   "nivel": "facil",
+   "enunciado": "Qual doença foi erradicada do mundo graças à vacinação?",
+   "apoio": null,
+   "opcoes": [
+    "Gripe",
+    "Resfriado",
+    "Dengue",
+    "Varíola"
+   ],
+   "certa": 3,
+   "explicacao": "A varíola foi declarada erradicada em 1980.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci10-m1",
+   "habilidadeId": "EF07CI10",
+   "nivel": "medio",
+   "enunciado": "Como a vacina age no corpo?",
+   "apoio": null,
+   "opcoes": [
+    "Funciona como vitamina",
+    "Aumenta o açúcar no sangue",
+    "Ensina o sistema de defesa",
+    "Mata todos os micróbios"
+   ],
+   "certa": 2,
+   "explicacao": "A vacina mostra ao corpo uma parte inofensiva do micróbio para ele aprender a se defender.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci10-m2",
+   "habilidadeId": "EF07CI10",
+   "nivel": "medio",
+   "enunciado": "Por que é importante que muitas pessoas se vacinem?",
+   "apoio": null,
+   "opcoes": [
+    "Deixa a vacina mais barata",
+    "Acaba com os hospitais",
+    "Ninguém precisa mais lavar as mãos",
+    "Protege também quem não pode tomar"
+   ],
+   "certa": 3,
+   "explicacao": "Com muitos vacinados, o micróbio circula menos e protege todos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci10-d1",
+   "habilidadeId": "EF07CI10",
+   "nivel": "dificil",
+   "enunciado": "Qual foi a Revolta da Vacina, de 1904?",
+   "apoio": null,
+   "opcoes": [
+    "Uma guerra entre dois países vizinhos",
+    "A criação do sistema público de saúde",
+    "A descoberta da primeira vacina",
+    "Protesto contra a vacina obrigatória"
+   ],
+   "certa": 3,
+   "explicacao": "Moradores do Rio protestaram contra a vacinação forçada contra a varíola.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci13-f1",
+   "habilidadeId": "EF07CI13",
+   "nivel": "facil",
+   "enunciado": "O efeito estufa natural é importante porque:",
+   "apoio": null,
+   "opcoes": [
+    "mantém a Terra aquecida",
+    "esfria o planeta",
+    "produz chuva ácida",
+    "destrói a camada de ozônio"
+   ],
+   "certa": 0,
+   "explicacao": "Sem ele, a Terra seria fria demais para a vida.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci13-f2",
+   "habilidadeId": "EF07CI13",
+   "nivel": "facil",
+   "enunciado": "Qual gás contribui para aumentar o efeito estufa?",
+   "apoio": null,
+   "opcoes": [
+    "Gás carbônico",
+    "Oxigênio",
+    "Hélio",
+    "Nitrogênio"
+   ],
+   "certa": 0,
+   "explicacao": "O gás carbônico retém calor na atmosfera.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci13-m1",
+   "habilidadeId": "EF07CI13",
+   "nivel": "medio",
+   "enunciado": "Qual atividade humana aumenta o efeito estufa?",
+   "apoio": null,
+   "opcoes": [
+    "Usar energia solar em casa",
+    "Plantar árvores nas cidades",
+    "Queimar combustíveis fósseis",
+    "Andar de bicicleta pela cidade"
+   ],
+   "certa": 2,
+   "explicacao": "Gasolina, diesel e carvão liberam gás carbônico.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci13-m2",
+   "habilidadeId": "EF07CI13",
+   "nivel": "medio",
+   "enunciado": "O que pode acontecer se o efeito estufa aumentar demais?",
+   "apoio": null,
+   "opcoes": [
+    "Aquecimento global",
+    "Uma nova era do gelo",
+    "O fim das chuvas no mundo",
+    "A Terra parar de girar"
+   ],
+   "certa": 0,
+   "explicacao": "Mais gases retêm mais calor e a temperatura média sobe.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci13-d1",
+   "habilidadeId": "EF07CI13",
+   "nivel": "dificil",
+   "enunciado": "Por que o desmatamento contribui para o aquecimento global?",
+   "apoio": null,
+   "opcoes": [
+    "Árvores retiram gás carbônico do ar",
+    "Árvores produzem gás carbônico",
+    "Sem árvores chove mais",
+    "Árvores refletem o calor para o espaço"
+   ],
+   "certa": 0,
+   "explicacao": "Menos árvores significa menos gás carbônico absorvido.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci15-f1",
+   "habilidadeId": "EF07CI15",
+   "nivel": "facil",
+   "enunciado": "A parte de fora da Terra é dividida em grandes blocos. Como eles se chamam?",
+   "apoio": null,
+   "opcoes": [
+    "Massas de ar",
+    "Placas tectônicas",
+    "Camadas de ozônio",
+    "Correntes marinhas"
+   ],
+   "certa": 1,
+   "explicacao": "As placas se movem lentamente.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci15-f2",
+   "habilidadeId": "EF07CI15",
+   "nivel": "facil",
+   "enunciado": "O que pode acontecer quando duas placas se chocam?",
+   "apoio": null,
+   "opcoes": [
+    "Terremotos",
+    "Eclipses",
+    "Marés altas",
+    "Chuvas de granizo"
+   ],
+   "certa": 0,
+   "explicacao": "O atrito entre as placas libera energia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci15-m1",
+   "habilidadeId": "EF07CI15",
+   "nivel": "medio",
+   "enunciado": "Por que o Brasil tem poucos terremotos fortes?",
+   "apoio": null,
+   "opcoes": [
+    "Tem muitas florestas tropicais",
+    "É um país quente",
+    "Fica perto do Equador",
+    "Fica no meio de uma placa"
+   ],
+   "certa": 3,
+   "explicacao": "Os grandes terremotos ocorrem nas bordas das placas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci15-m2",
+   "habilidadeId": "EF07CI15",
+   "nivel": "medio",
+   "enunciado": "O que é um tsunami?",
+   "apoio": null,
+   "opcoes": [
+    "Um tipo de vulcão submarino",
+    "Uma tempestade de areia no mar",
+    "Um furacão de neve nos polos",
+    "Onda gigante após um terremoto"
+   ],
+   "certa": 3,
+   "explicacao": "Um tremor no fundo do mar empurra uma enorme quantidade de água.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ci15-d1",
+   "habilidadeId": "EF07CI15",
+   "nivel": "dificil",
+   "enunciado": "Por que o litoral do Brasil parece encaixar no litoral da África?",
+   "apoio": null,
+   "opcoes": [
+    "Foi só coincidência no desenho",
+    "O mar cortou as duas costas iguais",
+    "Os mapas foram desenhados assim",
+    "Os continentes já estiveram unidos"
+   ],
+   "certa": 3,
+   "explicacao": "Há milhões de anos, América do Sul e África formavam um só continente.",
+   "origem": "curada"
+  }
+ ]
+}

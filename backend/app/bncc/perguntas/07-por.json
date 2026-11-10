@@ -1,0 +1,327 @@
+{
+ "ano": 7,
+ "disciplinaId": "por",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef07lp03-f1",
+   "habilidadeId": "EF07LP03",
+   "nivel": "facil",
+   "enunciado": "Qual prefixo dá ideia de negação na palavra \"desleal\"?",
+   "apoio": null,
+   "opcoes": [
+    "des-",
+    "-al",
+    "le-",
+    "-eal"
+   ],
+   "certa": 0,
+   "explicacao": "Des- antes de leal indica o contrário.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp03-f2",
+   "habilidadeId": "EF07LP03",
+   "nivel": "facil",
+   "enunciado": "Que sufixo forma o substantivo \"felicidade\" a partir de \"feliz\"?",
+   "apoio": null,
+   "opcoes": [
+    "-dade-",
+    "-idade",
+    "fe-",
+    "-iz"
+   ],
+   "certa": 1,
+   "explicacao": "-idade transforma o adjetivo em substantivo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp03-m1",
+   "habilidadeId": "EF07LP03",
+   "nivel": "medio",
+   "enunciado": "Qual palavra foi formada com um sufixo que indica profissão?",
+   "apoio": null,
+   "opcoes": [
+    "jornalista",
+    "infeliz",
+    "reler",
+    "desfazer"
+   ],
+   "certa": 0,
+   "explicacao": "-ista indica quem exerce uma atividade.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp03-m2",
+   "habilidadeId": "EF07LP03",
+   "nivel": "medio",
+   "enunciado": "O prefixo \"re-\" em \"reler\" e \"refazer\" indica:",
+   "apoio": null,
+   "opcoes": [
+    "lugar",
+    "tamanho",
+    "repetição",
+    "negação"
+   ],
+   "certa": 2,
+   "explicacao": "Reler é ler de novo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp03-d1",
+   "habilidadeId": "EF07LP03",
+   "nivel": "dificil",
+   "enunciado": "Qual palavra tem prefixo e sufixo ao mesmo tempo?",
+   "apoio": null,
+   "opcoes": [
+    "lealdade",
+    "desleal",
+    "leal",
+    "deslealdade"
+   ],
+   "certa": 3,
+   "explicacao": "Des- (prefixo) + leal + -dade (sufixo).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp05-f1",
+   "habilidadeId": "EF07LP05",
+   "nivel": "facil",
+   "enunciado": "Em \"O bebê dormiu\", o verbo \"dormir\" precisa de complemento?",
+   "apoio": null,
+   "opcoes": [
+    "Sim, é transitivo direto",
+    "Sim, é transitivo indireto",
+    "Sim, precisa de dois",
+    "Não, é intransitivo"
+   ],
+   "certa": 3,
+   "explicacao": "O sentido de dormir já está completo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp05-f2",
+   "habilidadeId": "EF07LP05",
+   "nivel": "facil",
+   "enunciado": "Em \"Lia comprou um livro\", qual é o complemento do verbo?",
+   "apoio": null,
+   "opcoes": [
+    "Lia comprou",
+    "um livro",
+    "Lia",
+    "comprou"
+   ],
+   "certa": 1,
+   "explicacao": "Quem compra, compra algo: um livro.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp05-m1",
+   "habilidadeId": "EF07LP05",
+   "nivel": "medio",
+   "enunciado": "Em \"Ele gosta de música\", o verbo \"gostar\" é:",
+   "apoio": null,
+   "opcoes": [
+    "intransitivo",
+    "transitivo direto",
+    "de ligação",
+    "transitivo indireto"
+   ],
+   "certa": 3,
+   "explicacao": "Quem gosta, gosta DE algo: há preposição.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp05-m2",
+   "habilidadeId": "EF07LP05",
+   "nivel": "medio",
+   "enunciado": "Qual frase tem um verbo intransitivo?",
+   "apoio": null,
+   "opcoes": [
+    "As crianças fizeram a lição.",
+    "As crianças correram.",
+    "As crianças viram o filme.",
+    "As crianças precisam de ajuda."
+   ],
+   "certa": 1,
+   "explicacao": "Correr tem sentido completo sem complemento.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp05-d1",
+   "habilidadeId": "EF07LP05",
+   "nivel": "dificil",
+   "enunciado": "Em \"Entreguei o presente à minha mãe\", o verbo \"entregar\" é:",
+   "apoio": null,
+   "opcoes": [
+    "transitivo direto apenas",
+    "intransitivo",
+    "verbo de ligação com predicativo",
+    "transitivo direto e indireto"
+   ],
+   "certa": 3,
+   "explicacao": "Quem entrega, entrega algo (o presente) a alguém (à mãe).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp07-f1",
+   "habilidadeId": "EF07LP07",
+   "nivel": "facil",
+   "enunciado": "Em \"Os alunos fizeram a prova\", qual é o sujeito?",
+   "apoio": null,
+   "opcoes": [
+    "Os alunos",
+    "a prova",
+    "fizeram",
+    "fizeram a prova"
+   ],
+   "certa": 0,
+   "explicacao": "É de quem se fala: os alunos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp07-f2",
+   "habilidadeId": "EF07LP07",
+   "nivel": "facil",
+   "enunciado": "Em \"Meu irmão chegou cedo\", qual é o predicado?",
+   "apoio": null,
+   "opcoes": [
+    "irmão chegou",
+    "chegou cedo",
+    "Meu irmão",
+    "Meu"
+   ],
+   "certa": 1,
+   "explicacao": "Predicado é o que se diz do sujeito.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp07-m1",
+   "habilidadeId": "EF07LP07",
+   "nivel": "medio",
+   "enunciado": "Em \"Ana escreveu uma carta\", \"uma carta\" é:",
+   "apoio": null,
+   "opcoes": [
+    "advérbio",
+    "objeto direto",
+    "sujeito",
+    "objeto indireto"
+   ],
+   "certa": 1,
+   "explicacao": "Completa o verbo sem preposição.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp07-m2",
+   "habilidadeId": "EF07LP07",
+   "nivel": "medio",
+   "enunciado": "Em \"O professor confia nos alunos\", \"nos alunos\" é:",
+   "apoio": null,
+   "opcoes": [
+    "objeto indireto",
+    "objeto direto",
+    "sujeito",
+    "predicado"
+   ],
+   "certa": 0,
+   "explicacao": "Completa o verbo com preposição (em + os).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp07-d1",
+   "habilidadeId": "EF07LP07",
+   "nivel": "dificil",
+   "enunciado": "Em \"Chegaram as encomendas\", qual é o sujeito?",
+   "apoio": null,
+   "opcoes": [
+    "Chegaram",
+    "não há sujeito",
+    "sujeito oculto",
+    "as encomendas"
+   ],
+   "certa": 3,
+   "explicacao": "O sujeito vem depois do verbo: as encomendas chegaram.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp09-f1",
+   "habilidadeId": "EF07LP09",
+   "nivel": "facil",
+   "enunciado": "Em \"Ela corre rapidamente\", qual palavra é advérbio?",
+   "apoio": null,
+   "opcoes": [
+    "Ela",
+    "corre",
+    "Ela corre",
+    "rapidamente"
+   ],
+   "certa": 3,
+   "explicacao": "Rapidamente indica o modo de correr.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp09-f2",
+   "habilidadeId": "EF07LP09",
+   "nivel": "facil",
+   "enunciado": "Em \"Amanhã viajaremos\", o advérbio \"amanhã\" indica:",
+   "apoio": null,
+   "opcoes": [
+    "intensidade",
+    "tempo",
+    "lugar",
+    "modo"
+   ],
+   "certa": 1,
+   "explicacao": "Amanhã diz quando a ação acontece.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp09-m1",
+   "habilidadeId": "EF07LP09",
+   "nivel": "medio",
+   "enunciado": "Em \"Moro perto da escola\", a expressão \"perto da escola\" indica:",
+   "apoio": null,
+   "opcoes": [
+    "dúvida",
+    "lugar",
+    "tempo",
+    "modo"
+   ],
+   "certa": 1,
+   "explicacao": "Responde onde: perto da escola.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp09-m2",
+   "habilidadeId": "EF07LP09",
+   "nivel": "medio",
+   "enunciado": "Qual frase tem um advérbio de intensidade?",
+   "apoio": null,
+   "opcoes": [
+    "O filme foi muito bom.",
+    "Saí cedo de casa hoje.",
+    "Ele mora aqui perto.",
+    "Talvez chova amanhã."
+   ],
+   "certa": 0,
+   "explicacao": "Muito intensifica o adjetivo bom.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07lp09-d1",
+   "habilidadeId": "EF07LP09",
+   "nivel": "dificil",
+   "enunciado": "Em \"Talvez ela venha à festa\", o advérbio \"talvez\" expressa:",
+   "apoio": null,
+   "opcoes": [
+    "dúvida",
+    "certeza",
+    "negação",
+    "lugar"
+   ],
+   "certa": 0,
+   "explicacao": "Talvez mostra que não há certeza.",
+   "origem": "curada"
+  }
+ ]
+}

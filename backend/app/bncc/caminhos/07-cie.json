@@ -1,0 +1,30 @@
+{
+ "ano": 7,
+ "disciplinaId": "cie",
+ "componente": "CI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Calor, saúde e planeta",
+   "habilidades": [
+    {
+     "codigo": "EF07CI02",
+     "nome": "Temperatura e calor"
+    },
+    {
+     "codigo": "EF07CI10",
+     "nome": "Vacinação"
+    },
+    {
+     "codigo": "EF07CI13",
+     "nome": "Efeito estufa"
+    },
+    {
+     "codigo": "EF07CI15",
+     "nome": "Placas tectônicas"
+    }
+   ]
+  }
+ ]
+}

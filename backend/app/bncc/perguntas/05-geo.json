@@ -1,0 +1,327 @@
+{
+ "ano": 5,
+ "disciplinaId": "geo",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef05ge03-f1",
+   "habilidadeId": "EF05GE03",
+   "nivel": "facil",
+   "enunciado": "O que costuma acontecer quando uma cidade cresce muito rápido?",
+   "apoio": null,
+   "opcoes": [
+    "Menos alunos nas escolas do bairro",
+    "Mais trânsito e falta de moradia",
+    "Menos carros e ruas mais vazias",
+    "Mais florestas no centro da cidade"
+   ],
+   "certa": 1,
+   "explicacao": "Sem planejamento, faltam casas, transporte e serviços.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge03-f2",
+   "habilidadeId": "EF05GE03",
+   "nivel": "facil",
+   "enunciado": "Qual destes é um serviço público da cidade?",
+   "apoio": null,
+   "opcoes": [
+    "Loja de roupas",
+    "Sorveteria",
+    "Cinema particular",
+    "Posto de saúde"
+   ],
+   "certa": 3,
+   "explicacao": "O posto de saúde é mantido pelo governo para todos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge03-m1",
+   "habilidadeId": "EF05GE03",
+   "nivel": "medio",
+   "enunciado": "Por que muitas pessoas se mudaram do campo para a cidade?",
+   "apoio": null,
+   "opcoes": [
+    "Porque a cidade era mais silenciosa",
+    "Porque o campo não tinha sol",
+    "Em busca de emprego e estudo",
+    "Porque no campo era proibido morar"
+   ],
+   "certa": 2,
+   "explicacao": "As cidades concentram empregos, escolas e hospitais.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge03-m2",
+   "habilidadeId": "EF05GE03",
+   "nivel": "medio",
+   "enunciado": "Qual problema ambiental é comum em cidades grandes?",
+   "apoio": null,
+   "opcoes": [
+    "Falta de prédios",
+    "Rios limpos demais",
+    "Poluição do ar",
+    "Excesso de florestas"
+   ],
+   "certa": 2,
+   "explicacao": "Carros e fábricas poluem o ar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge03-d1",
+   "habilidadeId": "EF05GE03",
+   "nivel": "dificil",
+   "enunciado": "Por que construir casas em encostas de morros pode ser perigoso?",
+   "apoio": null,
+   "opcoes": [
+    "Lá não chega nenhum tipo de transporte",
+    "As casas ficam frias demais no inverno",
+    "A chuva pode fazer a terra deslizar",
+    "O sol bate mais forte no alto do morro"
+   ],
+   "certa": 2,
+   "explicacao": "Sem vegetação, a terra encharcada pode deslizar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge06-f1",
+   "habilidadeId": "EF05GE06",
+   "nivel": "facil",
+   "enunciado": "Qual destes é um meio de comunicação?",
+   "apoio": null,
+   "opcoes": [
+    "Navio",
+    "Rádio",
+    "Bicicleta",
+    "Ônibus"
+   ],
+   "certa": 1,
+   "explicacao": "Rádio transmite informação; os outros transportam.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge06-f2",
+   "habilidadeId": "EF05GE06",
+   "nivel": "facil",
+   "enunciado": "Qual meio de transporte é mais usado para levar muita gente pela cidade?",
+   "apoio": null,
+   "opcoes": [
+    "Patinete",
+    "Cavalo",
+    "Balão",
+    "Ônibus"
+   ],
+   "certa": 3,
+   "explicacao": "O ônibus leva dezenas de pessoas de uma vez.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge06-m1",
+   "habilidadeId": "EF05GE06",
+   "nivel": "medio",
+   "enunciado": "Como a internet mudou a comunicação?",
+   "apoio": null,
+   "opcoes": [
+    "Mensagens chegam em segundos",
+    "As cartas ficaram mais rápidas",
+    "O telefone deixou de existir",
+    "As pessoas pararam de conversar"
+   ],
+   "certa": 0,
+   "explicacao": "Pela internet falamos com qualquer lugar quase na hora.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge06-m2",
+   "habilidadeId": "EF05GE06",
+   "nivel": "medio",
+   "enunciado": "Antes dos carros, qual era um meio de transporte comum no Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "Carroça",
+    "Avião a jato",
+    "Metrô",
+    "Trem-bala"
+   ],
+   "certa": 0,
+   "explicacao": "Carroças e cavalos eram muito usados.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge06-d1",
+   "habilidadeId": "EF05GE06",
+   "nivel": "dificil",
+   "enunciado": "Por que o metrô ajuda a diminuir o trânsito nas cidades?",
+   "apoio": null,
+   "opcoes": [
+    "Só funciona nos fins de semana",
+    "Proíbe as pessoas de terem carro próprio",
+    "É mais lento que andar a pé",
+    "Leva muitas pessoas sem usar as ruas"
+   ],
+   "certa": 3,
+   "explicacao": "Ele transporta muita gente por baixo ou acima das ruas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge07-f1",
+   "habilidadeId": "EF05GE07",
+   "nivel": "facil",
+   "enunciado": "Qual destas fontes de energia vem do Sol?",
+   "apoio": null,
+   "opcoes": [
+    "Energia solar",
+    "Carvão mineral",
+    "Petróleo",
+    "Gás natural"
+   ],
+   "certa": 0,
+   "explicacao": "Painéis solares transformam a luz do Sol em eletricidade.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge07-f2",
+   "habilidadeId": "EF05GE07",
+   "nivel": "facil",
+   "enunciado": "Que energia move os cata-ventos das usinas eólicas?",
+   "apoio": null,
+   "opcoes": [
+    "A água",
+    "O fogo",
+    "O petróleo",
+    "O vento"
+   ],
+   "certa": 3,
+   "explicacao": "Eólica vem de Éolo, o deus dos ventos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge07-m1",
+   "habilidadeId": "EF05GE07",
+   "nivel": "medio",
+   "enunciado": "De onde vem a maior parte da energia elétrica do Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "Das hidrelétricas",
+    "Das usinas nucleares",
+    "Da queima de lenha",
+    "Das pilhas e baterias"
+   ],
+   "certa": 0,
+   "explicacao": "O Brasil tem muitos rios e usa sua força para gerar energia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge07-m2",
+   "habilidadeId": "EF05GE07",
+   "nivel": "medio",
+   "enunciado": "Qual fonte de energia é renovável?",
+   "apoio": null,
+   "opcoes": [
+    "Petróleo",
+    "Carvão",
+    "Gás natural",
+    "Vento"
+   ],
+   "certa": 3,
+   "explicacao": "O vento não acaba; os outros levam milhões de anos para se formar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge07-d1",
+   "habilidadeId": "EF05GE07",
+   "nivel": "dificil",
+   "enunciado": "Por que a gasolina é chamada de combustível fóssil?",
+   "apoio": null,
+   "opcoes": [
+    "Vem do petróleo, de restos antigos",
+    "É feita com ossos de dinossauros",
+    "Foi descoberta por arqueólogos",
+    "Só existe em museus"
+   ],
+   "certa": 0,
+   "explicacao": "O petróleo se formou de restos de seres vivos ao longo de milhões de anos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge10-f1",
+   "habilidadeId": "EF05GE10",
+   "nivel": "facil",
+   "enunciado": "Qual atitude polui os rios?",
+   "apoio": null,
+   "opcoes": [
+    "Separar o lixo reciclável",
+    "Jogar lixo na água",
+    "Plantar árvores na margem",
+    "Economizar água no banho"
+   ],
+   "certa": 1,
+   "explicacao": "Lixo jogado na água suja o rio e prejudica os animais.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge10-f2",
+   "habilidadeId": "EF05GE10",
+   "nivel": "facil",
+   "enunciado": "O que é esgoto?",
+   "apoio": null,
+   "opcoes": [
+    "Água do mar",
+    "Água usada nas casas",
+    "Água limpa da chuva",
+    "Água mineral engarrafada"
+   ],
+   "certa": 1,
+   "explicacao": "É a água usada em banheiros e cozinhas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge10-m1",
+   "habilidadeId": "EF05GE10",
+   "nivel": "medio",
+   "enunciado": "Por que o esgoto deve ser tratado antes de chegar ao rio?",
+   "apoio": null,
+   "opcoes": [
+    "Para a água ficar salgada",
+    "Para o rio secar mais rápido",
+    "Para ter mais peixes mortos",
+    "Para não poluir a água"
+   ],
+   "certa": 3,
+   "explicacao": "O tratamento tira a sujeira e protege a vida no rio.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge10-m2",
+   "habilidadeId": "EF05GE10",
+   "nivel": "medio",
+   "enunciado": "O que é uma maré negra?",
+   "apoio": null,
+   "opcoes": [
+    "Petróleo derramado no mar",
+    "Uma onda muito alta",
+    "O mar escuro durante a noite",
+    "Uma chuva de areia sobre o mar"
+   ],
+   "certa": 0,
+   "explicacao": "É a mancha escura de óleo que se espalha no mar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ge10-d1",
+   "habilidadeId": "EF05GE10",
+   "nivel": "dificil",
+   "enunciado": "Como a poluição de um rio pode chegar até a nossa mesa?",
+   "apoio": null,
+   "opcoes": [
+    "A poluição evapora e vira chuva doce",
+    "O rio leva comida para as casas",
+    "Os rios não têm relação com a comida",
+    "Peixes e plantações usam aquela água"
+   ],
+   "certa": 3,
+   "explicacao": "Alimentos podem absorver a sujeira da água poluída.",
+   "origem": "curada"
+  }
+ ]
+}

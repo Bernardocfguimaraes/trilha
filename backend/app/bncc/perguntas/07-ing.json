@@ -1,0 +1,327 @@
+{
+ "ano": 7,
+ "disciplinaId": "ing",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef07li15-f1",
+   "habilidadeId": "EF07LI15",
+   "nivel": "facil",
+   "enunciado": "Qual é o passado de \"play\"?",
+   "apoio": null,
+   "opcoes": [
+    "plays",
+    "playing",
+    "played",
+    "plaied"
+   ],
+   "certa": 2,
+   "explicacao": "Verbos regulares ganham -ed.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li15-f2",
+   "habilidadeId": "EF07LI15",
+   "nivel": "facil",
+   "enunciado": "Qual é o passado de \"go\"?",
+   "apoio": null,
+   "opcoes": [
+    "goes",
+    "went",
+    "goed",
+    "gone"
+   ],
+   "certa": 1,
+   "explicacao": "Go é irregular: o passado é went.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li15-m1",
+   "habilidadeId": "EF07LI15",
+   "nivel": "medio",
+   "enunciado": "Complete: \"Yesterday I ___ a cake.\"",
+   "apoio": null,
+   "opcoes": [
+    "making",
+    "made",
+    "make",
+    "makes"
+   ],
+   "certa": 1,
+   "explicacao": "Yesterday pede o passado: made.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li15-m2",
+   "habilidadeId": "EF07LI15",
+   "nivel": "medio",
+   "enunciado": "Qual preposição completa: \"I was born ___ 2013.\"",
+   "apoio": null,
+   "opcoes": [
+    "to",
+    "in",
+    "on",
+    "at"
+   ],
+   "certa": 1,
+   "explicacao": "Anos usam in.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li15-d1",
+   "habilidadeId": "EF07LI15",
+   "nivel": "dificil",
+   "enunciado": "Qual frase está correta?",
+   "apoio": null,
+   "opcoes": [
+    "She didn't watched TV last night.",
+    "She not watched TV last night.",
+    "She doesn't watched TV last night.",
+    "She didn't watch TV last night."
+   ],
+   "certa": 3,
+   "explicacao": "Com didn't, o verbo volta para a forma básica.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li18-f1",
+   "habilidadeId": "EF07LI18",
+   "nivel": "facil",
+   "enunciado": "Complete: \"I ___ TV when you called.\"",
+   "apoio": null,
+   "opcoes": [
+    "watch",
+    "will watch",
+    "was watching",
+    "am watching"
+   ],
+   "certa": 2,
+   "explicacao": "Ação em andamento no passado: past continuous.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li18-f2",
+   "habilidadeId": "EF07LI18",
+   "nivel": "facil",
+   "enunciado": "\"They were playing soccer.\" A frase descreve uma ação:",
+   "apoio": null,
+   "opcoes": [
+    "em andamento no passado",
+    "que vai acontecer",
+    "que acontece sempre",
+    "que nunca aconteceu"
+   ],
+   "certa": 0,
+   "explicacao": "Were + -ing indica ação em progresso no passado.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li18-m1",
+   "habilidadeId": "EF07LI18",
+   "nivel": "medio",
+   "enunciado": "Complete: \"She ___ dinner when the lights went out.\"",
+   "apoio": null,
+   "opcoes": [
+    "is cooking",
+    "cooked",
+    "was cooking",
+    "cooks"
+   ],
+   "certa": 2,
+   "explicacao": "A ação longa (cozinhar) foi interrompida.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li18-m2",
+   "habilidadeId": "EF07LI18",
+   "nivel": "medio",
+   "enunciado": "Qual frase está no past simple?",
+   "apoio": null,
+   "opcoes": [
+    "We visited the museum.",
+    "We are visiting the museum.",
+    "We were visiting the museum.",
+    "We visit the museum."
+   ],
+   "certa": 0,
+   "explicacao": "Visited é o passado simples.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li18-d1",
+   "habilidadeId": "EF07LI18",
+   "nivel": "dificil",
+   "enunciado": "Complete: \"While I ___ to school, I ___ my friend.\"",
+   "apoio": null,
+   "opcoes": [
+    "walked / was seeing",
+    "am walking / see",
+    "walk / saw",
+    "was walking / saw"
+   ],
+   "certa": 3,
+   "explicacao": "A ação longa vai no continuous; a curta, no simple.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li19-f1",
+   "habilidadeId": "EF07LI19",
+   "nivel": "facil",
+   "enunciado": "Qual pronome substitui \"Maria\" como sujeito?",
+   "apoio": null,
+   "opcoes": [
+    "It",
+    "She",
+    "He",
+    "Her"
+   ],
+   "certa": 1,
+   "explicacao": "Maria é ela: she.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li19-f2",
+   "habilidadeId": "EF07LI19",
+   "nivel": "facil",
+   "enunciado": "Complete: \"I like ___.\" (ele)",
+   "apoio": null,
+   "opcoes": [
+    "he",
+    "his",
+    "they",
+    "him"
+   ],
+   "certa": 3,
+   "explicacao": "Depois do verbo usamos o pronome objeto: him.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li19-m1",
+   "habilidadeId": "EF07LI19",
+   "nivel": "medio",
+   "enunciado": "Complete: \"Can you help ___?\" (nós)",
+   "apoio": null,
+   "opcoes": [
+    "we",
+    "our",
+    "they",
+    "us"
+   ],
+   "certa": 3,
+   "explicacao": "Objeto de help: us.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li19-m2",
+   "habilidadeId": "EF07LI19",
+   "nivel": "medio",
+   "enunciado": "Na frase \"They called me\", qual palavra é o pronome objeto?",
+   "apoio": null,
+   "opcoes": [
+    "me",
+    "They",
+    "called",
+    "They called"
+   ],
+   "certa": 0,
+   "explicacao": "Me recebe a ação de chamar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li19-d1",
+   "habilidadeId": "EF07LI19",
+   "nivel": "dificil",
+   "enunciado": "Qual frase está correta?",
+   "apoio": null,
+   "opcoes": [
+    "She gave they a present.",
+    "Her gave them a present.",
+    "She gave them a present.",
+    "Her gave they a present."
+   ],
+   "certa": 2,
+   "explicacao": "Sujeito: she; objeto: them.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li20-f1",
+   "habilidadeId": "EF07LI20",
+   "nivel": "facil",
+   "enunciado": "Complete: \"Birds ___ fly.\"",
+   "apoio": null,
+   "opcoes": [
+    "cans",
+    "canning",
+    "to can",
+    "can"
+   ],
+   "certa": 3,
+   "explicacao": "Can não muda de forma.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li20-f2",
+   "habilidadeId": "EF07LI20",
+   "nivel": "facil",
+   "enunciado": "\"I can swim.\" O que a frase quer dizer?",
+   "apoio": null,
+   "opcoes": [
+    "Eu não gosto de nadar.",
+    "Eu sei nadar.",
+    "Eu nadei ontem.",
+    "Eu vou nadar."
+   ],
+   "certa": 1,
+   "explicacao": "Can indica habilidade.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li20-m1",
+   "habilidadeId": "EF07LI20",
+   "nivel": "medio",
+   "enunciado": "Qual é a negativa de \"He can drive\"?",
+   "apoio": null,
+   "opcoes": [
+    "He don't can drive.",
+    "He can drives.",
+    "He not can drive.",
+    "He can't drive."
+   ],
+   "certa": 3,
+   "explicacao": "A negativa é can't (cannot).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li20-m2",
+   "habilidadeId": "EF07LI20",
+   "nivel": "medio",
+   "enunciado": "Complete: \"When I was five, I ___ read.\"",
+   "apoio": null,
+   "opcoes": [
+    "can",
+    "cans",
+    "canned",
+    "could"
+   ],
+   "certa": 3,
+   "explicacao": "Habilidade no passado: could.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07li20-d1",
+   "habilidadeId": "EF07LI20",
+   "nivel": "dificil",
+   "enunciado": "Qual pergunta está correta?",
+   "apoio": null,
+   "opcoes": [
+    "Can you speaks Spanish?",
+    "Can you speak Spanish?",
+    "Do you can speak Spanish?",
+    "You can speak Spanish do?"
+   ],
+   "certa": 1,
+   "explicacao": "Na pergunta, can vem antes do sujeito e o verbo fica na forma básica.",
+   "origem": "curada"
+  }
+ ]
+}

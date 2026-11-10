@@ -1,0 +1,30 @@
+{
+ "ano": 7,
+ "disciplinaId": "por",
+ "componente": "LP",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "A oração e suas partes",
+   "habilidades": [
+    {
+     "codigo": "EF07LP03",
+     "nome": "Prefixos e sufixos"
+    },
+    {
+     "codigo": "EF07LP05",
+     "nome": "Verbos transitivos e intransitivos"
+    },
+    {
+     "codigo": "EF07LP07",
+     "nome": "Sujeito, predicado e objetos"
+    },
+    {
+     "codigo": "EF07LP09",
+     "nome": "Advérbios"
+    }
+   ]
+  }
+ ]
+}

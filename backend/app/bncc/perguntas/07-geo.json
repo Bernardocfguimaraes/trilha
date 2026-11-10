@@ -1,0 +1,327 @@
+{
+ "ano": 7,
+ "disciplinaId": "geo",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef07ge04-f1",
+   "habilidadeId": "EF07GE04",
+   "nivel": "facil",
+   "enunciado": "Em que região do Brasil vive a maior parte da população?",
+   "apoio": null,
+   "opcoes": [
+    "Sul",
+    "Sudeste",
+    "Norte",
+    "Centro-Oeste"
+   ],
+   "certa": 1,
+   "explicacao": "São Paulo, Minas e Rio concentram muita gente.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge04-f2",
+   "habilidadeId": "EF07GE04",
+   "nivel": "facil",
+   "enunciado": "Quais povos formaram a base da população brasileira?",
+   "apoio": null,
+   "opcoes": [
+    "Indígenas, africanos e europeus",
+    "Europeus, asiáticos e árabes",
+    "Indígenas, árabes e chineses",
+    "Africanos, russos e japoneses"
+   ],
+   "certa": 0,
+   "explicacao": "Essas três matrizes são a base, somadas depois a imigrantes de vários lugares.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge04-m1",
+   "habilidadeId": "EF07GE04",
+   "nivel": "medio",
+   "enunciado": "Por que a população brasileira se concentra mais perto do litoral?",
+   "apoio": null,
+   "opcoes": [
+    "O interior não tem nenhum rio",
+    "Morar no interior é proibido",
+    "A colonização começou pela costa",
+    "No litoral nunca há chuvas fortes"
+   ],
+   "certa": 2,
+   "explicacao": "Os portugueses ocuparam primeiro a costa, e as cidades cresceram ali.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge04-m2",
+   "habilidadeId": "EF07GE04",
+   "nivel": "medio",
+   "enunciado": "Qual região brasileira tem a menor densidade demográfica?",
+   "apoio": null,
+   "opcoes": [
+    "Nordeste",
+    "Norte",
+    "Sudeste",
+    "Sul"
+   ],
+   "certa": 1,
+   "explicacao": "É a maior região e tem poucas pessoas por km².",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge04-d1",
+   "habilidadeId": "EF07GE04",
+   "nivel": "dificil",
+   "enunciado": "Muitos japoneses vieram para o Brasil no início do século XX. Para onde foram principalmente?",
+   "apoio": null,
+   "opcoes": [
+    "Praias do Nordeste",
+    "Lavouras de São Paulo e do Paraná",
+    "Garimpos da Amazônia",
+    "Fábricas de tecido do Rio Grande do Sul"
+   ],
+   "certa": 1,
+   "explicacao": "Vieram trabalhar sobretudo nas lavouras de café.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge07-f1",
+   "habilidadeId": "EF07GE07",
+   "nivel": "facil",
+   "enunciado": "Qual é o meio de transporte de cargas mais usado no Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "Aéreo",
+    "Fluvial",
+    "Rodoviário",
+    "Ferroviário"
+   ],
+   "certa": 2,
+   "explicacao": "A maior parte das cargas anda de caminhão.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge07-f2",
+   "habilidadeId": "EF07GE07",
+   "nivel": "facil",
+   "enunciado": "Que meio de transporte usa os rios?",
+   "apoio": null,
+   "opcoes": [
+    "Ferroviário",
+    "Aéreo",
+    "Hidroviário",
+    "Rodoviário"
+   ],
+   "certa": 2,
+   "explicacao": "Barcos e balsas navegam pelos rios.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge07-m1",
+   "habilidadeId": "EF07GE07",
+   "nivel": "medio",
+   "enunciado": "Por que depender quase só de caminhões é um problema?",
+   "apoio": null,
+   "opcoes": [
+    "Faltam motoristas no mundo",
+    "Fica caro e polui mais",
+    "Estradas não existem no Brasil",
+    "Caminhões não carregam peso"
+   ],
+   "certa": 1,
+   "explicacao": "Trens e barcos levam mais carga com menos combustível.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge07-m2",
+   "habilidadeId": "EF07GE07",
+   "nivel": "medio",
+   "enunciado": "Como as estradas mudaram a ocupação do Centro-Oeste?",
+   "apoio": null,
+   "opcoes": [
+    "Acabaram com toda a agricultura local",
+    "Levaram cidades e lavouras ao interior",
+    "Não tiveram nenhum efeito na região",
+    "Esvaziaram toda a região de moradores"
+   ],
+   "certa": 1,
+   "explicacao": "Com estradas, cidades e plantações avançaram para o interior.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge07-d1",
+   "habilidadeId": "EF07GE07",
+   "nivel": "dificil",
+   "enunciado": "Por que a construção de Brasília foi importante para o território?",
+   "apoio": null,
+   "opcoes": [
+    "Levou o governo para o interior",
+    "Fechou o acesso ao litoral do país",
+    "Criou o primeiro porto do país",
+    "Mudou a capital para o Sul"
+   ],
+   "certa": 0,
+   "explicacao": "A nova capital estimulou estradas e a ocupação do Centro-Oeste.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge11-f1",
+   "habilidadeId": "EF07GE11",
+   "nivel": "facil",
+   "enunciado": "Qual é o maior bioma do Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "Caatinga",
+    "Amazônia",
+    "Pampa",
+    "Pantanal"
+   ],
+   "certa": 1,
+   "explicacao": "A Amazônia ocupa quase metade do território.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge11-f2",
+   "habilidadeId": "EF07GE11",
+   "nivel": "facil",
+   "enunciado": "Qual bioma tem clima semiárido e plantas adaptadas à seca?",
+   "apoio": null,
+   "opcoes": [
+    "Mata Atlântica",
+    "Pampa",
+    "Amazônia",
+    "Caatinga"
+   ],
+   "certa": 3,
+   "explicacao": "A Caatinga fica no sertão nordestino.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge11-m1",
+   "habilidadeId": "EF07GE11",
+   "nivel": "medio",
+   "enunciado": "Qual bioma brasileiro é a maior planície alagável do mundo?",
+   "apoio": null,
+   "opcoes": [
+    "Pantanal",
+    "Cerrado",
+    "Pampa",
+    "Caatinga"
+   ],
+   "certa": 0,
+   "explicacao": "No Pantanal, as cheias inundam grandes áreas todo ano.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge11-m2",
+   "habilidadeId": "EF07GE11",
+   "nivel": "medio",
+   "enunciado": "Qual bioma foi o mais desmatado desde a chegada dos portugueses?",
+   "apoio": null,
+   "opcoes": [
+    "Mata Atlântica",
+    "Floresta Amazônica",
+    "Pantanal",
+    "Pampa gaúcho"
+   ],
+   "certa": 0,
+   "explicacao": "Restam pouco mais de 10% da mata original.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge11-d1",
+   "habilidadeId": "EF07GE11",
+   "nivel": "dificil",
+   "enunciado": "Por que o Cerrado é chamado de \"berço das águas\"?",
+   "apoio": null,
+   "opcoes": [
+    "Chove o ano todo sem nenhuma pausa",
+    "Fica todo embaixo do mar",
+    "Tem os maiores lagos do mundo",
+    "Nele nascem rios de várias bacias"
+   ],
+   "certa": 3,
+   "explicacao": "Nascentes do Cerrado abastecem bacias como a do São Francisco e a do Paraná.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge12-f1",
+   "habilidadeId": "EF07GE12",
+   "nivel": "facil",
+   "enunciado": "O que é uma unidade de conservação?",
+   "apoio": null,
+   "opcoes": [
+    "Um tipo de fábrica",
+    "Uma cidade planejada",
+    "Uma fazenda particular",
+    "Área protegida por lei"
+   ],
+   "certa": 3,
+   "explicacao": "É um espaço protegido para preservar a natureza.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge12-f2",
+   "habilidadeId": "EF07GE12",
+   "nivel": "facil",
+   "enunciado": "Qual destes é um exemplo de unidade de conservação?",
+   "apoio": null,
+   "opcoes": [
+    "Estádio de futebol",
+    "Parque Nacional",
+    "Shopping center",
+    "Aeroporto"
+   ],
+   "certa": 1,
+   "explicacao": "Parques nacionais protegem a natureza.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge12-m1",
+   "habilidadeId": "EF07GE12",
+   "nivel": "medio",
+   "enunciado": "Qual é o principal objetivo de um Parque Nacional?",
+   "apoio": null,
+   "opcoes": [
+    "Construir casas para moradia",
+    "Extrair madeira para vender",
+    "Criar gado em grande escala",
+    "Preservar a natureza"
+   ],
+   "certa": 3,
+   "explicacao": "Os parques preservam e permitem pesquisa e turismo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge12-m2",
+   "habilidadeId": "EF07GE12",
+   "nivel": "medio",
+   "enunciado": "O Parque Nacional do Iguaçu é famoso por quê?",
+   "apoio": null,
+   "opcoes": [
+    "Por suas geleiras",
+    "Por seus vulcões",
+    "Por suas cataratas",
+    "Por seus desertos"
+   ],
+   "certa": 2,
+   "explicacao": "As Cataratas do Iguaçu ficam no Paraná, na fronteira com a Argentina.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ge12-d1",
+   "habilidadeId": "EF07GE12",
+   "nivel": "dificil",
+   "enunciado": "Qual é a diferença entre unidades de proteção integral e de uso sustentável?",
+   "apoio": null,
+   "opcoes": [
+    "A sustentável é proibida de visitar",
+    "Na integral não se exploram recursos",
+    "A integral pode ter fábricas e minas",
+    "Não há nenhuma diferença entre elas"
+   ],
+   "certa": 1,
+   "explicacao": "Na proteção integral a natureza é preservada sem exploração dos recursos.",
+   "origem": "curada"
+  }
+ ]
+}

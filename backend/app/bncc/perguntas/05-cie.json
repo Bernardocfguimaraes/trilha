@@ -1,0 +1,327 @@
+{
+ "ano": 5,
+ "disciplinaId": "cie",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef05ci02-f1",
+   "habilidadeId": "EF05CI02",
+   "nivel": "facil",
+   "enunciado": "Quando o gelo derrete, a água passa de qual estado para qual?",
+   "apoio": null,
+   "opcoes": [
+    "De gasoso para sólido",
+    "De líquido para sólido",
+    "De sólido para líquido",
+    "De líquido para gasoso"
+   ],
+   "certa": 2,
+   "explicacao": "Gelo é água sólida; derretida, vira líquida.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci02-f2",
+   "habilidadeId": "EF05CI02",
+   "nivel": "facil",
+   "enunciado": "Como se chama a passagem da água líquida para vapor?",
+   "apoio": null,
+   "opcoes": [
+    "Fusão",
+    "Condensação",
+    "Evaporação",
+    "Solidificação"
+   ],
+   "certa": 2,
+   "explicacao": "Evaporar é virar vapor.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci02-m1",
+   "habilidadeId": "EF05CI02",
+   "nivel": "medio",
+   "enunciado": "As gotinhas que aparecem do lado de fora de um copo gelado vêm de onde?",
+   "apoio": null,
+   "opcoes": [
+    "Do gelo que atravessa o vidro",
+    "Da tinta do copo",
+    "Do vapor de água do ar",
+    "De dentro do copo, que vaza"
+   ],
+   "certa": 2,
+   "explicacao": "O vapor do ar esfria ao tocar o copo e vira líquido (condensação).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci02-m2",
+   "habilidadeId": "EF05CI02",
+   "nivel": "medio",
+   "enunciado": "No ciclo da água, o que acontece logo depois de o vapor formar as nuvens?",
+   "apoio": null,
+   "opcoes": [
+    "Infiltração",
+    "Chuva",
+    "Evaporação",
+    "Derretimento"
+   ],
+   "certa": 1,
+   "explicacao": "Quando as gotas das nuvens ficam pesadas, cai a chuva.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci02-d1",
+   "habilidadeId": "EF05CI02",
+   "nivel": "dificil",
+   "enunciado": "Por que a falta de chuva afeta a produção de energia no Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "A chuva carrega energia elétrica",
+    "As usinas só funcionam à noite",
+    "O sol fica mais fraco sem chuva",
+    "Muitas usinas usam a água dos rios"
+   ],
+   "certa": 3,
+   "explicacao": "A maior parte da energia vem de hidrelétricas, que dependem do volume dos rios.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci06-f1",
+   "habilidadeId": "EF05CI06",
+   "nivel": "facil",
+   "enunciado": "Qual órgão faz parte do sistema respiratório?",
+   "apoio": null,
+   "opcoes": [
+    "Estômago",
+    "Fígado",
+    "Intestino",
+    "Pulmão"
+   ],
+   "certa": 3,
+   "explicacao": "O pulmão recebe o ar que respiramos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci06-f2",
+   "habilidadeId": "EF05CI06",
+   "nivel": "facil",
+   "enunciado": "Onde começa a digestão dos alimentos?",
+   "apoio": null,
+   "opcoes": [
+    "No pulmão",
+    "No coração",
+    "Nos rins",
+    "Na boca"
+   ],
+   "certa": 3,
+   "explicacao": "Na boca os dentes trituram e a saliva começa a digestão.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci06-m1",
+   "habilidadeId": "EF05CI06",
+   "nivel": "medio",
+   "enunciado": "Que gás o corpo precisa retirar do ar para usar os nutrientes?",
+   "apoio": null,
+   "opcoes": [
+    "Oxigênio",
+    "Gás carbônico",
+    "Nitrogênio",
+    "Vapor de água"
+   ],
+   "certa": 0,
+   "explicacao": "O oxigênio é usado pelas células junto com os nutrientes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci06-m2",
+   "habilidadeId": "EF05CI06",
+   "nivel": "medio",
+   "enunciado": "Em que órgão a maior parte dos nutrientes passa para o sangue?",
+   "apoio": null,
+   "opcoes": [
+    "Intestino delgado",
+    "Intestino grosso",
+    "Estômago",
+    "Esôfago"
+   ],
+   "certa": 0,
+   "explicacao": "As paredes do intestino delgado absorvem os nutrientes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci06-d1",
+   "habilidadeId": "EF05CI06",
+   "nivel": "dificil",
+   "enunciado": "Por que digestão e respiração trabalham juntas na nutrição?",
+   "apoio": null,
+   "opcoes": [
+    "A respiração digere os alimentos",
+    "Nutrientes e oxigênio são usados juntos",
+    "As duas acontecem no mesmo órgão",
+    "Uma substitui a outra no sono"
+   ],
+   "certa": 1,
+   "explicacao": "As células usam o oxigênio para liberar a energia dos nutrientes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci08-f1",
+   "habilidadeId": "EF05CI08",
+   "nivel": "facil",
+   "enunciado": "Qual destes alimentos é uma fruta?",
+   "apoio": null,
+   "opcoes": [
+    "Queijo",
+    "Feijão",
+    "Banana",
+    "Arroz"
+   ],
+   "certa": 2,
+   "explicacao": "Banana é fruta; arroz e feijão são grãos, queijo vem do leite.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci08-f2",
+   "habilidadeId": "EF05CI08",
+   "nivel": "facil",
+   "enunciado": "Qual refeição é mais equilibrada?",
+   "apoio": null,
+   "opcoes": [
+    "Batata frita, refrigerante e bala",
+    "Só um pacote de biscoito recheado",
+    "Bolo de chocolate com sorvete",
+    "Arroz, feijão, salada e frango"
+   ],
+   "certa": 3,
+   "explicacao": "Tem grãos, proteína e verduras.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci08-m1",
+   "habilidadeId": "EF05CI08",
+   "nivel": "medio",
+   "enunciado": "Que tipo de alimento dá mais energia rápida para o corpo?",
+   "apoio": null,
+   "opcoes": [
+    "Verduras folhosas",
+    "Água pura",
+    "Sal de cozinha",
+    "Pães e massas"
+   ],
+   "certa": 3,
+   "explicacao": "Pães e massas são ricos em carboidratos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci08-m2",
+   "habilidadeId": "EF05CI08",
+   "nivel": "medio",
+   "enunciado": "Para que servem principalmente as proteínas, como carne, ovo e feijão?",
+   "apoio": null,
+   "opcoes": [
+    "Deixar os ossos moles",
+    "Construir e reparar o corpo",
+    "Dar sabor doce à comida",
+    "Esfriar o corpo no calor"
+   ],
+   "certa": 1,
+   "explicacao": "Proteínas ajudam a formar músculos e outras partes do corpo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci08-d1",
+   "habilidadeId": "EF05CI08",
+   "nivel": "dificil",
+   "enunciado": "Por que um atleta pode precisar comer mais que uma pessoa parada?",
+   "apoio": null,
+   "opcoes": [
+    "Tem o estômago maior que o normal",
+    "Precisa engordar para competir",
+    "Não digere bem os alimentos",
+    "Gasta mais energia nas atividades"
+   ],
+   "certa": 3,
+   "explicacao": "Quem se movimenta mais gasta mais energia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci11-f1",
+   "habilidadeId": "EF05CI11",
+   "nivel": "facil",
+   "enunciado": "De que lado do céu o Sol aparece de manhã?",
+   "apoio": null,
+   "opcoes": [
+    "Norte",
+    "Sul",
+    "Leste",
+    "Oeste"
+   ],
+   "certa": 2,
+   "explicacao": "O Sol nasce no lado leste.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci11-f2",
+   "habilidadeId": "EF05CI11",
+   "nivel": "facil",
+   "enunciado": "Por que vemos o Sol \"andar\" no céu durante o dia?",
+   "apoio": null,
+   "opcoes": [
+    "O Sol gira em volta da Terra",
+    "As nuvens empurram o Sol",
+    "A Lua puxa o Sol",
+    "A Terra gira"
+   ],
+   "certa": 3,
+   "explicacao": "É a rotação da Terra que faz o Sol parecer se mover.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci11-m1",
+   "habilidadeId": "EF05CI11",
+   "nivel": "medio",
+   "enunciado": "Quanto tempo a Terra leva para dar uma volta em torno de si mesma?",
+   "apoio": null,
+   "opcoes": [
+    "Cerca de 1 semana",
+    "Cerca de 1 mês",
+    "Cerca de 1 ano",
+    "Cerca de 24 horas"
+   ],
+   "certa": 3,
+   "explicacao": "A rotação dura um dia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci11-m2",
+   "habilidadeId": "EF05CI11",
+   "nivel": "medio",
+   "enunciado": "Por que a sombra de um poste muda de tamanho ao longo do dia?",
+   "apoio": null,
+   "opcoes": [
+    "A posição do Sol no céu muda",
+    "O poste cresce e diminui",
+    "A luz do Sol fica mais fraca",
+    "O chão se mexe"
+   ],
+   "certa": 0,
+   "explicacao": "Com o Sol mais baixo a sombra fica longa; ao meio-dia, curta.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ci11-d1",
+   "habilidadeId": "EF05CI11",
+   "nivel": "dificil",
+   "enunciado": "As estrelas também parecem se mover no céu à noite. Por quê?",
+   "apoio": null,
+   "opcoes": [
+    "A Lua empurra as estrelas",
+    "A Terra continua girando",
+    "Elas caem devagar do céu",
+    "O vento leva as estrelas"
+   ],
+   "certa": 1,
+   "explicacao": "A Terra continua girando à noite, e o céu inteiro parece girar.",
+   "origem": "curada"
+  }
+ ]
+}

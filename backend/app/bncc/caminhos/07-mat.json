@@ -1,0 +1,30 @@
+{
+ "ano": 7,
+ "disciplinaId": "mat",
+ "componente": "MA",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Inteiros, porcentagens e equações",
+   "habilidades": [
+    {
+     "codigo": "EF07MA02",
+     "nome": "Porcentagens: acréscimos e descontos"
+    },
+    {
+     "codigo": "EF07MA04",
+     "nome": "Números inteiros"
+    },
+    {
+     "codigo": "EF07MA18",
+     "nome": "Equações do 1º grau"
+    },
+    {
+     "codigo": "EF07MA24",
+     "nome": "Triângulos"
+    }
+   ]
+  }
+ ]
+}

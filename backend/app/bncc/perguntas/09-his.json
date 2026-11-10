@@ -1,0 +1,327 @@
+{
+ "ano": 9,
+ "disciplinaId": "his",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef09hi01-f1",
+   "habilidadeId": "EF09HI01",
+   "nivel": "facil",
+   "enunciado": "Em que ano foi proclamada a República no Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "1930",
+    "1889",
+    "1822",
+    "1500"
+   ],
+   "certa": 1,
+   "explicacao": "Em 15 de novembro de 1889.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi01-f2",
+   "habilidadeId": "EF09HI01",
+   "nivel": "facil",
+   "enunciado": "Quem foi o primeiro presidente do Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "Dom Pedro II",
+    "Juscelino Kubitschek",
+    "Deodoro da Fonseca",
+    "Getúlio Vargas"
+   ],
+   "certa": 2,
+   "explicacao": "O marechal Deodoro liderou a proclamação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi01-m1",
+   "habilidadeId": "EF09HI01",
+   "nivel": "medio",
+   "enunciado": "O que foi a \"política do café com leite\"?",
+   "apoio": null,
+   "opcoes": [
+    "Uma lei sobre a alimentação escolar",
+    "Um acordo com Portugal",
+    "A venda de café para a Europa",
+    "Revezamento entre SP e MG no poder"
+   ],
+   "certa": 3,
+   "explicacao": "Paulistas e mineiros alternavam a Presidência na Primeira República.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi01-m2",
+   "habilidadeId": "EF09HI01",
+   "nivel": "medio",
+   "enunciado": "Na Primeira República, o voto era:",
+   "apoio": null,
+   "opcoes": [
+    "permitido só para mulheres",
+    "feito pela internet",
+    "aberto e vigiado pelos coronéis",
+    "secreto e para todos os adultos"
+   ],
+   "certa": 2,
+   "explicacao": "O voto de cabresto era comum: os coronéis pressionavam os eleitores.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi01-d1",
+   "habilidadeId": "EF09HI01",
+   "nivel": "dificil",
+   "enunciado": "Quem ficou de fora do voto na Constituição de 1891?",
+   "apoio": null,
+   "opcoes": [
+    "Comerciantes do Rio",
+    "Mulheres e analfabetos",
+    "Fazendeiros ricos",
+    "Militares de alta patente"
+   ],
+   "certa": 1,
+   "explicacao": "Só homens alfabetizados acima de 21 anos podiam votar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi13-f1",
+   "habilidadeId": "EF09HI13",
+   "nivel": "facil",
+   "enunciado": "Quem liderou o nazismo na Alemanha?",
+   "apoio": null,
+   "opcoes": [
+    "Benito Mussolini",
+    "Winston Churchill",
+    "Josef Stalin",
+    "Adolf Hitler"
+   ],
+   "certa": 3,
+   "explicacao": "Hitler chegou ao poder em 1933.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi13-f2",
+   "habilidadeId": "EF09HI13",
+   "nivel": "facil",
+   "enunciado": "O fascismo surgiu em qual país?",
+   "apoio": null,
+   "opcoes": [
+    "Itália",
+    "Brasil",
+    "Japão",
+    "Estados Unidos"
+   ],
+   "certa": 0,
+   "explicacao": "Mussolini fundou o fascismo na Itália.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi13-m1",
+   "habilidadeId": "EF09HI13",
+   "nivel": "medio",
+   "enunciado": "O que foi o Holocausto?",
+   "apoio": null,
+   "opcoes": [
+    "Uma revolução operária na Rússia",
+    "Uma grande batalha naval no Pacífico",
+    "O extermínio de judeus pelos nazistas",
+    "Um tratado de paz entre potências"
+   ],
+   "certa": 2,
+   "explicacao": "Cerca de seis milhões de judeus foram assassinados.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi13-m2",
+   "habilidadeId": "EF09HI13",
+   "nivel": "medio",
+   "enunciado": "Uma característica dos regimes totalitários era:",
+   "apoio": null,
+   "opcoes": [
+    "vários partidos fortes",
+    "censura e partido único",
+    "eleições livres frequentes",
+    "imprensa totalmente livre"
+   ],
+   "certa": 1,
+   "explicacao": "O Estado controlava a vida pública e perseguia opositores.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi13-d1",
+   "habilidadeId": "EF09HI13",
+   "nivel": "dificil",
+   "enunciado": "Por que a crise de 1929 ajudou a ascensão do nazismo?",
+   "apoio": null,
+   "opcoes": [
+    "O desemprego aumentou a insatisfação",
+    "A Alemanha ficou muito rica",
+    "Acabou o desemprego na Europa",
+    "Todos os países fecharam suas fábricas"
+   ],
+   "certa": 0,
+   "explicacao": "Com a crise, propostas extremistas ganharam apoio.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi19-f1",
+   "habilidadeId": "EF09HI19",
+   "nivel": "facil",
+   "enunciado": "Em que ano começou a ditadura civil-militar no Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "1964",
+    "1945",
+    "1889",
+    "1985"
+   ],
+   "certa": 0,
+   "explicacao": "O golpe aconteceu em 31 de março de 1964.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi19-f2",
+   "habilidadeId": "EF09HI19",
+   "nivel": "facil",
+   "enunciado": "O que foi o AI-5, de 1968?",
+   "apoio": null,
+   "opcoes": [
+    "Ato que ampliou a repressão",
+    "A primeira eleição direta",
+    "Uma lei de proteção ambiental",
+    "O fim da censura"
+   ],
+   "certa": 0,
+   "explicacao": "Fechou o Congresso e suspendeu garantias constitucionais.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi19-m1",
+   "habilidadeId": "EF09HI19",
+   "nivel": "medio",
+   "enunciado": "Como a censura agia durante a ditadura?",
+   "apoio": null,
+   "opcoes": [
+    "Ensinava a ler nas escolas",
+    "Criava novos jornais livres",
+    "Proibia músicas, livros e notícias",
+    "Liberava toda a imprensa"
+   ],
+   "certa": 2,
+   "explicacao": "Obras e reportagens eram vetadas pelo governo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi19-m2",
+   "habilidadeId": "EF09HI19",
+   "nivel": "medio",
+   "enunciado": "O que foi o movimento Diretas Já?",
+   "apoio": null,
+   "opcoes": [
+    "Um festival de música popular",
+    "Um time de futebol de Minas",
+    "Um plano de construção de estradas",
+    "Campanha por eleições diretas"
+   ],
+   "certa": 3,
+   "explicacao": "Em 1984, milhões foram às ruas pedindo eleições diretas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi19-d1",
+   "habilidadeId": "EF09HI19",
+   "nivel": "dificil",
+   "enunciado": "O que fez a Comissão Nacional da Verdade, criada em 2012?",
+   "apoio": null,
+   "opcoes": [
+    "Organizou a Copa do Mundo",
+    "Criou o Plano Real",
+    "Investigou violações da ditadura",
+    "Escreveu a Constituição"
+   ],
+   "certa": 2,
+   "explicacao": "Apurou mortes, torturas e desaparecimentos do período.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi23-f1",
+   "habilidadeId": "EF09HI23",
+   "nivel": "facil",
+   "enunciado": "Como ficou conhecida a Constituição de 1988?",
+   "apoio": null,
+   "opcoes": [
+    "Carta Militar",
+    "Lei do Café",
+    "Constituição Cidadã",
+    "Constituição Imperial"
+   ],
+   "certa": 2,
+   "explicacao": "Ampliou direitos e a participação popular.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi23-f2",
+   "habilidadeId": "EF09HI23",
+   "nivel": "facil",
+   "enunciado": "Qual direito a Constituição de 1988 garantiu a todos?",
+   "apoio": null,
+   "opcoes": [
+    "Viagens ao exterior",
+    "Isenção de todas as leis",
+    "Saúde pública pelo SUS",
+    "Carro de graça"
+   ],
+   "certa": 2,
+   "explicacao": "A saúde passou a ser direito de todos e dever do Estado.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi23-m1",
+   "habilidadeId": "EF09HI23",
+   "nivel": "medio",
+   "enunciado": "A partir de 1988, o voto passou a ser facultativo para quem tem:",
+   "apoio": null,
+   "opcoes": [
+    "18 a 30 anos",
+    "40 a 50 anos",
+    "16 e 17 anos",
+    "10 a 15 anos"
+   ],
+   "certa": 2,
+   "explicacao": "Jovens de 16 e 17 anos podem votar se quiserem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi23-m2",
+   "habilidadeId": "EF09HI23",
+   "nivel": "medio",
+   "enunciado": "Qual destes é um direito civil garantido em 1988?",
+   "apoio": null,
+   "opcoes": [
+    "Fim do voto",
+    "Liberdade de expressão",
+    "Prisão sem julgamento",
+    "Censura prévia"
+   ],
+   "certa": 1,
+   "explicacao": "Expressar opiniões livremente é direito fundamental.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09hi23-d1",
+   "habilidadeId": "EF09HI23",
+   "nivel": "dificil",
+   "enunciado": "Como a Constituição de 1988 tratou o racismo?",
+   "apoio": null,
+   "opcoes": [
+    "Não falou sobre o tema",
+    "Como crime inafiançável",
+    "Como algo permitido",
+    "Como simples multa"
+   ],
+   "certa": 1,
+   "explicacao": "O racismo virou crime inafiançável e imprescritível.",
+   "origem": "curada"
+  }
+ ]
+}

@@ -1,0 +1,327 @@
+{
+ "ano": 9,
+ "disciplinaId": "mat",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef09ma02-f1",
+   "habilidadeId": "EF09MA02",
+   "nivel": "facil",
+   "enunciado": "Qual destes números é irracional?",
+   "apoio": null,
+   "opcoes": [
+    "√2",
+    "1/2",
+    "0,25",
+    "√9"
+   ],
+   "certa": 0,
+   "explicacao": "√2 tem infinitas casas decimais sem repetição; √9 = 3.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma02-f2",
+   "habilidadeId": "EF09MA02",
+   "nivel": "facil",
+   "enunciado": "O número π (pi) é:",
+   "apoio": null,
+   "opcoes": [
+    "irracional",
+    "inteiro",
+    "natural",
+    "uma fração exata"
+   ],
+   "certa": 0,
+   "explicacao": "π = 3,14159… não tem período nem fim.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma02-m1",
+   "habilidadeId": "EF09MA02",
+   "nivel": "medio",
+   "enunciado": "Entre quais números inteiros está √10?",
+   "apoio": null,
+   "opcoes": [
+    "2 e 3",
+    "4 e 5",
+    "9 e 10",
+    "3 e 4"
+   ],
+   "certa": 3,
+   "explicacao": "√9 = 3 e √16 = 4, então √10 fica entre 3 e 4.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma02-m2",
+   "habilidadeId": "EF09MA02",
+   "nivel": "medio",
+   "enunciado": "Qual decimal representa um número racional?",
+   "apoio": null,
+   "opcoes": [
+    "0,333…",
+    "0,1010010001…",
+    "3,14159265…",
+    "1,41421356…"
+   ],
+   "certa": 0,
+   "explicacao": "Dízima periódica pode ser escrita como fração: 0,333… = 1/3.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma02-d1",
+   "habilidadeId": "EF09MA02",
+   "nivel": "dificil",
+   "enunciado": "A diagonal de um quadrado de lado 1 mede √2. O que isso mostra?",
+   "apoio": null,
+   "opcoes": [
+    "O quadrado não tem diagonal",
+    "√2 é igual a 1,5",
+    "Há medidas que não são frações",
+    "Todo número é uma fração"
+   ],
+   "certa": 2,
+   "explicacao": "Os gregos descobriram que essa medida não é razão entre inteiros.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma04-f1",
+   "habilidadeId": "EF09MA04",
+   "nivel": "facil",
+   "enunciado": "Como se escreve 3.000 em notação científica?",
+   "apoio": null,
+   "opcoes": [
+    "3 × 10²",
+    "30 × 10²",
+    "3 × 10⁴",
+    "3 × 10³"
+   ],
+   "certa": 3,
+   "explicacao": "3.000 = 3 × 1.000 = 3 × 10³.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma04-f2",
+   "habilidadeId": "EF09MA04",
+   "nivel": "facil",
+   "enunciado": "Quanto vale 10⁵?",
+   "apoio": null,
+   "opcoes": [
+    "1.000.000",
+    "100.000",
+    "10.000",
+    "50"
+   ],
+   "certa": 1,
+   "explicacao": "É 1 seguido de cinco zeros.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma04-m1",
+   "habilidadeId": "EF09MA04",
+   "nivel": "medio",
+   "enunciado": "Como se escreve 0,004 em notação científica?",
+   "apoio": null,
+   "opcoes": [
+    "4 × 10³",
+    "4 × 10⁻²",
+    "0,4 × 10⁻²",
+    "4 × 10⁻³"
+   ],
+   "certa": 3,
+   "explicacao": "0,004 = 4 ÷ 1.000 = 4 × 10⁻³.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma04-m2",
+   "habilidadeId": "EF09MA04",
+   "nivel": "medio",
+   "enunciado": "A distância da Terra ao Sol é cerca de 150.000.000 km. Em notação científica:",
+   "apoio": null,
+   "opcoes": [
+    "15 × 10⁸ km",
+    "1,5 × 10⁷ km",
+    "1,5 × 10⁹ km",
+    "1,5 × 10⁸ km"
+   ],
+   "certa": 3,
+   "explicacao": "150 milhões = 1,5 × 100.000.000 = 1,5 × 10⁸.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma04-d1",
+   "habilidadeId": "EF09MA04",
+   "nivel": "dificil",
+   "enunciado": "Quanto é (2 × 10³) × (4 × 10²)?",
+   "apoio": null,
+   "opcoes": [
+    "8 × 10⁶",
+    "6 × 10⁵",
+    "8 × 10¹",
+    "8 × 10⁵"
+   ],
+   "certa": 3,
+   "explicacao": "2 × 4 = 8 e 10³ × 10² = 10⁵.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma06-f1",
+   "habilidadeId": "EF09MA06",
+   "nivel": "facil",
+   "enunciado": "Na função f(x) = 2x + 1, quanto vale f(3)?",
+   "apoio": null,
+   "opcoes": [
+    "5",
+    "9",
+    "7",
+    "6"
+   ],
+   "certa": 2,
+   "explicacao": "2 × 3 + 1 = 7.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma06-f2",
+   "habilidadeId": "EF09MA06",
+   "nivel": "facil",
+   "enunciado": "Um táxi cobra R$ 5 fixos mais R$ 2 por km. Qual função dá o preço P de x km?",
+   "apoio": null,
+   "opcoes": [
+    "P = 5x + 2",
+    "P = 7x",
+    "P = 2 + x",
+    "P = 2x + 5"
+   ],
+   "certa": 3,
+   "explicacao": "O fixo é 5 e cada km soma 2.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma06-m1",
+   "habilidadeId": "EF09MA06",
+   "nivel": "medio",
+   "enunciado": "Para f(x) = 3x − 6, qual valor de x faz f(x) = 0?",
+   "apoio": null,
+   "opcoes": [
+    "−2",
+    "6",
+    "3",
+    "2"
+   ],
+   "certa": 3,
+   "explicacao": "3x − 6 = 0 → x = 2.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma06-m2",
+   "habilidadeId": "EF09MA06",
+   "nivel": "medio",
+   "enunciado": "Numa função, cada valor de x corresponde a:",
+   "apoio": null,
+   "opcoes": [
+    "um único valor de y",
+    "dois valores de y",
+    "nenhum valor de y",
+    "qualquer valor de y"
+   ],
+   "certa": 0,
+   "explicacao": "Isso é o que define uma função.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma06-d1",
+   "habilidadeId": "EF09MA06",
+   "nivel": "dificil",
+   "enunciado": "O gráfico de f(x) = −x + 4 é uma reta que:",
+   "apoio": null,
+   "opcoes": [
+    "desce da esquerda para a direita",
+    "sobe da esquerda para a direita",
+    "é paralela ao eixo x",
+    "passa pela origem"
+   ],
+   "certa": 0,
+   "explicacao": "O coeficiente de x é negativo, então a função é decrescente.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma14-f1",
+   "habilidadeId": "EF09MA14",
+   "nivel": "facil",
+   "enunciado": "Num triângulo retângulo com catetos 3 e 4, quanto mede a hipotenusa?",
+   "apoio": null,
+   "opcoes": [
+    "5",
+    "7",
+    "6",
+    "12"
+   ],
+   "certa": 0,
+   "explicacao": "3² + 4² = 9 + 16 = 25, e √25 = 5.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma14-f2",
+   "habilidadeId": "EF09MA14",
+   "nivel": "facil",
+   "enunciado": "O teorema de Pitágoras vale para que tipo de triângulo?",
+   "apoio": null,
+   "opcoes": [
+    "Equilátero",
+    "Qualquer triângulo",
+    "Obtusângulo",
+    "Retângulo"
+   ],
+   "certa": 3,
+   "explicacao": "Só para triângulos com um ângulo reto.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma14-m1",
+   "habilidadeId": "EF09MA14",
+   "nivel": "medio",
+   "enunciado": "Num triângulo retângulo, a hipotenusa mede 10 e um cateto mede 6. Quanto mede o outro?",
+   "apoio": null,
+   "opcoes": [
+    "4",
+    "16",
+    "12",
+    "8"
+   ],
+   "certa": 3,
+   "explicacao": "10² − 6² = 100 − 36 = 64, e √64 = 8.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma14-m2",
+   "habilidadeId": "EF09MA14",
+   "nivel": "medio",
+   "enunciado": "Uma escada de 5 m está encostada num muro, com o pé a 3 m da parede. Até que altura ela chega?",
+   "apoio": null,
+   "opcoes": [
+    "2 m",
+    "8 m",
+    "6 m",
+    "4 m"
+   ],
+   "certa": 3,
+   "explicacao": "5² − 3² = 16; √16 = 4.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ma14-d1",
+   "habilidadeId": "EF09MA14",
+   "nivel": "dificil",
+   "enunciado": "Qual é a diagonal de um retângulo de 6 cm por 8 cm?",
+   "apoio": null,
+   "opcoes": [
+    "10 cm",
+    "14 cm",
+    "12 cm",
+    "48 cm"
+   ],
+   "certa": 0,
+   "explicacao": "6² + 8² = 100; √100 = 10.",
+   "origem": "curada"
+  }
+ ]
+}

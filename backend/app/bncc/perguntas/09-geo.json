@@ -1,0 +1,327 @@
+{
+ "ano": 9,
+ "disciplinaId": "geo",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef09ge05-f1",
+   "habilidadeId": "EF09GE05",
+   "nivel": "facil",
+   "enunciado": "O que é globalização?",
+   "apoio": null,
+   "opcoes": [
+    "Integração entre os países",
+    "Isolamento de cada país do mundo",
+    "Fim do comércio entre nações",
+    "Criação de um idioma único"
+   ],
+   "certa": 0,
+   "explicacao": "Mercadorias, informações e pessoas circulam pelo mundo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge05-f2",
+   "habilidadeId": "EF09GE05",
+   "nivel": "facil",
+   "enunciado": "Qual tecnologia mais acelerou a globalização nas últimas décadas?",
+   "apoio": null,
+   "opcoes": [
+    "Máquina de escrever",
+    "Internet",
+    "Carroça",
+    "Telégrafo"
+   ],
+   "certa": 1,
+   "explicacao": "A internet conecta o mundo em tempo real.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge05-m1",
+   "habilidadeId": "EF09GE05",
+   "nivel": "medio",
+   "enunciado": "Um tênis é desenhado nos EUA e fabricado na Ásia. Isso é exemplo de:",
+   "apoio": null,
+   "opcoes": [
+    "economia fechada",
+    "agricultura familiar",
+    "comércio local",
+    "produção globalizada"
+   ],
+   "certa": 3,
+   "explicacao": "Empresas espalham etapas da produção por vários países.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge05-m2",
+   "habilidadeId": "EF09GE05",
+   "nivel": "medio",
+   "enunciado": "Qual é uma crítica comum à globalização?",
+   "apoio": null,
+   "opcoes": [
+    "Acaba com a internet",
+    "Fecha as fronteiras",
+    "Proíbe viagens",
+    "Aumenta desigualdades"
+   ],
+   "certa": 3,
+   "explicacao": "Os ganhos não se distribuem igualmente entre países e pessoas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge05-d1",
+   "habilidadeId": "EF09GE05",
+   "nivel": "dificil",
+   "enunciado": "Qual é a diferença entre globalização e mundialização, segundo alguns autores?",
+   "apoio": null,
+   "opcoes": [
+    "Mundialização destaca a cultura",
+    "São palavras de idiomas diferentes",
+    "Mundialização é só econômica",
+    "Globalização é só cultural"
+   ],
+   "certa": 0,
+   "explicacao": "O termo mundialização enfatiza a dimensão cultural e social do processo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge07-f1",
+   "habilidadeId": "EF09GE07",
+   "nivel": "facil",
+   "enunciado": "A Eurásia é formada por quais continentes?",
+   "apoio": null,
+   "opcoes": [
+    "Europa e África",
+    "Ásia e Oceania",
+    "América e Europa",
+    "Europa e Ásia"
+   ],
+   "certa": 3,
+   "explicacao": "É uma única massa de terra.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge07-f2",
+   "habilidadeId": "EF09GE07",
+   "nivel": "facil",
+   "enunciado": "Que cordilheira costuma marcar a divisão entre Europa e Ásia?",
+   "apoio": null,
+   "opcoes": [
+    "Andes",
+    "Alpes",
+    "Montanhas Rochosas",
+    "Montes Urais"
+   ],
+   "certa": 3,
+   "explicacao": "Os Urais ficam na Rússia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge07-m1",
+   "habilidadeId": "EF09GE07",
+   "nivel": "medio",
+   "enunciado": "Qual é o país mais extenso do mundo, com terras na Europa e na Ásia?",
+   "apoio": null,
+   "opcoes": [
+    "Índia",
+    "Rússia",
+    "China",
+    "Canadá"
+   ],
+   "certa": 1,
+   "explicacao": "A Rússia se estende pelos dois continentes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge07-m2",
+   "habilidadeId": "EF09GE07",
+   "nivel": "medio",
+   "enunciado": "Onde fica o Himalaia, a cordilheira mais alta do mundo?",
+   "apoio": null,
+   "opcoes": [
+    "Na Oceania",
+    "Na Ásia",
+    "Na Europa",
+    "Na África"
+   ],
+   "certa": 1,
+   "explicacao": "É lá que está o Monte Everest.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge07-d1",
+   "habilidadeId": "EF09GE07",
+   "nivel": "dificil",
+   "enunciado": "Por que Europa e Ásia são consideradas continentes separados?",
+   "apoio": null,
+   "opcoes": [
+    "Porque ficam em hemisférios opostos",
+    "Por motivos históricos e culturais",
+    "Porque um oceano as separa",
+    "Porque têm o mesmo clima"
+   ],
+   "certa": 1,
+   "explicacao": "A divisão é sobretudo histórica: não há oceano entre elas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge10-f1",
+   "habilidadeId": "EF09GE10",
+   "nivel": "facil",
+   "enunciado": "Em que país começou a Revolução Industrial?",
+   "apoio": null,
+   "opcoes": [
+    "Inglaterra",
+    "Japão",
+    "China",
+    "Brasil"
+   ],
+   "certa": 0,
+   "explicacao": "No século XVIII, na Inglaterra.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge10-f2",
+   "habilidadeId": "EF09GE10",
+   "nivel": "facil",
+   "enunciado": "Qual país asiático se industrializou rapidamente após a Segunda Guerra?",
+   "apoio": null,
+   "opcoes": [
+    "Afeganistão",
+    "Japão",
+    "Mongólia",
+    "Nepal"
+   ],
+   "certa": 1,
+   "explicacao": "O Japão virou potência industrial.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge10-m1",
+   "habilidadeId": "EF09GE10",
+   "nivel": "medio",
+   "enunciado": "Por que muitas indústrias se mudaram para a China nas últimas décadas?",
+   "apoio": null,
+   "opcoes": [
+    "Falta de pessoas",
+    "Clima mais frio",
+    "Proibição de fábricas na Europa",
+    "Mão de obra mais barata"
+   ],
+   "certa": 3,
+   "explicacao": "Custos menores atraíram empresas do mundo todo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge10-m2",
+   "habilidadeId": "EF09GE10",
+   "nivel": "medio",
+   "enunciado": "Os \"Tigres Asiáticos\" são países que:",
+   "apoio": null,
+   "opcoes": [
+    "vivem só da pesca",
+    "não têm indústrias",
+    "se industrializaram depressa",
+    "têm muitos tigres selvagens"
+   ],
+   "certa": 2,
+   "explicacao": "Coreia do Sul, Taiwan, Singapura e Hong Kong cresceram com a indústria.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge10-d1",
+   "habilidadeId": "EF09GE10",
+   "nivel": "dificil",
+   "enunciado": "Qual é um impacto ambiental da industrialização acelerada na Ásia?",
+   "apoio": null,
+   "opcoes": [
+    "Fim do uso de carvão",
+    "Rios mais limpos",
+    "Poluição do ar nas cidades",
+    "Aumento das florestas nativas"
+   ],
+   "certa": 2,
+   "explicacao": "Cidades industriais sofrem com fumaça e partículas no ar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge18-f1",
+   "habilidadeId": "EF09GE18",
+   "nivel": "facil",
+   "enunciado": "Qual destas fontes de energia é renovável?",
+   "apoio": null,
+   "opcoes": [
+    "Gás natural",
+    "Solar",
+    "Carvão",
+    "Petróleo"
+   ],
+   "certa": 1,
+   "explicacao": "A luz do Sol não se esgota.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge18-f2",
+   "habilidadeId": "EF09GE18",
+   "nivel": "facil",
+   "enunciado": "Qual combustível fóssil é mais usado nos carros?",
+   "apoio": null,
+   "opcoes": [
+    "Gasolina",
+    "Vento",
+    "Biogás",
+    "Lenha"
+   ],
+   "certa": 0,
+   "explicacao": "A gasolina vem do petróleo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge18-m1",
+   "habilidadeId": "EF09GE18",
+   "nivel": "medio",
+   "enunciado": "Qual é uma desvantagem das usinas termoelétricas a carvão?",
+   "apoio": null,
+   "opcoes": [
+    "Alagam grandes áreas",
+    "Emitem muito gás carbônico",
+    "Precisam de vento constante",
+    "Só funcionam de dia"
+   ],
+   "certa": 1,
+   "explicacao": "A queima do carvão libera gases que aumentam o efeito estufa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge18-m2",
+   "habilidadeId": "EF09GE18",
+   "nivel": "medio",
+   "enunciado": "Qual país da Europa ficou conhecido por usar muita energia nuclear?",
+   "apoio": null,
+   "opcoes": [
+    "França",
+    "Portugal",
+    "Grécia",
+    "Irlanda"
+   ],
+   "certa": 0,
+   "explicacao": "A França gera boa parte da eletricidade em usinas nucleares.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ge18-d1",
+   "habilidadeId": "EF09GE18",
+   "nivel": "dificil",
+   "enunciado": "Por que a energia eólica cresceu tanto no Nordeste brasileiro?",
+   "apoio": null,
+   "opcoes": [
+    "Muitos rios caudalosos",
+    "Grandes reservas de carvão",
+    "Pouca luz do Sol",
+    "Ventos fortes e constantes"
+   ],
+   "certa": 3,
+   "explicacao": "O litoral nordestino tem ventos ideais para as turbinas.",
+   "origem": "curada"
+  }
+ ]
+}

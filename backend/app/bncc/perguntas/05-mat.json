@@ -1,0 +1,327 @@
+{
+ "ano": 5,
+ "disciplinaId": "mat",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef05ma04-f1",
+   "habilidadeId": "EF05MA04",
+   "nivel": "facil",
+   "enunciado": "Qual fração é equivalente a 1/2?",
+   "apoio": null,
+   "opcoes": [
+    "3/4",
+    "2/4",
+    "1/3",
+    "2/3"
+   ],
+   "certa": 1,
+   "explicacao": "2/4 é metade: multiplicamos em cima e embaixo por 2.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma04-f2",
+   "habilidadeId": "EF05MA04",
+   "nivel": "facil",
+   "enunciado": "Uma pizza foi cortada em 8 pedaços e Ana comeu 4. Que fração da pizza ela comeu?",
+   "apoio": null,
+   "opcoes": [
+    "A metade",
+    "Um quarto",
+    "Um terço",
+    "Três quartos"
+   ],
+   "certa": 0,
+   "explicacao": "4 de 8 pedaços é 4/8, que é igual a 1/2.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma04-m1",
+   "habilidadeId": "EF05MA04",
+   "nivel": "medio",
+   "enunciado": "Qual fração é equivalente a 3/5?",
+   "apoio": null,
+   "opcoes": [
+    "6/5",
+    "6/10",
+    "5/3",
+    "3/10"
+   ],
+   "certa": 1,
+   "explicacao": "Multiplicando em cima e embaixo por 2: 3/5 = 6/10.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma04-m2",
+   "habilidadeId": "EF05MA04",
+   "nivel": "medio",
+   "enunciado": "Qual fração completa a igualdade 2/3 = ?/9",
+   "apoio": null,
+   "opcoes": [
+    "6/9",
+    "3/9",
+    "4/9",
+    "2/9"
+   ],
+   "certa": 0,
+   "explicacao": "De 3 para 9 multiplicamos por 3; então 2 × 3 = 6.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma04-d1",
+   "habilidadeId": "EF05MA04",
+   "nivel": "dificil",
+   "enunciado": "Qual destas frações NÃO é equivalente a 1/4?",
+   "apoio": null,
+   "opcoes": [
+    "3/12",
+    "4/16",
+    "2/6",
+    "2/8"
+   ],
+   "certa": 2,
+   "explicacao": "2/6 é igual a 1/3; as outras são iguais a 1/4.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma06-f1",
+   "habilidadeId": "EF05MA06",
+   "nivel": "facil",
+   "enunciado": "Quanto é 50% de 40 reais?",
+   "apoio": null,
+   "opcoes": [
+    "25 reais",
+    "20 reais",
+    "10 reais",
+    "40 reais"
+   ],
+   "certa": 1,
+   "explicacao": "50% é a metade: metade de 40 é 20.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma06-f2",
+   "habilidadeId": "EF05MA06",
+   "nivel": "facil",
+   "enunciado": "25% é o mesmo que qual parte de um inteiro?",
+   "apoio": null,
+   "opcoes": [
+    "Um quarto",
+    "A metade",
+    "Um décimo",
+    "Três quartos"
+   ],
+   "certa": 0,
+   "explicacao": "25% = 25/100 = 1/4.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma06-m1",
+   "habilidadeId": "EF05MA06",
+   "nivel": "medio",
+   "enunciado": "Numa turma de 20 alunos, 10% faltaram. Quantos alunos faltaram?",
+   "apoio": null,
+   "opcoes": [
+    "1 aluno",
+    "5 alunos",
+    "2 alunos",
+    "10 alunos"
+   ],
+   "certa": 2,
+   "explicacao": "10% é a décima parte: 20 ÷ 10 = 2.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma06-m2",
+   "habilidadeId": "EF05MA06",
+   "nivel": "medio",
+   "enunciado": "Um brinquedo custa 80 reais e está com 25% de desconto. De quanto é o desconto?",
+   "apoio": null,
+   "opcoes": [
+    "40 reais",
+    "8 reais",
+    "20 reais",
+    "25 reais"
+   ],
+   "certa": 2,
+   "explicacao": "25% é um quarto: 80 ÷ 4 = 20.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma06-d1",
+   "habilidadeId": "EF05MA06",
+   "nivel": "dificil",
+   "enunciado": "Quanto é 75% de 60?",
+   "apoio": null,
+   "opcoes": [
+    "15",
+    "30",
+    "50",
+    "45"
+   ],
+   "certa": 3,
+   "explicacao": "75% são três quartos: 60 ÷ 4 = 15, e 15 × 3 = 45.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma08-f1",
+   "habilidadeId": "EF05MA08",
+   "nivel": "facil",
+   "enunciado": "Uma caixa tem 12 lápis. Quantos lápis há em 5 caixas?",
+   "apoio": null,
+   "opcoes": [
+    "17",
+    "50",
+    "72",
+    "60"
+   ],
+   "certa": 3,
+   "explicacao": "12 × 5 = 60.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma08-f2",
+   "habilidadeId": "EF05MA08",
+   "nivel": "facil",
+   "enunciado": "96 figurinhas foram divididas igualmente entre 4 amigos. Quantas cada um recebeu?",
+   "apoio": null,
+   "opcoes": [
+    "20",
+    "92",
+    "28",
+    "24"
+   ],
+   "certa": 3,
+   "explicacao": "96 ÷ 4 = 24.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma08-m1",
+   "habilidadeId": "EF05MA08",
+   "nivel": "medio",
+   "enunciado": "Um caderno custa R$ 2,50. Quanto custam 4 cadernos?",
+   "apoio": null,
+   "opcoes": [
+    "R$ 10,00",
+    "R$ 8,50",
+    "R$ 6,50",
+    "R$ 12,00"
+   ],
+   "certa": 0,
+   "explicacao": "2,50 × 4 = 10,00.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma08-m2",
+   "habilidadeId": "EF05MA08",
+   "nivel": "medio",
+   "enunciado": "Uma corda de 7,5 metros foi cortada em 3 pedaços iguais. Quanto mede cada pedaço?",
+   "apoio": null,
+   "opcoes": [
+    "2,5 metros",
+    "3,5 metros",
+    "2,0 metros",
+    "4,5 metros"
+   ],
+   "certa": 0,
+   "explicacao": "7,5 ÷ 3 = 2,5.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma08-d1",
+   "habilidadeId": "EF05MA08",
+   "nivel": "dificil",
+   "enunciado": "Um ônibus leva 45 pessoas. Quantos ônibus são necessários para levar 200 pessoas?",
+   "apoio": null,
+   "opcoes": [
+    "6",
+    "3",
+    "5",
+    "4"
+   ],
+   "certa": 2,
+   "explicacao": "200 ÷ 45 dá 4 e sobram 20 pessoas, então é preciso mais um ônibus: 5.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma23-f1",
+   "habilidadeId": "EF05MA23",
+   "nivel": "facil",
+   "enunciado": "Ao jogar uma moeda, qual é a chance de sair cara?",
+   "apoio": null,
+   "opcoes": [
+    "1 em 2",
+    "1 em 4",
+    "1 em 3",
+    "2 em 2"
+   ],
+   "certa": 0,
+   "explicacao": "A moeda tem dois lados igualmente prováveis.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma23-f2",
+   "habilidadeId": "EF05MA23",
+   "nivel": "facil",
+   "enunciado": "Ao jogar um dado comum de 6 faces, qual é a chance de sair o número 3?",
+   "apoio": null,
+   "opcoes": [
+    "1 em 6",
+    "1 em 3",
+    "3 em 6",
+    "1 em 2"
+   ],
+   "certa": 0,
+   "explicacao": "Só uma das seis faces é o 3.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma23-m1",
+   "habilidadeId": "EF05MA23",
+   "nivel": "medio",
+   "enunciado": "Numa caixa há 3 bolas azuis e 1 vermelha. Qual cor tem mais chance de ser sorteada?",
+   "apoio": null,
+   "opcoes": [
+    "Azul",
+    "Vermelha",
+    "As duas têm a mesma chance",
+    "Nenhuma das duas"
+   ],
+   "certa": 0,
+   "explicacao": "Há mais bolas azuis (3 de 4).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma23-m2",
+   "habilidadeId": "EF05MA23",
+   "nivel": "medio",
+   "enunciado": "Ao jogar um dado de 6 faces, qual é a chance de sair um número par?",
+   "apoio": null,
+   "opcoes": [
+    "1 em 6",
+    "2 em 6",
+    "4 em 6",
+    "3 em 6"
+   ],
+   "certa": 3,
+   "explicacao": "Os pares são 2, 4 e 6: três de seis.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05ma23-d1",
+   "habilidadeId": "EF05MA23",
+   "nivel": "dificil",
+   "enunciado": "Num saco há 2 balas de morango, 3 de uva e 5 de limão. Qual é a chance de tirar uma de uva?",
+   "apoio": null,
+   "opcoes": [
+    "1 em 3",
+    "5 em 10",
+    "3 em 10",
+    "3 em 5"
+   ],
+   "certa": 2,
+   "explicacao": "São 10 balas e 3 delas são de uva.",
+   "origem": "curada"
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "ano": 9,
+ "disciplinaId": "por",
+ "componente": "LP",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Período composto e informação",
+   "habilidades": [
+    {
+     "codigo": "EF09LP01",
+     "nome": "Notícias falsas"
+    },
+    {
+     "codigo": "EF09LP08",
+     "nome": "Conjunções e relações entre orações"
+    },
+    {
+     "codigo": "EF09LP09",
+     "nome": "Orações adjetivas"
+    },
+    {
+     "codigo": "EF09LP12",
+     "nome": "Estrangeirismos"
+    }
+   ]
+  }
+ ]
+}

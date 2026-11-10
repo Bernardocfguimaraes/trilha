@@ -1,0 +1,30 @@
+{
+ "ano": 5,
+ "disciplinaId": "mat",
+ "componente": "MA",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Frações, porcentagens e chances",
+   "habilidades": [
+    {
+     "codigo": "EF05MA04",
+     "nome": "Frações equivalentes"
+    },
+    {
+     "codigo": "EF05MA06",
+     "nome": "Porcentagens"
+    },
+    {
+     "codigo": "EF05MA08",
+     "nome": "Multiplicação e divisão"
+    },
+    {
+     "codigo": "EF05MA23",
+     "nome": "Probabilidade"
+    }
+   ]
+  }
+ ]
+}

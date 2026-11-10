@@ -9,8 +9,9 @@ def test_demo_tem_duas_turmas_e_historia(cliente, auth):
     turmas = {t["id"]: t for t in cliente.get("/turmas", headers=auth).json()}
     assert {"t1", "t8"} <= set(turmas) and turmas["t8"]["alunos"] == 6
     anos = cliente.get("/anos", headers=auth).json()
-    assert [a["ano"] for a in anos] == [4, 6, 8]
-    assert all(len(a["disciplinas"]) == 6 and "História" in a["disciplinas"] for a in anos)
+    assert [a["ano"] for a in anos] == [4, 5, 6, 7, 8, 9]
+    assert all("História" in a["disciplinas"] for a in anos)
+    assert all(len(a["disciplinas"]) == (5 if a["ano"] == 5 else 6) for a in anos)
     publica = cliente.get("/turmas/TUCANO8").json()
     assert publica["nome"] == "8º ano A" and len(publica["disciplinas"]) == 6
 
@@ -28,7 +29,7 @@ def test_criar_turma_e_adicionar_aluno(cliente, auth):
 
 
 def test_criar_turma_valida_entrada(cliente, auth):
-    assert cliente.post("/turmas", json={"nome": "5º", "ano": 5, "alunos": []}, headers=auth).status_code == 422
+    assert cliente.post("/turmas", json={"nome": "3º", "ano": 3, "alunos": []}, headers=auth).status_code == 422
     assert cliente.post("/turmas", json={"nome": "", "ano": 6}, headers=auth).status_code == 422
     assert cliente.post("/turmas", json={"nome": "X", "ano": 12}, headers=auth).status_code == 422
 
@@ -68,3 +69,16 @@ def test_relatorio_csv_da_turma(cliente, auth):
     assert any(l.startswith("Ana Clara Souza;") for l in linhas)
     assert any(";Sem atividades;" in l for l in linhas)  # Gabriel ainda não fez atividades
     assert cliente.get("/turmas/t1/relatorio.csv").status_code == 401
+
+
+def test_turmas_de_5_7_e_9_ano_usam_conteudo_do_proprio_ano(cliente, auth):
+    prefixos = {5: ("EF05",), 7: ("EF07",), 9: ("EF09",)}
+    for ano, (prefixo,) in prefixos.items():
+        nova = cliente.post("/turmas", json={"nome": f"{ano}º teste", "ano": ano, "alunos": ["Aluno Teste"]}, headers=auth).json()
+        aluno = cliente.get(f"/turmas/{nova['id']}/cadastros", headers=auth).json()[0]
+        acesso = entrar_como_aluno(cliente, auth, nova["id"], aluno["id"])
+        r = cliente.post("/sessoes", json={"codigo": nova["codigo"], "alunoId": aluno["id"], "acesso": acesso, "disciplinaId": "mat"})
+        assert r.status_code == 200, (ano, r.text)
+        assert all(p["habilidadeId"].startswith(prefixo) for p in r.json()["perguntas"]), ano
+    publica = cliente.get(f"/turmas/{nova['codigo']}").json()
+    assert len(publica["disciplinas"]) == 6

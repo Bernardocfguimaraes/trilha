@@ -1,0 +1,30 @@
+{
+ "ano": 5,
+ "disciplinaId": "por",
+ "componente": "LP",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Palavras, verbos e conjunções",
+   "habilidades": [
+    {
+     "codigo": "EF05LP03",
+     "nome": "Acentuação"
+    },
+    {
+     "codigo": "EF05LP05",
+     "nome": "Presente, passado e futuro"
+    },
+    {
+     "codigo": "EF05LP07",
+     "nome": "Conjunções"
+    },
+    {
+     "codigo": "EF05LP08",
+     "nome": "Formação de palavras"
+    }
+   ]
+  }
+ ]
+}

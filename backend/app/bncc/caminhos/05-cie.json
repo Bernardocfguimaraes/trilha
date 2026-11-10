@@ -1,0 +1,30 @@
+{
+ "ano": 5,
+ "disciplinaId": "cie",
+ "componente": "CI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Água, corpo e céu",
+   "habilidades": [
+    {
+     "codigo": "EF05CI02",
+     "nome": "Estados da água e ciclo da água"
+    },
+    {
+     "codigo": "EF05CI06",
+     "nome": "Digestão e respiração"
+    },
+    {
+     "codigo": "EF05CI08",
+     "nome": "Alimentação equilibrada"
+    },
+    {
+     "codigo": "EF05CI11",
+     "nome": "O Sol no céu e a rotação"
+    }
+   ]
+  }
+ ]
+}

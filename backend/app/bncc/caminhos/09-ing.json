@@ -1,0 +1,30 @@
+{
+ "ano": 9,
+ "disciplinaId": "ing",
+ "componente": "LI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Conditionals, modals and arguments",
+   "habilidades": [
+    {
+     "codigo": "EF09LI06",
+     "nome": "Fatos e opiniões"
+    },
+    {
+     "codigo": "EF09LI14",
+     "nome": "Conectores"
+    },
+    {
+     "codigo": "EF09LI15",
+     "nome": "If-clauses"
+    },
+    {
+     "codigo": "EF09LI16",
+     "nome": "Modal verbs"
+    }
+   ]
+  }
+ ]
+}

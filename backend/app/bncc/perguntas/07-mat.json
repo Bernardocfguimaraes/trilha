@@ -1,0 +1,327 @@
+{
+ "ano": 7,
+ "disciplinaId": "mat",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef07ma02-f1",
+   "habilidadeId": "EF07MA02",
+   "nivel": "facil",
+   "enunciado": "Uma camiseta de R$ 50 teve 10% de desconto. Quanto ficou o preço?",
+   "apoio": null,
+   "opcoes": [
+    "R$ 40",
+    "R$ 55",
+    "R$ 49",
+    "R$ 45"
+   ],
+   "certa": 3,
+   "explicacao": "10% de 50 é 5; 50 − 5 = 45.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma02-f2",
+   "habilidadeId": "EF07MA02",
+   "nivel": "facil",
+   "enunciado": "Quanto é 20% de 150?",
+   "apoio": null,
+   "opcoes": [
+    "20",
+    "15",
+    "50",
+    "30"
+   ],
+   "certa": 3,
+   "explicacao": "10% é 15; 20% é o dobro: 30.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma02-m1",
+   "habilidadeId": "EF07MA02",
+   "nivel": "medio",
+   "enunciado": "Um salário de R$ 2.000 teve aumento de 5%. Qual é o novo salário?",
+   "apoio": null,
+   "opcoes": [
+    "R$ 2.005",
+    "R$ 2.050",
+    "R$ 2.500",
+    "R$ 2.100"
+   ],
+   "certa": 3,
+   "explicacao": "5% de 2.000 é 100; 2.000 + 100 = 2.100.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma02-m2",
+   "habilidadeId": "EF07MA02",
+   "nivel": "medio",
+   "enunciado": "Um produto passou de R$ 80 para R$ 100. Qual foi o aumento em porcentagem?",
+   "apoio": null,
+   "opcoes": [
+    "80%",
+    "10%",
+    "25%",
+    "20%"
+   ],
+   "certa": 2,
+   "explicacao": "Subiu 20 em cima de 80: 20/80 = 25%.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma02-d1",
+   "habilidadeId": "EF07MA02",
+   "nivel": "dificil",
+   "enunciado": "Um preço subiu 10% e depois caiu 10%. Comparado ao preço inicial, o final é:",
+   "apoio": null,
+   "opcoes": [
+    "1% maior",
+    "10% menor",
+    "1% menor",
+    "igual"
+   ],
+   "certa": 2,
+   "explicacao": "100 → 110 → 99: ficou 1% menor.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma04-f1",
+   "habilidadeId": "EF07MA04",
+   "nivel": "facil",
+   "enunciado": "Quanto é −3 + 8?",
+   "apoio": null,
+   "opcoes": [
+    "11",
+    "−11",
+    "5",
+    "−5"
+   ],
+   "certa": 2,
+   "explicacao": "Andando 8 para a direita a partir de −3, chegamos a 5.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma04-f2",
+   "habilidadeId": "EF07MA04",
+   "nivel": "facil",
+   "enunciado": "De manhã fazia −2 °C e à tarde 6 °C. Quantos graus a temperatura subiu?",
+   "apoio": null,
+   "opcoes": [
+    "2 graus",
+    "8 graus",
+    "4 graus",
+    "6 graus"
+   ],
+   "certa": 1,
+   "explicacao": "De −2 até 6 são 8 graus.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma04-m1",
+   "habilidadeId": "EF07MA04",
+   "nivel": "medio",
+   "enunciado": "Quanto é (−4) × (−3)?",
+   "apoio": null,
+   "opcoes": [
+    "7",
+    "−7",
+    "12",
+    "−12"
+   ],
+   "certa": 2,
+   "explicacao": "Menos vezes menos dá mais.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma04-m2",
+   "habilidadeId": "EF07MA04",
+   "nivel": "medio",
+   "enunciado": "Qual número é o maior?",
+   "apoio": null,
+   "opcoes": [
+    "−3",
+    "−1",
+    "−5",
+    "−10"
+   ],
+   "certa": 1,
+   "explicacao": "Entre negativos, o maior é o mais perto do zero.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma04-d1",
+   "habilidadeId": "EF07MA04",
+   "nivel": "dificil",
+   "enunciado": "Uma conta tinha saldo de −R$ 150 e recebeu um depósito de R$ 200. Qual é o novo saldo?",
+   "apoio": null,
+   "opcoes": [
+    "R$ 350",
+    "−R$ 350",
+    "R$ 50",
+    "−R$ 50"
+   ],
+   "certa": 2,
+   "explicacao": "−150 + 200 = 50.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma18-f1",
+   "habilidadeId": "EF07MA18",
+   "nivel": "facil",
+   "enunciado": "Qual é o valor de x em x + 7 = 12?",
+   "apoio": null,
+   "opcoes": [
+    "7",
+    "12",
+    "5",
+    "19"
+   ],
+   "certa": 2,
+   "explicacao": "x = 12 − 7 = 5.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma18-f2",
+   "habilidadeId": "EF07MA18",
+   "nivel": "facil",
+   "enunciado": "Qual é o valor de x em 3x = 21?",
+   "apoio": null,
+   "opcoes": [
+    "63",
+    "7",
+    "18",
+    "24"
+   ],
+   "certa": 1,
+   "explicacao": "x = 21 ÷ 3 = 7.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma18-m1",
+   "habilidadeId": "EF07MA18",
+   "nivel": "medio",
+   "enunciado": "Qual é o valor de x em 2x + 4 = 20?",
+   "apoio": null,
+   "opcoes": [
+    "8",
+    "12",
+    "10",
+    "16"
+   ],
+   "certa": 0,
+   "explicacao": "2x = 16, então x = 8.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma18-m2",
+   "habilidadeId": "EF07MA18",
+   "nivel": "medio",
+   "enunciado": "O dobro de um número mais 5 é 25. Qual é o número?",
+   "apoio": null,
+   "opcoes": [
+    "12",
+    "10",
+    "15",
+    "20"
+   ],
+   "certa": 1,
+   "explicacao": "2n + 5 = 25 → 2n = 20 → n = 10.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma18-d1",
+   "habilidadeId": "EF07MA18",
+   "nivel": "dificil",
+   "enunciado": "Qual é o valor de x em 5x − 3 = 2x + 9?",
+   "apoio": null,
+   "opcoes": [
+    "2",
+    "6",
+    "3",
+    "4"
+   ],
+   "certa": 3,
+   "explicacao": "5x − 2x = 9 + 3 → 3x = 12 → x = 4.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma24-f1",
+   "habilidadeId": "EF07MA24",
+   "nivel": "facil",
+   "enunciado": "Quanto mede a soma dos ângulos internos de um triângulo?",
+   "apoio": null,
+   "opcoes": [
+    "360°",
+    "270°",
+    "180°",
+    "90°"
+   ],
+   "certa": 2,
+   "explicacao": "Em todo triângulo, a soma é 180°.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma24-f2",
+   "habilidadeId": "EF07MA24",
+   "nivel": "facil",
+   "enunciado": "Um triângulo tem ângulos de 50° e 60°. Quanto mede o terceiro?",
+   "apoio": null,
+   "opcoes": [
+    "90°",
+    "70°",
+    "80°",
+    "60°"
+   ],
+   "certa": 1,
+   "explicacao": "180 − 50 − 60 = 70.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma24-m1",
+   "habilidadeId": "EF07MA24",
+   "nivel": "medio",
+   "enunciado": "Com quais medidas de lados é possível construir um triângulo?",
+   "apoio": null,
+   "opcoes": [
+    "1 cm, 1 cm e 3 cm",
+    "3 cm, 4 cm e 5 cm",
+    "1 cm, 2 cm e 5 cm",
+    "2 cm, 3 cm e 6 cm"
+   ],
+   "certa": 1,
+   "explicacao": "Cada lado tem que ser menor que a soma dos outros dois: 5 < 3 + 4.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma24-m2",
+   "habilidadeId": "EF07MA24",
+   "nivel": "medio",
+   "enunciado": "Num triângulo equilátero, quanto mede cada ângulo?",
+   "apoio": null,
+   "opcoes": [
+    "180°",
+    "60°",
+    "90°",
+    "45°"
+   ],
+   "certa": 1,
+   "explicacao": "Os três ângulos são iguais: 180 ÷ 3 = 60.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07ma24-d1",
+   "habilidadeId": "EF07MA24",
+   "nivel": "dificil",
+   "enunciado": "Por que telhados e pontes usam muitas estruturas em forma de triângulo?",
+   "apoio": null,
+   "opcoes": [
+    "O triângulo gasta mais material",
+    "O triângulo é mais bonito",
+    "O triângulo tem quatro lados",
+    "O triângulo não se deforma"
+   ],
+   "certa": 3,
+   "explicacao": "Com os lados fixos, o triângulo é rígido.",
+   "origem": "curada"
+  }
+ ]
+}

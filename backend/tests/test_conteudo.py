@@ -28,9 +28,12 @@ def test_codigos_bncc_sao_oficiais_e_do_ano_certo():
 
 
 def test_anos_com_conteudo_tem_as_seis_materias_e_tres_niveis():
-    assert ANOS_COM_CONTEUDO == [4, 6, 8]
+    assert ANOS_COM_CONTEUDO == [4, 5, 6, 7, 8, 9]
+    seis = {"por", "mat", "geo", "cie", "his", "ing"}
     for ano in ANOS_COM_CONTEUDO:
-        assert set(disciplinas_com_conteudo(ano)) == {"por", "mat", "geo", "cie", "his", "ing"}
+        # Na BNCC, Língua Inglesa começa no 6º ano; o 5º tem as outras cinco matérias.
+        esperado = seis - {"ing"} if ano == 5 else seis
+        assert set(disciplinas_com_conteudo(ano)) == esperado, ano
     niveis = Counter(p["nivel"] for p in BANCO)
     assert all(niveis[n] > 50 for n in ("facil", "medio", "dificil"))
 

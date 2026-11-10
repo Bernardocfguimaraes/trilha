@@ -1,0 +1,327 @@
+{
+ "ano": 5,
+ "disciplinaId": "his",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef05hi01-f1",
+   "habilidadeId": "EF05HI01",
+   "nivel": "facil",
+   "enunciado": "Por que muitos povos antigos se fixaram perto de rios?",
+   "apoio": null,
+   "opcoes": [
+    "Para fugir do sol",
+    "Porque lá não chovia",
+    "Para ficar longe dos animais",
+    "Para ter água e plantar"
+   ],
+   "certa": 3,
+   "explicacao": "Os rios davam água para beber, plantar e criar animais.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi01-f2",
+   "habilidadeId": "EF05HI01",
+   "nivel": "facil",
+   "enunciado": "Quais povos já viviam no Brasil antes da chegada dos portugueses?",
+   "apoio": null,
+   "opcoes": [
+    "Os vikings",
+    "Os indígenas",
+    "Os romanos",
+    "Os egípcios"
+   ],
+   "certa": 1,
+   "explicacao": "Milhões de indígenas viviam aqui.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi01-m1",
+   "habilidadeId": "EF05HI01",
+   "nivel": "medio",
+   "enunciado": "O rio Nilo foi muito importante para qual civilização antiga?",
+   "apoio": null,
+   "opcoes": [
+    "Egípcia",
+    "Grega",
+    "Inca",
+    "Romana"
+   ],
+   "certa": 0,
+   "explicacao": "As cheias do Nilo fertilizavam as terras do Egito.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi01-m2",
+   "habilidadeId": "EF05HI01",
+   "nivel": "medio",
+   "enunciado": "O que o lugar onde um povo vive pode influenciar na sua cultura?",
+   "apoio": null,
+   "opcoes": [
+    "Somente a cor dos olhos",
+    "Apenas o nome que dão às pessoas",
+    "Nada, nunca influencia",
+    "Alimentação, moradia e costumes"
+   ],
+   "certa": 3,
+   "explicacao": "Clima e natureza influenciam o que se come, como se mora e se vive.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi01-d1",
+   "habilidadeId": "EF05HI01",
+   "nivel": "dificil",
+   "enunciado": "Por que os povos indígenas do Brasil têm culturas diferentes entre si?",
+   "apoio": null,
+   "opcoes": [
+    "Viveram em lugares e histórias diferentes",
+    "Todos falam exatamente a mesma língua",
+    "Chegaram todos no mesmo ano",
+    "Foram organizados pelos portugueses em aldeias"
+   ],
+   "certa": 0,
+   "explicacao": "Há centenas de povos, com línguas e costumes próprios.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi04-f1",
+   "habilidadeId": "EF05HI04",
+   "nivel": "facil",
+   "enunciado": "O que é ser cidadão?",
+   "apoio": null,
+   "opcoes": [
+    "Ter muito dinheiro",
+    "Ser maior de idade",
+    "Ter direitos e deveres",
+    "Morar numa cidade grande"
+   ],
+   "certa": 2,
+   "explicacao": "Cidadania é participar da sociedade com direitos e deveres.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi04-f2",
+   "habilidadeId": "EF05HI04",
+   "nivel": "facil",
+   "enunciado": "Qual atitude respeita a diversidade?",
+   "apoio": null,
+   "opcoes": [
+    "Escolher amigos pela cor",
+    "Tratar todos com respeito",
+    "Rir do sotaque dos colegas",
+    "Excluir quem é diferente"
+   ],
+   "certa": 1,
+   "explicacao": "Respeitar as diferenças é base da convivência.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi04-m1",
+   "habilidadeId": "EF05HI04",
+   "nivel": "medio",
+   "enunciado": "Qual destes é um direito de toda criança no Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "Dirigir um carro",
+    "Votar nas eleições",
+    "Estudar na escola",
+    "Trabalhar numa fábrica"
+   ],
+   "certa": 2,
+   "explicacao": "O Estatuto da Criança e do Adolescente garante a educação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi04-m2",
+   "habilidadeId": "EF05HI04",
+   "nivel": "medio",
+   "enunciado": "Qual destes é um dever do cidadão?",
+   "apoio": null,
+   "opcoes": [
+    "Respeitar as leis",
+    "Ter um carro novo",
+    "Morar perto da escola",
+    "Viajar nas férias"
+   ],
+   "certa": 0,
+   "explicacao": "Cumprir as leis é um dever de todos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi04-d1",
+   "habilidadeId": "EF05HI04",
+   "nivel": "dificil",
+   "enunciado": "Por que a Declaração Universal dos Direitos Humanos foi importante?",
+   "apoio": null,
+   "opcoes": [
+    "Afirmou direitos para todas as pessoas",
+    "Criou a primeira escola do mundo",
+    "Acabou com todas as guerras",
+    "Deu mais direitos só a alguns povos ricos"
+   ],
+   "certa": 0,
+   "explicacao": "Ela diz que todos têm os mesmos direitos, sem distinção.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi08-f1",
+   "habilidadeId": "EF05HI08",
+   "nivel": "facil",
+   "enunciado": "Que instrumento usamos hoje para marcar os dias do ano?",
+   "apoio": null,
+   "opcoes": [
+    "Termômetro",
+    "Balança",
+    "Calendário",
+    "Bússola"
+   ],
+   "certa": 2,
+   "explicacao": "O calendário organiza dias, meses e anos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi08-f2",
+   "habilidadeId": "EF05HI08",
+   "nivel": "facil",
+   "enunciado": "Muitos povos antigos marcavam a passagem dos meses observando o quê?",
+   "apoio": null,
+   "opcoes": [
+    "O canto dos pássaros",
+    "As fases da Lua",
+    "A cor do mar",
+    "O tamanho das árvores"
+   ],
+   "certa": 1,
+   "explicacao": "A Lua repete suas fases a cada mês.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi08-m1",
+   "habilidadeId": "EF05HI08",
+   "nivel": "medio",
+   "enunciado": "Alguns povos indígenas organizam o ano pelos tempos da natureza. Qual é um exemplo?",
+   "apoio": null,
+   "opcoes": [
+    "Hora do relógio digital",
+    "Dia do pagamento",
+    "Semana de provas",
+    "Tempo da chuva e da seca"
+   ],
+   "certa": 3,
+   "explicacao": "Chuvas, secas e colheitas marcam os ciclos do ano.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi08-m2",
+   "habilidadeId": "EF05HI08",
+   "nivel": "medio",
+   "enunciado": "Para que servia o relógio de sol?",
+   "apoio": null,
+   "opcoes": [
+    "Medir a temperatura do ar",
+    "Prever quando ia chover",
+    "Contar os anos que passaram",
+    "Saber as horas pela sombra"
+   ],
+   "certa": 3,
+   "explicacao": "A sombra muda de posição conforme o Sol se move.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi08-d1",
+   "habilidadeId": "EF05HI08",
+   "nivel": "dificil",
+   "enunciado": "Por que nem todos os povos usam o mesmo calendário?",
+   "apoio": null,
+   "opcoes": [
+    "O tempo passa diferente em cada país",
+    "Só existe um calendário no mundo",
+    "Cada cultura marca o tempo do seu jeito",
+    "Os outros calendários estão todos errados"
+   ],
+   "certa": 2,
+   "explicacao": "Há calendários baseados na Lua, no Sol e em datas religiosas diferentes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi10-f1",
+   "habilidadeId": "EF05HI10",
+   "nivel": "facil",
+   "enunciado": "Qual destes é um patrimônio material?",
+   "apoio": null,
+   "opcoes": [
+    "Uma receita de família",
+    "Uma dança típica",
+    "Uma lenda contada",
+    "Uma igreja antiga"
+   ],
+   "certa": 3,
+   "explicacao": "Patrimônio material é algo que se pode tocar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi10-f2",
+   "habilidadeId": "EF05HI10",
+   "nivel": "facil",
+   "enunciado": "Qual destes é um patrimônio imaterial?",
+   "apoio": null,
+   "opcoes": [
+    "Uma estátua",
+    "Um museu",
+    "O frevo",
+    "Um prédio histórico"
+   ],
+   "certa": 2,
+   "explicacao": "O frevo é uma dança: um saber, não um objeto.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi10-m1",
+   "habilidadeId": "EF05HI10",
+   "nivel": "medio",
+   "enunciado": "Por que é importante preservar o patrimônio histórico?",
+   "apoio": null,
+   "opcoes": [
+    "Serve só para turistas",
+    "Não tem importância",
+    "Guarda a memória de um povo",
+    "Deixa a cidade mais moderna"
+   ],
+   "certa": 2,
+   "explicacao": "O patrimônio conta a história de quem veio antes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi10-m2",
+   "habilidadeId": "EF05HI10",
+   "nivel": "medio",
+   "enunciado": "A capoeira foi reconhecida como patrimônio. Ela é patrimônio de que tipo?",
+   "apoio": null,
+   "opcoes": [
+    "Imaterial",
+    "Material",
+    "Natural",
+    "Mineral"
+   ],
+   "certa": 0,
+   "explicacao": "É uma prática cultural, passada de geração em geração.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05hi10-d1",
+   "habilidadeId": "EF05HI10",
+   "nivel": "dificil",
+   "enunciado": "O que uma cidade pode fazer para proteger um casarão histórico?",
+   "apoio": null,
+   "opcoes": [
+    "Demolir e construir um prédio novo",
+    "Pintar com cores novas",
+    "Fechar e abandonar",
+    "Tombar e restaurar o prédio"
+   ],
+   "certa": 3,
+   "explicacao": "O tombamento impede que o prédio seja destruído.",
+   "origem": "curada"
+  }
+ ]
+}

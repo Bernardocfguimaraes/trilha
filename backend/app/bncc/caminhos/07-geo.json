@@ -1,0 +1,30 @@
+{
+ "ano": 7,
+ "disciplinaId": "geo",
+ "componente": "GE",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "O território brasileiro",
+   "habilidades": [
+    {
+     "codigo": "EF07GE04",
+     "nome": "População brasileira"
+    },
+    {
+     "codigo": "EF07GE07",
+     "nome": "Transportes e território"
+    },
+    {
+     "codigo": "EF07GE11",
+     "nome": "Biomas brasileiros"
+    },
+    {
+     "codigo": "EF07GE12",
+     "nome": "Unidades de conservação"
+    }
+   ]
+  }
+ ]
+}

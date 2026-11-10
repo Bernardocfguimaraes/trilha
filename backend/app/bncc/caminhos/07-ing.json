@@ -1,0 +1,30 @@
+{
+ "ano": 7,
+ "disciplinaId": "ing",
+ "componente": "LI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Past, pronouns and abilities",
+   "habilidades": [
+    {
+     "codigo": "EF07LI15",
+     "nome": "Verbos no passado"
+    },
+    {
+     "codigo": "EF07LI18",
+     "nome": "Past simple e past continuous"
+    },
+    {
+     "codigo": "EF07LI19",
+     "nome": "Pronomes sujeito e objeto"
+    },
+    {
+     "codigo": "EF07LI20",
+     "nome": "Can e could"
+    }
+   ]
+  }
+ ]
+}

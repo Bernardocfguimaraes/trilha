@@ -1,0 +1,327 @@
+{
+ "ano": 7,
+ "disciplinaId": "his",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef07hi04-f1",
+   "habilidadeId": "EF07HI04",
+   "nivel": "facil",
+   "enunciado": "Em que país começou o Renascimento?",
+   "apoio": null,
+   "opcoes": [
+    "Itália",
+    "Brasil",
+    "Japão",
+    "Egito"
+   ],
+   "certa": 0,
+   "explicacao": "Cidades italianas como Florença foram o berço do Renascimento.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi04-f2",
+   "habilidadeId": "EF07HI04",
+   "nivel": "facil",
+   "enunciado": "Quem pintou a Mona Lisa?",
+   "apoio": null,
+   "opcoes": [
+    "Tarsila do Amaral",
+    "Vincent van Gogh",
+    "Leonardo da Vinci",
+    "Pablo Picasso"
+   ],
+   "certa": 2,
+   "explicacao": "Leonardo, um dos maiores artistas renascentistas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi04-m1",
+   "habilidadeId": "EF07HI04",
+   "nivel": "medio",
+   "enunciado": "O Humanismo colocava no centro das atenções:",
+   "apoio": null,
+   "opcoes": [
+    "os animais",
+    "os reis",
+    "o ser humano",
+    "apenas Deus"
+   ],
+   "certa": 2,
+   "explicacao": "Valorizava a razão e a capacidade humana.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi04-m2",
+   "habilidadeId": "EF07HI04",
+   "nivel": "medio",
+   "enunciado": "Os artistas do Renascimento se inspiravam em qual período antigo?",
+   "apoio": null,
+   "opcoes": [
+    "A Pré-história das cavernas",
+    "O Egito dos faraós",
+    "Revolução Industrial",
+    "Grécia e Roma antigas"
+   ],
+   "certa": 3,
+   "explicacao": "Retomaram ideias e formas da Grécia e de Roma.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi04-d1",
+   "habilidadeId": "EF07HI04",
+   "nivel": "dificil",
+   "enunciado": "Como a imprensa de Gutenberg ajudou a espalhar as ideias renascentistas?",
+   "apoio": null,
+   "opcoes": [
+    "Criou a internet",
+    "Proibiu a leitura de livros",
+    "Barateou e multiplicou os livros",
+    "Fez os livros ficarem bem mais caros"
+   ],
+   "certa": 2,
+   "explicacao": "Com tipos móveis, livros passaram a ser impressos em grande quantidade.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi05-f1",
+   "habilidadeId": "EF07HI05",
+   "nivel": "facil",
+   "enunciado": "Quem iniciou a Reforma Protestante em 1517?",
+   "apoio": null,
+   "opcoes": [
+    "Galileu Galilei",
+    "Martinho Lutero",
+    "Napoleão",
+    "Cristóvão Colombo"
+   ],
+   "certa": 1,
+   "explicacao": "Lutero publicou suas 95 teses.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi05-f2",
+   "habilidadeId": "EF07HI05",
+   "nivel": "facil",
+   "enunciado": "Lutero criticava principalmente:",
+   "apoio": null,
+   "opcoes": [
+    "a venda de indulgências",
+    "a navegação marítima",
+    "o uso de moedas",
+    "a pintura renascentista"
+   ],
+   "certa": 0,
+   "explicacao": "A Igreja vendia perdões de pecados.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi05-m1",
+   "habilidadeId": "EF07HI05",
+   "nivel": "medio",
+   "enunciado": "Como a Igreja Católica reagiu à Reforma Protestante?",
+   "apoio": null,
+   "opcoes": [
+    "Com a Contrarreforma",
+    "Fechando todas as igrejas",
+    "Aceitando todas as críticas",
+    "Mudando-se para a América"
+   ],
+   "certa": 0,
+   "explicacao": "O Concílio de Trento reorganizou a Igreja e criou novas ordens.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi05-m2",
+   "habilidadeId": "EF07HI05",
+   "nivel": "medio",
+   "enunciado": "Que ordem religiosa, criada na Contrarreforma, veio catequizar indígenas no Brasil?",
+   "apoio": null,
+   "opcoes": [
+    "Os samurais",
+    "Os jesuítas",
+    "Os vikings",
+    "Os templários"
+   ],
+   "certa": 1,
+   "explicacao": "Jesuítas como José de Anchieta atuaram no Brasil.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi05-d1",
+   "habilidadeId": "EF07HI05",
+   "nivel": "dificil",
+   "enunciado": "Por que traduzir a Bíblia para o alemão foi importante na Reforma?",
+   "apoio": null,
+   "opcoes": [
+    "O latim deixou de existir",
+    "Mais pessoas puderam ler sozinhas",
+    "Só os padres sabiam ler em alemão",
+    "Era proibido ler em latim"
+   ],
+   "certa": 1,
+   "explicacao": "Antes, a Bíblia era lida em latim, que poucos entendiam.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi06-f1",
+   "habilidadeId": "EF07HI06",
+   "nivel": "facil",
+   "enunciado": "Qual navegador chegou à América em 1492?",
+   "apoio": null,
+   "opcoes": [
+    "Pedro Álvares Cabral",
+    "Vasco da Gama",
+    "Fernão de Magalhães",
+    "Cristóvão Colombo"
+   ],
+   "certa": 3,
+   "explicacao": "Colombo navegava a serviço da Espanha.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi06-f2",
+   "habilidadeId": "EF07HI06",
+   "nivel": "facil",
+   "enunciado": "Quem comandou a frota portuguesa que chegou ao Brasil em 1500?",
+   "apoio": null,
+   "opcoes": [
+    "Pedro Álvares Cabral",
+    "Cristóvão Colombo",
+    "Bartolomeu Dias",
+    "Américo Vespúcio"
+   ],
+   "certa": 0,
+   "explicacao": "Cabral chegou à Bahia em abril de 1500.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi06-m1",
+   "habilidadeId": "EF07HI06",
+   "nivel": "medio",
+   "enunciado": "O que os europeus buscavam com as grandes navegações?",
+   "apoio": null,
+   "opcoes": [
+    "Fugir do frio intenso da Europa",
+    "Conhecer os polos Norte e Sul",
+    "Visitar terras geladas do Ártico",
+    "Rotas para comprar especiarias"
+   ],
+   "certa": 3,
+   "explicacao": "Queriam chegar às Índias por mar e lucrar com especiarias.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi06-m2",
+   "habilidadeId": "EF07HI06",
+   "nivel": "medio",
+   "enunciado": "Que invenção ajudou os navegadores a se orientar no mar?",
+   "apoio": null,
+   "opcoes": [
+    "O motor a vapor",
+    "O avião",
+    "A bússola",
+    "O telefone"
+   ],
+   "certa": 2,
+   "explicacao": "A bússola indica o norte.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi06-d1",
+   "habilidadeId": "EF07HI06",
+   "nivel": "dificil",
+   "enunciado": "Qual foi a importância da viagem de Fernão de Magalhães?",
+   "apoio": null,
+   "opcoes": [
+    "Primeira volta ao mundo pelo mar",
+    "Descoberta do Brasil em 1500",
+    "Primeira viagem até a Antártida",
+    "Fundação da cidade de Lisboa"
+   ],
+   "certa": 0,
+   "explicacao": "Sua expedição completou a primeira circum-navegação da Terra.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi09-f1",
+   "habilidadeId": "EF07HI09",
+   "nivel": "facil",
+   "enunciado": "Qual grande civilização vivia no atual México quando os espanhóis chegaram?",
+   "apoio": null,
+   "opcoes": [
+    "Os gregos",
+    "Os vikings",
+    "Os egípcios",
+    "Os astecas"
+   ],
+   "certa": 3,
+   "explicacao": "A capital asteca era Tenochtitlán.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi09-f2",
+   "habilidadeId": "EF07HI09",
+   "nivel": "facil",
+   "enunciado": "Os incas viviam em qual região da América?",
+   "apoio": null,
+   "opcoes": [
+    "Planícies do Canadá",
+    "Cordilheira dos Andes",
+    "Floresta Amazônica",
+    "Ilhas do Caribe"
+   ],
+   "certa": 1,
+   "explicacao": "O império inca ficava nos Andes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi09-m1",
+   "habilidadeId": "EF07HI09",
+   "nivel": "medio",
+   "enunciado": "O que mais causou mortes entre os indígenas na conquista da América?",
+   "apoio": null,
+   "opcoes": [
+    "Ataques de animais selvagens",
+    "Terremotos e erupções de vulcões",
+    "Doenças trazidas pelos europeus",
+    "Falta de chuva durante anos"
+   ],
+   "certa": 2,
+   "explicacao": "Varíola e sarampo mataram milhões de pessoas sem defesa contra elas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi09-m2",
+   "habilidadeId": "EF07HI09",
+   "nivel": "medio",
+   "enunciado": "Qual foi uma forma de resistência indígena à conquista?",
+   "apoio": null,
+   "opcoes": [
+    "Pedir ajuda aos romanos antigos",
+    "Aceitar tudo sem nenhuma reação",
+    "Fugas e guerras contra invasores",
+    "Mudar-se em massa para a Europa"
+   ],
+   "certa": 2,
+   "explicacao": "Muitos povos lutaram, fugiram e mantiveram costumes escondidos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef07hi09-d1",
+   "habilidadeId": "EF07HI09",
+   "nivel": "dificil",
+   "enunciado": "Por que poucos espanhóis conseguiram derrotar o grande império asteca?",
+   "apoio": null,
+   "opcoes": [
+    "Os astecas não tinham cidades",
+    "Os espanhóis chegaram com milhões de soldados",
+    "Alianças com povos inimigos dos astecas",
+    "Os astecas eram muito poucos"
+   ],
+   "certa": 2,
+   "explicacao": "Povos dominados pelos astecas se aliaram aos espanhóis.",
+   "origem": "curada"
+  }
+ ]
+}

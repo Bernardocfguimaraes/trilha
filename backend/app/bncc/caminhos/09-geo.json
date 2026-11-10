@@ -1,0 +1,30 @@
+{
+ "ano": 9,
+ "disciplinaId": "geo",
+ "componente": "GE",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Mundo globalizado",
+   "habilidades": [
+    {
+     "codigo": "EF09GE05",
+     "nome": "Globalização"
+    },
+    {
+     "codigo": "EF09GE07",
+     "nome": "Eurásia: Europa e Ásia"
+    },
+    {
+     "codigo": "EF09GE10",
+     "nome": "Industrialização"
+    },
+    {
+     "codigo": "EF09GE18",
+     "nome": "Fontes de energia"
+    }
+   ]
+  }
+ ]
+}

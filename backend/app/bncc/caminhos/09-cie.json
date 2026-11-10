@@ -1,0 +1,30 @@
+{
+ "ano": 9,
+ "disciplinaId": "cie",
+ "componente": "CI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Matéria, herança e Universo",
+   "habilidades": [
+    {
+     "codigo": "EF09CI03",
+     "nome": "Modelos atômicos"
+    },
+    {
+     "codigo": "EF09CI09",
+     "nome": "Hereditariedade (Mendel)"
+    },
+    {
+     "codigo": "EF09CI11",
+     "nome": "Seleção natural"
+    },
+    {
+     "codigo": "EF09CI14",
+     "nome": "Sistema Solar"
+    }
+   ]
+  }
+ ]
+}

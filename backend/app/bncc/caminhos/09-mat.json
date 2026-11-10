@@ -1,0 +1,30 @@
+{
+ "ano": 9,
+ "disciplinaId": "mat",
+ "componente": "MA",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Números reais, funções e Pitágoras",
+   "habilidades": [
+    {
+     "codigo": "EF09MA02",
+     "nome": "Números irracionais"
+    },
+    {
+     "codigo": "EF09MA04",
+     "nome": "Notação científica"
+    },
+    {
+     "codigo": "EF09MA06",
+     "nome": "Funções"
+    },
+    {
+     "codigo": "EF09MA14",
+     "nome": "Teorema de Pitágoras"
+    }
+   ]
+  }
+ ]
+}

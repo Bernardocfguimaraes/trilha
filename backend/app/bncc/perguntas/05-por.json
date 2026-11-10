@@ -1,0 +1,327 @@
+{
+ "ano": 5,
+ "disciplinaId": "por",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef05lp03-f1",
+   "habilidadeId": "EF05LP03",
+   "nivel": "facil",
+   "enunciado": "Qual destas palavras está acentuada corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "lampáda",
+    "lampadá",
+    "lãmpada",
+    "lâmpada"
+   ],
+   "certa": 3,
+   "explicacao": "Lâmpada é proparoxítona (LÂM-pa-da) e toda proparoxítona leva acento.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp03-f2",
+   "habilidadeId": "EF05LP03",
+   "nivel": "facil",
+   "enunciado": "Qual palavra é oxítona, isto é, tem a última sílaba mais forte?",
+   "apoio": null,
+   "opcoes": [
+    "café",
+    "mesa",
+    "árvore",
+    "livro"
+   ],
+   "certa": 0,
+   "explicacao": "Ca-FÉ: a sílaba mais forte é a última.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp03-m1",
+   "habilidadeId": "EF05LP03",
+   "nivel": "medio",
+   "enunciado": "Por que a palavra \"sábado\" tem acento?",
+   "apoio": null,
+   "opcoes": [
+    "Tem mais de duas sílabas",
+    "Começa com a letra s",
+    "É proparoxítona",
+    "É oxítona terminada em o"
+   ],
+   "certa": 2,
+   "explicacao": "SÁ-ba-do: a força está na antepenúltima sílaba; toda proparoxítona é acentuada.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp03-m2",
+   "habilidadeId": "EF05LP03",
+   "nivel": "medio",
+   "enunciado": "Em qual frase todas as palavras estão acentuadas corretamente?",
+   "apoio": null,
+   "opcoes": [
+    "O avô comprou um sofá.",
+    "O avó comprou um sofa.",
+    "O avô comprôu um sofá.",
+    "O ávo comprou um sofá."
+   ],
+   "certa": 0,
+   "explicacao": "Avô (oxítona em o fechado) e sofá (oxítona em a) levam acento; comprou não.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp03-d1",
+   "habilidadeId": "EF05LP03",
+   "nivel": "dificil",
+   "enunciado": "Qual grupo tem só palavras paroxítonas?",
+   "apoio": null,
+   "opcoes": [
+    "café, sofá, você",
+    "música, médico, árvore",
+    "jacaré, maracujá, robô",
+    "fácil, lápis, açúcar"
+   ],
+   "certa": 3,
+   "explicacao": "Fá-cil, lá-pis, a-çú-car: a força está na penúltima sílaba.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp05-f1",
+   "habilidadeId": "EF05LP05",
+   "nivel": "facil",
+   "enunciado": "Na frase \"Amanhã eu vou à praia\", a ação acontece em que tempo?",
+   "apoio": null,
+   "opcoes": [
+    "Em tempo nenhum",
+    "No futuro",
+    "No passado",
+    "No presente"
+   ],
+   "certa": 1,
+   "explicacao": "\"Amanhã\" e \"vou\" indicam algo que ainda vai acontecer.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp05-f2",
+   "habilidadeId": "EF05LP05",
+   "nivel": "facil",
+   "enunciado": "Qual frase está no passado?",
+   "apoio": null,
+   "opcoes": [
+    "Amanhã jogarei bola.",
+    "Agora eu estou jogando bola.",
+    "Ontem eu joguei bola.",
+    "Eu jogo bola todo dia."
+   ],
+   "certa": 2,
+   "explicacao": "\"Joguei\" mostra uma ação que já aconteceu.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp05-m1",
+   "habilidadeId": "EF05LP05",
+   "nivel": "medio",
+   "enunciado": "Complete com o verbo no presente: \"Todo dia, minha irmã ___ o cachorro.\"",
+   "apoio": null,
+   "opcoes": [
+    "passeará com",
+    "passeava com",
+    "passeia com",
+    "passeou com"
+   ],
+   "certa": 2,
+   "explicacao": "\"Todo dia\" pede o presente: passeia.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp05-m2",
+   "habilidadeId": "EF05LP05",
+   "nivel": "medio",
+   "enunciado": "Em \"Nós estudaremos para a prova\", o verbo está em que tempo?",
+   "apoio": null,
+   "opcoes": [
+    "Presente",
+    "Não tem tempo",
+    "Futuro",
+    "Passado"
+   ],
+   "certa": 2,
+   "explicacao": "Estudaremos: a ação vai acontecer depois.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp05-d1",
+   "habilidadeId": "EF05LP05",
+   "nivel": "dificil",
+   "enunciado": "Como fica no passado a frase \"Os alunos chegam cedo à escola\"?",
+   "apoio": null,
+   "opcoes": [
+    "Os alunos chegaram cedo à escola.",
+    "Os alunos chegarão cedo à escola.",
+    "Os alunos sempre chegam cedo à escola.",
+    "Os alunos vão chegar cedo à escola."
+   ],
+   "certa": 0,
+   "explicacao": "Chegaram é o passado de chegam.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp07-f1",
+   "habilidadeId": "EF05LP07",
+   "nivel": "facil",
+   "enunciado": "Em \"Eu queria brincar, mas estava chovendo\", o que a palavra \"mas\" indica?",
+   "apoio": null,
+   "opcoes": [
+    "Oposição",
+    "Adição",
+    "Tempo",
+    "Lugar"
+   ],
+   "certa": 0,
+   "explicacao": "\"Mas\" liga duas ideias que se opõem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp07-f2",
+   "habilidadeId": "EF05LP07",
+   "nivel": "facil",
+   "enunciado": "Qual palavra completa a frase com ideia de adição: \"Comprei pão ___ leite.\"",
+   "apoio": null,
+   "opcoes": [
+    "porque",
+    "quando",
+    "e",
+    "mas"
+   ],
+   "certa": 2,
+   "explicacao": "\"E\" soma as duas coisas compradas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp07-m1",
+   "habilidadeId": "EF05LP07",
+   "nivel": "medio",
+   "enunciado": "Em \"Fiquei em casa porque estava doente\", o que \"porque\" indica?",
+   "apoio": null,
+   "opcoes": [
+    "Tempo",
+    "Adição",
+    "Causa",
+    "Oposição"
+   ],
+   "certa": 2,
+   "explicacao": "\"Porque\" apresenta o motivo de ficar em casa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp07-m2",
+   "habilidadeId": "EF05LP07",
+   "nivel": "medio",
+   "enunciado": "Qual conjunção completa com ideia de tempo: \"___ o sinal tocou, todos saíram.\"",
+   "apoio": null,
+   "opcoes": [
+    "Porque",
+    "Mas",
+    "Se",
+    "Quando"
+   ],
+   "certa": 3,
+   "explicacao": "\"Quando\" indica o momento em que todos saíram.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp07-d1",
+   "habilidadeId": "EF05LP07",
+   "nivel": "dificil",
+   "enunciado": "Em \"Estude bastante para que você aprenda\", qual ideia \"para que\" expressa?",
+   "apoio": null,
+   "opcoes": [
+    "Finalidade",
+    "Condição",
+    "Oposição",
+    "Causa"
+   ],
+   "certa": 0,
+   "explicacao": "\"Para que\" mostra o objetivo de estudar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp08-f1",
+   "habilidadeId": "EF05LP08",
+   "nivel": "facil",
+   "enunciado": "Qual palavra é derivada de \"flor\"?",
+   "apoio": null,
+   "opcoes": [
+    "fornalha",
+    "floricultura",
+    "formigueiro",
+    "fotografia"
+   ],
+   "certa": 1,
+   "explicacao": "Floricultura vem de flor; as outras não vêm dessa palavra.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp08-f2",
+   "habilidadeId": "EF05LP08",
+   "nivel": "facil",
+   "enunciado": "Qual destas é uma palavra composta?",
+   "apoio": null,
+   "opcoes": [
+    "sorvete",
+    "janela",
+    "caderno",
+    "girassol"
+   ],
+   "certa": 3,
+   "explicacao": "Girassol junta gira + sol.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp08-m1",
+   "habilidadeId": "EF05LP08",
+   "nivel": "medio",
+   "enunciado": "Na palavra \"infeliz\", o que foi acrescentado a \"feliz\"?",
+   "apoio": null,
+   "opcoes": [
+    "Um acento",
+    "Um prefixo",
+    "Um sufixo",
+    "Outra palavra"
+   ],
+   "certa": 1,
+   "explicacao": "In- vem antes da palavra: é um prefixo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp08-m2",
+   "habilidadeId": "EF05LP08",
+   "nivel": "medio",
+   "enunciado": "Na palavra \"pedreiro\", o que é a parte \"-eiro\"?",
+   "apoio": null,
+   "opcoes": [
+    "Um prefixo",
+    "Uma palavra inteira",
+    "A sílaba tônica",
+    "Um sufixo"
+   ],
+   "certa": 3,
+   "explicacao": "-eiro vem depois de pedra: é sufixo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef05lp08-d1",
+   "habilidadeId": "EF05LP08",
+   "nivel": "dificil",
+   "enunciado": "Qual palavra é primitiva, isto é, não vem de outra palavra?",
+   "apoio": null,
+   "opcoes": [
+    "marinheiro",
+    "maremoto",
+    "marítimo",
+    "mar"
+   ],
+   "certa": 3,
+   "explicacao": "Mar dá origem às outras três.",
+   "origem": "curada"
+  }
+ ]
+}

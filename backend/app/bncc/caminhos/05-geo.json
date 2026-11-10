@@ -1,0 +1,30 @@
+{
+ "ano": 5,
+ "disciplinaId": "geo",
+ "componente": "GE",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Cidades, energia e ambiente",
+   "habilidades": [
+    {
+     "codigo": "EF05GE03",
+     "nome": "Cidades e seu crescimento"
+    },
+    {
+     "codigo": "EF05GE06",
+     "nome": "Transportes e comunicação"
+    },
+    {
+     "codigo": "EF05GE07",
+     "nome": "Tipos de energia"
+    },
+    {
+     "codigo": "EF05GE10",
+     "nome": "Poluição da água"
+    }
+   ]
+  }
+ ]
+}

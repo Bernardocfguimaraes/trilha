@@ -1,0 +1,327 @@
+{
+ "ano": 9,
+ "disciplinaId": "ing",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef09li06-f1",
+   "habilidadeId": "EF09LI06",
+   "nivel": "facil",
+   "enunciado": "Which sentence is an opinion?",
+   "apoio": null,
+   "opcoes": [
+    "Water boils at 100 °C.",
+    "The year has 12 months.",
+    "Pizza is the best food.",
+    "Rome is in Italy."
+   ],
+   "certa": 2,
+   "explicacao": "\"The best\" é um julgamento pessoal.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li06-f2",
+   "habilidadeId": "EF09LI06",
+   "nivel": "facil",
+   "enunciado": "Which sentence is a fact?",
+   "apoio": null,
+   "opcoes": [
+    "Soccer is boring.",
+    "Cats are better than dogs.",
+    "Math is too hard.",
+    "Brazil is in South America."
+   ],
+   "certa": 3,
+   "explicacao": "Pode ser comprovado: o Brasil fica na América do Sul.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li06-m1",
+   "habilidadeId": "EF09LI06",
+   "nivel": "medio",
+   "enunciado": "Qual expressão costuma introduzir uma opinião?",
+   "apoio": null,
+   "opcoes": [
+    "The study shows",
+    "I think",
+    "In 1990",
+    "According to data"
+   ],
+   "certa": 1,
+   "explicacao": "I think = eu acho.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li06-m2",
+   "habilidadeId": "EF09LI06",
+   "nivel": "medio",
+   "enunciado": "\"Scientists say the ice is melting faster.\" Essa frase apresenta:",
+   "apoio": null,
+   "opcoes": [
+    "uma piada",
+    "uma ordem",
+    "um fato com fonte",
+    "uma opinião pessoal"
+   ],
+   "certa": 2,
+   "explicacao": "Cita uma fonte que pode ser verificada.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li06-d1",
+   "habilidadeId": "EF09LI06",
+   "nivel": "dificil",
+   "enunciado": "Num artigo, \"In my opinion, schools should start later\" é:",
+   "apoio": null,
+   "opcoes": [
+    "uma lei",
+    "um ponto de vista",
+    "um dado estatístico",
+    "uma definição"
+   ],
+   "certa": 1,
+   "explicacao": "In my opinion marca a opinião do autor.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li14-f1",
+   "habilidadeId": "EF09LI14",
+   "nivel": "facil",
+   "enunciado": "Qual conector indica oposição?",
+   "apoio": null,
+   "opcoes": [
+    "and",
+    "so",
+    "because",
+    "but"
+   ],
+   "certa": 3,
+   "explicacao": "But = mas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li14-f2",
+   "habilidadeId": "EF09LI14",
+   "nivel": "facil",
+   "enunciado": "Complete: \"I was tired, ___ I went to bed early.\"",
+   "apoio": null,
+   "opcoes": [
+    "but",
+    "or",
+    "although",
+    "so"
+   ],
+   "certa": 3,
+   "explicacao": "So indica consequência.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li14-m1",
+   "habilidadeId": "EF09LI14",
+   "nivel": "medio",
+   "enunciado": "Complete: \"I stayed home ___ it was raining.\"",
+   "apoio": null,
+   "opcoes": [
+    "because",
+    "but",
+    "however",
+    "or"
+   ],
+   "certa": 0,
+   "explicacao": "Because introduz a causa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li14-m2",
+   "habilidadeId": "EF09LI14",
+   "nivel": "medio",
+   "enunciado": "\"However\" tem o mesmo sentido de:",
+   "apoio": null,
+   "opcoes": [
+    "porque",
+    "no entanto",
+    "portanto",
+    "além disso"
+   ],
+   "certa": 1,
+   "explicacao": "However indica contraste.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li14-d1",
+   "habilidadeId": "EF09LI14",
+   "nivel": "dificil",
+   "enunciado": "Complete: \"___ it was cold, we went to the beach.\"",
+   "apoio": null,
+   "opcoes": [
+    "So",
+    "And",
+    "Although",
+    "Because"
+   ],
+   "certa": 2,
+   "explicacao": "Although = embora.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li15-f1",
+   "habilidadeId": "EF09LI15",
+   "nivel": "facil",
+   "enunciado": "Complete: \"If it rains, I ___ at home.\"",
+   "apoio": null,
+   "opcoes": [
+    "stayed",
+    "staying",
+    "would stayed",
+    "will stay"
+   ],
+   "certa": 3,
+   "explicacao": "Primeira condicional: if + presente, will + verbo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li15-f2",
+   "habilidadeId": "EF09LI15",
+   "nivel": "facil",
+   "enunciado": "\"If you heat ice, it melts.\" A frase expressa:",
+   "apoio": null,
+   "opcoes": [
+    "uma verdade geral",
+    "um desejo impossível",
+    "uma ordem",
+    "uma pergunta"
+   ],
+   "certa": 0,
+   "explicacao": "É uma condicional que sempre acontece.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li15-m1",
+   "habilidadeId": "EF09LI15",
+   "nivel": "medio",
+   "enunciado": "Complete: \"If I had money, I ___ a new bike.\"",
+   "apoio": null,
+   "opcoes": [
+    "bought",
+    "would buy",
+    "will buy",
+    "buy"
+   ],
+   "certa": 1,
+   "explicacao": "Segunda condicional: if + passado, would + verbo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li15-m2",
+   "habilidadeId": "EF09LI15",
+   "nivel": "medio",
+   "enunciado": "\"If I were you, I would study more.\" A frase dá:",
+   "apoio": null,
+   "opcoes": [
+    "um fato passado",
+    "uma previsão certa",
+    "um conselho",
+    "uma ordem"
+   ],
+   "certa": 2,
+   "explicacao": "If I were you é usado para aconselhar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li15-d1",
+   "habilidadeId": "EF09LI15",
+   "nivel": "dificil",
+   "enunciado": "Qual frase está correta?",
+   "apoio": null,
+   "opcoes": [
+    "If she studied, she will pass.",
+    "If she study, she would pass.",
+    "If she studies, she will pass.",
+    "If she will study, she passes."
+   ],
+   "certa": 2,
+   "explicacao": "Primeira condicional: if + presente, will no resultado.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li16-f1",
+   "habilidadeId": "EF09LI16",
+   "nivel": "facil",
+   "enunciado": "Qual verbo indica obrigação forte?",
+   "apoio": null,
+   "opcoes": [
+    "could",
+    "must",
+    "might",
+    "may"
+   ],
+   "certa": 1,
+   "explicacao": "Must = deve (obrigação).",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li16-f2",
+   "habilidadeId": "EF09LI16",
+   "nivel": "facil",
+   "enunciado": "\"You should drink more water.\" A frase expressa:",
+   "apoio": null,
+   "opcoes": [
+    "uma certeza",
+    "uma habilidade",
+    "um conselho",
+    "uma proibição"
+   ],
+   "certa": 2,
+   "explicacao": "Should = deveria.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li16-m1",
+   "habilidadeId": "EF09LI16",
+   "nivel": "medio",
+   "enunciado": "\"It might rain later.\" O que a frase quer dizer?",
+   "apoio": null,
+   "opcoes": [
+    "Vai chover com certeza.",
+    "Choveu mais cedo.",
+    "Nunca chove aqui.",
+    "Talvez chova mais tarde."
+   ],
+   "certa": 3,
+   "explicacao": "Might indica possibilidade.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li16-m2",
+   "habilidadeId": "EF09LI16",
+   "nivel": "medio",
+   "enunciado": "Complete: \"Students ___ wear a uniform. It's a school rule.\"",
+   "apoio": null,
+   "opcoes": [
+    "might",
+    "may not",
+    "could",
+    "have to"
+   ],
+   "certa": 3,
+   "explicacao": "Have to expressa obrigação vinda de uma regra.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09li16-d1",
+   "habilidadeId": "EF09LI16",
+   "nivel": "dificil",
+   "enunciado": "\"You mustn't use your phone here\" significa:",
+   "apoio": null,
+   "opcoes": [
+    "Talvez use o celular.",
+    "Use o celular sempre.",
+    "É proibido usar o celular aqui.",
+    "Você não precisa usar o celular."
+   ],
+   "certa": 2,
+   "explicacao": "Mustn't indica proibição.",
+   "origem": "curada"
+  }
+ ]
+}

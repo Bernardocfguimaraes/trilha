@@ -1,0 +1,30 @@
+{
+ "ano": 7,
+ "disciplinaId": "his",
+ "componente": "HI",
+ "observacao": "Recorte de demonstração: algumas habilidades do ano, em ordem, com cerca de 20 questões no total. Descrições oficiais vêm de oficial_ef.json pelo código.",
+ "unidades": [
+  {
+   "id": "demo",
+   "nome": "Mundo moderno e navegações",
+   "habilidades": [
+    {
+     "codigo": "EF07HI04",
+     "nome": "Renascimento e Humanismo"
+    },
+    {
+     "codigo": "EF07HI05",
+     "nome": "Reformas religiosas"
+    },
+    {
+     "codigo": "EF07HI06",
+     "nome": "Grandes navegações"
+    },
+    {
+     "codigo": "EF07HI09",
+     "nome": "Conquista da América"
+    }
+   ]
+  }
+ ]
+}

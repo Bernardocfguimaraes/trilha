@@ -248,9 +248,10 @@ professor só enxerga as próprias turmas (turma ou aluno de outro professor res
 ## Turmas e conteúdo
 
 - Um professor pode ter várias turmas; no primeiro acesso, o painel leva para "criar a primeira turma".
-- Cada turma tem um ano (4º a 9º). O conteúdo vem do ano: hoje há atividades no **4º, 6º e 8º
-  ano**, nas seis matérias (Português, Matemática, Geografia, Ciências, História e Inglês).
-  Anos sem atividades aparecem como "em breve" na criação de turma.
+- Cada turma tem um ano (4º a 9º) e o conteúdo vem do ano: há atividades **do 4º ao 9º ano**,
+  nas seis matérias (Português, Matemática, Geografia, Ciências, História e Inglês). No 5º ano
+  são cinco: na BNCC, Língua Inglesa começa no 6º. São 4 habilidades BNCC por matéria e cerca de
+  20 questões (recorte de demonstração), com o texto oficial vindo de `oficial_ef.json`.
 - Conteúdo: `app/bncc/caminhos/AA-disc.json` (habilidades BNCC em ordem) e
   `app/bncc/perguntas/AA-disc.json` (questões). Para abrir um ano novo, basta criar esses
   arquivos; o ano passa a aparecer sozinho.

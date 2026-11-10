@@ -1,0 +1,327 @@
+{
+ "ano": 9,
+ "disciplinaId": "cie",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef09ci03-f1",
+   "habilidadeId": "EF09CI03",
+   "nivel": "facil",
+   "enunciado": "Que partícula do átomo tem carga negativa?",
+   "apoio": null,
+   "opcoes": [
+    "Nêutron",
+    "Núcleo",
+    "Elétron",
+    "Próton"
+   ],
+   "certa": 2,
+   "explicacao": "Os elétrons ficam na eletrosfera e têm carga negativa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci03-f2",
+   "habilidadeId": "EF09CI03",
+   "nivel": "facil",
+   "enunciado": "Onde ficam os prótons e nêutrons?",
+   "apoio": null,
+   "opcoes": [
+    "Fora do átomo",
+    "Nas moléculas de água",
+    "No núcleo",
+    "Na eletrosfera"
+   ],
+   "certa": 2,
+   "explicacao": "Prótons e nêutrons formam o núcleo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci03-m1",
+   "habilidadeId": "EF09CI03",
+   "nivel": "medio",
+   "enunciado": "O modelo de Dalton imaginava o átomo como:",
+   "apoio": null,
+   "opcoes": [
+    "um sistema solar",
+    "um pudim com passas",
+    "uma nuvem de elétrons",
+    "uma esfera maciça"
+   ],
+   "certa": 3,
+   "explicacao": "Dalton via o átomo como uma bolinha indivisível.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci03-m2",
+   "habilidadeId": "EF09CI03",
+   "nivel": "medio",
+   "enunciado": "O que a experiência de Rutherford mostrou?",
+   "apoio": null,
+   "opcoes": [
+    "O átomo é uma esfera maciça",
+    "O átomo não tem núcleo",
+    "Elétrons ficam no núcleo",
+    "O átomo é quase todo vazio"
+   ],
+   "certa": 3,
+   "explicacao": "A maioria das partículas atravessava a folha de ouro sem desviar.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci03-d1",
+   "habilidadeId": "EF09CI03",
+   "nivel": "dificil",
+   "enunciado": "Uma molécula de água (H₂O) tem quantos átomos?",
+   "apoio": null,
+   "opcoes": [
+    "3",
+    "2",
+    "1",
+    "4"
+   ],
+   "certa": 0,
+   "explicacao": "Dois de hidrogênio e um de oxigênio.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci09-f1",
+   "habilidadeId": "EF09CI09",
+   "nivel": "facil",
+   "enunciado": "Mendel fez seus experimentos com qual ser vivo?",
+   "apoio": null,
+   "opcoes": [
+    "Bactérias",
+    "Ervilhas",
+    "Moscas",
+    "Ratos"
+   ],
+   "certa": 1,
+   "explicacao": "Ele cruzou ervilhas por anos no jardim do mosteiro.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci09-f2",
+   "habilidadeId": "EF09CI09",
+   "nivel": "facil",
+   "enunciado": "O que os filhos herdam dos pais?",
+   "apoio": null,
+   "opcoes": [
+    "Cicatrizes",
+    "Bronzeado",
+    "Hábitos de leitura",
+    "Genes"
+   ],
+   "certa": 3,
+   "explicacao": "As características hereditárias passam pelos genes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci09-m1",
+   "habilidadeId": "EF09CI09",
+   "nivel": "medio",
+   "enunciado": "Ao cruzar ervilha amarela pura (AA) com verde pura (aa), todos os filhos são amarelos. Por quê?",
+   "apoio": null,
+   "opcoes": [
+    "Verde é dominante",
+    "Os genes se misturam",
+    "O verde desapareceu",
+    "Amarelo é dominante"
+   ],
+   "certa": 3,
+   "explicacao": "Os filhos são Aa e o A, dominante, se manifesta.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci09-m2",
+   "habilidadeId": "EF09CI09",
+   "nivel": "medio",
+   "enunciado": "Cruzando duas plantas Aa, qual proporção de filhos aa é esperada?",
+   "apoio": null,
+   "opcoes": [
+    "3/4",
+    "Nenhum",
+    "1/4",
+    "1/2"
+   ],
+   "certa": 2,
+   "explicacao": "AA, Aa, Aa, aa: um em quatro.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci09-d1",
+   "habilidadeId": "EF09CI09",
+   "nivel": "dificil",
+   "enunciado": "Onde ficam os genes nas células?",
+   "apoio": null,
+   "opcoes": [
+    "Na parede celular",
+    "Na membrana",
+    "Nos ossos",
+    "Nos cromossomos"
+   ],
+   "certa": 3,
+   "explicacao": "Os genes são trechos de DNA dos cromossomos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci11-f1",
+   "habilidadeId": "EF09CI11",
+   "nivel": "facil",
+   "enunciado": "Quem propôs a teoria da seleção natural?",
+   "apoio": null,
+   "opcoes": [
+    "Isaac Newton",
+    "Albert Einstein",
+    "Gregor Mendel",
+    "Charles Darwin"
+   ],
+   "certa": 3,
+   "explicacao": "Darwin publicou A Origem das Espécies em 1859.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci11-f2",
+   "habilidadeId": "EF09CI11",
+   "nivel": "facil",
+   "enunciado": "Segundo a seleção natural, quais indivíduos deixam mais descendentes?",
+   "apoio": null,
+   "opcoes": [
+    "Os mais coloridos",
+    "Os mais adaptados",
+    "Os maiores",
+    "Os mais velhos"
+   ],
+   "certa": 1,
+   "explicacao": "Quem sobrevive e se reproduz mais passa suas características.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci11-m1",
+   "habilidadeId": "EF09CI11",
+   "nivel": "medio",
+   "enunciado": "Por que bactérias resistentes a antibióticos se tornam mais comuns?",
+   "apoio": null,
+   "opcoes": [
+    "O remédio cria a resistência",
+    "As bactérias decidem mudar",
+    "Os antibióticos alimentam as bactérias",
+    "As resistentes sobrevivem"
+   ],
+   "certa": 3,
+   "explicacao": "O remédio elimina as sensíveis e sobram as resistentes.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci11-m2",
+   "habilidadeId": "EF09CI11",
+   "nivel": "medio",
+   "enunciado": "Qual é a diferença entre as ideias de Lamarck e de Darwin?",
+   "apoio": null,
+   "opcoes": [
+    "Darwin: o ambiente seleciona variações",
+    "Lamarck: o ambiente seleciona variações",
+    "Não há diferença",
+    "Darwin: o uso cria órgãos novos"
+   ],
+   "certa": 0,
+   "explicacao": "Lamarck falava em uso e desuso; Darwin, em seleção de variações que já existem.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci11-d1",
+   "habilidadeId": "EF09CI11",
+   "nivel": "dificil",
+   "enunciado": "De onde vêm as variações entre indivíduos de uma mesma espécie?",
+   "apoio": null,
+   "opcoes": [
+    "Do uso dos órgãos",
+    "Do clima do dia",
+    "Da reprodução e das mutações",
+    "Da vontade dos animais"
+   ],
+   "certa": 2,
+   "explicacao": "Mutações e a mistura de genes na reprodução geram diferenças.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci14-f1",
+   "habilidadeId": "EF09CI14",
+   "nivel": "facil",
+   "enunciado": "Qual é o planeta mais próximo do Sol?",
+   "apoio": null,
+   "opcoes": [
+    "Marte",
+    "Terra",
+    "Mercúrio",
+    "Vênus"
+   ],
+   "certa": 2,
+   "explicacao": "Mercúrio é o primeiro planeta.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci14-f2",
+   "habilidadeId": "EF09CI14",
+   "nivel": "facil",
+   "enunciado": "Qual destes é um planeta gasoso?",
+   "apoio": null,
+   "opcoes": [
+    "Vênus",
+    "Júpiter",
+    "Marte",
+    "Terra"
+   ],
+   "certa": 1,
+   "explicacao": "Júpiter é o maior planeta gasoso.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci14-m1",
+   "habilidadeId": "EF09CI14",
+   "nivel": "medio",
+   "enunciado": "Em que galáxia fica o Sistema Solar?",
+   "apoio": null,
+   "opcoes": [
+    "Sombrero",
+    "Via Láctea",
+    "Andrômeda",
+    "Magalhães"
+   ],
+   "certa": 1,
+   "explicacao": "O Sol é uma das bilhões de estrelas da Via Láctea.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci14-m2",
+   "habilidadeId": "EF09CI14",
+   "nivel": "medio",
+   "enunciado": "O que separa os planetas rochosos dos gasosos no Sistema Solar?",
+   "apoio": null,
+   "opcoes": [
+    "A órbita da Lua ao redor da Terra",
+    "Os anéis de Saturno",
+    "A nuvem de Oort",
+    "O cinturão de asteroides"
+   ],
+   "certa": 3,
+   "explicacao": "O cinturão fica entre Marte e Júpiter.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09ci14-d1",
+   "habilidadeId": "EF09CI14",
+   "nivel": "dificil",
+   "enunciado": "Por que Plutão deixou de ser considerado planeta em 2006?",
+   "apoio": null,
+   "opcoes": [
+    "Não domina sua órbita",
+    "Ele explodiu",
+    "Saiu do Sistema Solar",
+    "É feito só de gás"
+   ],
+   "certa": 0,
+   "explicacao": "Ele divide a região com muitos outros corpos parecidos.",
+   "origem": "curada"
+  }
+ ]
+}

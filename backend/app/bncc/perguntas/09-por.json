@@ -1,0 +1,327 @@
+{
+ "ano": 9,
+ "disciplinaId": "por",
+ "revisao_humana": "Escritas e revisadas à mão para a demonstração (2026-11).",
+ "perguntas": [
+  {
+   "id": "ef09lp01-f1",
+   "habilidadeId": "EF09LP01",
+   "nivel": "facil",
+   "enunciado": "Qual atitude ajuda a identificar uma notícia falsa?",
+   "apoio": null,
+   "opcoes": [
+    "Ler só o título chamativo",
+    "Conferir a fonte da notícia",
+    "Compartilhar logo para avisar",
+    "Confiar se tiver muitas curtidas"
+   ],
+   "certa": 1,
+   "explicacao": "Verificar quem publicou e se outros veículos confirmam é o primeiro passo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp01-f2",
+   "habilidadeId": "EF09LP01",
+   "nivel": "facil",
+   "enunciado": "Um título como \"URGENTE!!! Compartilhe antes que apaguem!\" é um sinal de quê?",
+   "apoio": null,
+   "opcoes": [
+    "Reportagem investigativa",
+    "Possível notícia falsa",
+    "Notícia oficial do governo",
+    "Texto científico revisado"
+   ],
+   "certa": 1,
+   "explicacao": "Apelo emocional e pressa para compartilhar são marcas comuns de desinformação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp01-m1",
+   "habilidadeId": "EF09LP01",
+   "nivel": "medio",
+   "enunciado": "Por que notícias falsas se espalham tão rápido nas redes sociais?",
+   "apoio": null,
+   "opcoes": [
+    "Só circulam em jornais impressos",
+    "São sempre escritas por jornalistas",
+    "Causam emoção e são repassadas sem checar",
+    "As redes sociais proíbem notícias verdadeiras"
+   ],
+   "certa": 2,
+   "explicacao": "Conteúdo que causa medo ou raiva tende a ser repassado sem verificação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp01-m2",
+   "habilidadeId": "EF09LP01",
+   "nivel": "medio",
+   "enunciado": "O que fazem as agências de checagem de fatos?",
+   "apoio": null,
+   "opcoes": [
+    "Escrevem apenas artigos de opinião",
+    "Criam notícias falsas para viralizar",
+    "Conferem se algo é verdadeiro",
+    "Vendem espaço para anúncios em sites"
+   ],
+   "certa": 2,
+   "explicacao": "Elas apuram dados e fontes e classificam o que é falso, verdadeiro ou impreciso.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp01-d1",
+   "habilidadeId": "EF09LP01",
+   "nivel": "dificil",
+   "enunciado": "Uma foto antiga é publicada como se fosse de hoje. Que tipo de desinformação é essa?",
+   "apoio": null,
+   "opcoes": [
+    "Reportagem correta e atual",
+    "Conteúdo fora de contexto",
+    "Erro de digitação comum",
+    "Sátira declarada pelo autor"
+   ],
+   "certa": 1,
+   "explicacao": "A imagem é real, mas o contexto falso muda o sentido.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp08-f1",
+   "habilidadeId": "EF09LP08",
+   "nivel": "facil",
+   "enunciado": "Em \"Estudou, mas não passou\", a conjunção \"mas\" é:",
+   "apoio": null,
+   "opcoes": [
+    "aditiva",
+    "conclusiva",
+    "explicativa",
+    "adversativa"
+   ],
+   "certa": 3,
+   "explicacao": "Mas indica oposição: é coordenativa adversativa.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp08-f2",
+   "habilidadeId": "EF09LP08",
+   "nivel": "facil",
+   "enunciado": "Em \"Choveu, portanto o jogo foi adiado\", \"portanto\" indica:",
+   "apoio": null,
+   "opcoes": [
+    "conclusão",
+    "oposição",
+    "adição",
+    "alternância"
+   ],
+   "certa": 0,
+   "explicacao": "Portanto introduz a consequência do que foi dito.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp08-m1",
+   "habilidadeId": "EF09LP08",
+   "nivel": "medio",
+   "enunciado": "Em \"Embora estivesse cansado, ele treinou\", a oração com \"embora\" indica:",
+   "apoio": null,
+   "opcoes": [
+    "causa",
+    "finalidade",
+    "tempo",
+    "concessão"
+   ],
+   "certa": 3,
+   "explicacao": "Embora apresenta um obstáculo que não impede a ação.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp08-m2",
+   "habilidadeId": "EF09LP08",
+   "nivel": "medio",
+   "enunciado": "Qual conjunção completa com ideia de condição: \"___ você estudar, irá bem na prova.\"",
+   "apoio": null,
+   "opcoes": [
+    "Se",
+    "Porém",
+    "Logo",
+    "Embora"
+   ],
+   "certa": 0,
+   "explicacao": "Se introduz a condição.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp08-d1",
+   "habilidadeId": "EF09LP08",
+   "nivel": "dificil",
+   "enunciado": "Em \"Saiu cedo para que não perdesse o ônibus\", a oração destacada expressa:",
+   "apoio": null,
+   "opcoes": [
+    "consequência",
+    "concessão",
+    "proporção",
+    "finalidade"
+   ],
+   "certa": 3,
+   "explicacao": "Para que indica o objetivo de sair cedo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp09-f1",
+   "habilidadeId": "EF09LP09",
+   "nivel": "facil",
+   "enunciado": "Em \"O livro que você me deu é ótimo\", a oração \"que você me deu\" é:",
+   "apoio": null,
+   "opcoes": [
+    "substantiva",
+    "adverbial",
+    "coordenada",
+    "adjetiva"
+   ],
+   "certa": 3,
+   "explicacao": "Ela caracteriza o substantivo livro, como um adjetivo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp09-f2",
+   "habilidadeId": "EF09LP09",
+   "nivel": "facil",
+   "enunciado": "Qual frase tem uma oração adjetiva explicativa, separada por vírgulas?",
+   "apoio": null,
+   "opcoes": [
+    "Saí quando parou de chover.",
+    "O Sol, que é uma estrela, nos aquece.",
+    "Os alunos que estudaram muito passaram.",
+    "Quero que você venha."
+   ],
+   "certa": 1,
+   "explicacao": "A explicativa traz uma informação sobre todo o Sol, entre vírgulas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp09-m1",
+   "habilidadeId": "EF09LP09",
+   "nivel": "medio",
+   "enunciado": "Em \"Os alunos que estudaram passaram\", o sentido é:",
+   "apoio": null,
+   "opcoes": [
+    "todos estudaram",
+    "só alguns alunos passaram",
+    "todos os alunos passaram",
+    "nenhum aluno estudou"
+   ],
+   "certa": 1,
+   "explicacao": "A restritiva limita: passaram apenas os que estudaram.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp09-m2",
+   "habilidadeId": "EF09LP09",
+   "nivel": "medio",
+   "enunciado": "Qual é o efeito de colocar vírgulas em \"Os alunos, que estudaram, passaram\"?",
+   "apoio": null,
+   "opcoes": [
+    "Não muda nada no sentido da frase",
+    "Todos estudaram e passaram",
+    "Transforma a frase numa pergunta",
+    "Diz que só alguns alunos passaram"
+   ],
+   "certa": 1,
+   "explicacao": "Entre vírgulas, a oração vira explicativa e vale para todos.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp09-d1",
+   "habilidadeId": "EF09LP09",
+   "nivel": "dificil",
+   "enunciado": "Em \"A cidade onde nasci é pequena\", qual palavra introduz a oração adjetiva?",
+   "apoio": null,
+   "opcoes": [
+    "pequena",
+    "onde",
+    "cidade",
+    "nasci"
+   ],
+   "certa": 1,
+   "explicacao": "Onde retoma cidade e introduz a oração que a caracteriza.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp12-f1",
+   "habilidadeId": "EF09LP12",
+   "nivel": "facil",
+   "enunciado": "Qual destas palavras é um estrangeirismo?",
+   "apoio": null,
+   "opcoes": [
+    "caderno",
+    "janela",
+    "delivery",
+    "entrega"
+   ],
+   "certa": 2,
+   "explicacao": "Delivery vem do inglês.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp12-f2",
+   "habilidadeId": "EF09LP12",
+   "nivel": "facil",
+   "enunciado": "A palavra \"futebol\" veio de \"football\". Ela é um estrangeirismo:",
+   "apoio": null,
+   "opcoes": [
+    "adaptado ao português",
+    "mantido em inglês",
+    "inventado no Brasil",
+    "vindo do francês"
+   ],
+   "certa": 0,
+   "explicacao": "A grafia foi aportuguesada.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp12-m1",
+   "habilidadeId": "EF09LP12",
+   "nivel": "medio",
+   "enunciado": "Qual palavra manteve a grafia original da língua de origem?",
+   "apoio": null,
+   "opcoes": [
+    "abajur",
+    "futebol",
+    "sanduíche",
+    "show"
+   ],
+   "certa": 3,
+   "explicacao": "Show manteve a escrita do inglês; as outras foram adaptadas.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp12-m2",
+   "habilidadeId": "EF09LP12",
+   "nivel": "medio",
+   "enunciado": "Qual opção troca o estrangeirismo de \"Vou fazer o download do app\" por palavras em português?",
+   "apoio": null,
+   "opcoes": [
+    "Vou subir o programa",
+    "Vou apagar o celular",
+    "Vou comprar o computador",
+    "Vou baixar o aplicativo"
+   ],
+   "certa": 3,
+   "explicacao": "Download = baixar; app = aplicativo.",
+   "origem": "curada"
+  },
+  {
+   "id": "ef09lp12-d1",
+   "habilidadeId": "EF09LP12",
+   "nivel": "dificil",
+   "enunciado": "Quando o uso de estrangeirismos pode atrapalhar a comunicação?",
+   "apoio": null,
+   "opcoes": [
+    "Nunca, eles sempre ajudam",
+    "Quando o público não os entende",
+    "Só em textos escritos à mão no caderno",
+    "Sempre, em qualquer situação"
+   ],
+   "certa": 1,
+   "explicacao": "O uso é adequado quando o leitor compreende o termo.",
+   "origem": "curada"
+  }
+ ]
+}
