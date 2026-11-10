@@ -81,3 +81,14 @@ def test_cors_e_cabecalhos(cliente):
     assert r.headers["x-frame-options"] == "DENY"
     assert r.headers["x-content-type-options"] == "nosniff"
     assert r.headers["cache-control"] == "no-store"
+
+
+def test_cors_aceita_so_origens_configuradas(cliente):
+    def preflight(origem):
+        r = cliente.options("/saude", headers={"Origin": origem, "Access-Control-Request-Method": "GET"})
+        return r.headers.get("access-control-allow-origin")
+    assert preflight("http://localhost:3000") == "http://localhost:3000"
+    assert preflight("https://trilha.vercel.app") == "https://trilha.vercel.app"
+    assert preflight("https://trilha-git-main-bernardo.vercel.app") == "https://trilha-git-main-bernardo.vercel.app"
+    assert preflight("https://site-malicioso.com") is None
+    assert preflight("https://trilha.vercel.app.golpe.com") is None

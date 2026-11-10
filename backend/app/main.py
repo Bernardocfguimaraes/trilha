@@ -60,6 +60,9 @@ _origens = os.environ.get("TRILHA_CORS", "http://localhost:3000,http://127.0.0.1
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[o.strip() for o in _origens if o.strip()],
+    # Opcional, para deploy: aceita por padrão as URLs de pré-visualização do Vercel,
+    # ex.: TRILHA_CORS_REGEX=https://trilha(-[a-z0-9-]+)?\.vercel\.app
+    allow_origin_regex=os.environ.get("TRILHA_CORS_REGEX") or None,
     allow_credentials=False,
     allow_methods=["GET", "POST", "PUT"],
     allow_headers=["Content-Type", "Authorization"],

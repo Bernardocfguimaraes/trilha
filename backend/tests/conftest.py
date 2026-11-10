@@ -13,6 +13,7 @@ os.environ.update({
     "PROFESSOR_NOME": "Profa. Teste",
     "TRILHA_SEGREDO": "0" * 64,
     "TRILHA_CORS": "http://localhost:3000",
+    "TRILHA_CORS_REGEX": r"https://trilha(-[a-z0-9-]+)?\.vercel\.app",
 })
 
 import pytest  # noqa: E402

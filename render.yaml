@@ -1,0 +1,47 @@
+# Blueprint do Render (plano gratuito) para a API da Trilha.
+# No Render: New > Blueprint > escolha este repositório. Ele lê este arquivo e pede os
+# valores marcados com `sync: false`. Passo a passo completo em DEPLOY.md.
+services:
+  - type: web
+    name: trilha-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /saude
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      # Banco: SQLite no disco do serviço. No plano gratuito o disco é apagado a cada deploy
+      # ou reinício, e a API recria a demo sozinha ao subir. Para guardar dados de verdade,
+      # troque pela URL do Postgres gratuito do Supabase (ver DEPLOY.md).
+      - key: DATABASE_URL
+        value: sqlite:///trilha.db
+      # Login do professor (não há cadastro público).
+      - key: PROFESSOR_NOME
+        value: Profa. Marina
+      - key: PROFESSOR_EMAIL
+        sync: false
+      - key: PROFESSOR_SENHA
+        sync: false
+      # Segredo que assina os logins: o Render gera um aleatório.
+      - key: TRILHA_SEGREDO
+        generateValue: true
+      # Endereço do front no Vercel (produção) e, opcional, o padrão das prévias.
+      - key: TRILHA_CORS
+        sync: false
+      - key: TRILHA_CORS_REGEX
+        sync: false
+      # IA gratuita (Groq). Sem a chave, tudo funciona com os textos prontos.
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_BASE_URL
+        value: https://api.groq.com/openai/v1
+      - key: LLM_MODEL
+        value: openai/gpt-oss-120b
+      - key: LLM_REASONING_EFFORT
+        value: low
+      - key: LLM_REVISOR_MODEL
+        value: qwen/qwen3.8-27b
