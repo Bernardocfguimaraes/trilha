@@ -3,7 +3,7 @@ import { COOKIE_PROFESSOR } from "@/lib/auth";
 
 // Ponte das telas do painel (componentes do navegador) para as rotas do professor no
 // backend: lê o token do cookie httpOnly e o anexa. Só repassa as rotas do painel.
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || undefined;
 const PERMITIDAS = [
   /^anos$/,
   /^modelo$/,

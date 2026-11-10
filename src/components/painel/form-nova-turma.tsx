@@ -84,7 +84,11 @@ export function FormNovaTurma({ anos }: { anos: AnoDisponivel[] }) {
           })}
         </div>
         <p className="mt-2 min-h-5 text-sm text-pedra" aria-live="polite">
-          {escolhido ? `Atividades de ${escolhido.disciplinas.join(", ")}.` : "Anos com “em breve” ainda não têm atividades."}
+          {escolhido
+            ? `Atividades de ${escolhido.disciplinas.join(", ")}.`
+            : TODOS_ANOS.some((a) => !disponiveis.has(a))
+              ? "Anos com “em breve” ainda não têm atividades."
+              : "Escolha o ano para ver as matérias com atividades."}
         </p>
       </fieldset>
 

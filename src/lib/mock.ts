@@ -4,6 +4,24 @@ import { estadoInicialAdaptacao, NIVEIS, registrarResposta } from "./adaptacao";
 import { ApiError } from "./api";
 import { responderChat, type RetratoTurma } from "./mock-chat";
 import { BANCO, type PerguntaBanco } from "./mock-perguntas";
+import {
+  adicionarAlunoExtra,
+  alunoExtra,
+  anosDisponiveis,
+  configExtra,
+  criarTurmaExtra,
+  detalheAlunoExtra,
+  type HabilidadeCatalogo,
+  LEGADO,
+  PINS_EXTRAS,
+  resumoAlunoExtra,
+  resumosTurmasExtras,
+  salvarConfigExtra,
+  SEM_ATIVIDADES_NO_MOCK,
+  turmaExtra,
+  turmaExtraPorCodigo,
+  turmaPublicaExtra,
+} from "./mock-turmas";
 import caminho04Por from "../../backend/app/bncc/caminhos/04-por.json";
 import oficialEf from "../../backend/app/bncc/oficial_ef.json";
 import metricasModelo from "../../backend/app/modelo_metricas.json";
@@ -19,8 +37,8 @@ import type {
   MensagemChat,
   Nivel,
   PedidoChatTurma,
-  AnoDisponivel,
   GruposTurma,
+  PedidoNovaTurma,
   PedidoLogin,
   PedidoPin,
   PedidoProgresso,
@@ -53,44 +71,8 @@ const DISCIPLINAS = [
 ];
 const nomeDisciplina = (id: string) => DISCIPLINAS.find((d) => d.id === id)?.nome;
 
-// Catálogo — mesma montagem do backend (dados.py + catalogo.py): disciplina com caminho
-// BNCC vem dos JSONs do backend (código BNCC como id, descrição oficial do MEC); as demais
-// ainda usam o catálogo antigo, escrito à mão. Piloto: só Português do 4º ano.
-interface HabilidadeCatalogo {
-  id: string;
-  codigoBncc: string | null;
-  nome: string;
-  disciplina: string;
-  descricao: string;
-  unidade: string | null;
-  avaliavel: boolean; // false = "em sala": fica fora do quiz e do diagnóstico
-}
-
-const legado = (id: string, nome: string, disciplina: string, descricao: string): HabilidadeCatalogo => ({
-  id, codigoBncc: null, nome, disciplina, descricao, unidade: null, avaliavel: true,
-});
-
-const LEGADO: Record<string, HabilidadeCatalogo[]> = {
-  mat: [
-    legado("mat-adicao", "Adição e subtração", "Matemática", "Cálculos com números até 1.000, com e sem reagrupamento."),
-    legado("mat-mult", "Multiplicação", "Matemática", "Tabuada e multiplicação por um algarismo."),
-    legado("mat-fracoes", "Frações simples", "Matemática", "Metade, terço e quarto em situações do dia a dia."),
-    legado("mat-problemas", "Resolução de problemas", "Matemática", "Interpretar o enunciado e escolher a operação."),
-  ],
-  geo: [
-    legado("geo-orientacao", "Orientação e mapas", "Geografia", "Pontos cardeais, legenda e escala em mapas simples."),
-    legado("geo-paisagem", "Paisagem e lugar", "Geografia", "Elementos naturais e construídos; campo e cidade."),
-  ],
-  cie: [
-    legado("cie-seres-vivos", "Seres vivos", "Ciências", "Características de plantas e animais e cadeias alimentares."),
-    legado("cie-materia", "Água e materiais", "Ciências", "Estados físicos da água e propriedades dos materiais."),
-  ],
-  ing: [
-    legado("ing-vocabulario", "Vocabulário", "Inglês", "Cores, números, animais e alimentos."),
-    legado("ing-frases", "Frases do dia a dia", "Inglês", "Cumprimentos e perguntas simples sobre si mesmo."),
-  ],
-};
-
+// Catálogo do 4º ano B — mesma montagem do backend (dados.py + catalogo.py): Português
+// vem do caminho BNCC; as demais disciplinas, do catálogo antigo (LEGADO, em mock-turmas).
 interface ArquivoCaminho {
   unidades: { nome: string; habilidades: { codigo: string; nome: string; avaliavel?: boolean }[] }[];
 }
@@ -195,14 +177,14 @@ function estadoInicial(): EstadoMock {
     ativas: new Set(HABILIDADES.map((h) => h.id)),
     disciplinasAtivas: new Set(DISCIPLINAS.map((d) => d.id)),
     sessoes: new Map(),
-    pins: new Map(Object.entries(PINS_INICIAIS)),
+    pins: new Map(Object.entries({ ...PINS_INICIAIS, ...PINS_EXTRAS })),
     acessos: new Map(),
     tentativas: new Map(),
   };
 }
 
 // Suba VERSAO ao mudar o formato ou os dados iniciais: em dev, o estado antigo é descartado.
-const VERSAO = 6;
+const VERSAO = 7;
 const g = globalThis as typeof globalThis & { __trilhaMock?: EstadoMock & { versao: number } };
 if (g.__trilhaMock?.versao !== VERSAO) g.__trilhaMock = { ...estadoInicial(), versao: VERSAO };
 const estado: EstadoMock = g.__trilhaMock;
@@ -488,7 +470,7 @@ function paraCliente(p: PerguntaBanco): Pergunta {
 
 const ELOGIOS = ["Isso aí!", "Mandou bem!", "Acertou!", "Muito bem!"];
 
-const cadastro = (a: (typeof ALUNOS)[number]): AlunoCadastro => ({ id: a.id, nome: a.nome, pin: estado.pins.get(a.id)! });
+const cadastro = (a: { id: string; nome: string }): AlunoCadastro => ({ id: a.id, nome: a.nome, pin: estado.pins.get(a.id)! });
 
 function novoPin(anterior?: string) {
   let pin: string;
@@ -501,7 +483,7 @@ const MAX_ERROS_PIN = 5;
 const ESPERA_BLOQUEIO_MS = 60_000;
 
 function validarPin({ alunoId, pin }: PedidoPin): ResultadoPin {
-  if (!ALUNOS.some((a) => a.id === alunoId)) throw new ApiError(404, "Aluno não encontrado");
+  if (!ALUNOS.some((a) => a.id === alunoId) && !alunoExtra(alunoId)) throw new ApiError(404, "Aluno não encontrado");
   const t = estado.tentativas.get(alunoId) ?? { erros: 0, bloqueadoAte: 0 };
   if (t.bloqueadoAte > Date.now()) return { valido: false, acesso: null, bloqueado: true };
 
@@ -551,7 +533,10 @@ const CONTA_MOCK = {
   email: (process.env.PROFESSOR_EMAIL ?? "professora@trilha.app").toLowerCase(),
   senha: process.env.PROFESSOR_SENHA ?? "trilha-demo",
 };
-const tokensMock = new Map<string, number>(); // token -> expira (ms)
+// Em globalThis, como o estado: a rota de login e as páginas do servidor carregam cópias
+// separadas deste módulo, e o token criado numa tem de valer na outra.
+const gTokens = globalThis as typeof globalThis & { __trilhaMockTokens?: Map<string, number> };
+const tokensMock = (gTokens.__trilhaMockTokens ??= new Map<string, number>()); // token -> expira (ms)
 const ROTAS_PROFESSOR = [
   /^\/anos$/,
   /^\/modelo$/,
@@ -567,11 +552,60 @@ function rotaDaTurma(path: string, method: string): string {
   const partes = path.split("/").filter(Boolean);
   if (partes[0] === "turmas" && partes.length === 3 && partes[2] !== "chat") {
     if (partes[1] !== TURMA.id) throw new ApiError(404, "Turma não encontrada");
-    if (partes[2] === "alunos" && method === "POST") throw new ApiError(503, "Cadastrar alunos precisa do backend.");
+    if (partes[2] === "alunos" && method === "POST") {
+      throw new ApiError(503, "Na demonstração sem backend, o 4º ano B é fixo. Crie uma turma nova para cadastrar alunos.");
+    }
     return { alunos: "/alunos", cadastros: "/turma/alunos", configuracao: "/turma/configuracao", diagnostico: "/diagnostico/reavaliar" }[partes[2]] ?? path;
   }
   if (partes[0] === "alunos" && partes[2] === "pin") return `/turma/alunos/${partes[1]}/pin`;
   return path;
+}
+
+/**
+ * Rotas do professor para as turmas extras (8º ano A e as criadas na demonstração).
+ * Devolve undefined quando a rota não é de uma turma ou aluno extra.
+ */
+function rotaTurmaExtra(caminho: string, method: string, body: unknown): unknown {
+  const partes = caminho.split("/").filter(Boolean);
+  if (partes[0] === "turmas" && partes.length === 3) {
+    const t = turmaExtra(partes[1]);
+    if (!t) return undefined;
+    const recurso = partes[2];
+    if (recurso === "alunos" && method === "GET") return t.alunos.map((a) => resumoAlunoExtra(t, a));
+    if (recurso === "alunos" && method === "POST") {
+      return adicionarAlunoExtra(t.id, (body as { nome: string }).nome, () => novoPin(), estado.pins);
+    }
+    if (recurso === "cadastros") return t.alunos.map((a): AlunoCadastro => ({ ...a, pin: estado.pins.get(a.id)! }));
+    if (recurso === "configuracao") {
+      if (method === "PUT") {
+        const pedido = body as PedidoTurmaConfig;
+        salvarConfigExtra(t, pedido.habilidadesAtivas, pedido.disciplinasAtivas);
+      }
+      return configExtra(t);
+    }
+    if (recurso === "diagnostico") return { reavaliados: 0, modelo: "ml" };
+    if (recurso === "grupos") {
+      const vazio: GruposTurma = {
+        turma: t.nome, grupos: [], k: 0, silhueta: null, alunosConsiderados: 0,
+        observacao: "É preciso que pelo menos 4 alunos tenham feito atividades para formar grupos.",
+      };
+      return vazio;
+    }
+    if (recurso === "chat") {
+      const mensagem: MensagemChat = {
+        id: `m${Date.now()}`,
+        autor: "assistente",
+        texto: `O ${t.nome} ainda não tem atividades registradas. Quando os alunos praticarem, eu consigo dizer quem precisa de ajuda e em quê.`,
+        enviadaEm: new Date().toISOString(),
+      };
+      return mensagem;
+    }
+    return undefined;
+  }
+  if (partes[0] === "alunos" && partes[1] && alunoExtra(partes[1]) && partes[2] !== "pin" && partes[2] !== "diagnostico") {
+    return partes[2] === "historico" ? [] : detalheAlunoExtra(partes[1]);
+  }
+  return undefined;
 }
 
 function exigirProfessor(path: string, token: string | null | undefined) {
@@ -583,10 +617,18 @@ function exigirProfessor(path: string, token: string | null | undefined) {
 function rotear(caminho: string, method: string, body: unknown, token?: string | null): unknown {
   exigirProfessor(caminho, token);
   if (caminho === "/turmas" && method === "GET") {
-    const turmas: TurmaResumo[] = [{ id: TURMA.id, nome: TURMA.nome, codigo: TURMA.codigo, ano: TURMA.ano, alunos: ALUNOS.length }];
+    const turmas: TurmaResumo[] = [
+      { id: TURMA.id, nome: TURMA.nome, codigo: TURMA.codigo, ano: TURMA.ano, alunos: ALUNOS.length },
+      ...resumosTurmasExtras(),
+    ];
     return turmas;
   }
-  if (caminho === "/turmas" && method === "POST") throw new ApiError(503, "Criar turmas precisa do backend.");
+  if (caminho === "/turmas" && method === "POST") {
+    const { nome, ano, alunos } = body as PedidoNovaTurma;
+    return criarTurmaExtra(nome, ano, alunos ?? [], [TURMA.codigo], () => novoPin(), estado.pins);
+  }
+  const extra = rotaTurmaExtra(caminho, method, body);
+  if (extra !== undefined) return extra;
   // Métricas do modelo: o mesmo arquivo que o backend gera ao treinar.
   if (caminho === "/modelo") return { ...metricasModelo, professores: { avaliacoes: 0, concordancia: null }, risco: metricasRisco, llm: avaliacaoLlm };
   // Explicação por habilidade precisa do modelo de ML, que roda no backend.
@@ -595,10 +637,7 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
     const g: GruposTurma = { turma: TURMA.nome, grupos: [], k: 0, silhueta: null, alunosConsiderados: 0, observacao: "Os grupos são formados pelo backend (k-means)." };
     return g;
   }
-  if (caminho === "/anos") {
-    const anos: AnoDisponivel[] = [{ ano: TURMA.ano, disciplinas: DISCIPLINAS.map((d) => d.nome) }];
-    return anos;
-  }
+  if (caminho === "/anos") return anosDisponiveis();
   const path = rotaDaTurma(caminho, method);
   const partes = path.split("/").filter(Boolean);
 
@@ -637,6 +676,10 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
   if (path === "/responsavel/progresso" && method === "POST") {
     // O aluno vem da credencial, nunca do cliente (igual ao backend).
     const alunoId = estado.acessos.get((body as PedidoProgresso).acesso);
+    if (alunoId && alunoExtra(alunoId)) {
+      const extra: ProgressoResponsavel = { aluno: detalheAlunoExtra(alunoId), historico: [] };
+      return extra;
+    }
     const aluno = ALUNOS.find((a) => a.id === alunoId);
     if (!aluno) throw new ApiError(401, "Acesso expirado. Digite o PIN de novo.");
     const progresso: ProgressoResponsavel = { aluno: detalhe(aluno), historico: historico(aluno) };
@@ -646,7 +689,7 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
   if (path === "/turma/alunos" && method === "GET") return ALUNOS.map(cadastro);
 
   if (partes[0] === "turma" && partes[1] === "alunos" && partes[3] === "pin" && method === "POST") {
-    const aluno = ALUNOS.find((a) => a.id === partes[2]);
+    const aluno = ALUNOS.find((a) => a.id === partes[2]) ?? alunoExtra(partes[2]);
     if (!aluno) throw new ApiError(404, "Aluno não encontrado");
     estado.pins.set(aluno.id, novoPin(estado.pins.get(aluno.id)));
     estado.tentativas.delete(aluno.id);
@@ -673,6 +716,8 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
   }
 
   if (partes[0] === "turmas" && partes[1]) {
+    const porCodigo = turmaExtraPorCodigo(partes[1]);
+    if (porCodigo) return turmaPublicaExtra(porCodigo);
     if (partes[1].toUpperCase() !== TURMA.codigo) throw new ApiError(404, "Turma não encontrada");
     const publica: TurmaPublica = {
       codigo: TURMA.codigo,
@@ -689,6 +734,7 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
     if (!pedido.acesso || estado.acessos.get(pedido.acesso) !== pedido.alunoId) {
       throw new ApiError(401, "Confirme o PIN do aluno antes de começar");
     }
+    if (alunoExtra(pedido.alunoId)) throw new ApiError(503, SEM_ATIVIDADES_NO_MOCK);
     const habilidades = habilidadesDaSessao(pedido.disciplinaId, ALUNOS.find((a) => a.id === pedido.alunoId));
     if (habilidades.length === 0) throw new ApiError(404, "Nenhuma habilidade ativa nesta disciplina");
 

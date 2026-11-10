@@ -30,7 +30,8 @@ import type {
   TurmaPublica,
 } from "./types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+// Vazia conta como ausente (ex.: deploy só do front com a variável em branco): usa o mock.
+const API_URL = process.env.NEXT_PUBLIC_API_URL || undefined;
 
 export class ApiError extends Error {
   constructor(

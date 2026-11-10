@@ -46,18 +46,21 @@ const CORES_AVATAR = ["bg-broto", "bg-sol", "bg-coral", "bg-[#4bb3e6]", "bg-[#9b
 export function Jornada({ turma }: { turma: TurmaPublica }) {
   const [etapa, setEtapa] = useState<Etapa>({ tipo: "quem" });
   const [carregando, setCarregando] = useState(false);
-  const [erro, setErro] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
 
   async function comecar(aluno: AlunoPublico, acesso: string, disciplina: DisciplinaPublica) {
     setCarregando(true);
-    setErro(false);
+    setErro(null);
     try {
       const sessao = await api.iniciarSessao(turma.codigo, aluno.id, { acesso, disciplinaId: disciplina.id });
       setEtapa({ tipo: "pergunta", aluno, acesso, disciplina, sessaoId: sessao.sessaoId, perguntas: sessao.perguntas });
     } catch (e) {
       // PIN trocado pelo professor no meio do caminho: pede o número de novo.
       if (e instanceof ApiError && e.status === 401) setEtapa({ tipo: "pin", aluno });
-      else setErro(true);
+      // 503 traz o motivo (ex.: na demonstração sem backend, turma sem atividades): tentar
+      // de novo não adianta, então mostramos o motivo em vez de "aperte de novo".
+      else if (e instanceof ApiError && e.status === 503 && e.message) setErro(e.message);
+      else setErro("A trilha não carregou. Aperte o botão de novo.");
     } finally {
       setCarregando(false);
     }
@@ -173,7 +176,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
         </p>
         {erro && (
           <p role="alert" className="mt-4 rounded-xl bg-coral-claro px-4 py-2 font-display text-lg text-grafite">
-            A trilha não carregou. Aperte o botão de novo.
+            {erro}
           </p>
         )}
         <BotaoGrande className="mt-8 w-full max-w-xs" disabled={carregando} onClick={() => comecar(etapa.aluno, etapa.acesso, etapa.disciplina)}>
