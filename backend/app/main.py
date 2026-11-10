@@ -52,6 +52,18 @@ if bd.engine.dialect.name == "sqlite":
     else:
         Base.metadata.create_all(bd.engine)  # só cria tabelas que faltarem
 
+# Banco que já existia (SQLite ou Postgres já semeado): traz o catálogo para a versão do
+# código, para que um ano novo de conteúdo funcione sem recriar o banco nem perder turmas.
+if not bd.EM_MEMORIA:
+    from sqlalchemy import inspect as _inspecionar
+
+    if _inspecionar(bd.engine).has_table("habilidades"):
+        from .seed import sincronizar_catalogo
+
+        _novas = sincronizar_catalogo()
+        if _novas:
+            print(f"Catálogo atualizado: {_novas} habilidades novas.")
+
 app = FastAPI(title="Trilha API", version="0.2.0")
 
 # Só as origens do frontend chamam a API pelo navegador. TRILHA_CORS aceita uma lista

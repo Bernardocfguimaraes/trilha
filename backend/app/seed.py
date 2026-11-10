@@ -77,6 +77,41 @@ def _historico_sintetico(a: dict) -> list[dict]:
     return linhas
 
 
+def sincronizar_catalogo() -> int:
+    """Acrescenta ao banco as disciplinas e habilidades que o código tem e o banco não (ex.:
+    banco criado antes de um ano novo de conteúdo) e atualiza nome, descrição e unidade das
+    que mudaram. Não toca em turmas, alunos nem histórico. Devolve quantas habilidades entraram."""
+    from sqlalchemy import func, select
+
+    with bd.SessionLocal() as s:
+        existentes = {d for (d,) in s.execute(select(Disciplina.id))}
+        for ordem, d in enumerate(DISCIPLINAS):
+            if d["id"] not in existentes:
+                s.add(Disciplina(id=d["id"], nome=d["nome"], ordem=ordem))
+        s.flush()
+        no_banco = {h.id: h for h in s.scalars(select(Habilidade))}
+        proxima = (s.scalar(select(func.max(Habilidade.ordem))) or 0) + 1
+        novas = 0
+        vistas: set[str] = set()
+        for ano in ANOS:
+            for h in habilidades_do_ano(ano):
+                if h["id"] in vistas:
+                    continue
+                vistas.add(h["id"])
+                atual = no_banco.get(h["id"])
+                if atual is None:
+                    s.add(Habilidade(
+                        id=h["id"], nome=h["nome"], disciplina_id=_id_disciplina_por_nome(h["disciplina"]),
+                        descricao=h["descricao"], ordem=proxima, codigo_bncc=h["codigoBncc"], unidade=h["unidade"],
+                    ))
+                    proxima += 1
+                    novas += 1
+                elif (atual.nome, atual.descricao, atual.unidade) != (h["nome"], h["descricao"], h["unidade"]):
+                    atual.nome, atual.descricao, atual.unidade = h["nome"], h["descricao"], h["unidade"]
+        s.commit()
+    return novas
+
+
 def semear() -> None:
     Base.metadata.drop_all(bd.engine)
     Base.metadata.create_all(bd.engine)

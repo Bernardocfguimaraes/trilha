@@ -146,6 +146,8 @@ uvicorn app.main:app --reload
 ```
 
 Com `DATABASE_URL=sqlite:///trilha.db`, a API cria e popula a demo sozinha na primeira vez.
+Em um banco que já existia, ela acrescenta sozinha as habilidades novas ao subir (sem
+apagar turmas nem histórico).
 
 **2. Front** (raiz do projeto)
 
@@ -171,7 +173,7 @@ Sem `NEXT_PUBLIC_API_URL`, o front roda sozinho com dados de exemplo (login de e
 
 ```bash
 npm test                # front: questões interativas (node --test)
-npm run test:backend    # API: 55 testes (pytest)
+npm run test:backend    # API: 56 testes (pytest)
 ```
 
 Os testes do backend cobrem segurança (login, bloqueio, isolamento entre professores, CORS),

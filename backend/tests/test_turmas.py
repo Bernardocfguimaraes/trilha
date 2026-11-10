@@ -82,3 +82,25 @@ def test_turmas_de_5_7_e_9_ano_usam_conteudo_do_proprio_ano(cliente, auth):
         assert all(p["habilidadeId"].startswith(prefixo) for p in r.json()["perguntas"]), ano
     publica = cliente.get(f"/turmas/{nova['codigo']}").json()
     assert len(publica["disciplinas"]) == 6
+
+
+def test_banco_antigo_recebe_o_catalogo_novo_sem_perder_turmas(cliente, auth):
+    """Banco criado antes de um ano novo de conteúdo: a sincronização acrescenta as
+    habilidades que faltam (e é idempotente)."""
+    from sqlalchemy import delete, select
+
+    from app import bd
+    from app.modelos import Habilidade, TurmaHabilidadeAtiva
+    from app.seed import sincronizar_catalogo
+
+    with bd.SessionLocal() as s:
+        ids = [h for (h,) in s.execute(select(Habilidade.id).where(Habilidade.id.like("EF07%")))]
+        s.execute(delete(TurmaHabilidadeAtiva).where(TurmaHabilidadeAtiva.habilidade_id.in_(ids)))
+        s.execute(delete(Habilidade).where(Habilidade.id.in_(ids)))
+        s.commit()
+    turmas_antes = {t["id"] for t in cliente.get("/turmas", headers=auth).json()}
+    assert sincronizar_catalogo() == len(ids) > 0
+    assert sincronizar_catalogo() == 0
+    assert turmas_antes <= {t["id"] for t in cliente.get("/turmas", headers=auth).json()}
+    r = cliente.post("/turmas", json={"nome": "7º depois", "ano": 7, "alunos": []}, headers=auth)
+    assert r.status_code == 201
