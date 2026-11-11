@@ -1,69 +1,71 @@
 === Diagnóstico de dificuldade — treino ===
 Dados: sintéticos — 4000 amostras (treino 3000, teste 1000)
-Distribuição: {'alerta': 1819, 'ok': 1430, 'atencao': 751}
-Features: ['media', 'recente', 'inicial', 'tendencia', 'desvio', 'minimo', 'n_dias']
+Distribuição: {'alerta': 1894, 'ok': 1570, 'atencao': 536}
+Features: ['media', 'recente', 'inicial', 'tendencia', 'desvio', 'minimo', 'n_dias', 'projecao', 'variacao']
 
 --- Árvore de Decisão ---
-Acurácia (teste): 0.747   F1 macro: 0.671
+Acurácia (teste): 0.734   F1 macro: 0.540
 Matriz de confusão (linhas=real, colunas=previsto) ordem ['alerta', 'atencao', 'ok']:
-[[391  48  16]
- [ 67  62  59]
- [ 32  31 294]]
+[[422  10  42]
+ [ 81   3  50]
+ [ 74   9 309]]
               precision    recall  f1-score   support
 
-      alerta       0.80      0.86      0.83       455
-     atencao       0.44      0.33      0.38       188
-          ok       0.80      0.82      0.81       357
+      alerta       0.73      0.89      0.80       474
+     atencao       0.14      0.02      0.04       134
+          ok       0.77      0.79      0.78       392
 
-    accuracy                           0.75      1000
-   macro avg       0.68      0.67      0.67      1000
-weighted avg       0.73      0.75      0.74      1000
+    accuracy                           0.73      1000
+   macro avg       0.55      0.57      0.54      1000
+weighted avg       0.67      0.73      0.69      1000
 
 --- Random Forest original ---
-Acurácia (teste): 0.755   F1 macro: 0.668
+Acurácia (teste): 0.747   F1 macro: 0.561
 Matriz de confusão (linhas=real, colunas=previsto) ordem ['alerta', 'atencao', 'ok']:
-[[409  30  16]
- [ 74  55  59]
- [ 21  45 291]]
+[[419   9  46]
+ [ 76   6  52]
+ [ 62   8 322]]
               precision    recall  f1-score   support
 
-      alerta       0.81      0.90      0.85       455
-     atencao       0.42      0.29      0.35       188
-          ok       0.80      0.82      0.80       357
-
-    accuracy                           0.76      1000
-   macro avg       0.68      0.67      0.67      1000
-weighted avg       0.73      0.76      0.74      1000
-
---- Random Forest ajustado ---
-Acurácia (teste): 0.751   F1 macro: 0.710
-Matriz de confusão (linhas=real, colunas=previsto) ordem ['alerta', 'atencao', 'ok']:
-[[371  71  13]
- [ 38 106  44]
- [  9  74 274]]
-              precision    recall  f1-score   support
-
-      alerta       0.89      0.82      0.85       455
-     atencao       0.42      0.56      0.48       188
-          ok       0.83      0.77      0.80       357
+      alerta       0.75      0.88      0.81       474
+     atencao       0.26      0.04      0.08       134
+          ok       0.77      0.82      0.79       392
 
     accuracy                           0.75      1000
-   macro avg       0.71      0.72      0.71      1000
-weighted avg       0.78      0.75      0.76      1000
+   macro avg       0.59      0.58      0.56      1000
+weighted avg       0.69      0.75      0.71      1000
 
-Hiperparâmetros escolhidos (validação cruzada 5 dobras, F1 macro 0.716): {'class_weight': 'balanced_subsample', 'max_depth': 8, 'min_samples_leaf': 5}
-Recall de 'atenção': 0.29 → 0.56
+--- Random Forest ajustado ---
+Acurácia (teste): 0.667   F1 macro: 0.614
+Matriz de confusão (linhas=real, colunas=previsto) ordem ['alerta', 'atencao', 'ok']:
+[[335 121  18]
+ [ 39  69  26]
+ [ 28 101 263]]
+              precision    recall  f1-score   support
+
+      alerta       0.83      0.71      0.76       474
+     atencao       0.24      0.51      0.32       134
+          ok       0.86      0.67      0.75       392
+
+    accuracy                           0.67      1000
+   macro avg       0.64      0.63      0.61      1000
+weighted avg       0.76      0.67      0.70      1000
+
+Hiperparâmetros escolhidos (validação cruzada 5 dobras, F1 macro 0.618): {'class_weight': 'balanced_subsample', 'max_depth': 4, 'min_samples_leaf': 20}
+Recall de 'atenção': 0.04 → 0.51
 
 Importância das features (Random Forest ajustado):
-  recente      0.266
-  tendencia    0.248
-  media        0.182
-  minimo       0.115
-  inicial      0.095
-  desvio       0.066
-  n_dias       0.027
+  projecao     0.388
+  recente      0.229
+  variacao     0.168
+  media        0.076
+  tendencia    0.069
+  minimo       0.023
+  inicial      0.023
+  desvio       0.019
+  n_dias       0.004
 
-Baseline (regra de limiar na média recente): acurácia 0.659, F1 macro 0.591
-Random Forest ajustado sobre o baseline: acurácia +0.092, F1 macro +0.119
+Baseline (regra de limiar na média recente): acurácia 0.676, F1 macro 0.567
+Random Forest ajustado sobre o baseline: acurácia +-0.009, F1 macro +0.047
 
 Modelo exportado para app\modelo_diagnostico.json (200 árvores); métricas em app\modelo_metricas.json.

@@ -2,9 +2,14 @@
 
 Não existe base real de alunos da Trilha ainda, então simulamos o desempenho de forma
 realista: cada aluno-habilidade tem uma proficiência "verdadeira" (latente) e uma tendência
-(está melhorando ou piorando). A partir disso geramos uma série de desempenho diário com
-RUÍDO, extraímos as mesmas features do app (app/diag_features.extrair) e rotulamos pela
+(está melhorando ou piorando). A partir disso geramos a série de desempenho diário COMO O APP
+GERA (ml/simulacao.py: 1 ou 2 respostas por sessão, pontos fixos por nível, dificuldade
+adaptativa), extraímos as mesmas features do app (app/diag_features.extrair) e rotulamos pela
 proficiência latente — não pelos valores observados.
+
+Versão 1 deste gerador somava um ruído pequeno (desvio de 6 pontos) ao nível. O modelo
+treinado assim ia bem nesses dados, mas ficava pior que a regra simples nos dados do jeito
+que o app produz (notas em degraus de 20 pontos). A versão 2 usa o mesmo processo do app.
 
 Por que isso é um problema de ML de verdade, e não um if/else disfarçado: o rótulo depende
 da proficiência latente + tendência (onde o aluno vai chegar), enquanto o modelo só enxerga
@@ -21,8 +26,12 @@ import os
 import random
 
 from app.diag_features import NOMES, extrair
+from ml.simulacao import trajetoria
 
 N_AMOSTRAS = 4000
+# Até quanto o nível sobe ou desce no período. Era ±20; subidas maiores (que acontecem no
+# app, ex.: de 40 para 80 em poucas semanas) ficavam fora do que o modelo tinha visto.
+TENDENCIA_MAX = 30
 SEMENTE = 42
 ARQ = os.path.join(os.path.dirname(__file__), "dados_sinteticos.csv")
 
@@ -42,14 +51,10 @@ def _rotulo(efetivo: float) -> str:
 
 def gerar_uma():
     proficiencia = random.uniform(20, 95)      # nível "real" de partida (latente)
-    tendencia = random.uniform(-20, 20)        # melhora/piora ao longo do bimestre
+    tendencia = random.uniform(-TENDENCIA_MAX, TENDENCIA_MAX)  # melhora/piora ao longo do bimestre
     n_dias = random.randint(3, 12)
-    serie = []
-    for i in range(n_dias):
-        progresso = i / max(n_dias - 1, 1)
-        base = proficiencia + tendencia * progresso
-        val = _clip(base + random.gauss(0, 6))  # ruído moderado por sessão
-        serie.append({"data": f"d{i}", "desempenho": round(val)})
+    # Mesmo processo do app: respostas de verdade, pontos por nível, dificuldade adaptativa.
+    _, serie = trajetoria(_RNG, proficiencia, tendencia, n_dias)
 
     # Rótulo: NÃO é só "onde a média caiu". A tendência pesa forte — um aluno que vem
     # subindo merece "ok" mesmo com média mediana; um que vem caindo merece cautela mesmo
@@ -60,8 +65,12 @@ def gerar_uma():
     return extrair(serie), _rotulo(efetivo)
 
 
+_RNG = random.Random(SEMENTE)
+
+
 def gerar():
     random.seed(SEMENTE)
+    _RNG.seed(SEMENTE + 1)
     linhas = [gerar_uma() for _ in range(N_AMOSTRAS)]
     with open(ARQ, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)

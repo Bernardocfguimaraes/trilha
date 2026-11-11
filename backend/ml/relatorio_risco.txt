@@ -1,7 +1,7 @@
 === Previsão de risco de alerta — treino ===
-A média das próximas 3 sessões vai ficar abaixo de 55?
+O nível do aluno nas próximas 3 sessões vai ficar abaixo de 55?
 Só habilidades com média recente ≥ 55 (hoje fora do alerta)
-Amostras: 5000 (taxa de queda 10.6%); parâmetros {'max_depth': 7, 'min_samples_leaf': 20}, AUC validação 0.914, limiar 0.72
-Teste — AUC 0.919, precisão 0.487, recall 0.729
-Baseline (Tendência negativa e média recente abaixo de 70) — precisão 0.320, recall 0.609
-Importâncias: recente 0.314, media 0.239, minimo 0.166, inicial 0.147, tendencia 0.085, desvio 0.025, n_dias 0.022
+Amostras: 5000 (taxa de queda 16.1%); parâmetros {'max_depth': 5, 'min_samples_leaf': 20}, AUC validação 0.883, limiar 0.82
+Teste — AUC 0.899, precisão 0.640, recall 0.363
+Baseline (Tendência negativa e média recente abaixo de 70) — precisão 0.337, recall 0.284
+Importâncias: media 0.359, recente 0.268, projecao 0.146, inicial 0.094, minimo 0.062, desvio 0.030, variacao 0.017, tendencia 0.015, n_dias 0.009

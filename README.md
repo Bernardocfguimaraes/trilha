@@ -64,43 +64,52 @@ execução e aparecem no app, na página **Diagnóstico**.
 
 ### 1. Diagnóstico: em que situação o aluno está nesta habilidade?
 
-- **Dados**: 4.000 trajetórias de desempenho simuladas, cada uma com nível e tendência ocultos e
-  ruído por dia. O rótulo vem do nível oculto, não de uma regra sobre as notas.
-- **Features** (as mesmas no treino e na API): média, média recente, média inicial, tendência,
-  oscilação, pior dia e dias de atividade.
+- **Dados**: 4.000 trajetórias simuladas, cada uma com nível e tendência ocultos. A nota de cada
+  dia é gerada **do mesmo jeito que o app gera** (`ml/simulacao.py`): poucas respostas por
+  habilidade em cada sessão, pontos fixos por nível (60/0, 80/20, 100/40) e dificuldade
+  adaptativa. O rótulo vem do nível oculto, não de uma regra sobre as notas.
+- **Features** (as mesmas no treino e na API): médias (geral, recente e inicial), tendência,
+  oscilação, pior dia, dias de atividade e, usando todos os dias por regressão linear, o
+  **nível estimado hoje** e a **variação no período**.
 - **Modelo**: Random Forest com 200 árvores. Hiperparâmetros escolhidos por GridSearch com
   validação cruzada estratificada de 5 partes, otimizando **F1 macro** (as três classes pesam
   igual).
-- **Resultado no teste**:
+- **Resultado no teste** (1.000 casos com notas como as do app):
 
   | Medida | Random Forest | Regra antiga (limiar na média recente) |
   |---|---|---|
-  | F1 macro | **0,71** | 0,59 |
-  | Acurácia | **75%** | 66% |
-  | "Atenção" encontrados (recall) | **56%** | 30% |
+  | F1 macro | **0,61** | 0,57 |
+  | Acurácia | 67% | 68% |
+  | "Atenção" encontrados (recall) | **51%** | 20% |
 
-  O ajuste quase dobrou o recall da classe "atenção" (de 29% para 56%), a mais difícil e a que
-  mais ganha com ajuda cedo.
+  O modelo encontra 2,5 vezes mais alunos em "atenção", a classe mais difícil e a que mais
+  ganha com ajuda cedo, ao custo de 1 ponto de acurácia. A validação cruzada (0,62) confirma.
+- **Treino igual à produção**: a primeira versão foi treinada com notas "suaves" e tinha F1 0,71
+  nesses dados. Numa simulação com notas do jeito que o app produz, ficava **pior que a regra
+  simples** (0,51 contra 0,57). Os dados de treino passaram a vir do mesmo processo do app, e
+  dois testes impedem que isso volte.
 - **Explicável**: para cada habilidade, o painel mostra a probabilidade de cada status e os
-  motivos em português ("vem piorando: −14 pontos", "oscila bastante").
+  motivos em português ("nível estimado hoje: 54 de 100", "vem piorando: −31 pontos").
 - **Com dados reais**: a professora confirma ou corrige cada diagnóstico. Essas respostas viram
   rótulos reais: medem a concordância e entram no retreino (`ml/exportar_reais.py`). O modelo
   com dados reais só é implantado se não piorar na validação.
 
 ### 2. Previsão: quem pode cair para alerta?
 
-Para habilidades que hoje **ainda não estão em alerta**, estima a chance de a média das
-próximas 3 sessões ficar abaixo de 55. O modelo é um Random Forest balanceado, com ponto de
-corte escolhido por validação cruzada (`ml/risco.py`).
+Para habilidades que hoje **ainda não estão em alerta**, estima a chance de o nível do aluno nas
+próximas 3 sessões ficar abaixo de 55. O modelo é um Random Forest balanceado, com o ponto de
+corte escolhido na validação cruzada para que mais da metade dos avisos se confirme: poucos
+avisos, mas confiáveis (`ml/risco.py`).
 
 | Medida (teste) | Modelo | Regra simples (tendência negativa e média < 70) |
 |---|---|---|
-| AUC ROC | **0,92** | — |
-| Quedas avisadas antes (recall) | **73%** | 61% |
-| Avisos que se confirmaram (precisão) | **49%** | 32% |
+| AUC ROC | **0,90** | — |
+| Avisos que se confirmaram (precisão) | **64%** | 34% |
+| Quedas avisadas antes (recall) | **36%** | 28% |
 
-Quedas acontecem em só 11% dos casos, então metade dos avisos se confirmar fica bem acima do
-acaso.
+Quedas acontecem em 16% dos casos. Um achado do processo: com 1 ou 2 respostas por dia, a
+"tendência" de poucos dias é quase toda ruído (por regressão à média, quem parece subir cai tanto
+quanto quem parece cair). Por isso a previsão se apoia sobretudo no nível atual estimado do aluno.
 
 ### 3. Grupos de reforço: quem tem dificuldades parecidas?
 
@@ -173,12 +182,12 @@ Sem `NEXT_PUBLIC_API_URL`, o front roda sozinho com dados de exemplo (login de e
 
 ```bash
 npm test                # front: questões interativas (node --test)
-npm run test:backend    # API: 56 testes (pytest)
+npm run test:backend    # API: 58 testes (pytest)
 ```
 
 Os testes do backend cobrem segurança (login, bloqueio, isolamento entre professores, CORS),
 turmas e conteúdo por ano, qualidade do banco de questões, acesso do responsável e os modelos
-(paridade com o scikit-learn, métricas acima da regra simples, k-means). A integração contínua
+(paridade com o scikit-learn, métricas acima da regra simples, simulador igual ao app, k-means). A integração contínua
 (`.github/workflows/testes.yml`) roda tudo a cada push, junto com typecheck e lint do front.
 
 ## Deploy

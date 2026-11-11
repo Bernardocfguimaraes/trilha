@@ -1,91 +1,101 @@
 {
- "treinadoEm": "2026-11-07T00:22:00+00:00",
- "pergunta": "A média das próximas 3 sessões vai ficar abaixo de 55?",
+ "treinadoEm": "2026-11-11T23:47:11+00:00",
+ "pergunta": "O nível do aluno nas próximas 3 sessões vai ficar abaixo de 55?",
  "dados": {
   "origem": "sintéticos",
   "amostras": 5000,
   "treino": 3750,
   "teste": 1250,
-  "taxaDeQueda": 0.1064
+  "taxaDeQueda": 0.1606
  },
  "recorte": "Só habilidades com média recente ≥ 55 (hoje fora do alerta)",
  "modelo": {
   "nome": "Random Forest",
   "arvores": 150,
   "parametros": {
-   "max_depth": 7,
+   "max_depth": 5,
    "min_samples_leaf": 20
   },
-  "validacaoCruzadaAuc": 0.9143,
-  "limiar": 0.72
+  "validacaoCruzadaAuc": 0.8832,
+  "limiar": 0.82
  },
  "implantado": {
-  "acuracia": 0.8896,
-  "precisao": 0.4874,
-  "recall": 0.7293,
+  "acuracia": 0.8648,
+  "precisao": 0.6404,
+  "recall": 0.3632,
   "matriz": [
    [
-    1015,
-    102
+    1008,
+    41
    ],
    [
-    36,
-    97
+    128,
+    73
    ]
   ],
-  "aucRoc": 0.9191
+  "aucRoc": 0.8991
  },
  "baseline": {
   "descricao": "Tendência negativa e média recente abaixo de 70",
-  "acuracia": 0.8208,
-  "precisao": 0.3202,
-  "recall": 0.609,
+  "acuracia": 0.7952,
+  "precisao": 0.3373,
+  "recall": 0.2836,
   "matriz": [
    [
-    945,
-    172
+    937,
+    112
    ],
    [
-    52,
-    81
+    144,
+    57
    ]
   ]
  },
  "importancias": [
   {
-   "feature": "recente",
-   "nome": "Média recente",
-   "valor": 0.3143
-  },
-  {
    "feature": "media",
    "nome": "Média geral",
-   "valor": 0.239
+   "valor": 0.3595
   },
   {
-   "feature": "minimo",
-   "nome": "Pior dia",
-   "valor": 0.1657
+   "feature": "recente",
+   "nome": "Média recente",
+   "valor": 0.2677
+  },
+  {
+   "feature": "projecao",
+   "nome": "Nível estimado hoje",
+   "valor": 0.1456
   },
   {
    "feature": "inicial",
    "nome": "Média inicial",
-   "valor": 0.1475
+   "valor": 0.0936
   },
   {
-   "feature": "tendencia",
-   "nome": "Tendência (subindo ou caindo)",
-   "valor": 0.0854
+   "feature": "minimo",
+   "nome": "Pior dia",
+   "valor": 0.0625
   },
   {
    "feature": "desvio",
    "nome": "Oscilação entre os dias",
-   "valor": 0.0255
+   "valor": 0.0301
+  },
+  {
+   "feature": "variacao",
+   "nome": "Variação no período",
+   "valor": 0.0174
+  },
+  {
+   "feature": "tendencia",
+   "nome": "Tendência (subindo ou caindo)",
+   "valor": 0.015
   },
   {
    "feature": "n_dias",
    "nome": "Dias com atividade",
-   "valor": 0.0224
+   "valor": 0.0087
   }
  ]
 }

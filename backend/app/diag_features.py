@@ -14,16 +14,33 @@ from __future__ import annotations
 from statistics import mean, pstdev
 
 # Ordem fixa das features (o JSON do modelo guarda esta mesma ordem).
-NOMES = ["media", "recente", "inicial", "tendencia", "desvio", "minimo", "n_dias"]
+# "projecao" e "variacao" usam todos os dias (regressão linear): no app a nota do dia vem de
+# 1 ou 2 respostas e pula em degraus de 20 pontos, e olhar só os 3 primeiros e os 3 últimos
+# dias deixa a estimativa refém desses saltos.
+NOMES = ["media", "recente", "inicial", "tendencia", "desvio", "minimo", "n_dias", "projecao", "variacao"]
+
+
+def _reta(vals: list[float]) -> tuple[float, float]:
+    """Mínimos quadrados de desempenho × dia: (valor ajustado no último dia, variação ajustada
+    do primeiro ao último dia)."""
+    n = len(vals)
+    if n < 2:
+        return vals[-1], 0.0
+    xm = (n - 1) / 2
+    ym = mean(vals)
+    sxx = sum((i - xm) ** 2 for i in range(n))
+    inclinacao = sum((i - xm) * (v - ym) for i, v in enumerate(vals)) / sxx
+    return ym + inclinacao * (n - 1 - xm), inclinacao * (n - 1)
 
 
 def extrair(serie: list[dict]) -> list[float]:
     """Vetor de features a partir da série de desempenho de uma habilidade."""
     vals = [float(p["desempenho"]) for p in serie]
     if not vals:
-        return [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        return [0.0] * len(NOMES)
 
     recente = mean(vals[-3:])          # desempenho recente (últimos 3 registros)
+    projecao, variacao = _reta(vals)
     inicial = mean(vals[:3])           # desempenho no começo da série
     return [
         round(mean(vals), 2),          # media geral
@@ -33,4 +50,6 @@ def extrair(serie: list[dict]) -> list[float]:
         round(pstdev(vals), 2) if len(vals) > 1 else 0.0,  # consistência
         float(min(vals)),              # pior dia
         float(len(vals)),              # volume de dados
+        round(max(0.0, min(100.0, projecao)), 2),  # nível estimado hoje (reta ajustada)
+        round(variacao, 2),            # mudança ao longo do período (reta ajustada)
     ]

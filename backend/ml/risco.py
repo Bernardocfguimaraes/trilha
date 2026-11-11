@@ -1,21 +1,22 @@
 """Previsão: risco de uma habilidade cair para "alerta" nas próximas sessões.
 
 O diagnóstico (ml/treinar.py) classifica o estado ATUAL. Este segundo modelo olha para a
-FRENTE: dado o histórico até hoje, qual a chance de a média das próximas 3 sessões ficar
-abaixo de 55 (faixa de alerta)? Serve para o professor agir antes de o aluno travar.
+FRENTE: dado o histórico até hoje, qual a chance de o nível do aluno nas próximas 3 sessões
+ficar abaixo de 55 (faixa de alerta)? Serve para o professor agir antes de o aluno travar.
 
 Dataset: trajetórias simuladas mais longas, cortadas em "passado" (o que o modelo vê) e
-"futuro" (de onde sai o rótulo). Como no diagnóstico, cada aluno-habilidade tem nível e
-tendência ocultos e ruído por sessão; o rótulo vem dos valores futuros observados, não de
-uma regra sobre o passado.
+"futuro" (de onde sai o rótulo). O passado é gerado como o app gera (ml/simulacao.py: 1 ou
+2 respostas por sessão, pontos fixos por nível). O rótulo vem do nível latente futuro, que
+é o que o diagnóstico tenta estimar: com tão poucas respostas por dia, a média observada
+de 3 sessões futuras seria em boa parte ruído.
 
 Recorte: só habilidades que HOJE ainda não estão em alerta (média recente ≥ 55). É para elas
 que a previsão é útil (quem já está em alerta já aparece no painel), e é o caso difícil: quem
 já está mal tende a continuar mal, o que inflaria as métricas sem ajudar ninguém.
 
 Modelo: Random Forest binário (classes balanceadas, hiperparâmetros por validação cruzada,
-otimizando ROC AUC) e ponto de corte escolhido também na validação cruzada (maior F1), em vez
-do 0,5 fixo. Exportado para app/modelo_risco.json e lido em Python puro (app/risco.py).
+otimizando ROC AUC) e ponto de corte escolhido também na validação cruzada: o menor em que
+mais da metade dos avisos se confirma (poucos avisos, mas confiáveis), em vez do 0,5 fixo. Exportado para app/modelo_risco.json e lido em Python puro (app/risco.py).
 Baseline para comparação: "tendência negativa e média recente abaixo de 70".
 
 Uso: python -m ml.risco   (requer ml/requirements-treino.txt)
@@ -33,6 +34,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precisio
 from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_val_predict, train_test_split
 
 from app.diag_features import NOMES, extrair
+from ml.simulacao import trajetoria
 from ml.treinar import NOMES_LEGIVEIS, _exportar_arvore
 
 AQUI = os.path.dirname(__file__)
@@ -42,25 +44,17 @@ RELATORIO = os.path.join(AQUI, "relatorio_risco.txt")
 SEMENTE = 7
 N_AMOSTRAS = 5000
 FUTURO = 3          # sessões à frente
-LIMIAR_ALERTA = 55  # média futura abaixo disso = caiu para alerta
-
-
-def _clip(x: float) -> float:
-    return max(0.0, min(100.0, x))
+LIMIAR_ALERTA = 55  # nível futuro abaixo disso = caiu para alerta
+PRECISAO_MINIMA = 0.59  # dos avisos dados, quantos precisam se confirmar (escolha do corte)
 
 
 def gerar_uma(rng: random.Random):
     proficiencia = rng.uniform(30, 95)
     tendencia = rng.uniform(-30, 20)          # por bimestre; quedas um pouco mais frequentes
     n_passado = rng.randint(3, 10)
-    total = n_passado + FUTURO
-    serie = []
-    for i in range(total):
-        base = proficiencia + tendencia * (i / max(total - 1, 1))
-        serie.append(round(_clip(base + rng.gauss(0, 6))))
-    passado = [{"data": f"d{i}", "desempenho": v} for i, v in enumerate(serie[:n_passado])]
-    futuro = serie[n_passado:]
-    return extrair(passado), int(sum(futuro) / FUTURO < LIMIAR_ALERTA)
+    niveis, serie = trajetoria(rng, proficiencia, tendencia, n_passado + FUTURO)
+    futuro = niveis[n_passado:]  # nível latente nas próximas sessões
+    return extrair(serie[:n_passado]), int(sum(futuro) / FUTURO < LIMIAR_ALERTA)
 
 
 def _baseline(X) -> np.ndarray:
@@ -88,12 +82,17 @@ def treinar() -> dict:
         n_jobs=-1,
     ).fit(Xtr, ytr)
     rf = busca.best_estimator_
-    # Ponto de corte: o de maior F1 nas probabilidades da validação cruzada (só treino).
+    # Ponto de corte, nas probabilidades da validação cruzada (só treino): o menor corte em que
+    # pelo menos PRECISAO_MINIMA dos avisos se confirmam. O corte de maior F1 avisava 1 em cada
+    # 4 habilidades — praticamente toda habilidade em "atenção" —, e aviso demais vira ruído que
+    # a professora aprende a ignorar. Preferimos poucos avisos confiáveis.
     prob_cv = cross_val_predict(
         RandomForestClassifier(n_estimators=150, random_state=SEMENTE, n_jobs=-1, class_weight="balanced", **busca.best_params_),
         Xtr, ytr, cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=SEMENTE), method="predict_proba", n_jobs=-1,
     )[:, 1]
-    limiar = max(np.arange(0.2, 0.81, 0.02), key=lambda t: f1_score(ytr, (prob_cv >= t).astype(int)))
+    cortes = [t for t in np.arange(0.2, 0.96, 0.02)
+              if (prob_cv >= t).any() and precision_score(ytr, (prob_cv >= t).astype(int)) >= PRECISAO_MINIMA]
+    limiar = cortes[0] if cortes else max(np.arange(0.2, 0.96, 0.02), key=lambda t: f1_score(ytr, (prob_cv >= t).astype(int)))
     limiar = round(float(limiar), 2)
     prob = rf.predict_proba(Xte)[:, list(rf.classes_).index(1)]
     prev = (prob >= limiar).astype(int)
@@ -112,7 +111,7 @@ def treinar() -> dict:
 
     metricas = {
         "treinadoEm": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "pergunta": f"A média das próximas {FUTURO} sessões vai ficar abaixo de {LIMIAR_ALERTA}?",
+        "pergunta": f"O nível do aluno nas próximas {FUTURO} sessões vai ficar abaixo de {LIMIAR_ALERTA}?",
         "dados": {"origem": "sintéticos", "amostras": int(len(X)), "treino": int(len(Xtr)), "teste": int(len(Xte)),
                   "taxaDeQueda": round(float(y.mean()), 4)},
         "recorte": f"Só habilidades com média recente ≥ {LIMIAR_ALERTA} (hoje fora do alerta)",

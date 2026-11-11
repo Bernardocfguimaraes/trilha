@@ -76,9 +76,14 @@ def _motivos(f: dict[str, float]) -> list[str]:
     """Frases curtas, em linguagem do professor, sobre os indicadores que o modelo usa.
     Descrevem os dados (não inventam causa): o professor confere no gráfico ao lado."""
     m = []
+    faixa = lambda v: " (baixo)" if v < 55 else " (no limite)" if v < 70 else " (bom)"  # noqa: E731
+    if f["n_dias"] >= 3:
+        # Usa todos os dias (reta ajustada): menos sensível a um dia com poucas respostas.
+        p = round(f["projecao"])
+        m.append(f"Nível estimado hoje, considerando todos os dias: {p} de 100{faixa(p)}.")
     r = round(f["recente"])
     m.append(f"Média dos últimos dias: {r} de 100" + (" (baixa)" if r < 55 else " (no limite)" if r < 70 else " (boa)") + ".")
-    t = round(f["tendencia"])
+    t = round(f["variacao"])
     if f["n_dias"] >= 4 and abs(t) >= 5:
         m.append(f"Vem {'melhorando' if t > 0 else 'piorando'}: {abs(t)} pontos {'acima' if t > 0 else 'abaixo'} do começo.")
     elif f["n_dias"] >= 4:

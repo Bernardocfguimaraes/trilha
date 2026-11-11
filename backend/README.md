@@ -75,24 +75,45 @@ Para voltar ao modo em memória, basta esvaziar/comentar `DATABASE_URL` no `.env
 
 O status de cada habilidade (ok / atenção / alerta) deixou de ser uma regra de limiar e
 passou a vir de um **modelo de Machine Learning** (Random Forest) que olha a trajetória do
-aluno naquela habilidade: média, média recente, tendência (está melhorando ou piorando),
-consistência, pior dia e volume de dados.
+aluno naquela habilidade: médias (geral, recente e inicial), tendência, oscilação, pior dia,
+dias de atividade e, usando todos os dias por regressão linear, o **nível estimado hoje** e a
+**variação no período** (`app/diag_features.py`).
 
-**Como foi treinado (caminho A — dados sintéticos).** Não existe base real de alunos ainda,
-então o dataset é simulado de forma realista (`ml/gerar_dados.py`): cada aluno-habilidade
-tem uma proficiência e uma tendência latentes, geramos uma série de desempenho com ruído e
-rotulamos pela situação "efetiva" (nível + peso forte da tendência). Isso torna o problema
-genuinamente de ML: a regra de limiar na média não enxerga a tendência, o modelo sim.
+**Como foi treinado (dados sintéticos gerados como o app gera).** Não existe base real de
+alunos ainda, então o dataset é simulado (`ml/gerar_dados.py`): cada aluno-habilidade tem uma
+proficiência e uma tendência latentes, e a nota de cada dia é gerada **com o mesmo processo do
+app** (`ml/simulacao.py`): 1 ou 2 respostas por habilidade em cada sessão de 6 perguntas,
+pontos fixos por nível (60/0, 80/20, 100/40) e dificuldade adaptativa. O rótulo vem da situação
+"efetiva" latente (nível + peso da tendência), não das notas observadas.
 
-**Resultado (ml/relatorio_treino.txt):** o Random Forest implantado tem **F1 macro 0,710** e
-acurácia 0,751, contra F1 macro 0,591 e acurácia 0,659 da regra de limiar (**+0,119 de F1 macro**).
-As features mais importantes são a média recente e a **tendência**.
+**Correção importante (treino x produção).** A primeira versão somava ao nível um ruído pequeno
+(desvio de 6 pontos). Ia bem nesses dados (F1 macro 0,71), mas, numa simulação com notas do jeito
+que o app produz (em degraus de 20 pontos), caía para 0,51, **pior que a regra simples** (0,57).
+A correção: os dados de treino passaram a vir do mesmo processo do app (inclusive sessões com 1
+a 4 habilidades, que deixam a nota do dia mais ou menos estável), entraram as duas features que
+usam todos os dias e a faixa de tendências foi ampliada para ±30 pontos (subidas como de 40 para
+80 ficavam fora do que o modelo tinha visto). Dois testes travam a regressão: o simulador usa as
+regras do app, e o modelo vence a regra numa simulação nova. O pipeline é reproduzível (rodar de
+novo gera modelos idênticos).
 
-**Por que F1 macro.** "Atenção" é a classe menor e a mais difícil (fica entre ok e alerta). A
-primeira versão tinha boa acurácia mas reconhecia só 29% dos alunos em atenção — justamente os
-que mais se beneficiam de ajuda cedo. Com classes balanceadas e hiperparâmetros escolhidos por
-validação cruzada (5 dobras, otimizando F1 macro), o recall de "atenção" foi de **0,29 para 0,56**,
-sem perder acurácia. As métricas completas vão para `app/modelo_metricas.json`, que o painel mostra.
+**Resultado (ml/relatorio_treino.txt, 1.000 casos de teste com notas como as do app):**
+
+| Modelo | F1 macro | Acurácia | "Atenção" encontrados |
+|---|:---:|:---:|:---:|
+| Regra de limiar (média recente) | 0,567 | 67,6% | 20% |
+| Árvore de decisão | 0,540 | 73,4% | 2% |
+| Random Forest sem ajuste | 0,561 | 74,7% | 4,5% |
+| **Random Forest ajustado (em uso)** | **0,614** | **66,7%** | **51%** |
+
+Validação cruzada (5 dobras): F1 macro 0,618. O indicador mais importante é o nível estimado
+hoje (39%), seguido da média recente (23%) e da variação no período (17%).
+
+**Por que F1 macro.** "Atenção" é a classe menor e a mais difícil (fica entre ok e alerta). Os
+modelos sem ajuste têm a maior acurácia justamente porque quase nunca dizem "atenção" (encontram
+2% a 5% desses alunos). Com classes balanceadas e hiperparâmetros escolhidos por validação
+cruzada otimizando F1 macro, o modelo em uso encontra 51%, contra 20% da regra, ao custo de 1
+ponto de acurácia. "Atenção" continua sendo a classe mais difícil (F1 0,32): com 1 ou 2
+respostas por dia, separar "no limite" de "bem" ou "mal" exige vários dias de histórico.
 
 **Treino x produção.** O treino usa scikit-learn e roda com:
 ```bash
@@ -111,11 +132,15 @@ O endpoint `POST /diagnostico/reavaliar` re-roda o modelo sobre o histórico de 
 ### Previsão de risco (segundo modelo)
 
 `ml/risco.py` treina um modelo de **previsão**: para habilidades que hoje ainda não estão em
-alerta, qual a chance de a média das próximas 3 sessões ficar abaixo de 55? Trajetórias
-simuladas são cortadas em passado (o que o modelo vê) e futuro (de onde sai o rótulo).
-Random Forest balanceado, ponto de corte escolhido por validação cruzada. Resultado
-(`ml/relatorio_risco.txt`): **AUC 0,92**, quedas avisadas 73% (regra simples: 61%), avisos
-confirmados 49% (regra: 32%), com quedas em só 10,6% dos casos. Inferência em `app/risco.py`;
+alerta, qual a chance de o nível do aluno nas próximas 3 sessões ficar abaixo de 55?
+Trajetórias simuladas (com notas geradas como o app gera) são cortadas em passado (o que o
+modelo vê) e futuro (de onde sai o rótulo, pelo nível latente). Random Forest balanceado, com
+ponto de corte escolhido na validação cruzada para que mais da metade dos avisos se confirme
+(poucos avisos, mas confiáveis). Resultado (`ml/relatorio_risco.txt`): **AUC 0,90**, avisos
+confirmados 64% (regra simples: 34%) e quedas avisadas 36% (regra: 28%), com quedas em 16% dos
+casos. Achado: com 1 ou 2 respostas por dia, a "tendência" de poucos dias é quase toda ruído
+(quem parece subir cai tanto quanto quem parece cair, por regressão à média), então a previsão
+se apoia sobretudo no nível atual estimado. Inferência em `app/risco.py`;
 o painel mostra "Pode cair para alerta" e o filtro "Em risco".
 
 ### Grupos de reforço (não supervisionado)
@@ -283,7 +308,8 @@ app/
   grupos.py         grupos de reforço: k-means + silhueta em Python puro
   avaliacao_llm.json  resultado de ml/avaliar_llm.py
 ml/
-  gerar_dados.py          gera o dataset sintético (caminho A)
+  gerar_dados.py          gera o dataset sintético
+  simulacao.py            simula as notas do dia com o mesmo processo do app (treino = produção)
   treinar.py              treina, avalia e exporta o modelo (scikit-learn)
   requirements-treino.txt dependências só do treino (não do backend)
   dados_sinteticos.csv    dataset gerado

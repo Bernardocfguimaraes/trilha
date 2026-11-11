@@ -1,14 +1,14 @@
 {
- "treinadoEm": "2026-11-06T23:59:38+00:00",
+ "treinadoEm": "2026-11-11T23:38:07+00:00",
  "dados": {
   "origem": "sintéticos",
   "amostras": 4000,
   "treino": 3000,
   "teste": 1000,
   "distribuicao": {
-   "alerta": 1819,
-   "ok": 1430,
-   "atencao": 751
+   "alerta": 1894,
+   "ok": 1570,
+   "atencao": 536
   }
  },
  "modelo": {
@@ -16,10 +16,10 @@
   "arvores": 200,
   "parametros": {
    "class_weight": "balanced_subsample",
-   "max_depth": 8,
-   "min_samples_leaf": 5
+   "max_depth": 4,
+   "min_samples_leaf": 20
   },
-  "validacaoCruzadaF1Macro": 0.716
+  "validacaoCruzadaF1Macro": 0.6179
  },
  "classes": [
   "alerta",
@@ -27,205 +27,215 @@
   "ok"
  ],
  "implantado": {
-  "acuracia": 0.751,
-  "f1Macro": 0.7098,
+  "acuracia": 0.667,
+  "f1Macro": 0.614,
   "porClasse": {
    "alerta": {
-    "precisao": 0.8876,
-    "recall": 0.8154,
-    "f1": 0.8499,
-    "suporte": 455
+    "precisao": 0.8333,
+    "recall": 0.7068,
+    "f1": 0.7648,
+    "suporte": 474
    },
    "atencao": {
-    "precisao": 0.4223,
-    "recall": 0.5638,
-    "f1": 0.4829,
-    "suporte": 188
+    "precisao": 0.2371,
+    "recall": 0.5149,
+    "f1": 0.3247,
+    "suporte": 134
    },
    "ok": {
-    "precisao": 0.8278,
-    "recall": 0.7675,
-    "f1": 0.7965,
-    "suporte": 357
+    "precisao": 0.8567,
+    "recall": 0.6709,
+    "f1": 0.7525,
+    "suporte": 392
    }
   },
   "matriz": [
    [
-    371,
-    71,
-    13
+    335,
+    121,
+    18
    ],
    [
-    38,
-    106,
-    44
+    39,
+    69,
+    26
    ],
    [
-    9,
-    74,
-    274
+    28,
+    101,
+    263
    ]
   ]
  },
  "antesDoAjuste": {
-  "acuracia": 0.755,
-  "f1Macro": 0.668,
+  "acuracia": 0.747,
+  "f1Macro": 0.5608,
   "porClasse": {
    "alerta": {
-    "precisao": 0.8115,
-    "recall": 0.8989,
-    "f1": 0.853,
-    "suporte": 455
+    "precisao": 0.7522,
+    "recall": 0.884,
+    "f1": 0.8128,
+    "suporte": 474
    },
    "atencao": {
-    "precisao": 0.4231,
-    "recall": 0.2926,
-    "f1": 0.3459,
-    "suporte": 188
+    "precisao": 0.2609,
+    "recall": 0.0448,
+    "f1": 0.0764,
+    "suporte": 134
    },
    "ok": {
-    "precisao": 0.7951,
-    "recall": 0.8151,
-    "f1": 0.805,
-    "suporte": 357
+    "precisao": 0.7667,
+    "recall": 0.8214,
+    "f1": 0.7931,
+    "suporte": 392
    }
   },
   "matriz": [
    [
-    409,
-    30,
-    16
+    419,
+    9,
+    46
    ],
    [
-    74,
-    55,
-    59
+    76,
+    6,
+    52
    ],
    [
-    21,
-    45,
-    291
+    62,
+    8,
+    322
    ]
   ]
  },
  "arvoreDeDecisao": {
-  "acuracia": 0.747,
-  "f1Macro": 0.6714,
+  "acuracia": 0.734,
+  "f1Macro": 0.5403,
   "porClasse": {
    "alerta": {
-    "precisao": 0.798,
-    "recall": 0.8593,
-    "f1": 0.8275,
-    "suporte": 455
+    "precisao": 0.7314,
+    "recall": 0.8903,
+    "f1": 0.803,
+    "suporte": 474
    },
    "atencao": {
-    "precisao": 0.4397,
-    "recall": 0.3298,
-    "f1": 0.3769,
-    "suporte": 188
+    "precisao": 0.1364,
+    "recall": 0.0224,
+    "f1": 0.0385,
+    "suporte": 134
    },
    "ok": {
-    "precisao": 0.7967,
-    "recall": 0.8235,
-    "f1": 0.8099,
-    "suporte": 357
+    "precisao": 0.7706,
+    "recall": 0.7883,
+    "f1": 0.7793,
+    "suporte": 392
    }
   },
   "matriz": [
    [
-    391,
-    48,
-    16
+    422,
+    10,
+    42
    ],
    [
-    67,
-    62,
-    59
+    81,
+    3,
+    50
    ],
    [
-    32,
-    31,
-    294
+    74,
+    9,
+    309
    ]
   ]
  },
  "baseline": {
   "descricao": "Limiar na média recente (≥70 ok, ≥55 atenção)",
-  "acuracia": 0.659,
-  "f1Macro": 0.5906,
+  "acuracia": 0.676,
+  "f1Macro": 0.5665,
   "porClasse": {
    "alerta": {
-    "precisao": 0.7683,
-    "recall": 0.8088,
-    "f1": 0.788,
-    "suporte": 455
+    "precisao": 0.7694,
+    "recall": 0.7321,
+    "f1": 0.7503,
+    "suporte": 474
    },
    "atencao": {
-    "precisao": 0.2718,
-    "recall": 0.2979,
-    "f1": 0.2843,
-    "suporte": 188
+    "precisao": 0.2077,
+    "recall": 0.2015,
+    "f1": 0.2045,
+    "suporte": 134
    },
    "ok": {
-    "precisao": 0.746,
-    "recall": 0.6583,
-    "f1": 0.6994,
-    "suporte": 357
+    "precisao": 0.7208,
+    "recall": 0.7704,
+    "f1": 0.7448,
+    "suporte": 392
    }
   },
   "matriz": [
    [
-    368,
-    58,
-    29
-   ],
-   [
-    81,
+    347,
     56,
-    51
+    71
    ],
    [
-    30,
-    92,
-    235
+    61,
+    27,
+    46
+   ],
+   [
+    43,
+    47,
+    302
    ]
   ]
  },
  "importancias": [
   {
-   "feature": "recente",
-   "nome": "Média recente",
-   "valor": 0.2665
+   "feature": "projecao",
+   "nome": "Nível estimado hoje",
+   "valor": 0.3876
   },
   {
-   "feature": "tendencia",
-   "nome": "Tendência (subindo ou caindo)",
-   "valor": 0.2483
+   "feature": "recente",
+   "nome": "Média recente",
+   "valor": 0.2295
+  },
+  {
+   "feature": "variacao",
+   "nome": "Variação no período",
+   "valor": 0.1677
   },
   {
    "feature": "media",
    "nome": "Média geral",
-   "valor": 0.1819
+   "valor": 0.0757
+  },
+  {
+   "feature": "tendencia",
+   "nome": "Tendência (subindo ou caindo)",
+   "valor": 0.0693
   },
   {
    "feature": "minimo",
    "nome": "Pior dia",
-   "valor": 0.1153
+   "valor": 0.0233
   },
   {
    "feature": "inicial",
    "nome": "Média inicial",
-   "valor": 0.0952
+   "valor": 0.0231
   },
   {
    "feature": "desvio",
    "nome": "Oscilação entre os dias",
-   "valor": 0.0657
+   "valor": 0.0193
   },
   {
    "feature": "n_dias",
    "nome": "Dias com atividade",
-   "valor": 0.0272
+   "valor": 0.0045
   }
  ],
  "reais": null

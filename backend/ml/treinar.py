@@ -65,6 +65,8 @@ NOMES_LEGIVEIS = {
     "desvio": "Oscilação entre os dias",
     "minimo": "Pior dia",
     "n_dias": "Dias com atividade",
+    "projecao": "Nível estimado hoje",
+    "variacao": "Variação no período",
 }
 
 
@@ -126,8 +128,8 @@ def treinar(caminho_dados: str = CSV, origem: str = "sintéticos") -> dict:
     busca = GridSearchCV(
         RandomForestClassifier(n_estimators=200, random_state=SEMENTE, n_jobs=-1),
         {
-            "max_depth": [6, 8, 10],
-            "min_samples_leaf": [1, 5, 10],
+            "max_depth": [4, 6, 8, 10],
+            "min_samples_leaf": [5, 10, 20],
             "class_weight": [None, "balanced", "balanced_subsample"],
         },
         scoring="f1_macro",

@@ -19,7 +19,7 @@ const PASSOS = [
   },
   {
     titulo: "O histórico vira indicadores",
-    texto: "Para cada habilidade, calculamos sete indicadores: média geral, média recente, média inicial, tendência, oscilação, pior dia e dias de atividade.",
+    texto: "Para cada habilidade, calculamos nove indicadores: médias (geral, recente e inicial), tendência, oscilação, pior dia, dias de atividade e, usando todos os dias, o nível estimado hoje e a variação no período.",
   },
   {
     titulo: "O modelo decide",
@@ -88,7 +88,7 @@ export default async function ModeloPage() {
           <Indicador
             rotulo="Alunos em atenção encontrados"
             valor={pct(atual.porClasse.atencao.recall)}
-            comparacao={`antes do ajuste: ${pct(antes.porClasse.atencao.recall)}`}
+            comparacao={`regra antiga: ${pct(baseline.porClasse.atencao.recall)}`}
             nota="Recall da classe atenção, a mais difícil e a que mais ganha com ajuda cedo."
           />
         </dl>
@@ -111,8 +111,9 @@ export default async function ModeloPage() {
             O que ele mais leva em conta
           </h2>
           <p className="mt-1 text-pedra">
-            Importância de cada indicador nas decisões das árvores. A tendência quase empata com a média recente: é o
-            que a regra antiga não enxergava.
+            Importância de cada indicador nas decisões das árvores. O que mais pesa é “{m.importancias[0].nome.toLowerCase()}”: no
+            app, cada dia tem só 1 ou 2 respostas por habilidade, e olhar todos os dias filtra os saltos que a média dos
+            últimos dias carrega.
           </p>
           <Importancias m={m} />
         </section>
@@ -154,7 +155,10 @@ export default async function ModeloPage() {
           </table>
         </div>
         <p className="mt-2 text-sm text-pedra">
-          O ajuste usou classes balanceadas e escolheu os hiperparâmetros por validação cruzada de 5 dobras (
+          A primeira versão tem a maior acurácia porque quase sempre evita dizer “atenção”: erra pouco no geral, mas deixa
+          passar os alunos que mais ganham com ajuda cedo. Por isso o modelo é escolhido pelo F1 macro, que pesa as três
+          classes igualmente. O ajuste usou classes balanceadas e escolheu os hiperparâmetros por validação cruzada de 5
+          dobras (
           {Object.entries(m.modelo.parametros)
             .map(([k, v]) => `${k} = ${v}`)
             .join(", ")}
@@ -168,8 +172,8 @@ export default async function ModeloPage() {
             Previsão: quem pode cair para alerta
           </h2>
           <p className="mt-1 max-w-prose text-pedra">
-            Um segundo modelo olha para a frente. Para habilidades que hoje ainda não estão em alerta, ele estima a chance de a
-            média das próximas 3 sessões ficar abaixo de 55. Quando passa de {pct(m.risco.modelo.limiar)}, o painel avisa
+            Um segundo modelo olha para a frente. Para habilidades que hoje ainda não estão em alerta, ele estima a chance de o
+            nível do aluno nas próximas 3 sessões ficar abaixo de 55. Quando passa de {pct(m.risco.modelo.limiar)}, o painel avisa
             “Pode cair para alerta”: dá para agir antes de o aluno travar.
           </p>
           <dl className="mt-4 grid gap-4 sm:grid-cols-3">
@@ -194,7 +198,9 @@ export default async function ModeloPage() {
           </dl>
           <p className="mt-2 text-sm text-pedra">
             Regra simples comparada: {m.risco.baseline.descricao.toLowerCase()}. O ponto de corte foi escolhido por validação
-            cruzada, priorizando não deixar passar quem vai cair.
+            cruzada para que mais da metade dos avisos se confirme: poucos avisos, mas confiáveis, para a professora não se
+            acostumar a ignorá-los. Com 1 ou 2 respostas por dia, a tendência de poucos dias é quase toda ruído, então a
+            previsão se apoia sobretudo no nível atual estimado do aluno.
           </p>
         </section>
       )}
@@ -279,7 +285,8 @@ export default async function ModeloPage() {
           <li>
             Treinado com {m.dados.amostras.toLocaleString("pt-BR")} trajetórias de desempenho (dados {m.dados.origem}). Como a Trilha ainda não tem
             anos de dados de alunos reais, as trajetórias foram simuladas: cada aluno tem um nível e uma tendência ocultos, e o
-            desempenho de cada dia vem com ruído. O modelo só vê o desempenho, nunca o nível oculto.
+            desempenho de cada dia é gerado do mesmo jeito que o app gera, com 1 ou 2 respostas por sessão e pontos fixos por
+            nível de dificuldade. O modelo só vê o desempenho, nunca o nível oculto.
           </li>
           <li>Cada sessão real fica gravada no histórico; com as avaliações dos professores, ela vira dado de treino.</li>
           <li>O diagnóstico apoia o professor: ele aponta onde olhar, e a decisão pedagógica continua sendo de quem conhece o aluno.</li>

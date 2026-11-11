@@ -28,7 +28,8 @@ def test_metricas_do_treino_mostram_ganho_sobre_a_regra():
     m = diagnostico.metricas()
     assert m["implantado"]["f1Macro"] > m["baseline"]["f1Macro"]
     assert m["implantado"]["porClasse"]["atencao"]["recall"] > m["antesDoAjuste"]["porClasse"]["atencao"]["recall"]
-    assert len(m["importancias"]) == 7
+    from app.diag_features import NOMES
+    assert len(m["importancias"]) == len(NOMES)
 
 
 def test_status_da_demo_concordam_com_o_modelo():
@@ -84,10 +85,16 @@ def test_previsao_de_risco_so_vale_fora_do_alerta():
     from app import risco
     assert risco.prever(_serie([40, 38, 35, 33])) is None  # já está em alerta: é diagnóstico, não previsão
     assert risco.prever(_serie([80, 78])) is None  # menos de 3 dias de histórico
-    caindo = risco.prever(_serie([80, 74, 68, 62, 57, 56]))
-    estavel = risco.prever(_serie([82, 84, 83, 85, 84, 86]))
-    assert 0 <= estavel["probabilidade"] < caindo["probabilidade"] <= 1
-    assert caindo["emRisco"] and not estavel["emRisco"]
+    # Notas em degraus, como o app gera: quanto mais baixo o nível de hoje, maior o risco.
+    # (Com 1 ou 2 respostas por dia, a "tendência" de poucos dias é quase toda ruído; a
+    # previsão se apoia no nível atual estimado — ver ml/risco.py.)
+    alto = risco.prever(_serie([90, 100, 80, 90, 100, 90]))
+    medio = risco.prever(_serie([80, 60, 80, 80, 60, 80]))
+    perto = risco.prever(_serie([60, 60, 40, 60, 60, 60]))
+    assert 0 <= alto["probabilidade"] < medio["probabilidade"] < perto["probabilidade"] <= 1
+    assert perto["emRisco"] and not medio["emRisco"] and not alto["emRisco"]
+    limiar = risco._carregar()["limiar"]
+    assert all(p["emRisco"] == (p["probabilidade"] >= limiar) for p in (alto, medio, perto))
 
 
 def test_previsao_de_risco_supera_a_regra_simples():
@@ -135,3 +142,56 @@ def test_avaliacao_do_llm_publicada(cliente, auth):
         r = llm[lado]
         assert r["nCorretas"] > 0 and r["nErros"] > 0
         assert all(0 <= r[k] <= 1 for k in ("errosPegos", "boasRecusadas"))
+
+
+def test_simulador_do_treino_gera_notas_como_o_app():
+    """Treino e produção com a mesma origem: cada nota do dia é a média de pontos que o app
+    dá por resposta (regras.PONTOS_RESPOSTA), não um valor contínuo com ruído pequeno."""
+    import random
+    from itertools import combinations_with_replacement
+
+    from app.regras import PONTOS_RESPOSTA
+    from ml.simulacao import desempenho_do_dia
+
+    pontos = {v for p in PONTOS_RESPOSTA.values() for v in p.values()}
+    # Até 6 respostas numa sessão focada, e até 2 sessões no dia.
+    possiveis = {round(sum(c) / len(c)) for k in range(1, 13) for c in combinations_with_replacement(sorted(pontos), k)}
+    rng = random.Random(3)
+    notas = [desempenho_do_dia(rng, nivel) for nivel in (30, 55, 70, 90) for _ in range(200)]
+    assert set(notas) <= possiveis
+    # Nível mais alto, nota média mais alta.
+    medias = [sum(notas[i:i + 200]) / 200 for i in range(0, 800, 200)]
+    assert medias == sorted(medias)
+
+
+def test_modelo_vence_a_regra_em_dados_como_os_do_app():
+    """Simulação nova (semente diferente da do treino), com notas geradas como o app gera:
+    o modelo implantado tem F1 macro maior que a regra de limiar (margem medida em várias
+    sementes: de 0,01 a 0,05; nesta, 0,05)."""
+    import random
+
+    from ml.simulacao import trajetoria
+
+    def rotulo(v):
+        return "ok" if v >= 70 else "atencao" if v >= 55 else "alerta"
+
+    def f1_macro(reais, previstos):
+        f1s = []
+        for c in ("ok", "atencao", "alerta"):
+            vp = sum(r == p == c for r, p in zip(reais, previstos))
+            prev, real = previstos.count(c), reais.count(c)
+            prec, rec = (vp / prev if prev else 0), (vp / real if real else 0)
+            f1s.append(2 * prec * rec / (prec + rec) if prec + rec else 0)
+        return sum(f1s) / 3
+
+    rng = random.Random(777)
+    reais, modelo, regra = [], [], []
+    for _ in range(1500):
+        prof, tend, dias = rng.uniform(20, 95), rng.uniform(-30, 30), rng.randint(3, 12)
+        _, serie = trajetoria(rng, prof, tend, dias)
+        nivel = max(0, min(100, prof + tend))
+        reais.append(rotulo(max(0, min(100, nivel + 1.3 * tend))))
+        modelo.append(diagnostico.classificar(serie))
+        recente = [p["desempenho"] for p in serie][-3:]
+        regra.append(rotulo(sum(recente) / len(recente)))
+    assert f1_macro(reais, modelo) > f1_macro(reais, regra) + 0.02
