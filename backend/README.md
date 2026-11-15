@@ -60,6 +60,9 @@ O mesmo código (`app/repo.py`, tabelas em `app/modelos.py`) serve aos três mod
 
 - **SQLite:** se o arquivo não existir, a API cria as tabelas e a demo ao subir. Para recomeçar
   a demo do zero: `python -m app.seed`.
+- **Datas da demo:** o histórico é deslocado para terminar no dia em que o banco é criado (a
+  última atividade fica em "ontem" ou na semana anterior). Antes de apresentar, rode
+  `python -m app.seed` para a demo ficar com datas atuais.
 - **Postgres:** crie as tabelas e a demo uma vez com `python -m app.seed` apontando para o banco.
 - **Catálogo sempre atualizado:** num banco que já existia, a API acrescenta ao subir as
   habilidades novas do código (por exemplo, um ano de conteúdo novo), sem apagar turmas,

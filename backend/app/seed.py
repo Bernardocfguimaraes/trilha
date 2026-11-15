@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import math
-from datetime import datetime, timedelta, timezone
+from datetime import date, timedelta
 
 from . import bd, seguranca
 from .dados import (
+    INICIO_HISTORICO_DEMO,
+    REFERENCIA_DEMO,
     ALUNOS,
     ALUNOS_8,
     ANOS,
@@ -16,6 +18,7 @@ from .dados import (
     TURMA_8,
     habilidades_do_ano,
 )
+from .regras import hoje
 from .modelos import (
     Aluno,
     AlunoHabilidadeStatus,
@@ -41,16 +44,24 @@ def _id_disciplina_por_nome(nome: str) -> str:
     raise ValueError(f"disciplina sem id: {nome}")
 
 
-def _historico_sintetico(a: dict) -> list[dict]:
+def deslocamento_da_demo(hoje_iso: str | None = None) -> int:
+    return (date.fromisoformat(hoje_iso or hoje()) - date.fromisoformat(REFERENCIA_DEMO)).days
+
+
+def data_da_demo(iso: str, deslocamento: int) -> str:
+    return (date.fromisoformat(iso) + timedelta(days=deslocamento)).isoformat()
+
+
+def _historico_sintetico(a: dict, deslocamento: int = 0) -> list[dict]:
     if not a["ultima"]:
         return []
     datas: list[str] = []
     passo = [3, 4] if a["id"] == "a2" else [7]
-    d = datetime(2026, 8, 24, tzinfo=timezone.utc).date()
-    fim = datetime.fromisoformat(a["ultima"]).date()
+    d = date.fromisoformat(INICIO_HISTORICO_DEMO)
+    fim = date.fromisoformat(a["ultima"])
     i = 0
     while d <= fim:
-        datas.append(d.isoformat())
+        datas.append(data_da_demo(d.isoformat(), deslocamento))
         d = d + timedelta(days=passo[i % len(passo)])
         i += 1
     alvo = {"ok": 82, "atencao": 61, "alerta": 42}
@@ -140,11 +151,14 @@ def semear() -> None:
         for a in ALUNOS_8:
             s.add(Aluno(id=a["id"], turma_id=TURMA_8["id"], nome=a["nome"], pin=a["pin"], ultima_atividade=None))
 
+        deslocamento = deslocamento_da_demo()
         for a in ALUNOS:
-            s.add(Aluno(id=a["id"], turma_id=TURMA["id"], nome=a["nome"], pin=PINS_INICIAIS[a["id"]], ultima_atividade=a["ultima"]))
+            historico = _historico_sintetico(a, deslocamento)
+            ultima = max((linha["data"] for linha in historico), default=None)
+            s.add(Aluno(id=a["id"], turma_id=TURMA["id"], nome=a["nome"], pin=PINS_INICIAIS[a["id"]], ultima_atividade=ultima))
             for hid, status in STATUS_INICIAL[a["id"]].items():
                 s.add(AlunoHabilidadeStatus(aluno_id=a["id"], habilidade_id=hid, status=status))
-            for linha in _historico_sintetico(a):
+            for linha in historico:
                 s.add(Historico(aluno_id=a["id"], habilidade_id=linha["habilidade_id"], data=linha["data"], desempenho=linha["desempenho"]))
 
         if conta:

@@ -84,6 +84,9 @@ def ordem_caminho(ano: int, disciplina_id: str) -> list[str] | None:
 
 _ORDEM_LEGADA = ["mat-adicao", "mat-mult", "mat-fracoes", "mat-problemas", None, None, None,
                  "geo-orientacao", "geo-paisagem", "cie-seres-vivos", "cie-materia", "ing-vocabulario", "ing-frases"]
+REFERENCIA_DEMO = "2026-10-13"
+INICIO_HISTORICO_DEMO = "2026-08-24"
+
 ALUNOS = [
     {"id": "a1", "nome": "Ana Clara Souza", "ultima": "2026-10-13", "status": "ooao" + "oao" + "oa" + "oo" + "oo",
      "por": {"EF15LP03": "o", "EF35LP03": "o", "EF35LP04": "a", "EF04LP01": "a"}},

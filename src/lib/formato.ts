@@ -8,5 +8,8 @@ export const hojeLocal = () => diaEmSaoPaulo.format(new Date());
 export const somarDias = (iso: string, dias: number) =>
   new Date(Date.parse(`${iso}T00:00:00Z`) + dias * 86_400_000).toISOString().slice(0, 10);
 
+export const diasEntre = (de: string, ate: string) =>
+  Math.round((Date.parse(`${ate}T00:00:00Z`) - Date.parse(`${de}T00:00:00Z`)) / 86_400_000);
+
 export const dataCurta = (iso: string) => dia.format(new Date(iso)).replace(".", "");
 export const dataLonga = (iso: string) => diaLongo.format(new Date(iso));

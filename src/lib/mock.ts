@@ -1,6 +1,6 @@
 import { estadoInicialAdaptacao, NIVEIS, registrarResposta } from "./adaptacao";
 import { ApiError } from "./api";
-import { hojeLocal, somarDias } from "./formato";
+import { diasEntre, hojeLocal, somarDias } from "./formato";
 import { responderChat, type RetratoTurma } from "./mock-chat";
 import { BANCO, type PerguntaBanco } from "./mock-perguntas";
 import {
@@ -166,13 +166,16 @@ function estadoInicial(): EstadoMock {
   };
 }
 
-const VERSAO = 7;
+const VERSAO = 8;
 const g = globalThis as typeof globalThis & { __trilhaMock?: EstadoMock & { versao: number } };
 if (g.__trilhaMock?.versao !== VERSAO) g.__trilhaMock = { ...estadoInicial(), versao: VERSAO };
 const estado: EstadoMock = g.__trilhaMock;
 
 const ORDEM_LEGADA = ["mat-adicao", "mat-mult", "mat-fracoes", "mat-problemas", null, null, null,
   "geo-orientacao", "geo-paisagem", "cie-seres-vivos", "cie-materia", "ing-vocabulario", "ing-frases"];
+const REFERENCIA_DEMO = "2026-10-13";
+const INICIO_HISTORICO_DEMO = "2026-08-24";
+
 const ALUNOS: { id: string; nome: string; ultima: string | null; status: string; por: Record<string, string> }[] = [
   { id: "a1", nome: "Ana Clara Souza", ultima: "2026-10-13", status: "ooao" + "oao" + "oa" + "oo" + "oo",
     por: { EF15LP03: "o", EF35LP03: "o", EF35LP04: "a", EF04LP01: "a" } },
@@ -271,7 +274,7 @@ function caminhosDe(a: (typeof ALUNOS)[number]): ProgressoCaminho[] {
   });
 }
 
-const ultimaDe = (a: (typeof ALUNOS)[number]) => estado.ultimaAtividade.get(a.id) ?? a.ultima;
+const ultimaDe = (a: (typeof ALUNOS)[number]) => estado.ultimaAtividade.get(a.id) ?? registrosDe(a).at(-1)?.data ?? null;
 
 function resumo(a: (typeof ALUNOS)[number]): AlunoResumo {
   return { id: a.id, nome: a.nome, turma: TURMA.nome, ultimaAtividade: ultimaDe(a), habilidades: habilidadesDe(a) };
@@ -287,7 +290,7 @@ function detalhe(a: (typeof ALUNOS)[number]): AlunoDetalhe {
       habilidade: h.nome,
       status: h.status,
       texto: TEXTOS[h.habilidadeId] ?? "Recomendação em preparação.",
-      geradaEm: ultimaDe(a) ?? "2026-10-13",
+      geradaEm: ultimaDe(a) ?? hojeLocal(),
     }));
   return { ...resumo(a), recomendacoes, caminhos: caminhosDe(a) };
 }
@@ -296,9 +299,10 @@ function sessoesIniciais(a: (typeof ALUNOS)[number]): RegistroSessao[] {
   if (!a.ultima) return [];
   const datas: string[] = [];
   const passo = a.id === "a2" ? [3, 4] : [7];
-  for (let d = new Date("2026-08-24T00:00:00Z"), i = 0; d <= new Date(`${a.ultima}T00:00:00Z`); i++) {
-    datas.push(d.toISOString().slice(0, 10));
-    d = new Date(d.getTime() + passo[i % passo.length] * 86_400_000);
+  const deslocamento = diasEntre(REFERENCIA_DEMO, hojeLocal());
+  for (let d = INICIO_HISTORICO_DEMO, i = 0; d <= a.ultima; i++) {
+    datas.push(somarDias(d, deslocamento));
+    d = somarDias(d, passo[i % passo.length]);
   }
   const alvo: Record<Status, number> = { ok: 82, atencao: 61, alerta: 42 };
   return datas.map((data, i) => {

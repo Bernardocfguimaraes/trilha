@@ -100,3 +100,17 @@ def test_banco_antigo_recebe_o_catalogo_novo_sem_perder_turmas(cliente, auth):
     assert turmas_antes <= {t["id"] for t in cliente.get("/turmas", headers=auth).json()}
     r = cliente.post("/turmas", json={"nome": "7º depois", "ano": 7, "alunos": []}, headers=auth)
     assert r.status_code == 201
+
+
+def test_demo_tem_atividade_recente(cliente, auth):
+    from datetime import date, timedelta
+
+    from app.regras import hoje
+    alunos = cliente.get("/turmas/t1/alunos", headers=auth).json()
+    datas = [a["ultimaAtividade"] for a in alunos if a["ultimaAtividade"]]
+    limite = (date.fromisoformat(hoje()) - timedelta(days=9)).isoformat()
+    assert datas and all(limite <= d <= hoje() for d in datas)
+    assert max(datas) >= (date.fromisoformat(hoje()) - timedelta(days=2)).isoformat()
+    bruno = next(a for a in alunos if a["id"] == "a2")
+    historico = cliente.get("/alunos/a2/historico", headers=auth).json()
+    assert max(p["data"] for h in historico for p in h["pontos"]) == bruno["ultimaAtividade"]

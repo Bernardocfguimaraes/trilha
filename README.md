@@ -513,7 +513,7 @@ No `backend/.env`, preencha pelo menos:
 
 | Variável | Para que serve |
 |---|---|
-| `DATABASE_URL=sqlite:///trilha.db` | Banco local em arquivo; a API cria e popula a demo na primeira vez |
+| `DATABASE_URL=sqlite:///trilha.db` | Banco local em arquivo; a API cria e popula a demo na primeira vez, com datas que terminam no dia da criação (para atualizar antes de apresentar: `python -m app.seed`) |
 | `PROFESSOR_NOME`, `PROFESSOR_EMAIL`, `PROFESSOR_SENHA` | Login do painel |
 | `TRILHA_SEGREDO` | Segredo que assina os logins: `python -c "import secrets; print(secrets.token_hex(32))"` |
 | `LLM_API_KEY` *(opcional)* | Chave gratuita da Groq. Sem ela, a IA usa textos prontos |
