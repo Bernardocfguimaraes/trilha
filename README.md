@@ -16,7 +16,7 @@ modelo diz isso e age antes da prova.**
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite_|_Postgres-banco-003B57?logo=sqlite&logoColor=white)
 ![Groq](https://img.shields.io/badge/LLM-Groq_(gratuito)-F55036)
-![Testes](https://img.shields.io/badge/testes-71_passando-2ea44f)
+![Testes](https://img.shields.io/badge/testes-77_passando-2ea44f)
 ![BNCC](https://img.shields.io/badge/BNCC-4º_ao_9º_ano-1f6f4a)
 
 *Projeto final do Nanodegree em Inteligência Artificial e Machine Learning*
@@ -91,7 +91,7 @@ integradas no mesmo produto.
 | **Aplicação com LLMs** | Geração de exercícios com revisor independente, recomendações, conversa sobre a turma e perguntas por voz (Whisper). |
 | **Avaliação rigorosa** | Comparação com regra simples (*baseline*), validação cruzada estratificada, matriz de confusão, métricas por classe, **verificação de que treino e produção têm a mesma origem de dados** e avaliação do revisor de IA com erros plantados. |
 | **Produto utilizável** | Aplicação web completa para três públicos (aluno, professora e responsável), com login, várias turmas e conteúdo do 4º ao 9º ano. |
-| **Qualidade de engenharia** | 71 testes automatizados, integração contínua, modelo exportado com inferência em Python puro e guia de deploy em planos gratuitos. |
+| **Qualidade de engenharia** | 77 testes automatizados, integração contínua, modelo exportado com inferência em Python puro e guia de deploy em planos gratuitos. |
 
 ---
 
@@ -561,8 +561,8 @@ python -m ml.avaliar_llm     # avaliação do revisor de IA (precisa de LLM_API_
 ## 🧪 Testes e integração contínua
 
 ```bash
-npm test                 # front: questões interativas e formatação das respostas da IA (10 testes)
-npm run test:backend     # API: 61 testes (pytest)
+npm test                 # front: questões interativas e formatação das respostas da IA e datas (13 testes)
+npm run test:backend     # API: 64 testes (pytest)
 ```
 
 | Área | O que é testado |
