@@ -1,320 +1,289 @@
-# Trilha — Backend (FastAPI)
+# Trilha — API (FastAPI)
 
-API que preenche o contrato que o frontend já consome (`src/lib/api.ts` e `src/lib/types.ts`).
+API da Trilha: turmas, alunos, sessões de atividades com dificuldade adaptativa, diagnóstico
+com Machine Learning, previsão de risco, grupos de reforço e recursos de IA (LLM e voz). O
+front em Next.js consome o contrato definido em `src/lib/api.ts` e `src/lib/types.ts`.
 
-## Estado atual (passo 3)
+- [Como rodar](#como-rodar)
+- [Configuração](#configuração)
+- [Banco de dados](#banco-de-dados)
+- [Segurança](#segurança)
+- [Machine Learning](#machine-learning)
+- [IA com LLMs](#ia-com-llms)
+- [Conteúdo BNCC](#conteúdo-bncc)
+- [Rotas](#rotas)
+- [Testes](#testes)
+- [Estrutura](#estrutura)
 
-O backend funciona em **três modos**, escolhidos pela variável `DATABASE_URL`:
+## Como rodar
 
-- **`sqlite:///trilha.db`** → persistência num **arquivo local** (`backend/trilha.db`), sem
-  servidor e sem internet. É o modo recomendado para apresentar (ver abaixo).
-- **`postgresql://...`** → persistência no **Postgres do Supabase**.
-- **Sem `DATABASE_URL`** → SQLite em memória, populado com a demo ao subir. Reinicia do
-  zero a cada restart.
+Requisito: Python 3.12 ou mais novo.
 
-Nos dois modos com banco o código é o mesmo (`app/repo.py`): alunos, PINs, status,
-histórico e configuração da turma sobrevivem a restart.
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env               # preencha o login do professor e TRILHA_SEGREDO
+uvicorn app.main:app --reload --port 8000
+```
 
-O diagnóstico de dificuldade usa um **modelo de ML** (passo 3, ver abaixo). Os dois modos
-expõem os mesmos endpoints; o `main.py` e o frontend não mudam.
-Ainda **não** tem: LLM real no chat/recomendações — próximo passo.
+- `http://localhost:8000/saude` mostra se a API está no ar e qual banco está em uso.
+- `http://localhost:8000/docs` traz a documentação interativa (Swagger).
+- No front, `NEXT_PUBLIC_API_URL=http://127.0.0.1:8000` em `.env.local` liga o site a esta API.
 
-## Acesso e segurança
+## Configuração
+
+Todas as variáveis ficam em `backend/.env` (modelo em `.env.example`; o `.env` não vai para o git).
+
+| Variável | Obrigatória | Para que serve |
+|---|:---:|---|
+| `DATABASE_URL` | não | `sqlite:///trilha.db` (arquivo local), `postgresql://...` (Supabase) ou vazia (memória) |
+| `PROFESSOR_NOME`, `PROFESSOR_EMAIL`, `PROFESSOR_SENHA` | sim | Conta do painel. É gravada no banco ao subir a API, com a senha em hash |
+| `TRILHA_SEGREDO` | sim | Assina os logins. Gere com `python -c "import secrets; print(secrets.token_hex(32))"` |
+| `TRILHA_CORS` | não | Origens do front autorizadas (padrão: `http://localhost:3000,http://127.0.0.1:3000`) |
+| `TRILHA_CORS_REGEX` | não | Padrão de origens aceitas, para deploy (ex.: as prévias do Vercel) |
+| `LLM_API_KEY` | não | Chave da Groq. Sem ela, a API usa textos prontos e o banco curado |
+| `LLM_BASE_URL`, `LLM_MODEL`, `LLM_REASONING_EFFORT` | não | Provedor e modelo gerador (padrão: Groq, `openai/gpt-oss-120b`) |
+| `LLM_REVISOR_MODEL` | não | Modelo que revisa as questões geradas (padrão do `.env.example`: `qwen/qwen3.8-27b`) |
+| `LLM_RESERVA_API_KEY`, `LLM_RESERVA_BASE_URL`, `LLM_RESERVA_MODEL` | não | Provedor de reserva gratuito (ex.: Gemini), usado quando a cota do dia acaba |
+
+## Banco de dados
+
+O mesmo código (`app/repo.py`, tabelas em `app/modelos.py`) serve aos três modos:
+
+| `DATABASE_URL` | Modo | Quando usar |
+|---|---|---|
+| `sqlite:///trilha.db` | Arquivo `backend/trilha.db` | Apresentações e uso local: não depende da rede |
+| `postgresql://...` | Postgres (Supabase) | Produção com dados que não somem |
+| vazia | SQLite em memória | Testes; reinicia do zero a cada restart |
+
+- **SQLite:** se o arquivo não existir, a API cria as tabelas e a demo ao subir. Para recomeçar
+  a demo do zero: `python -m app.seed`.
+- **Postgres:** crie as tabelas e a demo uma vez com `python -m app.seed` apontando para o banco.
+- **Catálogo sempre atualizado:** num banco que já existia, a API acrescenta ao subir as
+  habilidades novas do código (por exemplo, um ano de conteúdo novo), sem apagar turmas,
+  alunos ou histórico.
+- **Demo:** "4º ano B" (código `SABIA4`, 10 alunos com histórico) e "8º ano A" (código
+  `TUCANO8`, 6 alunos começando do zero), ambos do professor do `.env`.
+
+## Segurança
 
 | Quem | Como entra | O que pode |
 |---|---|---|
-| Professor | e-mail + senha → token assinado (12 h) | tudo do painel: alunos, PINs, configuração, chat, voz, exercícios |
-| Aluno | código da turma + PIN → credencial (8 h) | abrir e responder as próprias sessões |
-| Responsável | código da turma + PIN do filho → mesma credencial | ler o progresso só daquele aluno |
+| Professor | e-mail + senha → token assinado (12 h) | Tudo do painel, só nas próprias turmas |
+| Aluno | código da turma + PIN → credencial (8 h) | Abrir e responder as próprias sessões |
+| Responsável | código da turma + PIN do filho → mesma credencial | Ler o progresso só daquele aluno |
 
-- **Conta do professor**: vem do `.env` (`PROFESSOR_EMAIL`, `PROFESSOR_SENHA`, `PROFESSOR_NOME`) e
-  é gravada no banco ao subir a API, com a senha só em hash PBKDF2. Não há cadastro público: num
-  app de uma turma, qualquer conta criada por um estranho veria todos os alunos.
-- **`TRILHA_SEGREDO`** assina os tokens. Sem ele, a API gera um segredo temporário e os logins
-  caem a cada reinício. Gere com `python -c "import secrets; print(secrets.token_hex(32))"`.
-- Bloqueio temporário depois de 5 senhas erradas (por e-mail) e de 5 PINs errados (por aluno).
-- Credenciais e ids de sessão são aleatórios; a credencial cai quando o professor troca o PIN.
-  Só dá para responder perguntas entregues à própria sessão (nada de "gabarito aberto").
-- CORS só para as origens do front (`TRILHA_CORS`), limites de tamanho em todos os corpos,
-  áudio de no máximo 8 MB, e cabeçalhos `nosniff`, `X-Frame-Options` e `Cache-Control: no-store`.
-- No front, o token fica num cookie httpOnly; o navegador fala com as rotas do professor pela
-  ponte `/api/professor/*` do Next, que anexa o token. O site manda CSP e `frame-ancestors 'none'`.
+- Senha do professor em hash PBKDF2; não há cadastro público.
+- Bloqueio temporário depois de 5 senhas erradas (por e-mail) ou 5 PINs errados (por aluno).
+- Turma ou aluno de outro professor responde 404.
+- Credenciais e ids de sessão aleatórios; gerar um PIN novo derruba a credencial anterior.
+- Só dá para responder perguntas entregues à própria sessão; a resposta certa só vai para o
+  navegador depois da resposta do aluno, e repetir uma resposta não soma estrela.
+- Limites de tamanho em todos os corpos, áudio de no máximo 8 MB, CORS restrito às origens do
+  front e cabeçalhos `nosniff`, `X-Frame-Options` e `Cache-Control: no-store`.
+- No front, o token fica num cookie httpOnly e as rotas do professor passam pela ponte
+  `/api/professor/*` do Next.
 
-## Apresentar sem depender da rede (SQLite)
+## Machine Learning
 
-Algumas redes (como a da faculdade) bloqueiam a porta do Postgres, e aí o Supabase não
-conecta. Com SQLite o banco é um arquivo no próprio notebook:
+Os modelos são treinados em `ml/` com scikit-learn e exportados para JSON. A API faz a
+inferência em Python puro (`app/diagnostico.py`, `app/risco.py`), com resultado idêntico ao do
+scikit-learn (verificado por teste). Sem o arquivo do modelo, o diagnóstico cai na regra de
+limiar e nada quebra.
 
-1. Em `backend/.env`: `DATABASE_URL=sqlite:///trilha.db` (e a linha do Supabase comentada).
-2. Suba a API: `uvicorn app.main:app --port 8000`. Se `backend/trilha.db` não existir, ela
-   cria as tabelas e popula a demo sozinha. Confira em http://localhost:8000/saude, que
-   deve mostrar `"banco": "sqlite"`.
-3. Para recomeçar a demo do zero antes de apresentar: `python -m app.seed`.
+### Dados de treino iguais aos de produção
 
-IA (Groq) e voz continuam usando a internet normalmente. O arquivo `trilha.db` não vai
-para o git. Dá para abrir as tabelas com o [DB Browser for SQLite](https://sqlitebrowser.org/)
-para mostrar o banco.
+Não existe base real de alunos, então os dados são simulados: cada aluno-habilidade tem
+proficiência e tendência latentes, e a nota de cada dia é gerada com as regras do próprio app
+(`ml/simulacao.py`): sessões de 6 perguntas divididas entre 1 e 4 habilidades, pontos fixos
+por nível (60/0, 80/20, 100/40) e dificuldade adaptativa. O rótulo vem do nível latente, não
+das notas observadas.
 
-## Passo 2 — Ligar o Supabase
+A primeira versão usava notas "suaves" (nível + ruído pequeno) e tinha F1 macro 0,71 nesses
+dados. Com notas como as do app, caía para 0,51, abaixo da regra simples (0,57). Os dados
+passaram a vir do mesmo processo do app, e dois testes impedem que isso volte.
 
-1. Crie um projeto em supabase.com (New project), defina a senha do banco e a região.
-2. Copie a connection string: **Settings → Database → Connection string → URI**.
-3. Em `backend/`, copie `.env.example` para `.env` e cole a string em `DATABASE_URL`
-   (troque `[YOUR-PASSWORD]` pela senha do banco). O `.env` não vai para o git.
-4. Crie as tabelas e popule a demo:
-   ```bash
-   python -m app.seed
-   ```
-   (Idempotente: derruba e recria as tabelas. Rode de novo para resetar a demo.)
-5. Suba a API normalmente (`uvicorn app.main:app --reload --port 8000`). Agora os dados
-   são lidos e gravados no Supabase.
+### Diagnóstico (`ml/treinar.py`)
 
-Para voltar ao modo em memória, basta esvaziar/comentar `DATABASE_URL` no `.env`.
+Random Forest sobre nove indicadores da série de cada habilidade (`app/diag_features.py`):
+médias geral, recente e inicial, tendência, oscilação, pior dia, dias de atividade e, por
+regressão linear sobre todos os dias, o nível estimado hoje e a variação no período.
+Hiperparâmetros por GridSearch com validação cruzada estratificada de 5 partes, otimizando F1
+macro.
 
-## Passo 3 — Diagnóstico com ML
-
-O status de cada habilidade (ok / atenção / alerta) deixou de ser uma regra de limiar e
-passou a vir de um **modelo de Machine Learning** (Random Forest) que olha a trajetória do
-aluno naquela habilidade: médias (geral, recente e inicial), tendência, oscilação, pior dia,
-dias de atividade e, usando todos os dias por regressão linear, o **nível estimado hoje** e a
-**variação no período** (`app/diag_features.py`).
-
-**Como foi treinado (dados sintéticos gerados como o app gera).** Não existe base real de
-alunos ainda, então o dataset é simulado (`ml/gerar_dados.py`): cada aluno-habilidade tem uma
-proficiência e uma tendência latentes, e a nota de cada dia é gerada **com o mesmo processo do
-app** (`ml/simulacao.py`): 1 ou 2 respostas por habilidade em cada sessão de 6 perguntas,
-pontos fixos por nível (60/0, 80/20, 100/40) e dificuldade adaptativa. O rótulo vem da situação
-"efetiva" latente (nível + peso da tendência), não das notas observadas.
-
-**Correção importante (treino x produção).** A primeira versão somava ao nível um ruído pequeno
-(desvio de 6 pontos). Ia bem nesses dados (F1 macro 0,71), mas, numa simulação com notas do jeito
-que o app produz (em degraus de 20 pontos), caía para 0,51, **pior que a regra simples** (0,57).
-A correção: os dados de treino passaram a vir do mesmo processo do app (inclusive sessões com 1
-a 4 habilidades, que deixam a nota do dia mais ou menos estável), entraram as duas features que
-usam todos os dias e a faixa de tendências foi ampliada para ±30 pontos (subidas como de 40 para
-80 ficavam fora do que o modelo tinha visto). Dois testes travam a regressão: o simulador usa as
-regras do app, e o modelo vence a regra numa simulação nova. O pipeline é reproduzível (rodar de
-novo gera modelos idênticos).
-
-**Resultado (ml/relatorio_treino.txt, 1.000 casos de teste com notas como as do app):**
-
-| Modelo | F1 macro | Acurácia | "Atenção" encontrados |
+| Modelo (1.000 casos de teste) | F1 macro | Acurácia | "Atenção" encontrados |
 |---|:---:|:---:|:---:|
 | Regra de limiar (média recente) | 0,567 | 67,6% | 20% |
 | Árvore de decisão | 0,540 | 73,4% | 2% |
 | Random Forest sem ajuste | 0,561 | 74,7% | 4,5% |
 | **Random Forest ajustado (em uso)** | **0,614** | **66,7%** | **51%** |
 
-Validação cruzada (5 dobras): F1 macro 0,618. O indicador mais importante é o nível estimado
-hoje (39%), seguido da média recente (23%) e da variação no período (17%).
+Validação cruzada: F1 macro 0,618. Os modelos sem ajuste têm acurácia maior porque quase nunca
+dizem "atenção"; o modelo em uso encontra 2,5 vezes mais esses alunos. O indicador mais
+importante é o nível estimado hoje (39%).
 
-**Por que F1 macro.** "Atenção" é a classe menor e a mais difícil (fica entre ok e alerta). Os
-modelos sem ajuste têm a maior acurácia justamente porque quase nunca dizem "atenção" (encontram
-2% a 5% desses alunos). Com classes balanceadas e hiperparâmetros escolhidos por validação
-cruzada otimizando F1 macro, o modelo em uso encontra 51%, contra 20% da regra, ao custo de 1
-ponto de acurácia. "Atenção" continua sendo a classe mais difícil (F1 0,32): com 1 ou 2
-respostas por dia, separar "no limite" de "bem" ou "mal" exige vários dias de histórico.
+### Previsão de risco (`ml/risco.py`)
 
-**Treino x produção.** O treino usa scikit-learn e roda com:
+Para habilidades que hoje não estão em alerta, estima a chance de o nível nas próximas 3
+sessões ficar abaixo de 55. O ponto de corte (0,82) é o menor em que mais da metade dos avisos
+se confirma na validação cruzada.
+
+| Medida (teste) | Modelo | Regra simples |
+|---|:---:|:---:|
+| AUC ROC | **0,90** | — |
+| Avisos que se confirmaram | **64%** | 34% |
+| Quedas avisadas | **36%** | 28% |
+
+Com 1 ou 2 respostas por dia, a tendência de poucos dias é quase toda ruído (regressão à
+média), então a previsão se apoia sobretudo no nível atual estimado.
+
+### Grupos de reforço (`app/grupos.py`)
+
+k-means com inicialização k-means++ sobre a média recente de cada aluno em cada habilidade; o
+número de grupos (2 a 4) vem do maior coeficiente de silhueta. Python puro, validado contra o
+scikit-learn.
+
+### Retreinar
+
 ```bash
 pip install -r ml/requirements-treino.txt
-python -m ml.gerar_dados     # gera ml/dados_sinteticos.csv
-python -m ml.treinar         # treina, avalia e exporta app/modelo_diagnostico.json
+python -m ml.gerar_dados        # dataset em ml/dados_sinteticos.csv
+python -m ml.treinar            # diagnóstico → app/modelo_diagnostico.json
+python -m ml.risco              # previsão → app/modelo_risco.json
+python -m ml.exportar_reais     # rótulos das professoras → ml/dados_reais.csv (entra no próximo treino)
 ```
-O **backend em produção não usa scikit-learn**: o modelo é exportado para
-`app/modelo_diagnostico.json` e a inferência roda em Python puro (`app/diagnostico.py`),
-com previsões idênticas às do scikit-learn (paridade verificada = 100%). Se o JSON faltar,
-o diagnóstico cai na regra de limiar antiga — nada quebra.
 
-O endpoint `POST /diagnostico/reavaliar` re-roda o modelo sobre o histórico de toda a turma
-(útil para demonstrar o ML classificando a turma de uma vez).
+O pipeline é reproduzível: rodar de novo gera modelos idênticos. Os relatórios ficam em
+`ml/relatorio_treino.txt` e `ml/relatorio_risco.txt`. Com dados reais, o treino só implanta o
+modelo novo se ele não piorar na validação feita sobre esses casos.
 
-### Previsão de risco (segundo modelo)
+## IA com LLMs
 
-`ml/risco.py` treina um modelo de **previsão**: para habilidades que hoje ainda não estão em
-alerta, qual a chance de o nível do aluno nas próximas 3 sessões ficar abaixo de 55?
-Trajetórias simuladas (com notas geradas como o app gera) são cortadas em passado (o que o
-modelo vê) e futuro (de onde sai o rótulo, pelo nível latente). Random Forest balanceado, com
-ponto de corte escolhido na validação cruzada para que mais da metade dos avisos se confirme
-(poucos avisos, mas confiáveis). Resultado (`ml/relatorio_risco.txt`): **AUC 0,90**, avisos
-confirmados 64% (regra simples: 34%) e quedas avisadas 36% (regra: 28%), com quedas em 16% dos
-casos. Achado: com 1 ou 2 respostas por dia, a "tendência" de poucos dias é quase toda ruído
-(quem parece subir cai tanto quanto quem parece cair, por regressão à média), então a previsão
-se apoia sobretudo no nível atual estimado. Inferência em `app/risco.py`;
-o painel mostra "Pode cair para alerta" e o filtro "Em risco".
+O cliente (`app/llm.py`) fala com qualquer provedor compatível com a API da OpenAI usando só a
+biblioteca padrão. Qualquer falha (sem chave, cota, rede) cai em textos prontos.
 
-### Grupos de reforço (não supervisionado)
+| Recurso | Módulo | Como funciona |
+|---|---|---|
+| Exercícios de reforço | `app/exercicios.py` | O gerador cria a questão; um checador em Python confere o formato; um revisor de outro modelo resolve sem ver o gabarito e só aprova se concordar. Se falhar, entra uma questão do banco curado |
+| Recomendações | `app/recomendacoes.py` | Texto pedagógico para habilidades em alerta ou atenção, com cache por habilidade e status |
+| Conversa sobre a turma | `app/chat.py` | O LLM recebe um retrato da turma (alertas, evolução, quem parou) e o histórico da conversa |
+| Voz | `app/voz.py` | Transcrição com Whisper na Groq |
 
-`app/grupos.py` agrupa os alunos da turma por **k-means** sobre a média recente em cada
-habilidade (k de 2 a 4 pelo maior coeficiente de silhueta) e descreve cada grupo pelas
-habilidades em que ele fica abaixo da turma. Python puro, validado contra o scikit-learn
-(mesma silhueta, ARI 1,0). Rota `GET /turmas/{id}/grupos`, página "Grupos" no painel.
+Na Groq o limite gratuito é por modelo; por isso o revisor usa outro modelo, com cota própria.
 
-## Passo 4 — LLM nas recomendações e no chat
+**Avaliação do revisor** (`python -m ml.avaliar_llm`): 20 questões curadas e as mesmas com o
+gabarito trocado, revisadas pelo próprio gerador e pelo outro modelo, mais 12 gerações ao vivo.
+Os dois revisores pegaram 100% dos gabaritos trocados sem recusar questão boa; ao vivo, o
+revisor de outro modelo foi mais rigoroso (aprovou 7 de 10, contra 8). As respostas ficam em
+cache para retomar quando a cota acaba; o resultado vai para `app/avaliacao_llm.json`.
 
-Dois pontos deixaram de usar texto pronto e passaram a ser gerados por um LLM:
+## Conteúdo BNCC
 
-- **Recomendações** (`app/recomendacoes.py`) — o texto pedagógico que aparece quando um
-  aluno está em alerta/atenção. Só gera para quem está em alerta/atenção e **cacheia por
-  (habilidade, status)** — é o controle de custo que o professor pediu (não chama o LLM à toa).
-- **Chat da turma** (`app/chat.py`, `responder_llm`) — vira conversa de verdade: o LLM recebe
-  um retrato real da turma (quem está em alerta/atenção, evolução, quem sumiu) e o histórico
-  da conversa. Sem LLM, cai no responder por palavra-chave.
+- Atividades do 4º ao 9º ano, nas seis matérias; no 5º são cinco, porque na BNCC a Língua
+  Inglesa começa no 6º.
+- `app/bncc/oficial_ef.json`: texto oficial de todas as habilidades do Ensino Fundamental.
+- `app/bncc/caminhos/AA-disc.json`: habilidades de cada ano e matéria, em ordem.
+- `app/bncc/perguntas/AA-disc.json`: questões. A ordem das opções é sorteada na carga.
+- Para abrir um ano novo, basta criar os dois arquivos; o ano passa a aparecer sozinho.
 
-**Funciona com ou sem LLM.** Sem `LLM_API_KEY`, tudo usa os textos prontos (fallback) e nada
-quebra. Com a chave, gera de verdade. Qualquer erro (cota, rede, timeout) também cai no fallback.
-
-**Configurar (grátis).** Crie uma chave no Groq (https://console.groq.com → API Keys) e no
-`.env` do backend:
-```
-LLM_API_KEY=coloque_a_chave_aqui
-LLM_BASE_URL=https://api.groq.com/openai/v1
-LLM_MODEL=openai/gpt-oss-120b
-LLM_REVISOR_MODEL=qwen/qwen3.8-27b
-```
-O cliente (`app/llm.py`) fala com qualquer provedor compatível com a API da OpenAI — para usar
-Gemini/Together/outro, basta trocar `LLM_BASE_URL` e `LLM_MODEL`. Nenhuma dependência nova:
-a chamada usa a biblioteca padrão. Confira o nome do modelo atual na lista do provedor.
-
-**Cota gratuita.** Na Groq o limite grátis é por modelo. Por isso o revisor das questões geradas
-(`LLM_REVISOR_MODEL`) roda em outro modelo: tem cota própria e, sendo de outra família, erra de
-forma diferente do gerador. Dá para somar um provedor de reserva também grátis (`LLM_RESERVA_*`,
-ex.: Gemini do Google AI Studio, sem cartão), usado quando a cota do dia acaba. As questões dos
-caminhos BNCC são geradas em lote e versionadas (`python -m app.bncc.gerar_perguntas 4 por`):
-quando a cota acaba o lote para sozinho e, rodando de novo no dia seguinte, continua de onde parou.
-O app ao vivo não gasta cota com isso.
-
-**Avaliação do revisor** (`python -m ml.avaliar_llm`). Mede, com gabarito conhecido, se vale
-a pena o revisor ser de outro modelo: questões do banco curado (devem ser aprovadas) e as
-mesmas com o gabarito trocado (devem ser reprovadas), revisadas pelo próprio gerador e pelo
-modelo revisor com o mesmo prompt; mais uma rodada de geração ao vivo. Respostas ficam em
-cache (`ml/avaliacao_llm_cache.jsonl`, fora do git) para retomar se a cota acabar. Resultado
-em `app/avaliacao_llm.json` e `ml/relatorio_llm.txt`, exibido na página do modelo.
-Última rodada (20 + 20 casos, 12 gerações): os dois revisores pegaram 100% dos gabaritos
-trocados sem recusar questão boa — erro fácil, não separa os dois. Na geração ao vivo o revisor
-de outro modelo foi mais rigoroso (aprovou 7 de 10; o próprio gerador, 8). Para medir erros
-sutis falta conferir à mão uma amostra de questões geradas.
-
-## Rodar local
-
-Precisa de Python 3.11+.
+Ferramentas de conteúdo (`scripts/`):
 
 ```bash
-cd backend
-python -m venv .venv
-# Windows:  .venv\Scripts\activate
-# Linux/Mac: source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+python -m scripts.extrair_bncc bncc.txt          # texto do PDF da BNCC → app/bncc/oficial_ef.json
+python -m scripts.gerar_perguntas 4 por          # gera questões em lote com o LLM e o revisor
 ```
 
-Abra http://localhost:8000/docs para ver e testar todos os endpoints (Swagger).
+A geração em lote para sozinha quando a cota do dia acaba e continua de onde parou na próxima
+execução.
 
-## Testes
-
-O app inteiro roda em memória nos testes (SQLite em memória, sem rede e sem LLM):
-
-```bash
-pip install -r requirements-dev.txt
-python -m pytest          # 43 testes: segurança, turmas, responsável, ML e conteúdo
-```
-
-O teste de paridade com o scikit-learn só roda com as dependências de treino instaladas
-(`pip install -r ml/requirements-treino.txt`). No frontend, `npm test` testa os leitores das
-questões interativas sobre o banco inteiro. O GitHub roda tudo a cada push
-(`.github/workflows/testes.yml`).
-
-## Ligar o frontend a este backend
-
-Por padrão, o frontend usa o mock interno dele. Para ele falar com esta API, crie
-`.env.local` na raiz do frontend com:
-
-```
-NEXT_PUBLIC_API_URL=http://localhost:8000
-```
-
-e reinicie o `next dev`. Sem essa variável, nada muda — o mock continua valendo.
-
-## Endpoints
+## Rotas
 
 | Método | Rota | O que faz |
 |---|---|---|
-| POST | `/auth/entrar` | Login do professor (e-mail + senha) → token |
-| GET | `/auth/eu` | Professor do token (confere o login) |
-| GET | `/anos` | Anos em que já dá para criar turma (com as disciplinas que têm atividades) |
-| GET | `/turmas` | Turmas do professor |
-| POST | `/turmas` | Cria turma (nome, ano, alunos) com código e PINs gerados |
-| GET | `/turmas/{id}/alunos` | Alunos da turma com status por habilidade |
-| POST | `/turmas/{id}/alunos` | Cadastra um aluno (PIN gerado) |
-| GET | `/turmas/{id}/cadastros` | Alunos com PIN (visão do professor) |
-| GET/PUT | `/turmas/{id}/configuracao` | Disciplinas e habilidades ativas da turma |
-| POST | `/turmas/{id}/diagnostico` | Re-roda o diagnóstico de ML sobre a turma |
-| POST | `/turmas/{id}/chat` | Conversa sobre a turma (LLM) |
-| GET | `/turmas/{id}/grupos` | Grupos de reforço (k-means) |
-| GET | `/turmas/{id}/relatorio.csv` | Planilha da turma (abre no Excel em português) |
-| GET | `/alunos/{id}/diagnostico` | Diagnóstico explicado por habilidade (+ previsão de risco) |
-| PUT | `/alunos/{id}/diagnostico/{habilidade}` | Professor confirma ou corrige o diagnóstico |
-| GET | `/modelo` | Métricas do diagnóstico, da previsão e da avaliação do LLM |
-| GET | `/alunos/{id}` | Detalhe do aluno + recomendações + caminhos |
+| GET | `/saude` | Situação da API e banco em uso |
+| POST | `/auth/entrar` | Login do professor → token |
+| GET | `/auth/eu` | Professor do token |
+| GET | `/anos` | Anos com atividades e suas matérias |
+| GET · POST | `/turmas` | Lista ou cria turmas (código e PINs gerados) |
+| GET · POST | `/turmas/{id}/alunos` | Alunos com status e risco; cadastra aluno |
+| GET | `/turmas/{id}/cadastros` | Alunos com PIN |
+| GET · PUT | `/turmas/{id}/configuracao` | Matérias e habilidades ativas |
+| POST | `/turmas/{id}/diagnostico` | Reavalia a turma com o modelo |
+| GET | `/turmas/{id}/grupos` | Grupos de reforço |
+| GET | `/turmas/{id}/relatorio.csv` | Planilha da turma |
+| POST | `/turmas/{id}/chat` | Conversa sobre a turma |
+| GET | `/alunos/{id}` | Detalhe do aluno, recomendações e caminhos |
 | GET | `/alunos/{id}/historico` | Evolução por habilidade |
-| POST | `/alunos/{id}/pin` | Gera um novo PIN (o anterior para de valer) |
-| POST | `/exercicios/gerar` | Exercício de reforço para uma habilidade |
-| POST | `/voz/transcrever` | Transcrição de áudio (Whisper) |
-| GET | `/turmas/{codigo}` | Dados públicos da turma pelo código (nomes curtos, disciplinas) |
-| POST | `/acesso/pin` | Valida o PIN do aluno e devolve a credencial de acesso |
-| POST | `/sessoes` | Inicia uma sessão de atividades (exige a credencial) |
-| POST | `/sessoes/{id}/respostas` | Registra a resposta e devolve a próxima pergunta (adaptativa) |
+| GET | `/alunos/{id}/diagnostico` | Diagnóstico explicado e previsão de risco |
+| PUT | `/alunos/{id}/diagnostico/{habilidade}` | Professora confirma ou corrige o diagnóstico |
+| POST | `/alunos/{id}/pin` | Gera um PIN novo |
+| GET | `/modelo` | Métricas dos modelos e da avaliação do LLM |
+| POST | `/exercicios/gerar` | Exercício de reforço |
+| POST | `/voz/transcrever` | Transcrição de áudio |
+| GET | `/turmas/{codigo}` | Dados públicos da turma (para o aluno entrar) |
+| POST | `/acesso/pin` | Valida o PIN e devolve a credencial |
+| POST | `/sessoes` | Abre uma sessão de atividades |
+| POST | `/sessoes/{id}/respostas` | Registra a resposta e devolve a próxima pergunta |
 | POST | `/sessoes/{id}/concluir` | Fecha a sessão e grava no histórico |
-| POST | `/responsavel/progresso` | Progresso só do aluno dono da credencial do PIN |
+| POST | `/responsavel/progresso` | Progresso do aluno dono da credencial |
 
-As rotas de `/auth/eu` a `/voz/transcrever` exigem `Authorization: Bearer <token>`, e cada
-professor só enxerga as próprias turmas (turma ou aluno de outro professor responde 404).
+As rotas do professor exigem `Authorization: Bearer <token>`.
 
-## Turmas e conteúdo
+## Testes
 
-- Um professor pode ter várias turmas; no primeiro acesso, o painel leva para "criar a primeira turma".
-- Cada turma tem um ano (4º a 9º) e o conteúdo vem do ano: há atividades **do 4º ao 9º ano**,
-  nas seis matérias (Português, Matemática, Geografia, Ciências, História e Inglês). No 5º ano
-  são cinco: na BNCC, Língua Inglesa começa no 6º. São 4 habilidades BNCC por matéria e cerca de
-  20 questões (recorte de demonstração), com o texto oficial vindo de `oficial_ef.json`.
-- Conteúdo: `app/bncc/caminhos/AA-disc.json` (habilidades BNCC em ordem) e
-  `app/bncc/perguntas/AA-disc.json` (questões). Para abrir um ano novo, basta criar esses
-  arquivos; o ano passa a aparecer sozinho.
-- A demo vem com o "4º ano B" (código SABIA4, com histórico) e o "8º ano A" (código TUCANO8,
-  6 alunos, começando do zero), ambos do professor do `.env`.
+```bash
+pip install -r requirements-dev.txt -r ml/requirements-treino.txt
+python -m pytest
+```
+
+58 testes, com a API inteira em memória (sem rede e sem LLM): segurança, turmas e conteúdo
+por ano, qualidade das questões, acesso do responsável, relatórios e modelos (paridade com o
+scikit-learn, métricas acima da regra, simulador igual ao app, k-means). A integração contínua
+(`.github/workflows/testes.yml`) roda tudo a cada push.
 
 ## Estrutura
 
 ```
-app/
-  main.py        rotas FastAPI + CORS + cabeçalhos de segurança
-  esquemas.py    corpos de requisição (Pydantic, com limites de tamanho)
-  repo.py        camada de dados: turmas, alunos, sessões (SQLite, Postgres ou SQLite em memória)
-  regras.py      regras puras: pontuação, escolha de pergunta, PIN
-  seguranca.py   login do professor: hash de senha, token assinado, bloqueio por tentativas
-  credenciais.py credenciais do PIN e ids de sessão (aleatórios, com validade)
-  bd.py          conexão com o banco (lê DATABASE_URL do .env)
-  modelos.py     tabelas SQLAlchemy
-  seed.py        cria as tabelas e popula a demo (python -m app.seed; no SQLite também roda sozinho)
-  dados.py       conteúdo por ano (catálogo + banco de questões) e dados da demo
-  adaptacao.py   dificuldade adaptativa (mesma regra do frontend)
-  chat.py        chat da turma: caminho LLM + fallback por palavra-chave
-  llm.py         cliente de LLM (compatível com OpenAI; stdlib; fallback gracioso)
-  recomendacoes.py  texto de recomendação via LLM, com cache e fallback
-  diag_features.py  features do diagnóstico (stdlib; treino e inferência usam a mesma)
-  diagnostico.py    inferência do ML em Python puro (lê modelo_diagnostico.json; fallback regra)
-  modelo_diagnostico.json  Random Forest exportado (gerado por ml/treinar.py)
-  risco.py          previsão de risco de alerta (lê modelo_risco.json, gerado por ml/risco.py)
-  grupos.py         grupos de reforço: k-means + silhueta em Python puro
-  avaliacao_llm.json  resultado de ml/avaliar_llm.py
-ml/
-  gerar_dados.py          gera o dataset sintético
-  simulacao.py            simula as notas do dia com o mesmo processo do app (treino = produção)
-  treinar.py              treina, avalia e exporta o modelo (scikit-learn)
-  requirements-treino.txt dependências só do treino (não do backend)
-  dados_sinteticos.csv    dataset gerado
-  relatorio_treino.txt    métricas da última execução do treino
-  risco.py                treina o modelo de previsão de risco (relatorio_risco.txt)
-  avaliar_llm.py          avalia o revisor de questões (auto-revisão x outro modelo)
-  exportar_reais.py       exporta os rótulos dos professores para o retreino
+backend/
+├── app/                        API
+│   ├── main.py                 rotas, CORS e cabeçalhos de segurança
+│   ├── esquemas.py             corpos das requisições (Pydantic, com limites)
+│   ├── repo.py                 camada de dados
+│   ├── modelos.py              tabelas (SQLAlchemy)
+│   ├── bd.py                   conexão com o banco
+│   ├── seed.py                 tabelas, demo e sincronização do catálogo
+│   ├── dados.py                catálogo por ano, banco de questões e dados da demo
+│   ├── catalogo.py             leitura dos caminhos e questões BNCC
+│   ├── caminho.py              regras do caminho BNCC (frente, habilidade concluída)
+│   ├── regras.py               regras puras: pontuação, escolha de pergunta, PIN
+│   ├── adaptacao.py            dificuldade adaptativa (mesma regra do front)
+│   ├── seguranca.py            login, hash, token e bloqueio
+│   ├── credenciais.py          credenciais do PIN e ids de sessão
+│   ├── diag_features.py        indicadores das séries (treino e inferência)
+│   ├── diagnostico.py          inferência e explicação do diagnóstico
+│   ├── risco.py                inferência da previsão de risco
+│   ├── grupos.py               k-means e silhueta
+│   ├── llm.py                  cliente de LLM com reserva e fallback
+│   ├── exercicios.py           geração e revisão de exercícios
+│   ├── recomendacoes.py        recomendações pedagógicas
+│   ├── chat.py                 conversa sobre a turma
+│   ├── voz.py                  transcrição de áudio
+│   ├── modelo_*.json           modelos exportados e suas métricas
+│   ├── avaliacao_llm.json      resultado da avaliação do revisor
+│   └── bncc/                   texto oficial, caminhos e questões por ano
+├── ml/                         treino e avaliação
+│   ├── simulacao.py            notas do dia com as regras do app
+│   ├── gerar_dados.py          dataset sintético
+│   ├── treinar.py              diagnóstico
+│   ├── risco.py                previsão de risco
+│   ├── avaliar_llm.py          avaliação do revisor de IA
+│   ├── exportar_reais.py       rótulos das professoras para o retreino
+│   └── relatorio_*.txt         métricas da última execução
+├── scripts/                    ferramentas de conteúdo BNCC
+├── tests/                      testes da API
+├── requirements.txt            dependências da API
+├── requirements-dev.txt        dependências dos testes
+└── ml/requirements-treino.txt  dependências do treino
 ```

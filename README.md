@@ -214,11 +214,14 @@ passo a passo está em [`DEPLOY.md`](DEPLOY.md) (o `render.yaml` já configura a
 
 ```
 src/                 front (Next.js): app/, components/, lib/ (api, mock, regras do cliente)
-backend/app/         API: rotas, repositório, regras, segurança, ML (inferência), LLM, BNCC
-backend/app/bncc/    caminhos e questões por ano e matéria + texto oficial da BNCC
-backend/ml/          treino e avaliação: diagnóstico, previsão de risco, avaliação do LLM
+backend/app/         API: rotas, repositório, regras, segurança, ML (inferência), LLM
+backend/app/bncc/    texto oficial da BNCC, caminhos e questões por ano e matéria
+backend/ml/          treino e avaliação: simulador, diagnóstico, previsão de risco, LLM
+backend/scripts/     ferramentas de conteúdo: extração da BNCC e geração de questões
 backend/tests/       testes da API
 tests/               testes do front
+render.yaml          configuração da API no Render
+DEPLOY.md            guia de deploy
 ```
 
 Mais detalhes da API em [`backend/README.md`](backend/README.md).
