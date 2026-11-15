@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 import random
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from .adaptacao import NIVEIS
 from .dados import BANCO, HAB_POR_ID
@@ -30,8 +30,11 @@ def arred(x: float) -> int:
     return math.floor(x + 0.5)
 
 
-def hoje() -> str:
-    return datetime.now(timezone.utc).date().isoformat()
+FUSO = timezone(timedelta(hours=-3), "America/Sao_Paulo")
+
+
+def hoje(agora: datetime | None = None) -> str:
+    return (agora or datetime.now(timezone.utc)).astimezone(FUSO).date().isoformat()
 
 
 def agora_ms() -> int:

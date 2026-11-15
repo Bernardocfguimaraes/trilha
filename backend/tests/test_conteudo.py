@@ -66,3 +66,13 @@ def test_posicao_da_resposta_sorteada():
     posicoes = Counter(p["certa"] for p in catalogo.perguntas_geradas())
     total = sum(posicoes.values())
     assert all(0.18 <= posicoes[i] / total <= 0.32 for i in range(4)), posicoes
+
+
+def test_hoje_usa_o_fuso_de_sao_paulo():
+    from datetime import datetime, timezone
+
+    from app.regras import hoje
+    assert hoje(datetime(2026, 11, 15, 1, 30, tzinfo=timezone.utc)) == "2026-11-14"
+    assert hoje(datetime(2026, 11, 15, 2, 59, tzinfo=timezone.utc)) == "2026-11-14"
+    assert hoje(datetime(2026, 11, 15, 3, 0, tzinfo=timezone.utc)) == "2026-11-15"
+    assert hoje(datetime(2026, 11, 15, 15, 0, tzinfo=timezone.utc)) == "2026-11-15"

@@ -1,5 +1,6 @@
 import { estadoInicialAdaptacao, NIVEIS, registrarResposta } from "./adaptacao";
 import { ApiError } from "./api";
+import { hojeLocal, somarDias } from "./formato";
 import { responderChat, type RetratoTurma } from "./mock-chat";
 import { BANCO, type PerguntaBanco } from "./mock-perguntas";
 import {
@@ -349,7 +350,7 @@ const PONTOS_RESPOSTA: Record<Nivel, { certa: number; errada: number }> = {
 function registrarSessao(s: SessaoMock) {
   const aluno = ALUNOS.find((a) => a.id === s.alunoId);
   if (!aluno || s.respostas.length === 0) return;
-  const hoje = new Date().toISOString().slice(0, 10);
+  const hoje = hojeLocal();
 
   const pontos = new Map<string, number[]>();
   for (const r of s.respostas) {
@@ -455,7 +456,7 @@ function retratoTurma(): RetratoTurma {
   const curto = (nome: string) => nome.split(" ")[0] + " " + nome.split(" ").at(-1)![0] + ".";
   const porAluno = ALUNOS.map((a) => ({ a, habilidades: habilidadesDe(a) }));
   const ativas = porAluno[0]?.habilidades ?? [];
-  const semanaPassada = new Date(Date.now() - 7 * 86_400_000).toISOString().slice(0, 10);
+  const semanaPassada = somarDias(hojeLocal(), -7);
   return {
     turma: TURMA.nome,
     habilidades: ativas.map((h) => ({

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import random
 import secrets
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 from sqlalchemy import delete, distinct, func, select
 
@@ -482,7 +482,7 @@ def responder_chat_turma(email: str, turma_id: str, pergunta: str, historico: li
         alunos = _alunos(s, turma)
         por_aluno = [{"a": a, "habilidades": _habilidades_de(s, turma, a.id, ctx)} for a in alunos]
         ativas = por_aluno[0]["habilidades"] if por_aluno else []
-        semana_passada = (datetime.now(timezone.utc) - timedelta(days=7)).date().isoformat()
+        semana_passada = (date.fromisoformat(hoje()) - timedelta(days=7)).isoformat()
 
         def media(ps):
             return sum(p["desempenho"] for p in ps) / max(len(ps), 1)
