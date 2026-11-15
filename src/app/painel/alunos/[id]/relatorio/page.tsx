@@ -104,9 +104,7 @@ export default async function RelatorioAlunoPage({ params }: PageProps<"/painel/
                 </h2>
                 <ul className="mt-2 space-y-3">
                   {apoio.map((h) => {
-                    const rec = aluno.recomendacoes.find(
-                      (r) => r.habilidadeId === h.habilidadeId && !r.texto.startsWith("Recomendação em preparação"),
-                    );
+                    const rec = aluno.recomendacoes.find((r) => r.habilidadeId === h.habilidadeId);
                     return (
                       <li key={h.habilidadeId} className="break-inside-avoid">
                         <p className="font-semibold text-grafite">

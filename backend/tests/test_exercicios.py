@@ -72,3 +72,15 @@ def test_conversa_envia_habilidades_por_aluno_e_temperatura_baixa(monkeypatch):
     assert chat.responder_llm("Como está a Ana?", retrato) == "ok"
     assert "Por aluno" in enviado["sistema"] and "- Ana S.: atenção em Frações simples (Matemática)" in enviado["sistema"]
     assert enviado["temperatura"] <= 0.2
+
+
+def test_recomendacao_sem_ia_e_util_e_cita_a_habilidade(cliente, auth):
+    from app import recomendacoes
+
+    for disciplina in ("Matemática", "Português", "Ciências", "Geografia", "História", "Inglês", "Arte"):
+        for status in ("alerta", "atencao"):
+            texto = recomendacoes.texto_padrao("Frações simples", disciplina, status)
+            assert "“Frações simples”" in texto and "preparação" not in texto and len(texto) > 120
+    detalhe = cliente.get("/alunos/a2", headers=auth).json()
+    assert detalhe["recomendacoes"]
+    assert all("preparação" not in r["texto"] and len(r["texto"]) > 60 for r in detalhe["recomendacoes"])

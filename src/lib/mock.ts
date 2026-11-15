@@ -1,6 +1,7 @@
 import { estadoInicialAdaptacao, NIVEIS, registrarResposta } from "./adaptacao";
 import { ApiError } from "./api";
 import { diasEntre, hojeLocal, somarDias } from "./formato";
+import { recomendacaoPadrao } from "./recomendacao-padrao";
 import { responderChat, type RetratoTurma } from "./mock-chat";
 import { BANCO, type PerguntaBanco } from "./mock-perguntas";
 import {
@@ -289,7 +290,7 @@ function detalhe(a: (typeof ALUNOS)[number]): AlunoDetalhe {
       habilidadeId: h.habilidadeId,
       habilidade: h.nome,
       status: h.status,
-      texto: TEXTOS[h.habilidadeId] ?? "Recomendação em preparação.",
+      texto: TEXTOS[h.habilidadeId] ?? recomendacaoPadrao(h.nome, h.disciplina, h.status),
       geradaEm: ultimaDe(a) ?? hojeLocal(),
     }));
   return { ...resumo(a), recomendacoes, caminhos: caminhosDe(a) };

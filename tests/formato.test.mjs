@@ -17,3 +17,11 @@ test("dias entre duas datas", async () => {
   assert.equal(diasEntre("2026-10-13", "2026-11-15"), 33);
   assert.equal(diasEntre("2026-11-15", "2026-11-15"), 0);
 });
+
+test("recomendação sem IA cita a habilidade e muda com o status", async () => {
+  const { recomendacaoPadrao } = await import("../src/lib/recomendacao-padrao.ts");
+  const alerta = recomendacaoPadrao("Frações simples", "Matemática", "alerta");
+  const atencao = recomendacaoPadrao("Frações simples", "Matemática", "atencao");
+  assert.ok(alerta.includes("“Frações simples”") && alerta !== atencao);
+  assert.ok(recomendacaoPadrao("Cores", "Arte", "alerta").includes("“Cores”"));
+});
