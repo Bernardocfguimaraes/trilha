@@ -105,6 +105,12 @@ def _tem_opcoes_equivalentes(opcoes: list[str]) -> bool:
     return False
 
 
+def _entrega_pelo_tamanho(opcoes: list[str], indice: int) -> bool:
+    tamanhos = sorted((len(o.strip()) for o in opcoes), reverse=True)
+    certa = len(opcoes[indice].strip())
+    return certa == tamanhos[0] and certa >= 1.3 * tamanhos[1] and certa - tamanhos[1] >= 6
+
+
 def _valido(dados: dict) -> bool:
     if not isinstance(dados, dict):
         return False
@@ -124,6 +130,8 @@ def _valido(dados: dict) -> bool:
     if _tem_opcoes_equivalentes(opcoes):
         return False
     if not isinstance(indice, int) or isinstance(indice, bool) or not 0 <= indice <= 3:
+        return False
+    if _entrega_pelo_tamanho(opcoes, indice):
         return False
     return True
 

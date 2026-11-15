@@ -73,7 +73,7 @@ export function ExercicioReforco({ habilidadeId, status }: { habilidadeId: strin
           <div className="flex items-start justify-between gap-3">
             <p className="font-semibold text-grafite">{exercicio.enunciado}</p>
             <span className="shrink-0 rounded bg-superficie px-1.5 py-0.5 text-xs font-semibold text-pedra">
-              {exercicio.origem === "ia" ? "Gerado por IA" : "Do banco"}
+              {exercicio.origem === "ia" ? "Gerado por IA e revisado" : "Do banco"}
             </span>
           </div>
           {exercicio.apoio && (
