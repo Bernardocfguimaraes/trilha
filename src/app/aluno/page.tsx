@@ -26,9 +26,9 @@ export default async function AlunoPage({ searchParams }: PageProps<"/aluno">) {
 
       <form action="/aluno/entrar" className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center text-center">
         <Sabia humor={codigoInvalido ? "triste" : "feliz"} className="size-32" />
-        <label htmlFor="codigo" className="mt-4 font-display text-4xl leading-none font-extrabold text-grafite">
-          Qual é o código da sua turma?
-        </label>
+        <h1 className="mt-4 font-display text-4xl leading-none font-extrabold text-grafite">
+          <label htmlFor="codigo">Qual é o código da sua turma?</label>
+        </h1>
         <p className="mt-3 font-display text-xl text-pedra">Ele está no quadro ou com seu professor.</p>
 
         <input
