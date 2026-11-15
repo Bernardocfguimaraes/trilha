@@ -189,6 +189,7 @@ cache para retomar quando a cota acaba; o resultado vai para `app/avaliacao_llm.
 - `app/bncc/oficial_ef.json`: texto oficial de todas as habilidades do Ensino Fundamental.
 - `app/bncc/caminhos/AA-disc.json`: habilidades de cada ano e matéria, em ordem.
 - `app/bncc/perguntas/AA-disc.json`: questões. A ordem das opções é sorteada na carga.
+- `app/bncc/curadas.json`: as questões curadas originais do 4º ano, escritas à mão.
 - Para abrir um ano novo, basta criar os dois arquivos; o ano passa a aparecer sozinho.
 
 Ferramentas de conteúdo (`scripts/`):
@@ -241,7 +242,7 @@ pip install -r requirements-dev.txt -r ml/requirements-treino.txt
 python -m pytest
 ```
 
-64 testes, com a API inteira em memória (sem rede e sem LLM): segurança, turmas e conteúdo
+65 testes, com a API inteira em memória (sem rede e sem LLM): segurança, turmas e conteúdo
 por ano, qualidade das questões, acesso do responsável, relatórios, revisão dos exercícios gerados por IA e modelos (paridade com o
 scikit-learn, métricas acima da regra, simulador igual ao app, k-means). A integração contínua
 (`.github/workflows/testes.yml`) roda tudo a cada push.
