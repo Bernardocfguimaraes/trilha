@@ -4,6 +4,7 @@ import { GraficoEvolucao } from "@/components/painel/grafico-evolucao";
 import { dataCurta, dataLonga } from "@/lib/formato";
 import type { AlunoDetalhe, DiagnosticoHabilidade, HistoricoHabilidade, Status } from "@/lib/types";
 import { ExplicacaoDiagnostico } from "./explicacao-diagnostico";
+import { TextoFormatado } from "@/components/texto-formatado";
 
 const ORDEM: Record<Status, number> = { alerta: 0, atencao: 1, ok: 2 };
 
@@ -105,7 +106,7 @@ export function ProgressoAluno({
                 <h3 className="text-lg font-bold text-grafite">{r.habilidade}</h3>
                 <StatusSelo status={r.status} />
               </div>
-              <p className="mt-3 max-w-prose text-[1.0625rem] leading-relaxed text-grafite">{r.texto}</p>
+              <TextoFormatado texto={r.texto} className="mt-3 max-w-prose text-[1.0625rem] leading-relaxed text-grafite" />
               <p className="mt-3 text-sm text-pedra">Gerada em {dataLonga(r.geradaEm)}</p>
               {comExercicio && <ExercicioReforco habilidadeId={r.habilidadeId} status={r.status} />}
             </article>

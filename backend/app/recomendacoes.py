@@ -6,9 +6,10 @@ from .dados import TEXTOS
 _cache: dict[tuple[str, str], str] = {}
 
 _SISTEMA = (
-    "Você é um apoio pedagógico do ensino fundamental (anos iniciais). Escreva uma recomendação "
+    "Você é um apoio pedagógico do ensino fundamental. Escreva uma recomendação "
     "curta (2 a 4 frases), prática e acolhedora, para o responsável ou professor ajudar a criança "
-    "numa habilidade específica. Linguagem simples, sem jargão, sem listar bullet points. "
+    "numa habilidade específica. Linguagem simples, sem jargão, em texto corrido: sem listas, "
+    "títulos ou asteriscos. "
     "Sugira uma atividade concreta do dia a dia. Não invente dados do aluno além do que for informado."
 )
 

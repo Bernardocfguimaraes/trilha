@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
 import type { MensagemChat, Turma } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { TextoFormatado } from "@/components/texto-formatado";
 
 const SUGESTOES = [
   "Onde a turma está com mais dificuldade essa semana?",
@@ -198,7 +199,7 @@ export function ChatTurma({ turma }: { turma: Turma }) {
                   <Sparkles className="size-3.5" />
                 </span>
                 <div className="max-w-[85%] min-w-0">
-                  <p className="text-[0.9375rem] leading-relaxed whitespace-pre-line text-grafite">{m.texto}</p>
+                  <TextoFormatado texto={m.texto} className="text-[0.9375rem] leading-relaxed text-grafite" />
                   <time dateTime={m.enviadaEm} className="mt-1 block text-xs text-pedra">
                     {hora.format(new Date(m.enviadaEm))}
                   </time>

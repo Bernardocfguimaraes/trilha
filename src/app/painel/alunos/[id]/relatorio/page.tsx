@@ -7,6 +7,7 @@ import { api, ApiError } from "@/lib/api";
 import { getProfessor } from "@/lib/auth";
 import { dataLonga } from "@/lib/formato";
 import type { HabilidadeStatus, HistoricoHabilidade, Status } from "@/lib/types";
+import { TextoFormatado } from "@/components/texto-formatado";
 
 export const metadata: Metadata = { title: "Relatório do aluno" };
 
@@ -116,7 +117,7 @@ export default async function RelatorioAlunoPage({ params }: PageProps<"/painel/
                             ? "Vai bem hoje, mas o desempenho vem caindo: a previsão indica risco de dificuldade nas próximas semanas."
                             : `${frase(h.status)}.`}
                         </p>
-                        {rec && <p className="mt-1 text-sm text-grafite">{rec.texto}</p>}
+                        {rec && <TextoFormatado texto={rec.texto} className="mt-1 text-sm text-grafite" />}
                       </li>
                     );
                   })}
