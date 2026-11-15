@@ -160,10 +160,32 @@ _SISTEMA_CHAT = (
     "Você é um assistente pedagógico que conversa com o PROFESSOR sobre a turma dele. "
     "Responda em português, de forma objetiva e prática, apoiando decisões de ensino. "
     "Use SOMENTE os dados da turma fornecidos abaixo — não invente nomes, números ou alunos. "
+    "Ao citar um aluno, mencione apenas as habilidades que aparecem na linha dele em 'Por aluno'; "
+    "não atribua a ele habilidades de outros alunos. Se os dados não respondem à pergunta, diga isso. "
     "Quando sugerir atividade, seja concreto e breve. "
     "Formatação: no máximo negrito com **dois asteriscos** e listas com '- ' ou '1.'; "
     "nunca use tabelas, títulos com # nem blocos de código."
 )
+
+
+def _por_aluno(r: RetratoTurma) -> list[str]:
+    pendencias: dict[str, dict[str, list[str]]] = {}
+    for h in r["habilidades"]:
+        rotulo = f"{h['nome']} ({h['disciplina']})"
+        for faixa in ("alerta", "atencao"):
+            for aluno in h[faixa]:
+                pendencias.setdefault(aluno, {"alerta": [], "atencao": []})[faixa].append(rotulo)
+    if not pendencias:
+        return []
+    linhas = ["Por aluno (habilidades em alerta ou atenção de cada um):"]
+    for aluno in sorted(pendencias):
+        partes = []
+        if pendencias[aluno]["alerta"]:
+            partes.append("alerta em " + ", ".join(pendencias[aluno]["alerta"]))
+        if pendencias[aluno]["atencao"]:
+            partes.append("atenção em " + ", ".join(pendencias[aluno]["atencao"]))
+        linhas.append(f"- {aluno}: " + "; ".join(partes))
+    return linhas
 
 
 def _resumo_para_llm(r: RetratoTurma) -> str:
@@ -177,6 +199,7 @@ def _resumo_para_llm(r: RetratoTurma) -> str:
         )
     if not _ranking(r):
         linhas.append("- Nenhuma habilidade em alerta ou atenção no momento.")
+    linhas.extend(_por_aluno(r))
     if r["semAtividade"]:
         linhas.append(f"Sem atividade nos últimos 7 dias: {', '.join(r['semAtividade'])}")
     subiram = [f"{e['aluno']} (+{e['variacao']})" for e in r["evolucao"] if e["variacao"] >= 5]
@@ -197,7 +220,7 @@ def responder_llm(pergunta: str, r: RetratoTurma, historico: list[dict] | None =
         papel = "assistant" if m.get("autor") == "assistente" else "user"
         mensagens.append({"role": papel, "content": m.get("texto", "")})
     mensagens.append({"role": "user", "content": pergunta})
-    return llm.gerar(sistema, mensagens, max_tokens=1200)
+    return llm.gerar(sistema, mensagens, temperatura=0.2, max_tokens=1200)
 
 
 def responder_chat(pergunta: str, r: RetratoTurma) -> str:

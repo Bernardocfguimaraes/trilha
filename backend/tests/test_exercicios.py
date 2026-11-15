@@ -44,3 +44,31 @@ def test_revisor_recusando_cai_no_banco_curado(cliente, auth, monkeypatch):
     r = cliente.post("/exercicios/gerar", json={"habilidadeId": "EF05MA04", "nivel": "facil"}, headers=auth)
     assert r.status_code == 200 and r.json()["origem"] == "banco"
     assert chamadas["gerador"] == 3 and chamadas["revisor"] == 3
+
+
+def test_conversa_envia_habilidades_por_aluno_e_temperatura_baixa(monkeypatch):
+    from app import chat
+
+    retrato = {
+        "turma": "4º ano B",
+        "habilidades": [
+            {"id": "f", "nome": "Frações simples", "disciplina": "Matemática", "alerta": ["Bruno F."], "atencao": ["Ana S."]},
+            {"id": "m", "nome": "Multiplicação", "disciplina": "Matemática", "alerta": [], "atencao": ["Bruno F."]},
+        ],
+        "evolucao": [],
+        "semAtividade": [],
+    }
+    linhas = chat._por_aluno(retrato)
+    assert "- Ana S.: atenção em Frações simples (Matemática)" in linhas
+    assert "- Bruno F.: alerta em Frações simples (Matemática); atenção em Multiplicação (Matemática)" in linhas
+    enviado = {}
+
+    def gerar(sistema, mensagens, temperatura=0.4, max_tokens=500, papel="geral"):
+        enviado.update(sistema=sistema, temperatura=temperatura)
+        return "ok"
+
+    monkeypatch.setattr(chat.llm, "disponivel", lambda: True)
+    monkeypatch.setattr(chat.llm, "gerar", gerar)
+    assert chat.responder_llm("Como está a Ana?", retrato) == "ok"
+    assert "Por aluno" in enviado["sistema"] and "- Ana S.: atenção em Frações simples (Matemática)" in enviado["sistema"]
+    assert enviado["temperatura"] <= 0.2
