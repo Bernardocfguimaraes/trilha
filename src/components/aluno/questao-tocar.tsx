@@ -11,11 +11,6 @@ interface Resultado {
   opcaoCorretaId: string;
 }
 
-/**
- * "Toque na palavra": o texto aparece inteiro e as palavras que podem ser resposta ficam
- * marcadas com um sublinhado pontilhado. O aluno toca direto no texto; o feedback também
- * acontece ali (a certa ganha brilho, a errada balança). Teclado: Tab entre as palavras.
- */
 export function QuestaoTocar({
   tocar,
   escolha,
@@ -41,8 +36,6 @@ export function QuestaoTocar({
         )}
       >
         {tocar.pedacos.map((p, i) => {
-          // Pontuação colada depois de uma palavra tocável vai junto com ela (abaixo), para
-          // a linha nunca quebrar entre "cachorro" e ".".
           const anterior = tocar.pedacos[i - 1];
           const texto = anterior?.opcaoId ? p.texto.replace(COLADA, "") : p.texto;
           if (!p.opcaoId) return <span key={i}>{texto}</span>;

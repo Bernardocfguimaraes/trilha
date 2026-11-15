@@ -15,8 +15,6 @@ const NIVEIS: { id: Nivel; rotulo: string }[] = [
 
 const LETRA = ["A", "B", "C", "D"];
 
-// Botão que gera um exercício de reforço para a habilidade, para o professor revisar antes
-// de levar para a criança. O nível começa no fácil quando a habilidade está em alerta.
 export function ExercicioReforco({ habilidadeId, status }: { habilidadeId: string; status: Status }) {
   const [nivel, setNivel] = useState<Nivel>(status === "alerta" ? "facil" : "medio");
   const [exercicio, setExercicio] = useState<Exercicio | null>(null);

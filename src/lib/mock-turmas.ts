@@ -1,7 +1,3 @@
-// Turmas extras do mock (além da turma de demonstração, que fica em mock.ts): a turma de
-// teste do 8º ano e as turmas que o professor cria na demonstração sem backend. Só o lado
-// do professor (cadastro, PINs, configuração, painel vazio) e o acesso do responsável; as
-// atividades dos alunos dessas turmas precisam do backend.
 import { ApiError } from "./api";
 import oficialEf from "../../backend/app/bncc/oficial_ef.json";
 import c04_his from "../../backend/app/bncc/caminhos/04-his.json";
@@ -51,7 +47,6 @@ interface ArquivoCaminho {
   unidades: { nome: string; habilidades: { codigo: string; nome: string; avaliavel?: boolean }[] }[];
 }
 
-// Caminhos BNCC de todos os anos, pelo nome do arquivo (AA-disc), como no backend.
 const CAMINHOS: Record<string, ArquivoCaminho> = {
   "04-his": c04_his,
   "04-por": c04_por,
@@ -97,9 +92,6 @@ export const DISCIPLINAS_TODAS = [
 ];
 const nomeDisciplina = (id: string) => DISCIPLINAS_TODAS.find((d) => d.id === id)!.nome;
 
-// Catálogo — mesma montagem do backend (dados.py + catalogo.py): disciplina com caminho
-// BNCC vem dos JSONs do backend; no 4º ano, Matemática, Geografia, Ciências e Inglês
-// ainda usam o catálogo antigo, escrito à mão.
 export interface HabilidadeCatalogo {
   id: string;
   codigoBncc: string | null;
@@ -107,7 +99,7 @@ export interface HabilidadeCatalogo {
   disciplina: string;
   descricao: string;
   unidade: string | null;
-  avaliavel: boolean; // false = "em sala": fica fora do quiz e do diagnóstico
+  avaliavel: boolean;
 }
 
 const legado = (id: string, nome: string, disciplina: string, descricao: string): HabilidadeCatalogo => ({
@@ -139,7 +131,6 @@ export function caminhoDoAno(ano: number, disciplinaId: string): ArquivoCaminho 
   return CAMINHOS[`${String(ano).padStart(2, "0")}-${disciplinaId}`];
 }
 
-/** Habilidades de um ano/disciplina: do caminho BNCC ou, no 4º ano, do catálogo antigo. */
 export function habilidadesDoAno(ano: number, disciplinaId: string): HabilidadeCatalogo[] {
   const c = caminhoDoAno(ano, disciplinaId);
   if (!c) return ano === 4 ? (LEGADO[disciplinaId] ?? []) : [];
@@ -162,8 +153,6 @@ export const ANOS = [4, 5, 6, 7, 8, 9];
 export const anosDisponiveis = (): AnoDisponivel[] =>
   ANOS.map((ano) => ({ ano, disciplinas: disciplinasDoAno(ano).map((d) => d.nome) }));
 
-// --- Estado das turmas extras -----------------------------------------------------
-
 export interface TurmaExtra {
   id: string;
   nome: string;
@@ -184,7 +173,6 @@ const novaTurma = (id: string, nome: string, codigo: string, ano: number, alunos
   disciplinasAtivas: new Set(disciplinasDoAno(ano).map((d) => d.id)),
 });
 
-// Turma de teste do 8º ano, igual à do backend (dados.py): começa sem histórico.
 const ALUNOS_8 = [
   { id: "b1", nome: "Beatriz Gomes", pin: "4821" },
   { id: "b2", nome: "Larissa Campos", pin: "3175" },
@@ -195,8 +183,6 @@ const ALUNOS_8 = [
 ];
 export const PINS_EXTRAS: Record<string, string> = Object.fromEntries(ALUNOS_8.map((a) => [a.id, a.pin]));
 
-// Fica em globalThis pelo mesmo motivo do estado de mock.ts (route handler e Server
-// Components veem os mesmos dados).
 const VERSAO = 1;
 const g = globalThis as typeof globalThis & { __trilhaMockTurmas?: { versao: number; turmas: Map<string, TurmaExtra> } };
 if (g.__trilhaMockTurmas?.versao !== VERSAO) {
@@ -214,7 +200,6 @@ export const resumosTurmasExtras = (): TurmaResumo[] =>
 
 const AVES = ["SABIA", "ARARA", "CORUJA", "TUCANO", "GARCA", "PARDAL", "TIE", "CARCARA", "JACU", "SANHACO", "SAIRA", "BEIJA"];
 
-/** Cria uma turma na demonstração (fica na memória do servidor até reiniciar). */
 export function criarTurmaExtra(
   nome: string,
   ano: number,
@@ -242,8 +227,6 @@ export function adicionarAlunoExtra(turmaId: string, nome: string, novoPin: () =
   pins.set(aluno.id, novoPin());
   return { ...aluno, pin: pins.get(aluno.id)! };
 }
-
-// --- Respostas das rotas para as turmas extras (todas ainda sem atividades) --------
 
 export const resumoAlunoExtra = (t: TurmaExtra, a: { id: string; nome: string }): AlunoResumo => ({
   id: a.id,

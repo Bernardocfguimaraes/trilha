@@ -5,12 +5,10 @@ venv/
 .env
 .env.local
 
-# Banco SQLite local (criado por python -m app.seed ou ao subir a API)
 *.db
 *.db-wal
 *.db-shm
 *.db-journal
 
-# Dataset real exportado do banco (ml/exportar_reais.py)
 ml/dados_reais.csv
 ml/avaliacao_llm_cache.jsonl

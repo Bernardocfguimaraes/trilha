@@ -30,7 +30,6 @@ import type {
   TurmaPublica,
 } from "./types";
 
-// Vazia conta como ausente (ex.: deploy só do front com a variável em branco): usa o mock.
 const API_URL = process.env.NEXT_PUBLIC_API_URL || undefined;
 
 export class ApiError extends Error {
@@ -45,18 +44,13 @@ export class ApiError extends Error {
 interface Opcoes {
   method?: "GET" | "POST" | "PUT";
   body?: unknown;
-  /** Token do professor (só no servidor; vem do cookie httpOnly). */
   token?: string | null;
-  /** Rota do painel: no navegador passa pela ponte /api/professor, que anexa o token. */
   professor?: boolean;
 }
 
 const noNavegador = () => typeof window !== "undefined";
 
 async function request<T>(path: string, { method = "GET", body, token, professor }: Opcoes = {}): Promise<T> {
-  // Sem NEXT_PUBLIC_API_URL, usamos respostas de exemplo para desenvolver a interface.
-  // No servidor o mock roda direto; no navegador ele passa por /api/mock, para que
-  // painel e aluno enxerguem o mesmo estado (config salva, sessões, PINs).
   if (!API_URL && !noNavegador()) {
     const { mockRequest } = await import("./mock");
     return mockRequest<T>(path, method, body, token);
@@ -80,12 +74,10 @@ async function request<T>(path: string, { method = "GET", body, token, professor
 }
 
 export const api = {
-  // Login do professor (chamado só pelo servidor do Next; ver src/lib/auth.ts)
   entrar: (email: string, senha: string) =>
     request<RespostaLogin>("/auth/entrar", { method: "POST", body: { email, senha } satisfies PedidoLogin }),
   eu: (token: string) => request<{ nome: string; email: string }>("/auth/eu", { token }),
 
-  // Turmas do professor (cada um vê só as próprias).
   turmas: (token?: string | null) => request<TurmaResumo[]>("/turmas", { token, professor: true }),
   anos: (token?: string | null) => request<AnoDisponivel[]>("/anos", { token, professor: true }),
   criarTurma: (pedido: PedidoNovaTurma) =>
@@ -93,7 +85,6 @@ export const api = {
   adicionarAluno: (turmaId: string, nome: string) =>
     request<AlunoCadastro>(`/turmas/${turmaId}/alunos`, { method: "POST", body: { nome }, professor: true }),
 
-  // Painel do professor. No servidor recebe o token; no navegador passa pela ponte.
   alunos: (turmaId: string, token?: string | null) =>
     request<AlunoResumo[]>(`/turmas/${turmaId}/alunos`, { token, professor: true }),
   aluno: (id: string, token?: string | null) =>
@@ -121,14 +112,12 @@ export const api = {
       professor: true,
     }),
 
-  // Resposta gerada no backend (LLM sobre os dados da turma). Sem backend, o mock devolve exemplos.
   chatTurma: (turmaId: string, pergunta: string, historico: MensagemChat[] = []) =>
     request<MensagemChat>(`/turmas/${encodeURIComponent(turmaId)}/chat`, {
       method: "POST",
       body: { pergunta, historico } satisfies PedidoChatTurma,
       professor: true,
     }),
-  // Gera um exercício de reforço para a habilidade (via LLM no backend, com fallback no banco).
   gerarExercicio: (habilidadeId: string, nivel: Nivel = "facil") =>
     request<Exercicio>("/exercicios/gerar", {
       method: "POST",
@@ -136,8 +125,6 @@ export const api = {
       professor: true,
     }),
 
-  // STT: envia um áudio curto (multipart) e recebe o texto transcrito (Whisper na Groq).
-  // Não usa request() porque o corpo é FormData — o navegador define o Content-Type.
   transcrever: async (audio: Blob): Promise<{ texto: string }> => {
     const form = new FormData();
     form.append("audio", audio, "audio.webm");
@@ -154,7 +141,6 @@ export const api = {
   regenerarPin: (alunoId: string) =>
     request<AlunoCadastro>(`/alunos/${alunoId}/pin`, { method: "POST", professor: true }),
 
-  // Aluno (sem conta: entra pelo código da turma e confirma quem é com o PIN)
   turmaPublica: (codigo: string) =>
     request<TurmaPublica>(`/turmas/${encodeURIComponent(codigo)}`),
   validarPin: (alunoId: string, pin: string) =>
@@ -169,8 +155,6 @@ export const api = {
   concluirSessao: (sessaoId: string) =>
     request<ResultadoSessao>(`/sessoes/${sessaoId}/concluir`, { method: "POST" }),
 
-  // Responsável: progresso só do filho dono da credencial (chamado no servidor, com o
-  // `acesso` guardado em cookie httpOnly — o navegador nunca vê a credencial).
   progressoResponsavel: (acesso: string) =>
     request<ProgressoResponsavel>("/responsavel/progresso", {
       method: "POST",

@@ -1,11 +1,3 @@
-"""Cria as tabelas e popula com os dados da demo — o mesmo conteúdo do mock do passo 1,
-agora persistido. Rodar uma vez após configurar o DATABASE_URL (SQLite ou Postgres):
-
-    python -m app.seed
-
-É idempotente: derruba e recria as tabelas, então pode rodar de novo para "resetar" a demo.
-Isso apaga sessões feitas depois do seed — use só quando quiser voltar ao estado inicial.
-"""
 from __future__ import annotations
 
 import math
@@ -50,7 +42,6 @@ def _id_disciplina_por_nome(nome: str) -> str:
 
 
 def _historico_sintetico(a: dict) -> list[dict]:
-    """Mesma geração do mock (sessoesIniciais): sessões anteriores coerentes com o status."""
     if not a["ultima"]:
         return []
     datas: list[str] = []
@@ -69,7 +60,7 @@ def _historico_sintetico(a: dict) -> list[dict]:
         for hi, h in enumerate(HABILIDADES):
             status = STATUS_INICIAL[a["id"]].get(h["id"])
             if status is None:
-                continue  # ainda não praticada na demo: sem histórico
+                continue
             inicio = 58 + (hi % 3) * 6 if status == "ok" else 55 if status == "atencao" else 60
             ruido = ((hi * 7 + idx * 13) % 9) - 4
             val = max(0, min(100, _arred(inicio + (alvo[status] - inicio) * t + ruido)))
@@ -78,9 +69,6 @@ def _historico_sintetico(a: dict) -> list[dict]:
 
 
 def sincronizar_catalogo() -> int:
-    """Acrescenta ao banco as disciplinas e habilidades que o código tem e o banco não (ex.:
-    banco criado antes de um ano novo de conteúdo) e atualiza nome, descrição e unidade das
-    que mudaram. Não toca em turmas, alunos nem histórico. Devolve quantas habilidades entraram."""
     from sqlalchemy import func, select
 
     with bd.SessionLocal() as s:
@@ -120,16 +108,14 @@ def semear() -> None:
     dono = conta["email"] if conta else None
 
     with bd.SessionLocal() as s:
-        # As duas turmas de demonstração ficam com o professor do .env.
         for t in (TURMA, TURMA_8):
             s.add(Turma(id=t["id"], nome=t["nome"], codigo=t["codigo"], ciclo="4º bimestre de 2026", ano=t["ano"], professor_email=dono))
-        s.flush()  # turmas antes das disciplinas/habilidades/alunos que apontam para elas
+        s.flush()
 
         for ordem, d in enumerate(DISCIPLINAS):
             s.add(Disciplina(id=d["id"], nome=d["nome"], ordem=ordem))
         s.flush()
 
-        # Habilidades avaliáveis de todos os anos (ids únicos), na ordem do catálogo.
         vistas: set[str] = set()
         ordem = 0
         for ano in ANOS:
@@ -144,7 +130,6 @@ def semear() -> None:
                 ordem += 1
         s.flush()
 
-        # Disciplinas e habilidades (avaliáveis) do ano de cada turma: todas ativas.
         for t in (TURMA, TURMA_8):
             for d in DISCIPLINAS:
                 s.add(TurmaDisciplinaAtiva(turma_id=t["id"], disciplina_id=d["id"]))
@@ -152,20 +137,16 @@ def semear() -> None:
                 s.add(TurmaHabilidadeAtiva(turma_id=t["id"], habilidade_id=h["id"]))
         s.flush()
 
-        # Turma de teste do 8º ano: alunos sem histórico (começa do zero).
         for a in ALUNOS_8:
             s.add(Aluno(id=a["id"], turma_id=TURMA_8["id"], nome=a["nome"], pin=a["pin"], ultima_atividade=None))
 
         for a in ALUNOS:
             s.add(Aluno(id=a["id"], turma_id=TURMA["id"], nome=a["nome"], pin=PINS_INICIAIS[a["id"]], ultima_atividade=a["ultima"]))
-            # Status inicial só das habilidades já praticadas na demo.
             for hid, status in STATUS_INICIAL[a["id"]].items():
                 s.add(AlunoHabilidadeStatus(aluno_id=a["id"], habilidade_id=hid, status=status))
-            # Histórico sintético.
             for linha in _historico_sintetico(a):
                 s.add(Historico(aluno_id=a["id"], habilidade_id=linha["habilidade_id"], data=linha["data"], desempenho=linha["desempenho"]))
 
-        # Conta do professor (do .env), com a senha só em hash.
         if conta:
             s.add(Professor(email=conta["email"], nome=conta["nome"], senha_hash=seguranca.hash_senha(conta["senha"])))
 

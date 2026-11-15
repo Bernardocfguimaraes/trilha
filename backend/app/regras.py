@@ -1,8 +1,3 @@
-"""Regras puras do app (sem banco): pontuação, escolha de pergunta, PIN, formatos.
-
-Antes viviam em estado.py junto do estado em memória. Desde que o modo sem banco passou a
-ser um SQLite em memória, repo.py é a única camada de dados e estas regras ficam aqui.
-"""
 from __future__ import annotations
 
 import math
@@ -14,8 +9,6 @@ from .dados import BANCO, HAB_POR_ID
 
 
 class ApiErro(Exception):
-    """Erro com status HTTP, convertido em resposta pelo main.py."""
-
     def __init__(self, status: int, mensagem: str):
         super().__init__(mensagem)
         self.status = status
@@ -26,7 +19,6 @@ PERGUNTAS_POR_SESSAO = 6
 MAX_ERROS_PIN = 5
 ESPERA_BLOQUEIO_MS = 60_000
 ELOGIOS = ["Isso aí!", "Mandou bem!", "Acertou!", "Muito bem!"]
-# Pontuação por resposta: acertar uma difícil vale mais; errar uma difícil pesa menos.
 PONTOS_RESPOSTA = {
     "facil": {"certa": 60, "errada": 0},
     "medio": {"certa": 80, "errada": 20},
@@ -35,7 +27,6 @@ PONTOS_RESPOSTA = {
 
 
 def arred(x: float) -> int:
-    """Arredonda como o Math.round do JS (meio para cima) — vale para valores >= 0."""
     return math.floor(x + 0.5)
 
 
@@ -61,7 +52,6 @@ def habilidade_config(h: dict, ativas: set[str]) -> dict:
 
 
 def escolher_pergunta(habilidades: list[str], nivel: str, usadas: set[str], vez: int) -> dict | None:
-    """Próxima pergunta não usada: de preferência no nível pedido e na habilidade da vez."""
     if not habilidades:
         return None
     alvo = habilidades[vez % len(habilidades)]
@@ -90,5 +80,5 @@ def para_cliente(p: dict) -> dict:
 def novo_pin(anterior: str | None = None) -> str:
     while True:
         pin = str(random.randint(0, 9999)).zfill(4)
-        if pin != anterior and len(set(pin)) != 1:  # evita repetir o anterior e 0000, 1111…
+        if pin != anterior and len(set(pin)) != 1:
             return pin

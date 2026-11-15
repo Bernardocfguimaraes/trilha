@@ -1,13 +1,3 @@
-"""Camada de dados (SQLite ou Postgres; sem DATABASE_URL, SQLite em memória).
-
-Várias turmas por professor. Tudo o que é do painel recebe o e-mail do professor (vem do
-token) e a turma: um professor nunca enxerga turma, aluno ou PIN de outro. Turma ou aluno
-de outro professor responde 404, como se não existisse.
-
-O que vem do banco: turmas, alunos, PINs, status por habilidade, histórico, config da turma.
-O que vem de dados.py: o conteúdo (catálogo por ano e banco de questões).
-O que fica em memória (transitório): sessão de quiz em andamento e tentativas de PIN.
-"""
 from __future__ import annotations
 
 import random
@@ -62,14 +52,11 @@ from .regras import (
     para_cliente,
 )
 
-# Estado transitório (não precisa sobreviver a restart).
 _sessoes: dict[str, dict] = {}
-_tentativas: dict[str, dict] = {}   # aluno_id -> {erros, bloqueadoAte}
+_tentativas: dict[str, dict] = {}
 
 _NAO_ENCONTRADA = "Turma não encontrada"
 
-
-# --- Acesso: turma e aluno sempre conferidos contra o professor -----------------
 
 def _turma_do_professor(s, turma_id: str, email: str) -> Turma:
     t = s.get(Turma, turma_id)
@@ -93,10 +80,7 @@ def _buscar_aluno(s, aluno_id: str) -> Aluno:
     return a
 
 
-# --- Leitura -----------------------------------------------------------------
-
 def _contexto(s, turma: Turma):
-    """Conjuntos ativos da turma + habilidades do ano dela, carregados uma vez por requisição."""
     disc_ativas = {r for (r,) in s.execute(select(TurmaDisciplinaAtiva.disciplina_id).where(TurmaDisciplinaAtiva.turma_id == turma.id))}
     hab_ativas = {r for (r,) in s.execute(select(TurmaHabilidadeAtiva.habilidade_id).where(TurmaHabilidadeAtiva.turma_id == turma.id))}
     disc_nome = {d["id"]: d["nome"] for d in DISCIPLINAS}
@@ -122,8 +106,6 @@ def _praticadas_na_turma(s, turma: Turma) -> set[str]:
 
 
 def _habilidades_de(s, turma: Turma, aluno_id: str, ctx=None) -> list[dict]:
-    """Colunas = habilidades ativas que alguém da turma já praticou; `iniciada` diz se este
-    aluno já praticou (status ausente = ainda adiante no caminho)."""
     disc_ativas, hab_ativas, disc_nome, habs = ctx or _contexto(s, turma)
     status = _status_do_aluno(s, aluno_id)
     praticadas = _praticadas_na_turma(s, turma)
@@ -131,7 +113,6 @@ def _habilidades_de(s, turma: Turma, aluno_id: str, ctx=None) -> list[dict]:
     for h in habs:
         if h.id in hab_ativas and h.disciplina_id in disc_ativas and h.id in praticadas:
             st = status.get(h.id, "ok")
-            # Previsão só para quem ainda não está em alerta (modelo de risco, ml/risco.py).
             previsao = risco.prever(_serie(s, aluno_id, h.id)) if h.id in status and st != "alerta" else None
             saida.append({
                 "habilidadeId": h.id,
@@ -221,10 +202,7 @@ def _turma_resumo(s, t: Turma) -> dict:
     return {"id": t.id, "nome": t.nome, "codigo": t.codigo, "ano": t.ano, "alunos": n}
 
 
-# --- Turmas do professor --------------------------------------------------------
-
 def anos_disponiveis() -> list[dict]:
-    """Anos em que já dá para criar turma, com as disciplinas que têm atividades."""
     return [{"ano": ano, "disciplinas": [nome_disciplina(d) for d in disciplinas_com_conteudo(ano)]} for ano in ANOS_COM_CONTEUDO]
 
 
@@ -239,20 +217,18 @@ _SUFIXO = "ABCDEFGHJKMNPQRSTUVWXYZ"
 
 
 def _novo_codigo(s, ano: int) -> str:
-    """Código curto e fácil de ditar para a turma (ex.: ARARA6), único no banco."""
     usados = {c for (c,) in s.execute(select(Turma.codigo))}
     aves = random.sample(_AVES, len(_AVES))
     for ave in aves:
         if (c := f"{ave}{ano}") not in usados and len(c) <= 8:
             return c
-    while True:  # todas as aves já usadas neste ano: acrescenta uma letra
+    while True:
         c = f"{random.choice(aves)[:6]}{ano}{random.choice(_SUFIXO)}"
         if c not in usados and len(c) <= 8:
             return c
 
 
 def _ativar_tudo(s, turma: Turma) -> None:
-    """Turma nova começa com todas as disciplinas e habilidades (avaliáveis) do ano ativas."""
     for d in DISCIPLINAS:
         s.add(TurmaDisciplinaAtiva(turma_id=turma.id, disciplina_id=d["id"]))
     for h in habilidades_do_ano(turma.ano):
@@ -289,8 +265,6 @@ def adicionar_aluno(email: str, turma_id: str, nome: str) -> dict:
 
 
 def adotar_turmas_orfas(email: str) -> None:
-    """Turmas cujo dono não existe mais (ex.: o e-mail do professor mudou no .env) passam
-    para o professor configurado. O app tem um professor por instalação."""
     with bd.SessionLocal() as s:
         donos = {e for (e,) in s.execute(select(Professor.email))}
         for t in s.execute(select(Turma)).scalars():
@@ -298,8 +272,6 @@ def adotar_turmas_orfas(email: str) -> None:
                 t.professor_email = email
         s.commit()
 
-
-# --- Painel (sempre turma + professor) -------------------------------------------
 
 def lista_alunos_resumo(email: str, turma_id: str) -> list[dict]:
     with bd.SessionLocal() as s:
@@ -321,8 +293,6 @@ def aluno_historico(email: str, aluno_id: str) -> list[dict]:
 
 
 def diagnostico_do_aluno(email: str, aluno_id: str) -> list[dict]:
-    """Por que cada habilidade está ok, em atenção ou em alerta: a decisão do modelo de ML,
-    a confiança dele e os indicadores que ele usou (média recente, tendência, oscilação…)."""
     with bd.SessionLocal() as s:
         a, t = _aluno_do_professor(s, aluno_id, email)
         rotulos = {r.habilidade_id: r.status for r in s.execute(select(RotuloProfessor).where(RotuloProfessor.aluno_id == a.id)).scalars()}
@@ -340,7 +310,6 @@ def diagnostico_do_aluno(email: str, aluno_id: str) -> list[dict]:
 
 
 def avaliar_diagnostico(email: str, aluno_id: str, habilidade_id: str, status: str) -> dict:
-    """Guarda o que o professor diz sobre o diagnóstico (a última avaliação vale)."""
     with bd.SessionLocal() as s:
         a, _ = _aluno_do_professor(s, aluno_id, email)
         serie = _serie(s, a.id, habilidade_id)
@@ -358,8 +327,6 @@ def avaliar_diagnostico(email: str, aluno_id: str, habilidade_id: str, status: s
 
 
 def dados_reais() -> list[dict]:
-    """Amostras reais rotuladas: histórico do aluno + avaliação do professor. Usado para medir
-    o modelo ao vivo (/modelo) e para exportar o dataset (ml/exportar_reais.py)."""
     with bd.SessionLocal() as s:
         saida = []
         for r in s.execute(select(RotuloProfessor)).scalars():
@@ -370,15 +337,12 @@ def dados_reais() -> list[dict]:
 
 
 def concordancia_professores() -> dict:
-    """Quanto o modelo atual concorda com as avaliações dos professores (dados reais)."""
     amostras = dados_reais()
     acertos = sum(diagnostico.classificar(a["serie"]) == a["status"] for a in amostras)
     return {"avaliacoes": len(amostras), "concordancia": round(acertos / len(amostras), 4) if amostras else None}
 
 
 def grupos_da_turma(email: str, turma_id: str) -> dict:
-    """Grupos de reforço (k-means) com alunos de perfil parecido, a partir da média recente
-    de cada um em cada habilidade que a turma já praticou."""
     with bd.SessionLocal() as s:
         t = _turma_do_professor(s, turma_id, email)
         disc_ativas, hab_ativas, disc_nome, habs = _contexto(s, t)
@@ -401,8 +365,6 @@ _ROTULO = {"ok": "Ok", "atencao": "Atenção", "alerta": "Alerta"}
 
 
 def relatorio_turma_csv(email: str, turma_id: str) -> tuple[str, str]:
-    """Planilha da turma (uma linha por aluno e habilidade praticada), separada por ";" e com
-    BOM UTF-8, para abrir direto no Excel em português. Devolve (nome do arquivo, conteúdo)."""
     import csv
     import io
 
@@ -414,7 +376,6 @@ def relatorio_turma_csv(email: str, turma_id: str) -> tuple[str, str]:
         w.writerow(["Aluno", "Disciplina", "Habilidade", "Código BNCC", "Status", "Confiança do modelo",
                     "Pode cair para alerta", "Dias com atividade", "Última atividade"])
         for a in _alunos(s, t):
-            # Só habilidades com histórico de verdade (o status inicial da demo não conta).
             linhas = [(h, serie) for h in _habilidades_de(s, t, a.id, ctx) if h["iniciada"]
                       for serie in [_serie(s, a.id, h["habilidadeId"])] if serie]
             if not linhas:
@@ -430,7 +391,6 @@ def relatorio_turma_csv(email: str, turma_id: str) -> tuple[str, str]:
 
 
 def progresso_do_aluno(aluno_id: str) -> dict:
-    """Responsável: quem chama já conferiu a credencial do PIN deste aluno."""
     with bd.SessionLocal() as s:
         a = _buscar_aluno(s, aluno_id)
         t = s.get(Turma, a.turma_id)
@@ -457,7 +417,6 @@ def _config(s, t: Turma) -> dict:
             "nome": nome,
             "ativa": did in disc_ativas,
             "caminhoBncc": ordem_caminho(t.ano, did) is not None,
-            # Catálogo inteiro (inclui "em sala"); o que está ativo vem do banco.
             "habilidades": [habilidade_config(h, hab_ativas) for h in catalogo if h["disciplina"] == nome],
         })
     return {"turma": {"id": t.id, "nome": t.nome, "codigo": t.codigo, "ano": t.ano},
@@ -472,7 +431,7 @@ def config(email: str, turma_id: str) -> dict:
 def salvar_config(email: str, turma_id: str, habilidades_ativas: list[str], disciplinas_ativas: list[str] | None) -> dict:
     with bd.SessionLocal() as s:
         t = _turma_do_professor(s, turma_id, email)
-        validas = {h["id"] for h in habilidades_do_ano(t.ano)}  # "em sala" e outros anos não entram
+        validas = {h["id"] for h in habilidades_do_ano(t.ano)}
         s.execute(delete(TurmaHabilidadeAtiva).where(TurmaHabilidadeAtiva.turma_id == t.id))
         for hid in set(habilidades_ativas) & validas:
             s.add(TurmaHabilidadeAtiva(turma_id=t.id, habilidade_id=hid))
@@ -491,12 +450,11 @@ def regenerar_pin(email: str, aluno_id: str) -> dict:
         s.commit()
         resposta = {"id": a.id, "nome": a.nome, "pin": a.pin}
     _tentativas.pop(aluno_id, None)
-    credenciais.revogar_aluno(aluno_id)  # o PIN antigo deixa de valer, inclusive para quem já entrou
+    credenciais.revogar_aluno(aluno_id)
     return resposta
 
 
 def reavaliar_diagnostico(email: str, turma_id: str) -> dict:
-    """Re-diagnostica os alunos da turma a partir do histórico, usando o modelo de ML."""
     atualizados = 0
     with bd.SessionLocal() as s:
         t = _turma_do_professor(s, turma_id, email)
@@ -555,10 +513,7 @@ def responder_chat_turma(email: str, turma_id: str, pergunta: str, historico: li
     return {"id": f"m{agora_ms()}", "autor": "assistente", "texto": texto, "enviadaEm": datetime.now(timezone.utc).isoformat()}
 
 
-# --- Aluno (código da turma + PIN) ------------------------------------------------
-
 def _habilidades_da_sessao(s, turma: Turma, disciplina_id: str | None, aluno_id: str | None = None) -> list[str]:
-    """Ativas e com perguntas; com caminho BNCC e aluno conhecido, só a frente do caminho dele."""
     disc_ativas, hab_ativas, _, habs = _contexto(s, turma)
     ids = []
     for d in DISCIPLINAS:
@@ -608,7 +563,6 @@ def validar_pin(aluno_id: str, pin: str) -> dict:
 
 
 def aluno_do_acesso(acesso: str) -> str | None:
-    """De quem é esta credencial de PIN (None se não existe, venceu ou foi revogada)."""
     return credenciais.dono(acesso)
 
 
@@ -641,8 +595,6 @@ def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id
 
 
 def responder(sessao_id: str, pergunta_id: str, opcao_id: str) -> dict:
-    # Só responde dentro de uma sessão aberta e só perguntas entregues a ela: sem isso,
-    # a rota viraria um gabarito aberto de todo o banco.
     sess = _sessoes.get(sessao_id)
     if not sess:
         raise ApiErro(404, "Sessão não encontrada")
@@ -654,7 +606,7 @@ def responder(sessao_id: str, pergunta_id: str, opcao_id: str) -> dict:
     certa_id = f"{p['id']}-{p['certa']}"
     correta = opcao_id == certa_id
     primeira = not any(q["perguntaId"] == p["id"] for q in sess["respostas"])
-    if primeira and correta:  # responder de novo não soma estrela
+    if primeira and correta:
         sess["acertos"] += 1
     r = {
         "correta": correta,
@@ -704,7 +656,6 @@ def _registrar_sessao(sess: dict) -> None:
             s.add(Historico(aluno_id=a.id, habilidade_id=hid, data=dia, desempenho=arred(sum(ps) / len(ps))))
         a.ultima_atividade = dia
         s.commit()
-        # Recalcula o status das habilidades tocadas pelo diagnóstico de ML.
         for hid in pontos:
             novo = diagnostico.classificar(_serie(s, a.id, hid))
             st = s.get(AlunoHabilidadeStatus, {"aluno_id": a.id, "habilidade_id": hid})
@@ -714,8 +665,6 @@ def _registrar_sessao(sess: dict) -> None:
                 s.add(AlunoHabilidadeStatus(aluno_id=a.id, habilidade_id=hid, status=novo))
         s.commit()
 
-
-# --- Conta do professor (o hash vem pronto de seguranca.py) -------------------
 
 def professor_por_email(email: str) -> dict | None:
     with bd.SessionLocal() as s:

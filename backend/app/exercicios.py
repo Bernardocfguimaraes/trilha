@@ -1,14 +1,3 @@
-"""Geração de exercícios por habilidade (passo 5).
-
-O professor pede um exercício de reforço para uma habilidade num dado nível; o LLM gera
-uma questão de múltipla escolha no MESMO formato do banco curado (enunciado + 4 opções +
-índice da resposta certa), mais uma explicação curta para o professor.
-
-Conteúdo vai para criança, então validamos tudo: tem que vir JSON válido, com exatamente
-4 opções distintas e um índice de resposta dentro do intervalo. Se a IA falhar, devolver
-algo inválido, ou não estiver configurada, caímos numa questão do banco curado (dados.py) —
-a demo nunca fica sem exercício.
-"""
 from __future__ import annotations
 
 import json
@@ -19,7 +8,6 @@ import re
 from . import llm
 from .dados import BANCO, HAB_POR_ID
 
-# Habilidades do catálogo antigo (sem ano no catálogo) são do 4º ano.
 _ANO_LEGADO = 4
 
 NIVEIS = ("facil", "medio", "dificil")
@@ -57,12 +45,9 @@ _RE_CITACAO = re.compile(r'"[^"]*"|“[^”]*”')
 
 
 def _tem_pergunta(enunciado: str) -> bool:
-    """O enunciado precisa pedir algo FORA do texto citado (a IA às vezes manda só o texto)."""
     s = enunciado.strip()
     fora = _RE_CITACAO.sub(" ", s).strip()
     if s.endswith(('"', "”")):
-        # Termina no texto citado: só vale se o comando antes pede algo ("Complete: ..."),
-        # não se é só "Leia o texto: ..." (aí falta a pergunta).
         return fora.endswith(":") and not fora.lower().startswith("leia")
     return "?" in fora or fora.endswith((":", "…", "..."))
 
@@ -78,7 +63,6 @@ def _habilidade(habilidade_id: str) -> dict | None:
 
 
 def _extrair_json(texto: str) -> dict | None:
-    """Pega o primeiro objeto JSON do texto, tolerando cercas ```json e texto em volta."""
     if not texto:
         return None
     inicio = texto.find("{")
@@ -92,9 +76,6 @@ def _extrair_json(texto: str) -> dict | None:
 
 
 def _valor_numerico(opcao: str) -> float | None:
-    """Converte a opção em número quando ela é número, fração, decimal ou porcentagem.
-    Devolve None quando não é numérica (ex.: "a metade", "cat"). Serve para pegar duas
-    opções de mesmo valor escritas de formas diferentes (2/4 e 1/2, 0,5 e 1/2, 50% e 1/2)."""
     s = opcao.strip().lower().replace("r$", "").replace("$", "").replace(" ", "")
     if not s:
         return None
@@ -116,7 +97,6 @@ def _valor_numerico(opcao: str) -> float | None:
 
 
 def _tem_opcoes_equivalentes(opcoes: list[str]) -> bool:
-    """True se duas opções tiverem o MESMO valor numérico (ex.: 2/4 e 1/2)."""
     numericas = [v for v in (_valor_numerico(o) for o in opcoes) if v is not None]
     for i in range(len(numericas)):
         for j in range(i + 1, len(numericas)):
@@ -126,7 +106,6 @@ def _tem_opcoes_equivalentes(opcoes: list[str]) -> bool:
 
 
 def _valido(dados: dict) -> bool:
-    """Checa o formato antes de deixar passar para a criança."""
     if not isinstance(dados, dict):
         return False
     enunciado = dados.get("enunciado")
@@ -140,9 +119,9 @@ def _valido(dados: dict) -> bool:
         return False
     if any(not isinstance(o, str) or not o.strip() for o in opcoes):
         return False
-    if len({o.strip().lower() for o in opcoes}) != 4:  # todas distintas (texto)
+    if len({o.strip().lower() for o in opcoes}) != 4:
         return False
-    if _tem_opcoes_equivalentes(opcoes):  # distintas também em valor (2/4 vs 1/2)
+    if _tem_opcoes_equivalentes(opcoes):
         return False
     if not isinstance(indice, int) or isinstance(indice, bool) or not 0 <= indice <= 3:
         return False
@@ -150,7 +129,6 @@ def _valido(dados: dict) -> bool:
 
 
 def _do_banco(habilidade_id: str, nivel: str) -> dict | None:
-    """Fallback: uma questão do banco curado para a habilidade (preferindo o nível pedido)."""
     candidatas = [p for p in BANCO if p["habilidadeId"] == habilidade_id]
     if not candidatas:
         return None
@@ -202,8 +180,6 @@ _SISTEMA_REVISOR = (
 
 
 def _revisar(hab: dict, q: dict) -> bool:
-    """Segunda opinião independente: o revisor resolve sem gabarito e audita o conteúdo.
-    Só aprova se ele chegar na MESMA resposta e não apontar ambiguidade nem erro."""
     opcoes = "\n".join(f"{i}. {o}" for i, o in enumerate(q["opcoes"]))
     prompt = (
         f"Habilidade ({hab.get('codigoBncc') or hab['nome']}): {hab['descricao']}\n"
@@ -228,7 +204,6 @@ _AVALIACAO = os.path.join(os.path.dirname(__file__), "avaliacao_llm.json")
 
 
 def avaliacao() -> dict | None:
-    """Resultado de ml/avaliar_llm.py (revisor do próprio modelo x revisor de outro modelo)."""
     if not os.path.exists(_AVALIACAO):
         return None
     with open(_AVALIACAO, encoding="utf-8") as f:
@@ -237,14 +212,6 @@ def avaliacao() -> dict | None:
 
 def gerar_exercicio(habilidade_id: str, nivel: str = "medio", evitar: list[str] | None = None,
                     usar_banco: bool = True, revisar: bool = False) -> dict:
-    """Gera (ou recupera do banco) um exercício para a habilidade/nível.
-
-    Devolve sempre um dict completo com `origem` = "ia" | "banco" para o front saber
-    se é gerado ou curado. `evitar` lista enunciados já existentes (para não repetir);
-    com `usar_banco=False` não cai no banco curado (a geração em lote usa isso) e levanta
-    ValueError se a IA não entregar uma questão válida. `revisar=True` só aceita a questão
-    se o revisor independente (_revisar) concordar — é o que vale para o que vai ao aluno.
-    """
     hab = _habilidade(habilidade_id)
     if hab is None:
         raise ValueError(f"Habilidade desconhecida: {habilidade_id}")
@@ -255,12 +222,12 @@ def gerar_exercicio(habilidade_id: str, nivel: str = "medio", evitar: list[str] 
     if llm.disponivel():
         prompt = _prompt(hab, nivel, evitar or [])
         sistema = _sistema(hab.get("ano") or _ANO_LEGADO)
-        for _ in range(3):  # re-tenta: descartamos saídas inválidas (ex.: opções equivalentes)
+        for _ in range(3):
             bruto = llm.gerar(sistema, [{"role": "user", "content": prompt}], max_tokens=1200)
             dados = _extrair_json(bruto or "")
             if dados and _valido(dados):
                 if revisar and not _revisar(hab, dados):
-                    continue  # revisor discordou ou viu ambiguidade/erro: descarta e tenta de novo
+                    continue
                 gerado = {
                     "enunciado": dados["enunciado"].strip(),
                     "opcoes": [o.strip() for o in dados["opcoes"]],
@@ -273,7 +240,7 @@ def gerar_exercicio(habilidade_id: str, nivel: str = "medio", evitar: list[str] 
 
     if gerado is None and not usar_banco:
         raise ValueError(f"A IA não gerou questão válida para {habilidade_id} ({nivel})")
-    if gerado is None:  # fallback: banco curado
+    if gerado is None:
         base = _do_banco(habilidade_id, nivel)
         if base is None:
             raise ValueError(f"Sem exercício disponível para {habilidade_id}")

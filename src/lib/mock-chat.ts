@@ -1,13 +1,8 @@
-// PLACEHOLDER do chat da turma, usado só sem NEXT_PUBLIC_API_URL.
-// No produto, a resposta vem do backend: um LLM recebe a pergunta, o histórico da conversa
-// e os dados de desempenho da turma. Aqui só escolhemos textos prontos a partir de palavras-chave
-// e de um retrato da turma fake, para a demonstração parecer real. Nada disso vai para produção.
-
 export interface RetratoTurma {
   turma: string;
   habilidades: { id: string; nome: string; disciplina: string; alerta: string[]; atencao: string[] }[];
-  evolucao: { aluno: string; variacao: number }[]; // média recente − média do início do bimestre
-  semAtividade: string[]; // sem sessão nos últimos 7 dias
+  evolucao: { aluno: string; variacao: number }[];
+  semAtividade: string[];
 }
 
 const normalizar = (s: string) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();

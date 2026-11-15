@@ -11,8 +11,6 @@ import type { ProgressoResponsavel } from "@/lib/types";
 
 export const metadata: Metadata = { title: "Progresso" };
 
-// Só leitura: o backend devolve apenas o aluno dono da credencial do PIN. Aqui não há
-// geração de exercício, lista da turma, configuração nem PINs.
 export default async function ProgressoResponsavelPage() {
   await connection();
   const acesso = (await cookies()).get(COOKIE_RESPONSAVEL)?.value;
@@ -22,7 +20,6 @@ export default async function ProgressoResponsavelPage() {
   try {
     dados = await api.progressoResponsavel(acesso);
   } catch (e) {
-    // Credencial que não vale mais: PIN trocado pelo professor ou backend reiniciado.
     if (e instanceof ApiError && e.status === 401) redirect("/responsavel?erro=expirou");
     throw e;
   }

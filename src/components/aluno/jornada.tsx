@@ -25,7 +25,6 @@ import { QuestaoLacuna } from "./questao-lacuna";
 import { QuestaoTocar } from "./questao-tocar";
 import { Brilhos, Estrela, TrilhaProgresso, type Marco } from "./trilha-progresso";
 
-// `acesso` é a credencial devolvida pelo PIN; sem ela o backend não abre sessão.
 type Etapa =
   | { tipo: "quem" }
   | { tipo: "pin"; aluno: AlunoPublico }
@@ -55,10 +54,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
       const sessao = await api.iniciarSessao(turma.codigo, aluno.id, { acesso, disciplinaId: disciplina.id });
       setEtapa({ tipo: "pergunta", aluno, acesso, disciplina, sessaoId: sessao.sessaoId, perguntas: sessao.perguntas });
     } catch (e) {
-      // PIN trocado pelo professor no meio do caminho: pede o número de novo.
       if (e instanceof ApiError && e.status === 401) setEtapa({ tipo: "pin", aluno });
-      // 503 traz o motivo (ex.: na demonstração sem backend, turma sem atividades): tentar
-      // de novo não adianta, então mostramos o motivo em vez de "aperte de novo".
       else if (e instanceof ApiError && e.status === 503 && e.message) setErro(e.message);
       else setErro("A trilha não carregou. Aperte o botão de novo.");
     } finally {
@@ -224,7 +220,6 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
         {Array.from({ length: etapa.resultado.total }, (_, i) => (
           <span
             key={i}
-            // As estrelas ganhas "acendem" uma de cada vez, depois que a tela aparece.
             className={cn(
               "grid size-12 place-items-center rounded-full animate-in zoom-in-50 fade-in fill-mode-backwards duration-300",
               i < etapa.resultado.estrelas ? "bg-sol" : "bg-superficie",
@@ -331,7 +326,6 @@ function Tela({ children, centro, voltar }: { children: React.ReactNode; centro?
   );
 }
 
-// Quem confere as respostas: a API de verdade, ou um substituto (página de prévia).
 type ClienteSessao = Pick<typeof api, "responder" | "concluirSessao">;
 
 export function Quiz({
@@ -347,8 +341,6 @@ export function Quiz({
   onFim: (r: ResultadoSessao, marcos: Marco[]) => void;
   cliente?: ClienteSessao;
 }) {
-  // A lista começa como veio da sessão; a adaptação de dificuldade (backend/mock) pode
-  // trocar a próxima pergunta a cada resposta, via `proxima`.
   const [lista, setLista] = useState(perguntas);
   const [indice, setIndice] = useState(0);
   const [escolha, setEscolha] = useState<string | null>(null);
@@ -358,14 +350,11 @@ export function Quiz({
   const [erro, setErro] = useState(false);
   const [confirmarSaida, setConfirmarSaida] = useState(false);
   const fala = useFala();
-  // Só pede confirmação se já respondeu alguma coisa: antes disso, voltar não perde nada.
   const comecou = marcos.some((m) => m !== "pendente");
 
   const pergunta = lista[indice];
   const estrelas = marcos.filter((m) => m === "acerto").length;
   const curtas = pergunta.opcoes.every((o) => o.texto.length <= 8);
-  // Frase com buraco vira peça de encaixar; texto cujas opções são palavras dele vira
-  // "toque na palavra"; o resto continua múltipla escolha.
   const lacuna = extrairLacuna(pergunta);
   const tocar = lacuna ? null : extrairTocar(pergunta);
   const enunciado = lacuna?.instrucao ?? tocar?.instrucao ?? pergunta.enunciado;
@@ -435,8 +424,6 @@ export function Quiz({
         </span>
       </header>
 
-      {/* A chave troca a cada pergunta: o conteúdo novo entra deslizando da direita,
-          como quem anda mais um passo na trilha. */}
       <section
         key={indice}
         className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pt-6 pb-56 animate-in fade-in slide-in-from-right-8 duration-300 ease-out"
@@ -496,7 +483,6 @@ export function Quiz({
                 aria-checked={marcada}
                 disabled={!!resultado}
                 onClick={() => setEscolha(o.id)}
-                // As opções chegam uma depois da outra (só na entrada da pergunta).
                 style={resultado ? undefined : { animationDelay: `${120 + i * 50}ms` }}
                 className={cn(
                   "relative min-h-16 rounded-2xl border-[3px] bg-superficie px-4 py-3 font-display font-bold text-grafite outline-none",
@@ -507,8 +493,6 @@ export function Quiz({
                     ? "border-agua bg-agua-clara shadow-[0_4px_0_var(--color-agua)]"
                     : "border-ceu-forte shadow-[0_4px_0_var(--color-ceu-forte)]",
                   certa && "border-broto bg-broto-clara shadow-[0_4px_0_var(--color-broto-escuro)]",
-                  // Acertou: a certa "pula". Errou: ela pula um instante depois do balanço da
-                  // errada, para levar o olho até a resposta.
                   certa && (resultado?.correta ? "animate-estoura" : "animate-estoura [animation-delay:450ms]"),
                   errada && "animate-balanca border-coral bg-coral-claro shadow-[0_4px_0_var(--color-coral-escuro)]",
                   resultado && !certa && !errada && "opacity-50",
@@ -565,7 +549,6 @@ export function Quiz({
   );
 }
 
-/** "Quer mesmo sair?" — evita perder a rodada com um toque sem querer na seta. */
 function ConfirmarSaida({ onFicar, onSair }: { onFicar: () => void; onSair: () => void }) {
   useEffect(() => {
     const tecla = (e: KeyboardEvent) => e.key === "Escape" && onFicar();
@@ -604,7 +587,6 @@ function ConfirmarSaida({ onFicar, onSair }: { onFicar: () => void; onSair: () =
 
 const assinarNada = () => () => {};
 
-/** Leitura em voz alta, para quem ainda está ganhando fluência na leitura. */
 function useFala() {
   const disponivel = useSyncExternalStore(
     assinarNada,

@@ -2,8 +2,6 @@ import { NextResponse, type NextRequest } from "next/server";
 import { api } from "@/lib/api";
 import { COOKIE_PROFESSOR, COOKIE_TURMA, opcoesCookie } from "@/lib/auth";
 
-// Troca a turma que o professor está vendo. Aceita formulário (funciona sem JavaScript:
-// volta para o painel) ou JSON. Só aceita turmas desse professor.
 export async function POST(request: NextRequest) {
   const token = request.cookies.get(COOKIE_PROFESSOR)?.value;
   if (!token) return new NextResponse("Entre como professor para continuar.", { status: 401 });

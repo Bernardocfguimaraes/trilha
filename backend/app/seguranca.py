@@ -1,14 +1,3 @@
-"""Login do professor sem serviço externo: funciona em memória, SQLite e Postgres, e sem
-internet (a apresentação acontece numa rede que bloqueia o Supabase).
-
-- Senha guardada só como hash PBKDF2-SHA256 com sal (biblioteca padrão).
-- Token assinado com HMAC-SHA256 (TRILHA_SEGREDO no .env), com validade.
-- Bloqueio temporário depois de várias senhas erradas seguidas, por e-mail.
-
-A conta do professor vem do .env (PROFESSOR_EMAIL, PROFESSOR_SENHA, PROFESSOR_NOME) e é
-gravada no banco ao subir a API. Não há cadastro público: num app de uma turma, qualquer
-conta de professor criada por um estranho veria todos os alunos.
-"""
 from __future__ import annotations
 
 import base64
@@ -30,12 +19,8 @@ ESPERA_BLOQUEIO_S = 5 * 60
 
 _segredo_env = os.environ.get("TRILHA_SEGREDO", "").strip()
 SEGREDO_TEMPORARIO = len(_segredo_env) < 32
-# Sem segredo configurado, gera um só para este processo: os logins caem ao reiniciar a API,
-# mas nunca existe um segredo padrão conhecido por quem lê o código.
 _SEGREDO = (_segredo_env if not SEGREDO_TEMPORARIO else secrets.token_hex(32)).encode()
 
-
-# --- Senhas -----------------------------------------------------------------
 
 def hash_senha(senha: str, sal: bytes | None = None) -> str:
     sal = sal or secrets.token_bytes(16)
@@ -53,8 +38,6 @@ def conferir_senha(senha: str, guardado: str) -> bool:
     except (ValueError, TypeError):
         return False
 
-
-# --- Tokens -----------------------------------------------------------------
 
 def _b64(dados: bytes) -> str:
     return base64.urlsafe_b64encode(dados).rstrip(b"=").decode()
@@ -86,7 +69,6 @@ def ler_token(token: str) -> dict | None:
 
 
 def professor_atual(authorization: str | None = Header(default=None)) -> dict:
-    """Dependência das rotas do professor: exige `Authorization: Bearer <token>` válido."""
     if not authorization or not authorization.lower().startswith("bearer "):
         raise ApiErro(401, "Entre como professor para continuar.")
     dados = ler_token(authorization[7:].strip())
@@ -95,9 +77,7 @@ def professor_atual(authorization: str | None = Header(default=None)) -> dict:
     return dados
 
 
-# --- Bloqueio por tentativas --------------------------------------------------
-
-_tentativas: dict[str, dict] = {}  # email -> {erros, ate}
+_tentativas: dict[str, dict] = {}
 
 
 def bloqueado(email: str) -> bool:
@@ -116,8 +96,6 @@ def registrar_erro(email: str) -> None:
 def limpar_erros(email: str) -> None:
     _tentativas.pop(email, None)
 
-
-# --- Conta do professor (vinda do .env) ----------------------------------------
 
 def professor_do_env() -> dict | None:
     email = os.environ.get("PROFESSOR_EMAIL", "").strip().lower()

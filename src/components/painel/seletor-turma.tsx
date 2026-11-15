@@ -3,10 +3,6 @@ import { Check, ChevronDown, Plus } from "lucide-react";
 import type { TurmaResumo } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-/**
- * Troca de turma na barra lateral. <details> abre e fecha sem JavaScript e com teclado;
- * cada turma é um formulário que grava a escolha (POST /api/turma-atual) e volta ao painel.
- */
 export function SeletorTurma({ turmas, atual }: { turmas: TurmaResumo[]; atual: TurmaResumo | null }) {
   if (!atual) {
     return (

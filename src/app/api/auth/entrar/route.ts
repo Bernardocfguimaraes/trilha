@@ -2,8 +2,6 @@ import { NextResponse, type NextRequest } from "next/server";
 import { api, ApiError } from "@/lib/api";
 import { COOKIE_PROFESSOR, opcoesCookie } from "@/lib/auth";
 
-// Login do professor: o backend confere a senha e devolve o token, que vai direto para um
-// cookie httpOnly. O token nunca aparece para o JavaScript da página.
 export async function POST(request: NextRequest) {
   const corpo = await request.json().catch(() => null);
   const email = typeof corpo?.email === "string" ? corpo.email.slice(0, 200) : "";

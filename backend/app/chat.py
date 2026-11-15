@@ -1,9 +1,3 @@
-"""PLACEHOLDER do chat da turma — port de src/lib/mock-chat.ts.
-
-No produto, a resposta vem de um LLM que recebe a pergunta, o histórico da conversa e
-os dados de desempenho da turma. Aqui escolhemos textos prontos por palavra-chave sobre
-um retrato da turma, só para a demo. Esta é a camada que será trocada pelo LLM real.
-"""
 from __future__ import annotations
 
 import re
@@ -24,7 +18,7 @@ class HabilidadeRetrato(TypedDict):
 class RetratoTurma(TypedDict):
     turma: str
     habilidades: list[HabilidadeRetrato]
-    evolucao: list[dict]  # {aluno, variacao}
+    evolucao: list[dict]
     semAtividade: list[str]
 
 
@@ -171,7 +165,6 @@ _SISTEMA_CHAT = (
 
 
 def _resumo_para_llm(r: RetratoTurma) -> str:
-    """Serializa o retrato da turma em texto compacto para o LLM se basear em dados reais."""
     linhas = [f"Turma: {r['turma']}"]
     for h in _ranking(r):
         linhas.append(
@@ -194,8 +187,6 @@ def _resumo_para_llm(r: RetratoTurma) -> str:
 
 
 def responder_llm(pergunta: str, r: RetratoTurma, historico: list[dict] | None = None) -> str | None:
-    """Resposta do chat via LLM, com o retrato da turma no sistema e o histórico da conversa.
-    Devolve None se o LLM não estiver disponível ou falhar (o chamador usa o fallback)."""
     if not llm.disponivel():
         return None
     sistema = _SISTEMA_CHAT + "\n\nDados atuais da turma:\n" + _resumo_para_llm(r)

@@ -1,28 +1,3 @@
-"""Treina e avalia o diagnóstico de dificuldade, e exporta o modelo para o backend.
-
-Pipeline de ML clássico (scikit-learn):
-  1. carrega o dataset (ml/dados_sinteticos.csv; gera se faltar)
-  2. separa treino/teste (estratificado)
-  3. compara modelos: Árvore de Decisão, Random Forest original e Random Forest com classes
-     balanceadas e hiperparâmetros escolhidos por validação cruzada (F1 macro)
-  4. reporta acurácia, F1 macro, matriz de confusão, relatório por classe e importâncias
-  5. exporta o melhor Random Forest para app/modelo_diagnostico.json (inferência em Python
-     puro no backend) e as métricas para app/modelo_metricas.json (a tela do professor mostra)
-  6. salva o relatório em ml/relatorio_treino.txt
-
-Por que F1 macro, e não acurácia: "atenção" é a classe menor (cerca de 19% dos casos) e a
-mais difícil (fica entre ok e alerta). Um modelo pode ter boa acurácia quase ignorando
-essa classe — e é justamente o aluno em atenção que mais se beneficia de agir cedo.
-
-Dados reais: se existir ml/dados_reais.csv (python -m ml.exportar_reais — histórico real +
-avaliação do professor), o treino mede o modelo nesses dados e compara, por validação cruzada
-SÓ nos dados reais, "treinado com sintéticos" contra "sintéticos + reais". Com amostras
-suficientes, o modelo implantado passa a incluir os dados reais (com peso maior).
-
-Uso: python -m ml.treinar
-Requer scikit-learn + numpy (ml/requirements-treino.txt). O BACKEND não precisa deles:
-ele lê o JSON e classifica sem scikit-learn.
-"""
 from __future__ import annotations
 
 import csv
@@ -51,12 +26,11 @@ RELATORIO = os.path.join(AQUI, "relatorio_treino.txt")
 MODELO_JSON = os.path.join(AQUI, os.pardir, "app", "modelo_diagnostico.json")
 METRICAS_JSON = os.path.join(AQUI, os.pardir, "app", "modelo_metricas.json")
 REAIS = os.path.join(AQUI, "dados_reais.csv")
-CLASSES = ["alerta", "atencao", "ok"]  # ordem fixa
+CLASSES = ["alerta", "atencao", "ok"]
 SEMENTE = 42
-MIN_REAIS = 20     # abaixo disso, só medimos (não retreinamos com dados reais)
-PESO_REAL = 5.0    # uma amostra avaliada por professor vale mais que uma simulada
+MIN_REAIS = 20
+PESO_REAL = 5.0
 
-# Nome de cada feature para a interface (o que o professor entende).
 NOMES_LEGIVEIS = {
     "media": "Média geral",
     "recente": "Média recente",
@@ -83,14 +57,12 @@ def carregar(caminho: str = CSV):
 
 
 def _exportar_arvore(tree) -> list[dict]:
-    """Converte uma árvore do sklearn em nós simples {f,t,l,r} ou {p: distribuição}."""
     t = tree.tree_
     nos = []
     for i in range(t.node_count):
-        if t.children_left[i] == t.children_right[i]:  # folha
+        if t.children_left[i] == t.children_right[i]:
             contagem = t.value[i][0]
             total = float(contagem.sum()) or 1.0
-            # Guarda a distribuição de probabilidade (voto suave, igual ao sklearn).
             nos.append({"p": [round(float(c) / total, 6) for c in contagem]})
         else:
             nos.append({"f": int(t.feature[i]), "t": round(float(t.threshold[i]), 6),
@@ -99,7 +71,6 @@ def _exportar_arvore(tree) -> list[dict]:
 
 
 def _regra(X) -> list[str]:
-    """Baseline: a regra antiga, limiar na média recente."""
     i = NOMES.index("recente")
     return ["ok" if x[i] >= 70 else "atencao" if x[i] >= 55 else "alerta" for x in X]
 
@@ -124,7 +95,6 @@ def treinar(caminho_dados: str = CSV, origem: str = "sintéticos") -> dict:
     arvore = DecisionTreeClassifier(max_depth=6, random_state=SEMENTE).fit(Xtr, ytr)
     rf_original = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=SEMENTE, n_jobs=-1).fit(Xtr, ytr)
 
-    # Busca em grade com validação cruzada estratificada, otimizando F1 macro.
     busca = GridSearchCV(
         RandomForestClassifier(n_estimators=200, random_state=SEMENTE, n_jobs=-1),
         {
@@ -179,7 +149,6 @@ def treinar(caminho_dados: str = CSV, origem: str = "sintéticos") -> dict:
         if reais.get("incluidosNoModelo"):
             origem = f"{origem} + {reais['amostras']} reais"
 
-    # Exporta o modelo implantado (JSON, inferência em Python puro no backend).
     pacote = {
         "tipo": "random_forest",
         "features": NOMES,
@@ -215,7 +184,6 @@ def treinar(caminho_dados: str = CSV, origem: str = "sintéticos") -> dict:
 
 
 def _com_dados_reais(Xtr, ytr, rf_sintetico, params, reg):
-    """Mede o modelo nos dados reais e, havendo amostras suficientes, retreina com eles."""
     Xr, yr = carregar(REAIS)
     info = {"amostras": int(len(Xr)), "distribuicao": dict(Counter(yr.tolist())), "incluidosNoModelo": False}
     reg("")
@@ -231,7 +199,6 @@ def _com_dados_reais(Xtr, ytr, rf_sintetico, params, reg):
         reg(info["observacao"])
         return rf_sintetico, info
 
-    # Validação cruzada só nos dados reais: o modelo nunca é testado num caso real que viu no treino.
     so_sint, com_reais, reais_verdade = [], [], []
     for itr, ite in StratifiedKFold(n_splits=min(5, menor), shuffle=True, random_state=SEMENTE).split(Xr, yr):
         a = RandomForestClassifier(n_estimators=200, random_state=SEMENTE, n_jobs=-1, **params).fit(Xtr, ytr)
@@ -247,8 +214,6 @@ def _com_dados_reais(Xtr, ytr, rf_sintetico, params, reg):
     reg(f"Validação cruzada nos reais — só sintéticos: acurácia {info['validacaoSoSinteticos']['acuracia']:.3f}, F1 macro {info['validacaoSoSinteticos']['f1Macro']:.3f}")
     reg(f"Validação cruzada nos reais — sintéticos + reais: acurácia {info['validacaoComReais']['acuracia']:.3f}, F1 macro {info['validacaoComReais']['f1Macro']:.3f}")
 
-    # Só implanta se os dados reais não piorarem a validação (rótulos ruidosos ou poucos
-    # casos podem atrapalhar; nesse caso o modelo continua o treinado com simulados).
     if info["validacaoComReais"]["f1Macro"] < info["validacaoSoSinteticos"]["f1Macro"]:
         info["observacao"] = "Os casos reais não melhoraram a validação; o modelo em uso continua o treinado com dados simulados."
         reg(info["observacao"])

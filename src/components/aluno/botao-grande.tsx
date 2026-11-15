@@ -9,7 +9,6 @@ const CORES: Record<Cor, string> = {
   branco: "bg-superficie text-grafite shadow-[0_5px_0_var(--color-ceu-forte)] ring-2 ring-ceu-forte",
 };
 
-/** Botão "de apertar": grande, com sombra sólida que afunda ao toque. */
 export function classesBotaoGrande(cor: Cor = "broto", className?: string) {
   return cn(
     "inline-flex min-h-16 items-center justify-center gap-3 rounded-2xl px-8 font-display text-2xl font-bold",

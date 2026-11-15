@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { Status } from "@/lib/types";
 
-/** Ícone: um caminho sinuoso tracejado que chega a um marco. */
 export function LogoIcone({ className, vibrante = false }: { className?: string; vibrante?: boolean }) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden className={cn("size-8", className)}>
@@ -36,10 +35,6 @@ const STATUS_INFO: Record<Status, { rotulo: string; cor: string; fundo: string; 
 
 export const rotuloStatus = (s: Status) => STATUS_INFO[s].rotulo;
 
-/**
- * Marcas de trilha: como a sinalização pintada em árvores, mais marcas pedem
- * mais atenção. A quantidade carrega o significado junto com a cor.
- */
 export function Marcas({ status, className }: { status: Status; className?: string }) {
   const info = STATUS_INFO[status];
   return (
@@ -76,27 +71,20 @@ export function StatusSelo({ status, className }: { status: Status; className?: 
 
 type Humor = "feliz" | "pensando" | "festa" | "triste";
 
-/** Sabiá, o mascote. Desenhado com formas simples para escalar bem. */
 export function Sabia({ humor = "feliz", className }: { humor?: Humor; className?: string }) {
   const asaCima = humor === "festa";
   return (
     <svg viewBox="0 0 120 120" className={cn("size-24", className)} role="img" aria-label="Sabiá, o mascote da Trilha">
-      {/* pés */}
       <path d="M50 104v8M70 104v8" stroke="#c98a2a" strokeWidth="4" strokeLinecap="round" />
-      {/* cauda */}
       <path d="M94 74l20 10-18 6z" fill="#7d6149" />
-      {/* corpo */}
       <ellipse cx="60" cy="68" rx="40" ry="38" fill="#9b7b5c" />
-      {/* barriga laranja */}
       <ellipse cx="56" cy="82" rx="26" ry="22" fill="#f28c3a" />
-      {/* asa */}
       {asaCima ? (
         <path d="M88 58c14-18 22-22 26-20-2 10-10 22-24 28z" fill="#7d6149" />
       ) : (
         <ellipse cx="86" cy="72" rx="12" ry="18" fill="#7d6149" transform="rotate(-18 86 72)" />
       )}
       {asaCima && <path d="M30 58C16 40 8 36 4 38c2 10 10 22 24 28z" fill="#7d6149" />}
-      {/* olhos */}
       <circle cx="46" cy="54" r="10" fill="#fff" />
       <circle cx="72" cy="54" r="10" fill="#fff" />
       {humor === "festa" ? (
@@ -115,9 +103,7 @@ export function Sabia({ humor = "feliz", className }: { humor?: Humor; className
       {humor === "triste" && (
         <path d="M38 42l14 4M80 42l-14 4" stroke="#5a4532" strokeWidth="3" strokeLinecap="round" />
       )}
-      {/* bico */}
       <path d="M53 64l7 9 7-9z" fill="var(--color-sol)" stroke="#e0a01a" strokeWidth="1.5" strokeLinejoin="round" />
-      {/* bochechas */}
       <circle cx="36" cy="68" r="5" fill="#ff9d7a" opacity=".7" />
       <circle cx="82" cy="68" r="5" fill="#ff9d7a" opacity=".7" />
     </svg>

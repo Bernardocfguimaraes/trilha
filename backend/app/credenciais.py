@@ -1,18 +1,11 @@
-"""Credenciais curtas devolvidas quando o PIN do aluno confere.
-
-Valem para o aluno abrir sessões e para o responsável ver o progresso daquele aluno.
-São aleatórias (não carregam o id do aluno), expiram e são revogadas quando o professor
-troca o PIN. Ficam em memória nos dois modos (estado e banco): reiniciar a API pede o
-PIN de novo, o que é o comportamento esperado para algo tão sensível.
-"""
 from __future__ import annotations
 
 import secrets
 import time
 
-VALIDADE_S = 8 * 60 * 60  # um dia de aula
+VALIDADE_S = 8 * 60 * 60
 
-_por_credencial: dict[str, tuple[str, float]] = {}  # credencial -> (aluno_id, expira_em)
+_por_credencial: dict[str, tuple[str, float]] = {}
 
 
 def emitir(aluno_id: str) -> str:
@@ -23,7 +16,6 @@ def emitir(aluno_id: str) -> str:
 
 
 def dono(credencial: str | None) -> str | None:
-    """De qual aluno é a credencial; None se não existe, venceu ou foi revogada."""
     if not credencial:
         return None
     item = _por_credencial.get(credencial)
@@ -48,5 +40,4 @@ def _limpar_vencidas() -> None:
 
 
 def novo_id_sessao() -> str:
-    """Id de sessão de quiz impossível de adivinhar (antes era o horário em ms)."""
     return "s" + secrets.token_urlsafe(16)

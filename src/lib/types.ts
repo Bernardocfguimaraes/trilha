@@ -1,20 +1,14 @@
-// Contrato com a API (backend Python). O frontend só apresenta esses dados
-// e envia respostas — diagnóstico, pontuação e IA ficam todos no backend.
-
 export type Status = "ok" | "atencao" | "alerta";
 
 export type Papel = "professor" | "responsavel";
 
 export interface HabilidadeStatus {
-  habilidadeId: string; // código BNCC (ex.: "EF04LP01") nas disciplinas que já têm caminho
+  habilidadeId: string;
   nome: string;
   disciplina: string;
-  codigoBncc: string | null; // null = catálogo antigo, ainda sem caminho BNCC
+  codigoBncc: string | null;
   status: Status;
-  // false = este aluno ainda não chegou nesta habilidade do caminho (status vem "ok" só
-  // para preencher; a matriz mostra a célula neutra e ela não conta em alertas)
   iniciada: boolean;
-  // Previsão (modelo de risco): ainda não está em alerta, mas tende a cair nas próximas sessões.
   emRisco?: boolean;
 }
 
@@ -40,26 +34,24 @@ export interface HabilidadeRef {
   codigoBncc: string | null;
 }
 
-// Progresso do aluno no caminho BNCC de uma disciplina (ordem definida pelo caminho).
-// Concluída = diagnóstico "ok" com pelo menos 3 dias de prática na habilidade.
 export interface ProgressoCaminho {
   disciplinaId: string;
   disciplina: string;
   ano: number;
-  total: number; // habilidades avaliáveis e ativas no caminho
+  total: number;
   concluidas: number;
-  atual: HabilidadeRef | null; // primeira pendente; null = caminho concluído
+  atual: HabilidadeRef | null;
   proximas: HabilidadeRef[];
 }
 
 export interface AlunoDetalhe extends AlunoResumo {
   recomendacoes: Recomendacao[];
-  caminhos: ProgressoCaminho[]; // só disciplinas que já têm caminho BNCC
+  caminhos: ProgressoCaminho[];
 }
 
 export interface PontoHistorico {
   data: string;
-  desempenho: number; // 0–100, calculado pelo backend
+  desempenho: number;
 }
 
 export interface HistoricoHabilidade {
@@ -73,49 +65,44 @@ export interface Turma {
   id: string;
   nome: string;
   codigo: string;
-  ano: number; // ano escolar (4º–9º); define o catálogo BNCC da turma
+  ano: number;
 }
 
 export interface HabilidadeConfig {
   id: string;
   nome: string;
-  descricao: string; // texto oficial da BNCC quando há código
+  descricao: string;
   ativa: boolean;
   codigoBncc: string | null;
-  unidade: string | null; // unidade do caminho (ex.: "Leitura e compreensão")
-  // false = trabalhada em sala (produção, oralidade): aparece no caminho, mas não entra
-  // no quiz nem no diagnóstico, e não dá para ativar
+  unidade: string | null;
   avaliavel: boolean;
 }
 
 export interface DisciplinaConfig {
-  id: string; // "por" | "mat" | "geo" | "cie" | "ing"
+  id: string;
   nome: string;
-  ativa: boolean; // desligada: some para os alunos e sai do diagnóstico
-  caminhoBncc: boolean; // true = habilidades vêm do caminho BNCC do ano, na ordem do caminho
+  ativa: boolean;
+  caminhoBncc: boolean;
   habilidades: HabilidadeConfig[];
 }
 
-// Corpo de PUT /turma/configuracao
 export interface PedidoTurmaConfig {
   habilidadesAtivas: string[];
-  disciplinasAtivas?: string[]; // ausente = mantém as disciplinas como estão
+  disciplinasAtivas?: string[];
 }
 
-// Diagnóstico explicado (GET /alunos/{id}/diagnostico): a decisão do modelo de ML para
-// cada habilidade praticada, a confiança e os indicadores que ele usou.
 export interface DiagnosticoHabilidade {
   habilidadeId: string;
   nome: string;
   disciplina: string;
   status: Status;
   modelo: "ml" | "regra";
-  confianca: number | null; // probabilidade da classe escolhida (0–1)
+  confianca: number | null;
   probabilidades: Record<Status, number> | null;
   indicadores: Record<string, number>;
   motivos: string[];
-  avaliacaoProfessor: Status | null; // o que o professor disse que é (rótulo real), se já avaliou
-  risco: { probabilidade: number; emRisco: boolean } | null; // previsão de cair para alerta
+  avaliacaoProfessor: Status | null;
+  risco: { probabilidade: number; emRisco: boolean } | null;
 }
 
 export interface MetricasRisco {
@@ -131,10 +118,9 @@ export interface MetricasClassificacao {
   acuracia: number;
   f1Macro: number;
   porClasse: Record<Status, { precisao: number; recall: number; f1: number; suporte: number }>;
-  matriz: number[][]; // linhas = real, colunas = previsto, na ordem de `classes`
+  matriz: number[][];
 }
 
-// Métricas do último treino do modelo (GET /modelo), geradas por backend/ml/treinar.py.
 export interface MetricasModelo {
   treinadoEm: string;
   dados: { origem: string; amostras: number; treino: number; teste: number; distribuicao: Record<string, number> };
@@ -145,7 +131,6 @@ export interface MetricasModelo {
   arvoreDeDecisao: MetricasClassificacao;
   baseline: MetricasClassificacao & { descricao: string };
   importancias: { feature: string; nome: string; valor: number }[];
-  // Dados reais usados no último treino (avaliações de professores exportadas do banco).
   reais: {
     amostras: number;
     distribuicao: Record<string, number>;
@@ -155,7 +140,6 @@ export interface MetricasModelo {
     validacaoComReais?: MetricasClassificacao;
     observacao?: string;
   } | null;
-  // Ao vivo: quanto o modelo atual concorda com as avaliações dos professores no banco.
   professores: { avaliacoes: number; concordancia: number | null };
   risco: MetricasRisco | null;
   llm: AvaliacaoLlm | null;
@@ -163,8 +147,8 @@ export interface MetricasModelo {
 
 export interface ResumoRevisor {
   avaliadas: number;
-  errosPegos: number | null; // dos erros plantados, quantos o revisor reprovou
-  boasRecusadas: number | null; // das questões curadas (corretas), quantas recusou
+  errosPegos: number | null;
+  boasRecusadas: number | null;
   erroEntreAprovadas: number | null;
   nCorretas: number;
   nErros: number;
@@ -180,7 +164,6 @@ export interface AvaliacaoLlm {
   interrompido: string | null;
 }
 
-// Grupos de reforço (GET /turmas/{id}/grupos): k-means sobre o perfil dos alunos.
 export interface GrupoReforco {
   nome: string;
   alunos: { id: string; nome: string }[];
@@ -197,16 +180,14 @@ export interface GruposTurma {
   observacao: string | null;
 }
 
-// Turmas do professor (GET /turmas). Cada professor vê só as próprias.
 export interface TurmaResumo {
   id: string;
   nome: string;
   codigo: string;
   ano: number;
-  alunos: number; // quantos alunos cadastrados
+  alunos: number;
 }
 
-// Anos em que já dá para criar turma, com as disciplinas que têm atividades (GET /anos).
 export interface AnoDisponivel {
   ano: number;
   disciplinas: string[];
@@ -224,25 +205,20 @@ export interface TurmaConfig {
   disciplinas: DisciplinaConfig[];
 }
 
-// Conversa do professor sobre a turma (POST /turmas/{turmaId}/chat).
-// A resposta real vem do backend (LLM com os dados da turma); o frontend só exibe.
 export type AutorMensagem = "professor" | "assistente";
 
 export interface MensagemChat {
   id: string;
   autor: AutorMensagem;
   texto: string;
-  enviadaEm: string; // ISO
+  enviadaEm: string;
 }
 
 export interface PedidoChatTurma {
   pergunta: string;
-  historico: MensagemChat[]; // conversa até aqui, para o backend manter o contexto
+  historico: MensagemChat[];
 }
 
-// Exercício de reforço gerado sob demanda (POST /exercicios/gerar).
-// O backend gera via LLM e valida; se falhar ou a IA não estiver disponível, devolve
-// uma questão do banco curado. `origem` diz de onde veio.
 export interface PedidoExercicio {
   habilidadeId: string;
   nivel?: Nivel;
@@ -256,13 +232,11 @@ export interface Exercicio {
   nivel: Nivel;
   enunciado: string;
   opcoes: string[];
-  indiceCorreta: number; // posição da opção correta (0 a 3)
+  indiceCorreta: number;
   explicacao: string;
-  apoio: string | null; // apoio visual (emoji), quando vem do banco
+  apoio: string | null;
   origem: "ia" | "banco";
 }
-
-// Lado do aluno
 
 export interface AlunoPublico {
   id: string;
@@ -277,17 +251,15 @@ export interface DisciplinaPublica {
 export interface TurmaPublica {
   codigo: string;
   nome: string;
-  alunos: AlunoPublico[]; // lista pública: só id e nome, nunca o PIN
-  disciplinas: DisciplinaPublica[]; // só as que o professor ativou (e têm habilidade ativa)
+  alunos: AlunoPublico[];
+  disciplinas: DisciplinaPublica[];
 }
 
-// Identificação do aluno por PIN de 4 dígitos (POST /acesso/pin)
 export interface PedidoPin {
   alunoId: string;
   pin: string;
 }
 
-// Professor: login com e-mail + senha (a conta vem do .env do backend).
 export interface PedidoLogin {
   email: string;
   senha: string;
@@ -297,10 +269,9 @@ export interface RespostaLogin {
   token: string;
   nome: string;
   email: string;
-  expiraEm: number; // epoch em segundos
+  expiraEm: number;
 }
 
-// Responsável: entra com o código da turma + PIN do filho e só lê o progresso dele.
 export interface PedidoProgresso {
   acesso: string;
 }
@@ -312,19 +283,17 @@ export interface ProgressoResponsavel {
 
 export interface ResultadoPin {
   valido: boolean;
-  acesso: string | null; // credencial curta exigida para abrir sessões como esse aluno
-  bloqueado: boolean; // muitas tentativas erradas seguidas; o aluno precisa esperar ou chamar o professor
+  acesso: string | null;
+  bloqueado: boolean;
 }
 
-// Corpo de POST /sessoes
 export interface PedidoSessao {
   codigo: string;
   alunoId: string;
   acesso?: string;
-  disciplinaId?: string; // ausente = todas as disciplinas ativas
+  disciplinaId?: string;
 }
 
-// Lado do professor: cadastro do aluno com o PIN visível
 export interface AlunoCadastro {
   id: string;
   nome: string;
@@ -336,7 +305,6 @@ export interface Opcao {
   texto: string;
 }
 
-// Dificuldade da pergunta. Usada pela adaptação; nunca é mostrada ao aluno.
 export type Nivel = "facil" | "medio" | "dificil";
 
 export interface Pergunta {
@@ -345,7 +313,7 @@ export interface Pergunta {
   habilidadeId: string;
   nivel: Nivel;
   enunciado: string;
-  apoio?: string; // texto visual de apoio, ex.: "🍎🍎🍎 + 🍎🍎"
+  apoio?: string;
   opcoes: Opcao[];
 }
 
@@ -358,12 +326,9 @@ export interface ResultadoResposta {
   correta: boolean;
   mensagem: string;
   opcaoCorretaId: string;
-  // Próxima pergunta, já no nível escolhido pela adaptação. Quando vem, substitui a
-  // próxima da lista da sessão; ausente na última pergunta.
   proxima?: Pergunta;
 }
 
-// Estado da dificuldade adaptativa dentro de uma sessão (ver src/lib/adaptacao.ts)
 export interface EstadoAdaptacao {
   nivel: Nivel;
   acertosSeguidos: number;

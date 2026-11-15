@@ -3,9 +3,6 @@ import type { NextConfig } from "next";
 const dev = process.env.NODE_ENV !== "production";
 const api = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
 
-// Política de conteúdo: só carrega o que vem do próprio site (e da API, para as chamadas
-// do aluno). 'unsafe-inline' é exigido pelos scripts/estilos que o Next injeta; em dev,
-// 'unsafe-eval' e ws: atendem ao recarregamento automático.
 const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""}`,
@@ -25,7 +22,6 @@ const cabecalhos = [
   { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  // Microfone só para o registro por voz do professor; nada de câmera ou localização.
   { key: "Permissions-Policy", value: "camera=(), geolocation=(), microphone=(self), payment=()" },
 ];
 

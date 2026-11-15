@@ -107,7 +107,6 @@ function CartaoGrupo({ grupo }: { grupo: GrupoReforco }) {
                     <span className="font-semibold text-grafite">{f.mediaGrupo}</span> grupo · {f.mediaTurma} turma
                   </span>
                 </div>
-                {/* Halteres: os dois valores na mesma escala de 0 a 100. */}
                 <div className="relative mt-1.5 h-3" aria-hidden>
                   <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-border" />
                   <div

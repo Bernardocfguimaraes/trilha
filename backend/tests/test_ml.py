@@ -1,4 +1,3 @@
-"""Modelo de diagnóstico: explicação, coerência com as métricas e ciclo com dados reais."""
 import pytest
 
 from app import diagnostico
@@ -43,8 +42,6 @@ def test_status_da_demo_concordam_com_o_modelo():
 
 
 def test_paridade_com_o_scikit_learn():
-    """A inferência em Python puro tem de dar o mesmo resultado do scikit-learn (só roda onde
-    as dependências de treino estão instaladas: pip install -r ml/requirements-treino.txt)."""
     pytest.importorskip("sklearn")
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.model_selection import train_test_split
@@ -83,11 +80,8 @@ def test_avaliacao_do_professor_vira_dado_real(cliente, auth):
 
 def test_previsao_de_risco_so_vale_fora_do_alerta():
     from app import risco
-    assert risco.prever(_serie([40, 38, 35, 33])) is None  # já está em alerta: é diagnóstico, não previsão
-    assert risco.prever(_serie([80, 78])) is None  # menos de 3 dias de histórico
-    # Notas em degraus, como o app gera: quanto mais baixo o nível de hoje, maior o risco.
-    # (Com 1 ou 2 respostas por dia, a "tendência" de poucos dias é quase toda ruído; a
-    # previsão se apoia no nível atual estimado — ver ml/risco.py.)
+    assert risco.prever(_serie([40, 38, 35, 33])) is None
+    assert risco.prever(_serie([80, 78])) is None
     alto = risco.prever(_serie([90, 100, 80, 90, 100, 90]))
     medio = risco.prever(_serie([80, 60, 80, 80, 60, 80]))
     perto = risco.prever(_serie([60, 60, 40, 60, 60, 60]))
@@ -118,7 +112,6 @@ def test_kmeans_recupera_perfis_conhecidos():
     perfis = [[80] * 6, [45, 50, 80, 80, 80, 80], [80, 80, 80, 40, 45, 80]]
     pontos = [[v + rng.gauss(0, 5) for v in perfis[i % 3]] for i in range(24)]
     rotulos = grupos.kmeans(pontos, 3)
-    # Cada perfil plantado cai inteiro num grupo só.
     for p in range(3):
         assert len({rotulos[i] for i in range(24) if i % 3 == p}) == 1
     assert grupos.silhueta(pontos, rotulos) > 0.5
@@ -134,7 +127,6 @@ def test_grupos_da_turma(cliente, auth):
 
 
 def test_avaliacao_do_llm_publicada(cliente, auth):
-    """O relatório de ml/avaliar_llm.py chega à página do modelo, com as duas colunas."""
     llm = cliente.get("/modelo", headers=auth).json()["llm"]
     assert llm["modelos"]["gerador"] and llm["modelos"]["revisor"]
     assert llm["modelos"]["gerador"] != llm["modelos"]["revisor"]
@@ -145,8 +137,6 @@ def test_avaliacao_do_llm_publicada(cliente, auth):
 
 
 def test_simulador_do_treino_gera_notas_como_o_app():
-    """Treino e produção com a mesma origem: cada nota do dia é a média de pontos que o app
-    dá por resposta (regras.PONTOS_RESPOSTA), não um valor contínuo com ruído pequeno."""
     import random
     from itertools import combinations_with_replacement
 
@@ -154,20 +144,15 @@ def test_simulador_do_treino_gera_notas_como_o_app():
     from ml.simulacao import desempenho_do_dia
 
     pontos = {v for p in PONTOS_RESPOSTA.values() for v in p.values()}
-    # Até 6 respostas numa sessão focada, e até 2 sessões no dia.
     possiveis = {round(sum(c) / len(c)) for k in range(1, 13) for c in combinations_with_replacement(sorted(pontos), k)}
     rng = random.Random(3)
     notas = [desempenho_do_dia(rng, nivel) for nivel in (30, 55, 70, 90) for _ in range(200)]
     assert set(notas) <= possiveis
-    # Nível mais alto, nota média mais alta.
     medias = [sum(notas[i:i + 200]) / 200 for i in range(0, 800, 200)]
     assert medias == sorted(medias)
 
 
 def test_modelo_vence_a_regra_em_dados_como_os_do_app():
-    """Simulação nova (semente diferente da do treino), com notas geradas como o app gera:
-    o modelo implantado tem F1 macro maior que a regra de limiar (margem medida em várias
-    sementes: de 0,01 a 0,05; nesta, 0,05)."""
     import random
 
     from ml.simulacao import trajetoria

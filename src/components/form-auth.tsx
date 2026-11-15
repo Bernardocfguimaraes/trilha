@@ -12,7 +12,6 @@ const ERROS: Record<string, string> = {
   rede: "Não foi possível conferir agora. Verifique se a API está ligada e tente de novo.",
 };
 
-/** Login do professor. A senha é conferida no backend; o token fica num cookie httpOnly. */
 export function FormAuth({ expirou }: { expirou?: boolean }) {
   const router = useRouter();
   const [erro, setErro] = useState<string | null>(null);

@@ -4,8 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Paleta Trilha — a mesma marca em duas intensidades:
-   "mata" (sóbria, painel) e "broto" (vibrante, aluno). */
 @theme {
   --color-mata: #0f6e50;
   --color-mata-escura: #0a523b;
@@ -23,13 +21,12 @@
   --color-pedra: #5d6b65;
   --color-atencao: #b7791f;
   --color-atencao-clara: #fbf1dd;
-  --color-alerta: #c62f2f; /* separação de "atenção" validada (ΔE normal 15,5) */
+  --color-alerta: #c62f2f;
   --color-alerta-clara: #f8e3df;
 
-  /* Tokens semânticos: o que muda entre o modo claro e o escuro (ver .dark abaixo). */
-  --color-superficie: #ffffff; /* cartões, balões, campos */
-  --color-tinta: #1e2a25; /* texto sobre cores vivas (sol), igual nos dois modos */
-  --color-agua: #2a8fc4; /* seleção do aluno */
+  --color-superficie: #ffffff;
+  --color-tinta: #1e2a25;
+  --color-agua: #2a8fc4;
   --color-agua-clara: #d8effa;
   --color-agua-escura: #1f6f99;
   --color-broto-clara: #d6f5e6;
@@ -38,7 +35,7 @@
   --color-desligado: #d5dde0;
   --color-desligado-texto: #8a979c;
   --color-desligado-sombra: #b9c4c8;
-  --color-sobre-mata: #ffffff; /* texto sobre preenchimento forte de mata (mapa de calor) */
+  --color-sobre-mata: #ffffff;
 }
 
 @theme inline {
@@ -95,8 +92,6 @@
   color-scheme: light;
 }
 
-/* Modo escuro: "a mata à noite". Mesma marca, contraste conferido para texto (AA).
-   A classe .dark vai no <html> (script no layout raiz, antes da página pintar). */
 .dark {
   color-scheme: dark;
   --color-mata: #4cc492;
@@ -109,7 +104,7 @@
   --color-papel: #0e1613;
   --color-grafite: #e7efea;
   --color-pedra: #a3b4ac;
-  --color-atencao: #f2c94c; /* escuro: validado contra daltonismo (ΔE 11 entre status) */
+  --color-atencao: #f2c94c;
   --color-atencao-clara: #3a2d14;
   --color-alerta: #ff6b6b;
   --color-alerta-clara: #3e201b;
@@ -157,7 +152,6 @@
   }
 }
 
-/* Movimento do lado do aluno — sempre em resposta a uma ação. */
 @keyframes pulo {
   0%, 100% { transform: translateY(0); }
   40% { transform: translateY(-14px); }
@@ -193,7 +187,6 @@
 .animate-balanca { animation: balanca 0.3s ease-in-out 2; }
 .animate-brilho { animation: brilho 0.9s ease-out forwards; }
 
-/* Painel: dados que "chegam" uma vez, ao abrir a página. */
 @keyframes cresce {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
@@ -205,8 +198,6 @@
 .animate-cresce { transform-origin: left; animation: cresce 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 .animate-desenha { stroke-dasharray: 1; animation: desenha 0.9s ease-out both; }
 
-/* Quem pede menos movimento no sistema não vê nenhuma animação nem transição longa —
-   vale para as nossas e para as do tw-animate-css. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -219,7 +210,6 @@
   }
 }
 
-/* Impressão (relatório do aluno): margens de papel. */
 @page {
   margin: 16mm;
 }

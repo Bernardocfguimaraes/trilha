@@ -88,7 +88,6 @@ export function FormTurma({ config }: { config: TurmaConfig }) {
               />
             </header>
             {d.caminhoBncc ? (
-              // Caminho BNCC: unidades na ordem do caminho, recolhíveis (são dezenas de habilidades)
               <div className={cn("divide-y", !disciplinaLigada && "opacity-50")} inert={!disciplinaLigada}>
                 {unidades(d.habilidades).map(([unidade, habs]) => {
                   const avaliaveisUnidade = habs.filter((h) => h.avaliavel);
@@ -136,7 +135,6 @@ export function FormTurma({ config }: { config: TurmaConfig }) {
   );
 }
 
-/** Agrupa por unidade do caminho, mantendo a ordem em que a API envia. */
 function unidades(habilidades: HabilidadeConfig[]) {
   const grupos = new Map<string, HabilidadeConfig[]>();
   for (const h of habilidades) {
@@ -157,7 +155,6 @@ function ItemHabilidade({ h, ligada, onAlternar }: { h: HabilidadeConfig; ligada
     </span>
   );
   if (!h.avaliavel) {
-    // Produção, oralidade, apreciação: faz parte do caminho, mas não cabe em quiz
     return (
       <li className="flex items-start justify-between gap-6 px-5 py-4">
         {texto}

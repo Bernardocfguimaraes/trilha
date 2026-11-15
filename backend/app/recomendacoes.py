@@ -1,11 +1,3 @@
-"""Geração do texto de recomendação pedagógica (passo 4).
-
-Quando um aluno fica em alerta/atenção numa habilidade, o texto que o responsável/professor
-lê pode vir de um LLM. Para controlar custo (ponto 1 do professor), geramos só quando há
-alerta/atenção e guardamos em cache por (habilidade, status) — não refazemos o mesmo texto.
-
-Sem LLM configurado (ou se a chamada falhar), usamos os textos prontos de dados.py (TEXTOS).
-"""
 from __future__ import annotations
 
 from . import llm
@@ -22,7 +14,6 @@ _SISTEMA = (
 
 
 def texto_para(habilidade_id: str, habilidade_nome: str, disciplina: str, status: str) -> str:
-    """Recomendação para uma habilidade num dado status. Cacheia por (habilidade, status)."""
     chave = (habilidade_id, status)
     if chave in _cache:
         return _cache[chave]
@@ -37,7 +28,7 @@ def texto_para(habilidade_id: str, habilidade_nome: str, disciplina: str, status
         )
         texto = llm.gerar(_SISTEMA, [{"role": "user", "content": prompt}], max_tokens=1200)
 
-    if not texto:  # fallback: texto pronto (ou genérico se não houver)
+    if not texto:
         texto = TEXTOS.get(habilidade_id, "Recomendação em preparação.")
 
     _cache[chave] = texto

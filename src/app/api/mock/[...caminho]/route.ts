@@ -2,8 +2,6 @@ import { NextResponse, type NextRequest } from "next/server";
 import { ApiError } from "@/lib/api";
 import { mockRequest } from "@/lib/mock";
 
-// Ponte para o mock (src/lib/mock.ts) quando a chamada parte do navegador.
-// Só existe enquanto NEXT_PUBLIC_API_URL não está definida — com o backend real, some.
 async function responder(request: NextRequest, ctx: RouteContext<"/api/mock/[...caminho]">) {
   if (process.env.NEXT_PUBLIC_API_URL) return new NextResponse("Not found", { status: 404 });
 

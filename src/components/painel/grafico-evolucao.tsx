@@ -8,7 +8,6 @@ const W = 280;
 const H = 120;
 const M = { t: 10, r: 30, b: 22, l: 26 };
 
-/** Linha simples de 0 a 100 para uma habilidade, com tooltip ao passar o cursor. */
 export function GraficoEvolucao({ historico }: { historico: HistoricoHabilidade }) {
   const [foco, setFoco] = useState<number | null>(null);
   const ps = historico.pontos;
@@ -45,8 +44,6 @@ export function GraficoEvolucao({ historico }: { historico: HistoricoHabilidade 
           {dataCurta(ultimo.data)}
         </text>
 
-        {/* A linha se desenha da esquerda para a direita ao abrir a página; o último ponto
-            aparece quando ela chega lá. */}
         <path
           d={linha}
           pathLength={1}
@@ -58,7 +55,6 @@ export function GraficoEvolucao({ historico }: { historico: HistoricoHabilidade 
           className="animate-desenha"
         />
 
-        {/* rótulo direto só no último ponto */}
         <g className="animate-in fade-in fill-mode-backwards duration-300" style={{ animationDelay: "750ms" }}>
           <circle cx={x(ps.length - 1)} cy={y(ultimo.desempenho)} r="4" fill="var(--color-mata)" stroke="var(--color-superficie)" strokeWidth="2" />
           <text x={x(ps.length - 1) + 8} y={y(ultimo.desempenho)} dy="0.32em" className="fill-grafite text-[11px] font-bold">

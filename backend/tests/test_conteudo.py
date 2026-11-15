@@ -1,4 +1,3 @@
-"""Conteúdo: catálogos válidos e questões bem formadas em todos os anos."""
 from collections import Counter
 
 from app import catalogo
@@ -31,7 +30,6 @@ def test_anos_com_conteudo_tem_as_seis_materias_e_tres_niveis():
     assert ANOS_COM_CONTEUDO == [4, 5, 6, 7, 8, 9]
     seis = {"por", "mat", "geo", "cie", "his", "ing"}
     for ano in ANOS_COM_CONTEUDO:
-        # Na BNCC, Língua Inglesa começa no 6º ano; o 5º tem as outras cinco matérias.
         esperado = seis - {"ing"} if ano == 5 else seis
         assert set(disciplinas_com_conteudo(ano)) == esperado, ano
     niveis = Counter(p["nivel"] for p in BANCO)
@@ -48,9 +46,6 @@ def _por_arquivo():
 
 
 def test_resposta_certa_nao_se_entrega_pelo_tamanho():
-    """Ninguém deve acertar só escolhendo a alternativa mais longa. Ao acaso, a certa é a
-    mais longa em ~25% das questões; aceitamos até 35% por arquivo e nenhum caso flagrante
-    (a certa bem mais longa que todas as outras)."""
     for nome, qs in _por_arquivo():
         mais_longa = 0
         for q in qs:
@@ -63,13 +58,11 @@ def test_resposta_certa_nao_se_entrega_pelo_tamanho():
 
 
 def test_enunciado_e_pergunta_completa():
-    """Enunciado terminando em "…" parece cortado na tela do aluno."""
     for p in BANCO:
         assert not p["enunciado"].rstrip().endswith(("…", "...")), p["id"]
 
 
 def test_posicao_da_resposta_sorteada():
-    """A ordem das opções é sorteada na carga: nenhuma posição concentra as respostas."""
     posicoes = Counter(p["certa"] for p in catalogo.perguntas_geradas())
     total = sum(posicoes.values())
     assert all(0.18 <= posicoes[i] / total <= 0.32 for i in range(4)), posicoes

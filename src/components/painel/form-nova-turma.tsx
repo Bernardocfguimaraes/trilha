@@ -26,7 +26,6 @@ export function FormNovaTurma({ anos }: { anos: AnoDisponivel[] }) {
 
   function escolherAno(a: number) {
     setAno(a);
-    // Sugere o nome enquanto o professor não escreveu o dele.
     if (!nomeTocado) setNome(`${a}º ano A`);
   }
 

@@ -9,10 +9,6 @@ import { cn } from "@/lib/utils";
 const ROTULO: Record<Status, string> = { ok: "ok", atencao: "em atenção", alerta: "em alerta" };
 const ORDEM: Status[] = ["ok", "atencao", "alerta"];
 
-/**
- * "O diagnóstico está certo?": a resposta do professor vira um rótulo real, usado para medir
- * o modelo com dados da escola e retreiná-lo (ml/exportar_reais.py + ml/treinar.py).
- */
 export function AvaliacaoDiagnostico({
   alunoId,
   habilidadeId,

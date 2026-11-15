@@ -1,26 +1,3 @@
-"""Avaliação do LLM: o revisor de questões funciona? Vale a pena ele ser de outro modelo?
-
-Contexto: na geração em lote, quando o próprio gerador (gpt-oss-120b) revisava as questões
-que tinha feito, cerca de 30% das aprovadas ainda tinham erro (gabarito errado, duas
-respostas certas). Por isso o revisor passou a ser outro modelo (qwen). Este script mede
-isso de forma reproduzível, com gabarito conhecido:
-
-1. Questões CORRETAS: amostra do banco curado (revisado por pessoas). O revisor deve aprovar.
-2. Questões com ERRO PLANTADO: as mesmas questões com o gabarito trocado para uma opção
-   errada. O revisor deve reprovar. Como sabemos onde está o erro, dá para medir
-   quantos erros cada revisor pega (recall) e quantas questões boas ele recusa à toa.
-3. Geração ao vivo: o gerador cria questões novas; contamos quantas passam no checador de
-   formato (Python) e quanto cada revisor aprova, e onde os dois discordam.
-
-Os dois revisores usam o MESMO prompt (exercicios._SISTEMA_REVISOR) e a mesma regra de
-aprovação; só muda o modelo: "auto" = o próprio gerador, "outro" = o modelo revisor.
-
-Usa só o plano gratuito: amostra pequena e respostas guardadas em ml/avaliacao_llm_cache.jsonl
-(se a cota do dia acabar, rodar de novo continua de onde parou).
-
-Uso: python -m ml.avaliar_llm [--n 20] [--gerar 10]
-Saída: app/avaliacao_llm.json (lido pela página do modelo) e ml/relatorio_llm.txt.
-"""
 from __future__ import annotations
 
 import argparse
@@ -32,10 +9,10 @@ from datetime import datetime, timezone
 
 from dotenv import load_dotenv
 
-load_dotenv(os.path.join(os.path.dirname(__file__), os.pardir, ".env"))  # antes de app.llm ler as chaves
+load_dotenv(os.path.join(os.path.dirname(__file__), os.pardir, ".env"))
 
-from app import exercicios, llm  # noqa: E402
-from app.dados import BANCO, HAB_POR_ID  # noqa: E402
+from app import exercicios, llm
+from app.dados import BANCO, HAB_POR_ID
 
 AQUI = os.path.dirname(__file__)
 CACHE = os.path.join(AQUI, "avaliacao_llm_cache.jsonl")
@@ -65,8 +42,6 @@ def _guardar(chave: str, resposta) -> None:
 
 
 def revisar(cache: dict, revisor: str, hab: dict, q: dict) -> dict | None:
-    """Veredito do revisor ("auto" = gerador, "outro" = modelo revisor), com a mesma regra de
-    aprovação de exercicios._revisar. None se o LLM não respondeu (cota, rede)."""
     papel = "revisor" if revisor == "outro" else "geral"
     modelo = llm.modelos()["revisor" if revisor == "outro" else "gerador"]
     opcoes = "\n".join(f"{i}. {o}" for i, o in enumerate(q["opcoes"]))
@@ -118,11 +93,10 @@ def _taxa(a: int, b: int) -> float | None:
 def avaliar(n: int, n_gerar: int) -> dict:
     if not llm.disponivel() or not llm.modelos()["revisor"]:
         raise SystemExit("Configure LLM_API_KEY e LLM_REVISOR_MODEL no backend/.env para avaliar.")
-    llm.ESPERAR_LIMITE = True  # respeita o limite por minuto; para no limite do dia
+    llm.ESPERAR_LIMITE = True
     cache = _carregar_cache()
     rng = random.Random(SEMENTE)
 
-    # Amostra estratificada por disciplina do banco curado (só questões revisadas por pessoas).
     curadas = [p for p in BANCO if p["origem"] == "curada" and not p.get("apoio") and p["habilidadeId"] in HAB_POR_ID]
     por_disc: dict[str, list] = {}
     for p in curadas:
@@ -164,14 +138,13 @@ def avaliar(n: int, n_gerar: int) -> dict:
         aprovadas = aprovadas_ruins + (len(boas) - recusadas)
         return {
             "avaliadas": len(lista),
-            "errosPegos": _taxa(pegos, len(ruins)),             # recall sobre os erros plantados
-            "boasRecusadas": _taxa(recusadas, len(boas)),        # falso alarme
-            "erroEntreAprovadas": _taxa(aprovadas_ruins, aprovadas),  # o que chegaria ao aluno com erro (amostra 50/50)
+            "errosPegos": _taxa(pegos, len(ruins)),
+            "boasRecusadas": _taxa(recusadas, len(boas)),
+            "erroEntreAprovadas": _taxa(aprovadas_ruins, aprovadas),
             "nCorretas": len(boas),
             "nErros": len(ruins),
         }
 
-    # Geração ao vivo.
     geracao = {"pedidas": 0, "validasFormato": 0, "aprovadasAuto": 0, "aprovadasOutro": 0,
                "discordancias": 0, "exemplosDiscordancia": []}
     if not interrompido and n_gerar:

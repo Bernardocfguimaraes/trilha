@@ -45,7 +45,6 @@ export function NavPainel() {
   );
 }
 
-/** Volta à página inicial do site (a de escolher "Sou aluno" / "Entrar"). */
 export function LinkInicio() {
   return (
     <Link
@@ -58,7 +57,6 @@ export function LinkInicio() {
   );
 }
 
-/** Sair: formulário POST (um link pré-carregado nunca desloga ninguém sem querer). */
 export function BotaoSair() {
   return (
     <form action="/api/auth/sair" method="post">

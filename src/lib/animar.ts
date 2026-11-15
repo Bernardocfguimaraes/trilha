@@ -1,13 +1,7 @@
-// Animações do lado do aluno sem biblioteca: CSS para o que é fixo (globals.css) e a
-// Web Animations API para o que depende de posição (uma peça "voando" até o lugar).
-// Só `transform`/`opacity`, que a GPU anima sem recalcular o layout: roda liso em
-// tablet fraco. Quem pede menos movimento no sistema não vê nada se mexer.
-
 export function semMovimento() {
   return typeof window === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-/** Faz `el` sair visualmente de `origem` e deslizar até onde ele está agora (técnica FLIP). */
 export function voarDe(el: Element, origem: DOMRect, duracao = 320) {
   if (semMovimento() || typeof el.animate !== "function") return;
   const destino = el.getBoundingClientRect();
@@ -21,7 +15,6 @@ export function voarDe(el: Element, origem: DOMRect, duracao = 320) {
   );
 }
 
-/** Devolve `el` (deslocado por um arraste) ao lugar de origem. */
 export function voltar(el: HTMLElement, dx: number, dy: number) {
   if (semMovimento() || typeof el.animate !== "function") return;
   el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }], {

@@ -1,10 +1,3 @@
-"""Transcrição de voz (STT) via Whisper na Groq (passo 6).
-
-A professora grava um áudio curto; o backend manda para o Whisper (mesma chave e endpoint
-da Groq já usados em llm.py) e devolve o texto. Usa só a biblioteca padrão (urllib),
-montando o corpo multipart/form-data na mão — nenhuma dependência nova no cliente HTTP.
-Qualquer falha devolve None, e quem chamou trata (nada quebra).
-"""
 from __future__ import annotations
 
 import json
@@ -22,7 +15,6 @@ def disponivel() -> bool:
 
 
 def _corpo_multipart(campos: dict[str, str], filename: str, dados: bytes, content_type: str) -> tuple[bytes, str]:
-    """Monta um corpo multipart/form-data (campos de texto + um arquivo no campo 'file')."""
     boundary = "----trilha" + uuid.uuid4().hex
     corpo = bytearray()
     for nome, valor in campos.items():
@@ -38,8 +30,6 @@ def _corpo_multipart(campos: dict[str, str], filename: str, dados: bytes, conten
 
 
 def transcrever(dados: bytes, filename: str = "audio.webm", content_type: str = "audio/webm") -> str | None:
-    """Transcreve o áudio (bytes) para texto em português. None se o LLM não estiver
-    configurado ou a chamada falhar."""
     if not llm.API_KEY or not dados:
         return None
     corpo, boundary = _corpo_multipart(
@@ -64,5 +54,4 @@ def transcrever(dados: bytes, filename: str = "audio.webm", content_type: str = 
         texto = (out.get("text") or "").strip()
         return texto or None
     except Exception:
-        # Falha graciosa: cota, rede, formato de áudio não aceito, etc.
         return None

@@ -16,7 +16,6 @@ const MENSAGENS: Record<Exclude<Erro, null>, string> = {
   rede: "Não foi possível conferir agora. Tente de novo.",
 };
 
-/** Escolhe o filho na lista da turma e confirma com o PIN dele. */
 export function EntradaResponsavel({ turma }: { turma: TurmaPublica }) {
   const router = useRouter();
   const [aluno, setAluno] = useState<AlunoPublico | null>(null);

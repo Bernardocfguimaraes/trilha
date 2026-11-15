@@ -1,10 +1,7 @@
-# Versões mínimas (sem fixar), para pegar wheels prontas em qualquer Python recente
-# e evitar compilar no Windows. Se precisar travar versões depois, dá pra fixar.
 fastapi>=0.115
 uvicorn>=0.30
 pydantic>=2.8
-python-multipart>=0.0.9  # upload de áudio (STT por voz) via FastAPI File/UploadFile
-# Passo 2 — persistência no Postgres (Supabase). Só são usados quando DATABASE_URL existe.
+python-multipart>=0.0.9
 sqlalchemy>=2.0
 psycopg[binary]>=3.1
 python-dotenv>=1.0

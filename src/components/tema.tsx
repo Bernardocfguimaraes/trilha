@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 function assinar(avisar: () => void) {
   const observador = new MutationObserver(avisar);
   observador.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-  // Sem escolha salva, acompanha a troca de tema do sistema.
   const sistema = matchMedia("(prefers-color-scheme: dark)");
   const aoMudarSistema = (e: MediaQueryListEvent) => {
     let salvo: string | null = null;
@@ -26,7 +25,6 @@ function assinar(avisar: () => void) {
 
 const lerEscuro = () => document.documentElement.classList.contains("dark");
 
-/** Botão de alternar tema. `variante="aluno"` usa o alvo grande e redondo das telas infantis. */
 export function BotaoTema({ variante = "adulto", className }: { variante?: "adulto" | "aluno"; className?: string }) {
   const escuro = useSyncExternalStore(assinar, lerEscuro, () => false);
 

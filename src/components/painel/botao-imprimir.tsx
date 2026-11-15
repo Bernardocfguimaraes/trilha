@@ -4,10 +4,6 @@ import { useEffect } from "react";
 import { Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-/**
- * Imprime ou salva em PDF pelo diálogo do navegador (sem biblioteca de PDF). Durante a
- * impressão, o tema escuro é desligado (papel é claro), inclusive no Ctrl+P.
- */
 export function BotaoImprimir() {
   useEffect(() => {
     const raiz = document.documentElement;

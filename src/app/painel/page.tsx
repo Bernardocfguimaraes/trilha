@@ -73,7 +73,6 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
           </Link>
           {todos.length > 0 && <BotaoReavaliar turmaId={turma.id} />}
           {todos.length > 0 && (
-            // Download pela ponte do painel (o token fica no cookie httpOnly).
             <a
               href={`/api/professor/turmas/${turma.id}/relatorio.csv`}
               download
@@ -162,8 +161,6 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
   );
 }
 
-// Cores dos segmentos: uma por situação da habilidade. "Ainda não chegou" é a etapa do
-// caminho BNCC que o aluno ainda não alcançou (não conta como problema).
 const COR_SEGMENTO: Record<Status | "nova", string> = {
   ok: "bg-mata",
   atencao: "bg-atencao",
@@ -196,11 +193,6 @@ function resumoDisciplina(hs: HabilidadeStatus[]): { texto: string; classe: stri
   return { texto: "Em dia", classe: "text-mata" };
 }
 
-/**
- * Um cartão por aluno: cada disciplina vira uma barra com um segmento por habilidade,
- * na ordem do caminho. Dá para ver de relance onde está o problema sem rolar para o lado,
- * e o nome de cada habilidade aparece ao passar o mouse (e para o leitor de tela).
- */
 function CartaoAluno({ aluno }: { aluno: AlunoResumo }) {
   const disciplinas = porDisciplina(aluno.habilidades);
   const precisam = aluno.habilidades

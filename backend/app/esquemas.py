@@ -1,15 +1,9 @@
-"""Corpos de requisição (Pydantic). Os campos usam exatamente os nomes que o frontend
-envia (camelCase), para o JSON casar sem apelidos. As respostas são montadas como dicts
-em repo.py, com as mesmas chaves que o contrato em src/lib/types.ts define.
-"""
 from __future__ import annotations
 
 from typing import Annotated, Literal, Optional
 
 from pydantic import BaseModel, Field
 
-# Limites de tamanho em tudo que vem de fora: nada de corpo gigante ou texto sem fim
-# chegando ao banco ou ao LLM.
 Id = Annotated[str, Field(min_length=1, max_length=64)]
 Nivel = Literal["facil", "medio", "dificil"]
 AutorMensagem = Literal["professor", "assistente"]
@@ -43,7 +37,6 @@ class PedidoPin(BaseModel):
 
 
 class PedidoProgresso(BaseModel):
-    # Credencial devolvida por /acesso/pin; vai no corpo (não na URL) para não cair em logs.
     acesso: str = Field(min_length=1, max_length=128)
 
 

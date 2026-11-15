@@ -1,12 +1,3 @@
-"""Diagnóstico de dificuldade por ML — inferência em Python puro.
-
-Carrega o modelo treinado (app/modelo_diagnostico.json, um Random Forest exportado) e
-classifica a série de desempenho de uma habilidade em "ok" | "atencao" | "alerta",
-sem depender de scikit-learn/numpy. O treino fica em ml/treinar.py.
-
-Se o JSON não existir (modelo não treinado ainda), cai numa regra de limiar simples —
-o backend continua funcionando, só sem o ML. Assim nada quebra se o modelo faltar.
-"""
 from __future__ import annotations
 
 import json
@@ -30,7 +21,6 @@ def tem_modelo() -> bool:
 
 
 def _prob_arvore(nos: list[dict], x: list[float]) -> list[float]:
-    """Desce a árvore e devolve a distribuição de probabilidade da folha."""
     i = 0
     while True:
         no = nos[i]
@@ -40,7 +30,6 @@ def _prob_arvore(nos: list[dict], x: list[float]) -> list[float]:
 
 
 def _regra_simples(serie: list[dict]) -> str:
-    """Fallback sem ML: limiar na média dos 3 últimos registros (a regra do passo 2)."""
     if not serie:
         return "ok"
     ultimos = [p["desempenho"] for p in serie[-3:]]
@@ -49,8 +38,6 @@ def _regra_simples(serie: list[dict]) -> str:
 
 
 def probabilidades(serie: list[dict]) -> dict[str, float] | None:
-    """Probabilidade de cada status segundo o Random Forest (voto suave das árvores).
-    None se o modelo não estiver disponível."""
     modelo = _carregar()
     if not modelo:
         return None
@@ -65,22 +52,21 @@ def probabilidades(serie: list[dict]) -> dict[str, float] | None:
 
 
 def classificar(serie: list[dict]) -> str:
-    """Status de uma habilidade a partir da sua série de desempenho."""
     probs = probabilidades(serie)
     if probs is None:
         return _regra_simples(serie)
     return max(probs, key=probs.get)
 
 
+def _faixa(valor: float) -> str:
+    return " (baixo)" if valor < 55 else " (no limite)" if valor < 70 else " (bom)"
+
+
 def _motivos(f: dict[str, float]) -> list[str]:
-    """Frases curtas, em linguagem do professor, sobre os indicadores que o modelo usa.
-    Descrevem os dados (não inventam causa): o professor confere no gráfico ao lado."""
     m = []
-    faixa = lambda v: " (baixo)" if v < 55 else " (no limite)" if v < 70 else " (bom)"  # noqa: E731
     if f["n_dias"] >= 3:
-        # Usa todos os dias (reta ajustada): menos sensível a um dia com poucas respostas.
         p = round(f["projecao"])
-        m.append(f"Nível estimado hoje, considerando todos os dias: {p} de 100{faixa(p)}.")
+        m.append(f"Nível estimado hoje, considerando todos os dias: {p} de 100{_faixa(p)}.")
     r = round(f["recente"])
     m.append(f"Média dos últimos dias: {r} de 100" + (" (baixa)" if r < 55 else " (no limite)" if r < 70 else " (boa)") + ".")
     t = round(f["variacao"])
@@ -98,7 +84,6 @@ def _motivos(f: dict[str, float]) -> list[str]:
 
 
 def explicar(serie: list[dict]) -> dict:
-    """Decisão do modelo + confiança + os indicadores que ele usou, para a tela do professor."""
     f = dict(zip(NOMES, extrair(serie)))
     probs = probabilidades(serie)
     if probs is None:
@@ -120,7 +105,6 @@ _METRICAS = os.path.join(os.path.dirname(__file__), "modelo_metricas.json")
 
 
 def metricas() -> dict | None:
-    """Métricas do último treino (ml/treinar.py), para a página "Como o diagnóstico funciona"."""
     if not os.path.exists(_METRICAS):
         return None
     with open(_METRICAS, encoding="utf-8") as f:

@@ -9,7 +9,6 @@ export default function EntrarPage({ searchParams }: PageProps<"/entrar">) {
     <>
       <h1 className="text-3xl font-bold text-grafite">Entrar no painel</h1>
       <p className="mt-2 mb-8 text-pedra">Para professores. Responsáveis e alunos entram com o código da turma.</p>
-      {/* O aviso de "sessão terminou" depende da URL: só essa parte espera a requisição. */}
       <Suspense fallback={<FormAuth />}>
         <Formulario searchParams={searchParams} />
       </Suspense>

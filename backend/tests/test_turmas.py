@@ -1,4 +1,3 @@
-"""Várias turmas: conteúdo por ano, criação, sessões e isolamento entre professores."""
 import re
 
 from app import repo, seguranca
@@ -39,7 +38,6 @@ def test_sessao_do_8_ano_usa_conteudo_do_8_ano(cliente, auth):
     r = cliente.post("/sessoes", json={"codigo": "TUCANO8", "alunoId": "b2", "acesso": acesso, "disciplinaId": "his"})
     assert r.status_code == 200
     assert all(p["habilidadeId"].startswith("EF08HI") for p in r.json()["perguntas"])
-    # O código de outra turma não serve para este aluno.
     r = cliente.post("/sessoes", json={"codigo": "SABIA4", "alunoId": "b2", "acesso": acesso, "disciplinaId": "his"})
     assert r.status_code == 404
 
@@ -67,7 +65,7 @@ def test_relatorio_csv_da_turma(cliente, auth):
     linhas = texto.strip().splitlines()
     assert linhas[0].startswith("Aluno;Disciplina;Habilidade")
     assert any(l.startswith("Ana Clara Souza;") for l in linhas)
-    assert any(";Sem atividades;" in l for l in linhas)  # Gabriel ainda não fez atividades
+    assert any(";Sem atividades;" in l for l in linhas)
     assert cliente.get("/turmas/t1/relatorio.csv").status_code == 401
 
 
@@ -85,8 +83,6 @@ def test_turmas_de_5_7_e_9_ano_usam_conteudo_do_proprio_ano(cliente, auth):
 
 
 def test_banco_antigo_recebe_o_catalogo_novo_sem_perder_turmas(cliente, auth):
-    """Banco criado antes de um ano novo de conteúdo: a sincronização acrescenta as
-    habilidades que faltam (e é idempotente)."""
     from sqlalchemy import delete, select
 
     from app import bd

@@ -7,8 +7,6 @@ import { api } from "@/lib/api";
 import type { AlunoCadastro } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-/** Alunos da turma e o PIN de cada um (ocultos por padrão: a tela pode estar no projetor).
- * Também é aqui que o professor cadastra alunos novos. */
 export function PinsAlunos({ turmaId, alunos: iniciais }: { turmaId: string; alunos: AlunoCadastro[] }) {
   const [alunos, setAlunos] = useState(iniciais);
   const [visiveis, setVisiveis] = useState(false);

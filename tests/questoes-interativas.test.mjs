@@ -1,6 +1,3 @@
-// Testes do front (node --test): os leitores que transformam uma pergunta em "complete a
-// frase" ou "toque na palavra", rodando sobre o banco inteiro de questões do backend.
-// O Node 24 executa o TypeScript de src/lib direto (só remove os tipos).
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
@@ -33,7 +30,6 @@ test("tocar: cada opção precisa aparecer uma única vez no texto", () => {
   assert.ok(t);
   assert.equal(t.instrucao, 'Qual palavra retoma "Rafael"?');
   assert.equal(t.pedacos.filter((p) => p.opcaoId).length, 3);
-  // "o" aparece duas vezes: não dá para saber qual tocar, então vira múltipla escolha.
   assert.equal(extrairTocar(comoCliente({ id: "u", enunciado: 'Leia: "Ana viu o gato e o levou." Qual palavra retoma "gato"?', opcoes: ["o", "Ana", "viu"] })), null);
 });
 
@@ -57,7 +53,6 @@ test("banco inteiro: lacunas e toques reconstroem a frase sem perder texto", () 
       assert.deepEqual([...ids].sort(), q.opcoes.map((o) => o.id).sort(), `${p.id}: opções tocáveis não batem`);
     }
   }
-  // Garante que o banco continua com uma boa parte de questões interativas.
   assert.ok(lacunas >= 40, `só ${lacunas} lacunas`);
   assert.ok(toques >= 15, `só ${toques} toques`);
 });

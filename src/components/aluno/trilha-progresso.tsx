@@ -7,7 +7,6 @@ const W = 360;
 const H = 64;
 
 function pontos(n: number) {
-  // n marcos + a chegada, em zigue-zague suave
   return Array.from({ length: n + 1 }, (_, i) => ({
     x: 18 + (i * (W - 36)) / n,
     y: H / 2 + (i % 2 === 0 ? 10 : -10),
@@ -23,10 +22,6 @@ function caminho(ps: { x: number; y: number }[]) {
   }, "");
 }
 
-/**
- * Progresso como uma trilha: cada pergunta é um marco, e o Sabiá
- * caminha até o marco atual. Acertos viram estrelas.
- */
 export function TrilhaProgresso({
   marcos,
   atual,
@@ -83,7 +78,6 @@ export function TrilhaProgresso({
         </span>
       ))}
 
-      {/* chegada */}
       <span
         className="absolute -translate-x-1/2 -translate-y-full font-display text-2xl"
         style={{ left: `${(ps[marcos.length].x / W) * 100}%`, top: `${(ps[marcos.length].y / H) * 100 + 14}%` }}
@@ -92,7 +86,6 @@ export function TrilhaProgresso({
         🏁
       </span>
 
-      {/* Sabiá caminhando */}
       <span
         className="absolute -translate-x-1/2 -translate-y-[95%] transition-[left,top] duration-500 ease-out"
         style={{ left: `${(pos.x / W) * 100}%`, top: `${(pos.y / H) * 100}%` }}

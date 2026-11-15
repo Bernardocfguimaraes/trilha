@@ -7,18 +7,13 @@ import { voarDe, voltar } from "@/lib/animar";
 import { cn } from "@/lib/utils";
 import { Brilhos } from "./trilha-progresso";
 
-const ARRASTE_MINIMO = 8; // px antes de um toque virar arraste
+const ARRASTE_MINIMO = 8;
 
 interface Resultado {
   correta: boolean;
   opcaoCorretaId: string;
 }
 
-/**
- * "Complete a frase": o aluno leva uma peça até o buraco da frase, tocando nela ou
- * arrastando. A frase mostra a escolha no lugar antes de conferir, e o feedback acontece
- * dentro da própria frase. Teclado: Tab até a peça e Enter/Espaço para colocar ou tirar.
- */
 export function QuestaoLacuna({
   lacuna,
   opcoes,
@@ -34,15 +29,12 @@ export function QuestaoLacuna({
 }) {
   const fraseRef = useRef<HTMLDivElement>(null);
   const bancoRef = useRef<HTMLDivElement>(null);
-  // De onde a peça saiu, para ela "voar" até o lugar novo depois que o React desenhar.
   const voo = useRef<{ id: string; rect: DOMRect; para: "frase" | "banco" } | null>(null);
   const arraste = useRef<{ id: string; x: number; y: number; ativo: boolean } | null>(null);
   const ignorarClique = useRef(false);
   const [sobreFrase, setSobreFrase] = useState(false);
   const [arrastando, setArrastando] = useState<string | null>(null);
 
-  // Errou: primeiro a frase balança com a escolha do aluno; depois a resposta certa
-  // "vira" no lugar, para ele ver a frase correta.
   const [mostrarCerta, setMostrarCerta] = useState(false);
   useEffect(() => {
     if (!resultado || resultado.correta) return;
@@ -55,8 +47,6 @@ export function QuestaoLacuna({
   const partesEscolha = escolha ? lacuna.partes[escolha] : null;
   const partesCertas = resultado ? lacuna.partes[resultado.opcaoCorretaId] : null;
 
-  // Cada buraco é julgado sozinho: em "alunos / animada", "alunos" está certo e só
-  // "animada" fica vermelho (e só ele vira para a resposta certa depois).
   function estadoDoBuraco(i: number): EstadoBuraco {
     if (!resultado) return "aberto";
     if (resultado.correta) return "acerto";
@@ -122,7 +112,6 @@ export function QuestaoLacuna({
             </span>
           ))}
         </p>
-        {/* O que o leitor de tela ouve no lugar da frase desenhada. */}
         <p className="sr-only">
           {resultado && !resultado.correta
             ? `A frase certa é: ${fraseCompleta(lacuna, opcoes.find((o) => o.id === resultado.opcaoCorretaId))}`
@@ -186,7 +175,6 @@ export function QuestaoLacuna({
                   a.ativo = true;
                   setArrastando(o.id);
                 }
-                // Direto no estilo, sem re-render a cada movimento do dedo.
                 e.currentTarget.style.transform = `translate(${dx}px, ${dy}px) scale(1.08) rotate(-2deg)`;
                 const sobre = dentroDaFrase(e.clientX, e.clientY);
                 setSobreFrase((s) => (s === sobre ? s : sobre));
@@ -215,7 +203,6 @@ export function QuestaoLacuna({
                 "transition-[box-shadow,background-color,border-color,opacity] duration-100 focus-visible:ring-4 focus-visible:ring-grafite/30",
                 arrastando === o.id && "z-10 cursor-grabbing shadow-[0_10px_20px_rgb(30_42_37/0.18)] transition-none",
                 !resultado && !usada && "cursor-grab border-ceu-forte bg-superficie shadow-[0_4px_0_var(--color-ceu-forte)] active:shadow-none",
-                // Peça já na frase: fica o "molde" pontilhado no banco, sem pular o layout.
                 usada && !resultado && "border-dashed border-ceu-forte bg-transparent text-transparent shadow-none",
                 certa && "border-broto bg-broto-clara shadow-[0_4px_0_var(--color-broto-escuro)]",
                 errada && "border-coral bg-coral-claro text-grafite line-through decoration-coral decoration-[3px] shadow-[0_4px_0_var(--color-coral-escuro)]",
@@ -250,7 +237,6 @@ function Buraco({
   return (
     <span
       data-parte
-      // A "chave" muda quando a resposta certa entra no lugar, para a animação de virar rodar.
       key={`${estado === "corrigido"}-${texto}`}
       onClick={estado === "aberto" ? onTirar : undefined}
       className={cn(

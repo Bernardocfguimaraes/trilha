@@ -299,7 +299,6 @@ export default async function ModeloPage() {
 
 const pctOu = (v: number | null) => (v === null ? "—" : pct(v));
 
-/** Avaliação do revisor de questões geradas por IA (ml/avaliar_llm.py). */
 function SecaoLlm({ a }: { a: AvaliacaoLlm }) {
   const nome = (modelo: string) => modelo.split("/").pop();
   const linhas: { rotulo: string; nota: string; chave: "errosPegos" | "boasRecusadas" | "erroEntreAprovadas"; melhorAlto: boolean }[] = [
@@ -393,7 +392,6 @@ function Indicador({ rotulo, valor, comparacao, nota }: { rotulo: string; valor:
   );
 }
 
-/** Mapa de calor em um tom só: a intensidade é a fração da linha (de cada status real). */
 function MatrizConfusao({ m }: { m: MetricasModelo }) {
   const { classes } = m;
   const matriz = m.implantado.matriz;
@@ -443,7 +441,6 @@ function MatrizConfusao({ m }: { m: MetricasModelo }) {
   );
 }
 
-/** Barras horizontais ordenadas, um tom só, valor na ponta. */
 function Importancias({ m }: { m: MetricasModelo }) {
   const max = Math.max(...m.importancias.map((i) => i.valor));
   return (

@@ -6,7 +6,6 @@ import { BrainCircuit } from "lucide-react";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
-/** Roda o modelo de diagnóstico de novo sobre todo o histórico da turma. */
 export function BotaoReavaliar({ turmaId }: { turmaId: string }) {
   const router = useRouter();
   const [estado, setEstado] = useState<"parado" | "rodando" | "erro">("parado");

@@ -1,17 +1,7 @@
 import type { Pergunta } from "./types";
 
-/**
- * Pergunta de "tocar no texto": o enunciado traz um trecho entre aspas e todas as opções
- * são palavras desse trecho ("Qual palavra retoma 'Rafael'?"). O aluno responde tocando
- * na palavra dentro do próprio texto, em vez de numa lista separada.
- *
- * Como a lacuna, não muda o contrato com o backend (a resposta segue sendo o id da opção).
- * Se alguma opção não aparecer no texto, ou aparecer mais de uma vez (não daria para saber
- * qual das duas é a tocável), a pergunta segue como múltipla escolha.
- */
 export interface Tocar {
   instrucao: string;
-  /** O texto em pedaços; os que têm `opcaoId` são as palavras tocáveis. */
   pedacos: { texto: string; opcaoId?: string }[];
 }
 

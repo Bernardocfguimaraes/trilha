@@ -28,11 +28,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="pt-BR"
       className={`${atkinson.variable} ${baloo.variable} h-full antialiased`}
-      // O script de tema troca a classe .dark antes da hidratação.
       suppressHydrationWarning
     >
       <head>
-        {/* Aplica o tema salvo antes de pintar, para o modo escuro não "piscar" branco. */}
         <script dangerouslySetInnerHTML={{ __html: SCRIPT_TEMA }} />
       </head>
       <body className="min-h-full flex flex-col">{children}</body>

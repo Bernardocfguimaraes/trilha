@@ -1,15 +1,3 @@
-"""Exporta o dataset REAL: histórico dos alunos + avaliação do professor sobre o diagnóstico.
-
-Cada vez que um professor responde "o diagnóstico está certo?" no painel, aquela habilidade
-daquele aluno vira uma amostra rotulada: as mesmas features que o modelo usa (extraídas do
-histórico real) e o status que o professor confirmou ou corrigiu.
-
-Uso (com o DATABASE_URL do .env apontando para o banco da escola):
-    python -m ml.exportar_reais      -> ml/dados_reais.csv
-    python -m ml.treinar             -> usa o arquivo, se existir, e mede o ganho
-
-O CSV não tem nomes, só ids internos, e fica fora do git (.gitignore).
-"""
 from __future__ import annotations
 
 import csv

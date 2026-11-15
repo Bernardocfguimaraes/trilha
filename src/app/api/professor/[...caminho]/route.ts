@@ -1,8 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { COOKIE_PROFESSOR } from "@/lib/auth";
 
-// Ponte das telas do painel (componentes do navegador) para as rotas do professor no
-// backend: lê o token do cookie httpOnly e o anexa. Só repassa as rotas do painel.
 const API_URL = process.env.NEXT_PUBLIC_API_URL || undefined;
 const PERMITIDAS = [
   /^anos$/,
@@ -26,7 +24,6 @@ async function repassar(request: NextRequest, ctx: RouteContext<"/api/professor/
 
   const multipart = request.headers.get("content-type")?.startsWith("multipart/form-data");
   if (!API_URL) {
-    // Sem backend: o mock do front responde (mesmas regras de login).
     if (multipart) return new NextResponse("Transcrição de voz precisa do backend", { status: 503 });
     if (rota.endsWith(".csv")) return new NextResponse("A planilha precisa do backend", { status: 503 });
     const { mockRequest } = await import("@/lib/mock");

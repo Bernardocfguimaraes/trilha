@@ -7,11 +7,6 @@ import { ExplicacaoDiagnostico } from "./explicacao-diagnostico";
 
 const ORDEM: Record<Status, number> = { alerta: 0, atencao: 1, ok: 2 };
 
-/**
- * Progresso de um aluno: caminho BNCC, recomendações e evolução por habilidade.
- * Usado no painel do professor e na tela do responsável. `comExercicio` liga o botão de
- * gerar exercício de reforço (só o professor tem).
- */
 export function ProgressoAluno({
   aluno,
   historico,
@@ -21,7 +16,6 @@ export function ProgressoAluno({
   aluno: AlunoDetalhe;
   historico: HistoricoHabilidade[];
   comExercicio?: boolean;
-  /** Explicação do modelo por habilidade (só o professor vê). */
   diagnosticos?: DiagnosticoHabilidade[];
 }) {
   const explicacao = new Map((diagnosticos ?? []).map((d) => [d.habilidadeId, d]));
@@ -30,7 +24,6 @@ export function ProgressoAluno({
   const graficos = [...historico].sort(
     (a, b) => ORDEM[statusPor.get(a.habilidadeId) ?? "ok"] - ORDEM[statusPor.get(b.habilidadeId) ?? "ok"],
   );
-  // Cada habilidade acumula pontos só nos dias em que foi trabalhada: a tabela usa a união das datas.
   const datas = [...new Set(graficos.flatMap((h) => h.pontos.map((p) => p.data)))].sort();
 
   return (

@@ -1,28 +1,11 @@
-"""Extração de features para o diagnóstico de dificuldade (passo 3).
-
-A MESMA função é usada no treino (ml/treinar.py) e na inferência (app/diagnostico.py),
-para garantir que o modelo veja exatamente as mesmas features nos dois momentos.
-
-Entrada: uma série de desempenho por habilidade — lista de {"data": str, "desempenho": int}
-na ordem cronológica (é o que repo.py produz em `_serie`).
-
-Só usa a biblioteca padrão (statistics) — nada de numpy/pandas — para a inferência rodar
-em qualquer máquina sem instalar nada.
-"""
 from __future__ import annotations
 
 from statistics import mean, pstdev
 
-# Ordem fixa das features (o JSON do modelo guarda esta mesma ordem).
-# "projecao" e "variacao" usam todos os dias (regressão linear): no app a nota do dia vem de
-# 1 ou 2 respostas e pula em degraus de 20 pontos, e olhar só os 3 primeiros e os 3 últimos
-# dias deixa a estimativa refém desses saltos.
 NOMES = ["media", "recente", "inicial", "tendencia", "desvio", "minimo", "n_dias", "projecao", "variacao"]
 
 
 def _reta(vals: list[float]) -> tuple[float, float]:
-    """Mínimos quadrados de desempenho × dia: (valor ajustado no último dia, variação ajustada
-    do primeiro ao último dia)."""
     n = len(vals)
     if n < 2:
         return vals[-1], 0.0
@@ -34,22 +17,21 @@ def _reta(vals: list[float]) -> tuple[float, float]:
 
 
 def extrair(serie: list[dict]) -> list[float]:
-    """Vetor de features a partir da série de desempenho de uma habilidade."""
     vals = [float(p["desempenho"]) for p in serie]
     if not vals:
         return [0.0] * len(NOMES)
 
-    recente = mean(vals[-3:])          # desempenho recente (últimos 3 registros)
+    recente = mean(vals[-3:])
     projecao, variacao = _reta(vals)
-    inicial = mean(vals[:3])           # desempenho no começo da série
+    inicial = mean(vals[:3])
     return [
-        round(mean(vals), 2),          # media geral
-        round(recente, 2),             # media recente
-        round(inicial, 2),             # media inicial
-        round(recente - inicial, 2),   # tendência (melhora/piora)
-        round(pstdev(vals), 2) if len(vals) > 1 else 0.0,  # consistência
-        float(min(vals)),              # pior dia
-        float(len(vals)),              # volume de dados
-        round(max(0.0, min(100.0, projecao)), 2),  # nível estimado hoje (reta ajustada)
-        round(variacao, 2),            # mudança ao longo do período (reta ajustada)
+        round(mean(vals), 2),
+        round(recente, 2),
+        round(inicial, 2),
+        round(recente - inicial, 2),
+        round(pstdev(vals), 2) if len(vals) > 1 else 0.0,
+        float(min(vals)),
+        float(len(vals)),
+        round(max(0.0, min(100.0, projecao)), 2),
+        round(variacao, 2),
     ]

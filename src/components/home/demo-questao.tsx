@@ -9,10 +9,6 @@ import { cn } from "@/lib/utils";
 const PECAS = ["joga", "jogam", "jogamos"] as const;
 const CERTA = "jogam";
 
-/**
- * Uma pergunta de verdade na página inicial: quem visita experimenta a trilha antes de
- * entrar. Mesmo visual e mesmo feedback das telas do aluno.
- */
 export function DemoQuestao() {
   const [escolha, setEscolha] = useState<string | null>(null);
   const acertou = escolha === CERTA;

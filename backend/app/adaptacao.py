@@ -1,12 +1,3 @@
-"""Dificuldade adaptativa dentro de uma sessão do aluno.
-
-Port direto de src/lib/adaptacao.ts do frontend — a regra tem que ser a mesma nos
-dois lados. Começa no médio; 2 acertos seguidos sobe um nível, 2 erros seguidos
-desce um. Nos extremos o nível se mantém e a contagem recomeça. A adaptação é
-silenciosa: o aluno nunca vê o nível, para não ser rotulado.
-
-Funções puras, sem dependência de framework.
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -36,7 +27,6 @@ def _deslocar(nivel: Nivel, passo: int) -> Nivel:
 
 
 def registrar_resposta(estado: EstadoAdaptacao, correta: bool) -> EstadoAdaptacao:
-    """Novo estado depois de uma resposta."""
     acertos = estado.acertos_seguidos + 1 if correta else 0
     erros = 0 if correta else estado.erros_seguidos + 1
 

@@ -22,7 +22,6 @@ async function carregar(id: string) {
 
 const hoje = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Sao_Paulo" });
 
-/** Média dos últimos 3 dias e variação em relação aos 3 primeiros, para leigos. */
 function evolucao(h: HistoricoHabilidade | undefined) {
   if (!h || h.pontos.length === 0) return null;
   const v = h.pontos.map((p) => p.desempenho);

@@ -1,14 +1,3 @@
-"""API do Trilha (FastAPI). Preenche o contrato que o frontend já consome (src/lib/api.ts).
-
-Três públicos, três níveis de acesso:
-- Professor: login (e-mail + senha) → token. Pode ter várias turmas; todas as rotas da turma
-  exigem o token e só enxergam as turmas desse professor.
-- Aluno: código da turma + PIN → credencial curta para abrir e responder sessões.
-- Responsável: a mesma credencial do PIN, só para ler o progresso daquele aluno.
-
-Rodar local:  uvicorn app.main:app --reload --port 8000
-No frontend:  NEXT_PUBLIC_API_URL=http://localhost:8000  (sem isso, o front usa o mock dele)
-"""
 from __future__ import annotations
 
 import os
@@ -34,10 +23,6 @@ from .esquemas import (
 )
 from .regras import ApiErro
 
-# Os dados vêm do banco (app/repo.py): SQLite em arquivo, Postgres, ou — sem DATABASE_URL —
-# SQLite em memória. No SQLite, banco novo ou de uma versão antiga (sem várias turmas) é
-# recriado com a demo na hora, para o app nunca subir "quebrado". No Postgres o seed
-# continua manual, porque ele apaga os dados existentes.
 if bd.engine.dialect.name == "sqlite":
     from sqlalchemy import inspect
 
@@ -50,10 +35,8 @@ if bd.engine.dialect.name == "sqlite":
 
         semear()
     else:
-        Base.metadata.create_all(bd.engine)  # só cria tabelas que faltarem
+        Base.metadata.create_all(bd.engine)
 
-# Banco que já existia (SQLite ou Postgres já semeado): traz o catálogo para a versão do
-# código, para que um ano novo de conteúdo funcione sem recriar o banco nem perder turmas.
 if not bd.EM_MEMORIA:
     from sqlalchemy import inspect as _inspecionar
 
@@ -66,14 +49,10 @@ if not bd.EM_MEMORIA:
 
 app = FastAPI(title="Trilha API", version="0.2.0")
 
-# Só as origens do frontend chamam a API pelo navegador. TRILHA_CORS aceita uma lista
-# separada por vírgula (ex.: para abrir o app pelo IP do notebook na rede local).
 _origens = os.environ.get("TRILHA_CORS", "http://localhost:3000,http://127.0.0.1:3000").split(",")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[o.strip() for o in _origens if o.strip()],
-    # Opcional, para deploy: aceita por padrão as URLs de pré-visualização do Vercel,
-    # ex.: TRILHA_CORS_REGEX=https://trilha(-[a-z0-9-]+)?\.vercel\.app
     allow_origin_regex=os.environ.get("TRILHA_CORS_REGEX") or None,
     allow_credentials=False,
     allow_methods=["GET", "POST", "PUT"],
@@ -87,7 +66,6 @@ async def _cabecalhos_seguranca(request: Request, call_next):
     resposta.headers.setdefault("X-Content-Type-Options", "nosniff")
     resposta.headers.setdefault("X-Frame-Options", "DENY")
     resposta.headers.setdefault("Referrer-Policy", "no-referrer")
-    # Dados de alunos nunca ficam em cache de navegador ou proxy.
     resposta.headers.setdefault("Cache-Control", "no-store")
     return resposta
 
@@ -97,7 +75,6 @@ async def _api_erro(_request, exc: ApiErro):
     return PlainTextResponse(exc.mensagem, status_code=exc.status)
 
 
-# Conta do professor: vem do .env e é gravada (com hash) no banco ao subir a API.
 _conta = seguranca.professor_do_env()
 if _conta:
     _existente = fonte.professor_por_email(_conta["email"])
@@ -114,7 +91,6 @@ else:
 if seguranca.SEGREDO_TEMPORARIO:
     print("[trilha] TRILHA_SEGREDO ausente ou curto: usando um segredo temporário (os logins caem ao reiniciar a API).")
 
-# Hash descartável para conferir senha mesmo quando o e-mail não existe (ver post_entrar).
 _HASH_FALSO = seguranca.hash_senha("senha-que-nunca-confere")
 
 
@@ -123,15 +99,12 @@ def saude():
     return {"ok": True, "banco": bd.descricao()}
 
 
-# --- Login do professor -------------------------------------------------------
-
 @app.post("/auth/entrar")
 def post_entrar(pedido: PedidoLogin):
     email = pedido.email.strip().lower()
     if seguranca.bloqueado(email):
         raise ApiErro(429, "Muitas tentativas. Espere alguns minutos e tente de novo.")
     conta = fonte.professor_por_email(email)
-    # Confere a senha mesmo sem conta, para o tempo de resposta não revelar quais e-mails existem.
     ok = seguranca.conferir_senha(pedido.senha, conta["senha_hash"] if conta else _HASH_FALSO)
     if not conta or not ok:
         seguranca.registrar_erro(email)
@@ -146,16 +119,12 @@ def get_eu(professor: dict = Depends(seguranca.professor_atual)):
     return {"nome": professor["nome"], "email": professor["sub"]}
 
 
-# --- Painel do professor (todas exigem login) ---------------------------------
-# O e-mail vem do token; o repo confere que a turma/aluno é desse professor (senão, 404).
-
 PROFESSOR = [Depends(seguranca.professor_atual)]
 Professor = Depends(seguranca.professor_atual)
 
 
 @app.get("/anos")
 def get_anos(professor: dict = Professor):
-    """Anos em que já dá para criar turma (com as disciplinas que têm atividades)."""
     return fonte.anos_disponiveis()
 
 
@@ -196,13 +165,11 @@ def put_config(turma_id: str, pedido: PedidoTurmaConfig, professor: dict = Profe
 
 @app.post("/turmas/{turma_id}/diagnostico")
 def post_reavaliar(turma_id: str, professor: dict = Professor):
-    # Re-roda o diagnóstico de ML sobre o histórico da turma.
     return fonte.reavaliar_diagnostico(professor["sub"], turma_id)
 
 
 @app.get("/turmas/{turma_id}/relatorio.csv")
 def get_relatorio_csv(turma_id: str, professor: dict = Professor):
-    # Planilha da turma para baixar (abre no Excel em português: ";" e BOM UTF-8).
     nome, conteudo = fonte.relatorio_turma_csv(professor["sub"], turma_id)
     return Response(conteudo, media_type="text/csv; charset=utf-8",
                     headers={"Content-Disposition": f'attachment; filename="{nome}"'})
@@ -210,7 +177,6 @@ def get_relatorio_csv(turma_id: str, professor: dict = Professor):
 
 @app.get("/turmas/{turma_id}/grupos")
 def get_grupos(turma_id: str, professor: dict = Professor):
-    # Grupos de reforço por k-means sobre o perfil de desempenho dos alunos.
     return fonte.grupos_da_turma(professor["sub"], turma_id)
 
 
@@ -232,19 +198,16 @@ def get_historico(aluno_id: str, professor: dict = Professor):
 
 @app.get("/alunos/{aluno_id}/diagnostico")
 def get_diagnostico_aluno(aluno_id: str, professor: dict = Professor):
-    # Explicação do modelo de ML para cada habilidade praticada pelo aluno.
     return fonte.diagnostico_do_aluno(professor["sub"], aluno_id)
 
 
 @app.put("/alunos/{aluno_id}/diagnostico/{habilidade_id}")
 def put_avaliacao(aluno_id: str, habilidade_id: str, pedido: PedidoAvaliacao, professor: dict = Professor):
-    # O professor diz se o diagnóstico está certo: vira rótulo real para medir e retreinar o modelo.
     return fonte.avaliar_diagnostico(professor["sub"], aluno_id, habilidade_id, pedido.status)
 
 
 @app.get("/modelo")
 def get_modelo(professor: dict = Professor):
-    # Métricas do último treino (ml/treinar.py) + concordância ao vivo com os professores.
     m = diagnostico.metricas()
     if m is None:
         raise ApiErro(404, "Modelo ainda não treinado (rode python -m ml.treinar).")
@@ -259,19 +222,17 @@ def post_regenerar_pin(aluno_id: str, professor: dict = Professor):
 
 @app.post("/exercicios/gerar", dependencies=PROFESSOR)
 def post_exercicio(pedido: PedidoExercicio):
-    # Gera um exercício de reforço (via LLM, com fallback no banco curado).
     try:
         return exercicios.gerar_exercicio(pedido.habilidadeId, pedido.nivel)
     except ValueError as e:
         return JSONResponse(str(e), status_code=404)
 
 
-AUDIO_MAX_BYTES = 8 * 1024 * 1024  # alguns minutos de fala em webm
+AUDIO_MAX_BYTES = 8 * 1024 * 1024
 
 
 @app.post("/voz/transcrever", dependencies=PROFESSOR)
 async def post_transcrever(audio: UploadFile = File(...)):
-    # STT: recebe um áudio curto (gravado no navegador) e devolve o texto (Whisper/Groq).
     dados = await audio.read(AUDIO_MAX_BYTES + 1)
     if not dados:
         return JSONResponse("Áudio vazio", status_code=400)
@@ -283,8 +244,6 @@ async def post_transcrever(audio: UploadFile = File(...)):
     return {"texto": texto}
 
 
-# --- Aluno (entra pelo código da turma + PIN) ------------------------------
-
 @app.get("/turmas/{codigo}")
 def get_turma_publica(codigo: str):
     return fonte.turma_publica(codigo)
@@ -295,20 +254,14 @@ def post_pin(pedido: PedidoPin):
     return fonte.validar_pin(pedido.alunoId, pedido.pin)
 
 
-# --- Responsável (código da turma + PIN do filho, só leitura) ---------------
-
 @app.post("/responsavel/progresso")
 def post_progresso_responsavel(pedido: PedidoProgresso):
-    # O aluno vem da credencial, nunca de um id enviado pelo cliente: com o PIN de um
-    # filho não há como pedir os dados de outro aluno, da turma ou da configuração.
     aluno_id = fonte.aluno_do_acesso(pedido.acesso)
     if not aluno_id:
         raise ApiErro(401, "Acesso expirado. Digite o PIN de novo.")
     return fonte.progresso_do_aluno(aluno_id)
 
 
-# Sessões: abrir exige a credencial do PIN; responder e concluir usam o id da sessão,
-# que é aleatório e só quem abriu a sessão conhece.
 @app.post("/sessoes")
 def post_sessao(pedido: PedidoSessao):
     return fonte.iniciar_sessao(pedido.codigo, pedido.alunoId, pedido.acesso, pedido.disciplinaId)

@@ -1,4 +1,3 @@
-"""Segurança: login, rotas protegidas, credenciais, sessões e entradas."""
 import re
 
 import pytest
@@ -52,12 +51,10 @@ def test_sessao_sem_gabarito_aberto_e_sem_estrela_repetida(cliente, auth):
     sessao = cliente.post("/sessoes", json={"codigo": "SABIA4", "alunoId": "a4", "acesso": acesso, "disciplinaId": "mat"}).json()
     sid = sessao["sessaoId"]
     assert not re.fullmatch(r"s\d+", sid) and len(sid) > 15
-    # Sem sessão não há resposta certa; pergunta fora da sessão é recusada.
     assert cliente.post("/sessoes/s1700000000000/respostas", json={"perguntaId": "ad1", "opcaoId": "x"}).status_code == 404
     ids = {p["id"] for p in sessao["perguntas"]}
     fora = next(i for i in ["ef04lp01-f1", "ad1", "go1", "cs1"] if i not in ids)
     assert cliente.post(f"/sessoes/{sid}/respostas", json={"perguntaId": fora, "opcaoId": "x"}).status_code == 403
-    # Responder a mesma pergunta várias vezes não soma estrelas.
     p = sessao["perguntas"][0]
     for opcao in p["opcoes"]:
         cliente.post(f"/sessoes/{sid}/respostas", json={"perguntaId": p["id"], "opcaoId": opcao["id"]})

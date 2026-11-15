@@ -9,11 +9,6 @@ const ORDEM: Status[] = ["alerta", "atencao", "ok"];
 const COR: Record<Status, string> = { alerta: "bg-alerta", atencao: "bg-atencao", ok: "bg-mata" };
 const pct = (v: number) => `${Math.round(v * 100)}%`;
 
-/**
- * "Por que está em alerta?": a decisão do modelo de ML, a confiança dele e os indicadores
- * que pesaram. A barra mostra a probabilidade de cada status (voto das 200 árvores); cada
- * parte tem nome e porcentagem escritos, então a cor nunca é a única pista.
- */
 export function ExplicacaoDiagnostico({ d, alunoId }: { d: DiagnosticoHabilidade; alunoId: string }) {
   const rotulo = rotuloStatus(d.status).toLowerCase();
   return (

@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Trilha de hoje" };
 
 export default async function TurmaAlunoPage({ params }: PageProps<"/aluno/[codigo]">) {
   const { codigo } = await params;
-  await connection(); // dados da turma sempre frescos, buscados na hora
+  await connection();
   let turma: TurmaPublica;
   try {
     turma = await api.turmaPublica(decodeURIComponent(codigo));

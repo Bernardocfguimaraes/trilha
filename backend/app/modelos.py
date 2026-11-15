@@ -1,10 +1,3 @@
-"""Modelos SQLAlchemy (as mesmas tabelas no SQLite e no Postgres).
-
-Guardam o que precisa sobreviver a um restart: turma, alunos (com PIN), disciplinas,
-habilidades, quais estão ativas no ciclo, o status atual por habilidade e o histórico
-de desempenho. O banco de perguntas (conteúdo do app) continua em dados.py por enquanto;
-a sessão de quiz em andamento e as tentativas de PIN ficam em memória (são transitórias).
-"""
 from __future__ import annotations
 
 from sqlalchemy import ForeignKey, Integer, String, Text
@@ -21,27 +14,26 @@ class Turma(Base):
     nome: Mapped[str] = mapped_column(String)
     codigo: Mapped[str] = mapped_column(String, unique=True, index=True)
     ciclo: Mapped[str] = mapped_column(String)
-    ano: Mapped[int] = mapped_column(Integer, default=4)  # ano escolar (4º–9º); define o catálogo BNCC
-    # Professor dono da turma: só ele vê alunos, PINs e configuração dela.
+    ano: Mapped[int] = mapped_column(Integer, default=4)
     professor_email: Mapped[str | None] = mapped_column(String, nullable=True, index=True)
 
 
 class Disciplina(Base):
     __tablename__ = "disciplinas"
-    id: Mapped[str] = mapped_column(String, primary_key=True)  # "por", "mat", ...
+    id: Mapped[str] = mapped_column(String, primary_key=True)
     nome: Mapped[str] = mapped_column(String)
-    ordem: Mapped[int] = mapped_column(Integer)  # ordem de exibição para o aluno
+    ordem: Mapped[int] = mapped_column(Integer)
 
 
 class Habilidade(Base):
     __tablename__ = "habilidades"
-    id: Mapped[str] = mapped_column(String, primary_key=True)  # código BNCC ("EF04LP01") ou id antigo ("mat-adicao")
+    id: Mapped[str] = mapped_column(String, primary_key=True)
     nome: Mapped[str] = mapped_column(String)
     disciplina_id: Mapped[str] = mapped_column(ForeignKey("disciplinas.id"))
-    descricao: Mapped[str] = mapped_column(Text)  # texto oficial da BNCC quando há código
+    descricao: Mapped[str] = mapped_column(Text)
     codigo_bncc: Mapped[str | None] = mapped_column(String, nullable=True)
-    unidade: Mapped[str | None] = mapped_column(String, nullable=True)  # unidade do caminho
-    ordem: Mapped[int] = mapped_column(Integer)  # ordem dentro da matriz (casa com a demo)
+    unidade: Mapped[str | None] = mapped_column(String, nullable=True)
+    ordem: Mapped[int] = mapped_column(Integer)
     disciplina: Mapped[Disciplina] = relationship()
 
 
@@ -50,8 +42,8 @@ class Aluno(Base):
     id: Mapped[str] = mapped_column(String, primary_key=True)
     turma_id: Mapped[str] = mapped_column(ForeignKey("turmas.id"))
     nome: Mapped[str] = mapped_column(String)
-    pin: Mapped[str] = mapped_column(String)  # 4 dígitos; regenerável pelo professor
-    ultima_atividade: Mapped[str | None] = mapped_column(String, nullable=True)  # ISO date
+    pin: Mapped[str] = mapped_column(String)
+    ultima_atividade: Mapped[str | None] = mapped_column(String, nullable=True)
 
 
 class TurmaDisciplinaAtiva(Base):
@@ -70,7 +62,7 @@ class AlunoHabilidadeStatus(Base):
     __tablename__ = "aluno_habilidade_status"
     aluno_id: Mapped[str] = mapped_column(ForeignKey("alunos.id"), primary_key=True)
     habilidade_id: Mapped[str] = mapped_column(ForeignKey("habilidades.id"), primary_key=True)
-    status: Mapped[str] = mapped_column(String)  # "ok" | "atencao" | "alerta"
+    status: Mapped[str] = mapped_column(String)
 
 
 class Historico(Base):
@@ -78,13 +70,11 @@ class Historico(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     aluno_id: Mapped[str] = mapped_column(ForeignKey("alunos.id"), index=True)
     habilidade_id: Mapped[str] = mapped_column(ForeignKey("habilidades.id"))
-    data: Mapped[str] = mapped_column(String)  # ISO date (YYYY-MM-DD)
-    desempenho: Mapped[int] = mapped_column(Integer)  # 0–100
+    data: Mapped[str] = mapped_column(String)
+    desempenho: Mapped[int] = mapped_column(Integer)
 
 
 class Professor(Base):
-    """Conta do professor. A senha fica só como hash PBKDF2 (ver seguranca.py)."""
-
     __tablename__ = "professores"
     email: Mapped[str] = mapped_column(String, primary_key=True)
     nome: Mapped[str] = mapped_column(String)
@@ -92,14 +82,10 @@ class Professor(Base):
 
 
 class RotuloProfessor(Base):
-    """Avaliação do professor sobre o diagnóstico de uma habilidade ("está certo?" / "na verdade
-    está…"). É o rótulo REAL que falta para medir e retreinar o modelo com dados da escola:
-    junto com o histórico do aluno vira uma amostra rotulada (ml/exportar_reais.py)."""
-
     __tablename__ = "rotulos_professor"
     aluno_id: Mapped[str] = mapped_column(ForeignKey("alunos.id"), primary_key=True)
     habilidade_id: Mapped[str] = mapped_column(ForeignKey("habilidades.id"), primary_key=True)
-    status: Mapped[str] = mapped_column(String)  # o que o professor diz que é: ok | atencao | alerta
-    status_modelo: Mapped[str] = mapped_column(String)  # o que o modelo dizia no momento
+    status: Mapped[str] = mapped_column(String)
+    status_modelo: Mapped[str] = mapped_column(String)
     professor_email: Mapped[str] = mapped_column(String)
-    criado_em: Mapped[str] = mapped_column(String)  # ISO date
+    criado_em: Mapped[str] = mapped_column(String)

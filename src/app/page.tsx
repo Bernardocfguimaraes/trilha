@@ -7,9 +7,6 @@ import { DemoQuestao } from "@/components/home/demo-questao";
 import { BotaoTema } from "@/components/tema";
 import { cn } from "@/lib/utils";
 
-// Página inicial. Uma ideia só a carrega: a trilha pontilhada (a mesma do logo), que
-// atravessa a página e liga o que a criança faz ao que o adulto vê.
-
 const PASSOS = [
   {
     titulo: "A criança faz a trilha do dia",
@@ -142,7 +139,6 @@ function Hero() {
         </div>
       </div>
 
-      {/* A trilha sai do topo e desce para o resto da página. */}
       <svg
         viewBox="0 0 1200 120"
         preserveAspectRatio="none"
@@ -173,7 +169,6 @@ function ComoFunciona() {
         </p>
 
         <ol className="relative mt-14 grid gap-12 md:grid-cols-3 md:gap-10">
-          {/* A trilha que liga os marcos (só em telas largas, onde eles ficam lado a lado). */}
           <svg
             viewBox="0 0 1000 60"
             preserveAspectRatio="none"

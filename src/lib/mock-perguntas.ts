@@ -1,5 +1,3 @@
-// Banco de perguntas de exemplo do mock (src/lib/mock.ts): duas perguntas por nível
-// (fácil, médio, difícil) para cada habilidade. No produto real o banco vem do backend.
 import geradas04Por from "../../backend/app/bncc/perguntas/04-por.json";
 import type { Nivel } from "./types";
 
@@ -13,12 +11,9 @@ export interface PerguntaBanco {
   certa: number;
 }
 
-// Nas linhas abaixo a resposta certa vem sempre primeiro, para facilitar a leitura;
-// `embaralhar` muda a posição de forma determinística. Com `certa` explícita, a ordem é mantida.
 type Linha = [id: string, nivel: Nivel, enunciado: string, opcoes: string[], extra?: { apoio?: string; certa?: number }];
 
 const BANCO_POR_HABILIDADE: Record<string, Linha[]> = {
-  // Matemática
   "mat-adicao": [
     ["ad1", "facil", "Quanto é 5 + 3?", ["8", "7", "9", "6"]],
     ["ad2", "facil", "Quantas maçãs tem ao todo?", ["5", "4", "6", "3"], { apoio: "🍎🍎🍎 + 🍎🍎" }],
@@ -52,8 +47,6 @@ const BANCO_POR_HABILIDADE: Record<string, Linha[]> = {
     ["pr6", "dificil", "Maria comprou 3 cadernos de 7 reais e pagou com 50 reais. Quanto recebeu de troco?", ["29", "43", "21", "31"]],
   ],
 
-  // Português (4º ano, BNCC) — mesmo remapeamento do backend (dados.py). Saíram do 4º ano:
-  // "or5" (proparoxítona, é EF05LP03) e "pt1", "pt3", "pt5" (produção de texto, "em sala").
   EF15LP03: [
     ["le1", "facil", "\"Lia tem um cachorro chamado Bolinha.\" Qual é o nome do cachorro?", ["Bolinha", "Lia", "Totó", "Rex"]],
     ["le2", "facil", "\"O sol estava forte, então Caio usou boné.\" Por que Caio usou boné?", ["Porque o sol estava forte", "Porque estava chovendo", "Porque estava com frio", "Porque ganhou de presente"]],
@@ -79,7 +72,6 @@ const BANCO_POR_HABILIDADE: Record<string, Linha[]> = {
     ["pt6", "dificil", "Qual frase usa a vírgula certinho?", ["Comprei pão, leite e ovos.", "Comprei, pão leite e ovos.", "Comprei pão leite, e ovos.", "Comprei pão leite e, ovos."]],
   ],
 
-  // Geografia
   "geo-orientacao": [
     ["go1", "facil", "Para que serve um mapa?", ["Mostrar onde ficam os lugares", "Contar histórias", "Medir a temperatura", "Fazer contas"]],
     ["go2", "facil", "De que lado o sol nasce?", ["Leste", "Oeste", "Norte", "Sul"], { apoio: "🌅" }],
@@ -97,7 +89,6 @@ const BANCO_POR_HABILIDADE: Record<string, Linha[]> = {
     ["gp6", "dificil", "Uma cidade asfaltou muitas ruas. O que pode acontecer quando chove forte?", ["Alagamentos, porque a água não entra no chão", "Nada muda", "O sol aparece mais rápido", "Os rios secam"]],
   ],
 
-  // Ciências
   "cie-seres-vivos": [
     ["cs1", "facil", "Qual destes é um ser vivo?", ["Árvore", "Pedra", "Cadeira", "Bola"]],
     ["cs2", "facil", "Do que uma planta precisa para crescer?", ["Água e luz", "Chocolate", "Escuridão total", "Plástico"], { apoio: "🌱" }],
@@ -115,7 +106,6 @@ const BANCO_POR_HABILIDADE: Record<string, Linha[]> = {
     ["cm6", "dificil", "Complete a ordem: gelo → ??? → vapor", ["Água líquida", "Areia", "Fumaça", "Sal"]],
   ],
 
-  // Inglês
   "ing-vocabulario": [
     ["iv1", "facil", "Como se diz \"gato\" em inglês?", ["cat", "dog", "bird", "fish"], { apoio: "🐱" }],
     ["iv2", "facil", "Qual é a cor \"red\"?", ["Vermelho", "Azul", "Verde", "Amarelo"]],
@@ -150,8 +140,6 @@ const CURADAS: PerguntaBanco[] = Object.entries(BANCO_POR_HABILIDADE).flatMap(([
   })),
 );
 
-// Questões geradas por IA e aprovadas pelo revisor (backend/app/bncc/gerar_perguntas.py) —
-// o mesmo arquivo que o backend usa, para o mock não divergir.
 const GERADAS: PerguntaBanco[] = geradas04Por.perguntas.map((p) => ({
   id: p.id,
   habilidadeId: p.habilidadeId,

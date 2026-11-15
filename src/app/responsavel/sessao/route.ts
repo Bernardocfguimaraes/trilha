@@ -2,9 +2,6 @@ import { NextResponse, type NextRequest } from "next/server";
 import { api, ApiError } from "@/lib/api";
 import { COOKIE_RESPONSAVEL, opcoesCookieResponsavel } from "@/lib/responsavel";
 
-// Confere o PIN do filho no servidor e guarda a credencial num cookie httpOnly: a
-// credencial nunca passa pelo JavaScript da página. O bloqueio por tentativas erradas é
-// o mesmo do aluno (vale para os dois).
 export async function POST(request: NextRequest) {
   const corpo = await request.json().catch(() => null);
   const alunoId = corpo?.alunoId;

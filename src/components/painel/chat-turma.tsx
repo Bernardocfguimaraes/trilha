@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowUp, Mic, Sparkles, Square, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
@@ -14,7 +14,6 @@ const SUGESTOES = [
   "Quem evoluiu neste bimestre?",
 ];
 
-// O histórico vive na sessão do navegador: some ao fechar a aba.
 const chave = (turmaId: string) => `trilha:chat:${turmaId}`;
 
 function lerHistorico(turmaId: string): MensagemChat[] {
@@ -29,14 +28,17 @@ function gravarHistorico(turmaId: string, mensagens: MensagemChat[]) {
   try {
     sessionStorage.setItem(chave(turmaId), JSON.stringify(mensagens));
   } catch {
-    // sem sessionStorage (aba privada, bloqueio): a conversa só não sobrevive à navegação
   }
 }
+
+const semAssinatura = () => () => {};
 
 const hora = new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" });
 
 export function ChatTurma({ turma }: { turma: Turma }) {
-  const [mensagens, setMensagens] = useState<MensagemChat[] | null>(null);
+  const noNavegador = useSyncExternalStore(semAssinatura, () => true, () => false);
+  const [proprias, setProprias] = useState<{ turmaId: string; lista: MensagemChat[] } | null>(null);
+  const mensagens = proprias?.turmaId === turma.id ? proprias.lista : noNavegador ? lerHistorico(turma.id) : null;
   const [texto, setTexto] = useState("");
   const [pensando, setPensando] = useState(false);
   const [falhou, setFalhou] = useState(false);
@@ -47,16 +49,17 @@ export function ChatTurma({ turma }: { turma: Turma }) {
   const gravador = useRef<MediaRecorder | null>(null);
   const pedacos = useRef<Blob[]>([]);
 
-  // sessionStorage só existe no navegador: carrega depois de montar
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- leitura única de armazenamento externo
-    setMensagens(lerHistorico(turma.id));
-  }, [turma.id]);
+  function setMensagens(nova: MensagemChat[] | ((atual: MensagemChat[]) => MensagemChat[])) {
+    setProprias((p) => {
+      const atual = p?.turmaId === turma.id ? p.lista : lerHistorico(turma.id);
+      return { turmaId: turma.id, lista: typeof nova === "function" ? nova(atual) : nova };
+    });
+  }
 
   useEffect(() => {
-    if (mensagens) gravarHistorico(turma.id, mensagens);
+    if (proprias) gravarHistorico(proprias.turmaId, proprias.lista);
     fim.current?.scrollIntoView({ block: "end", behavior: "smooth" });
-  }, [mensagens, pensando, turma.id]);
+  }, [proprias, pensando, noNavegador]);
 
   async function enviar(pergunta: string) {
     const limpa = pergunta.trim();
@@ -74,7 +77,7 @@ export function ChatTurma({ turma }: { turma: Turma }) {
     setPensando(true);
     try {
       const resposta = await api.chatTurma(turma.id, limpa, historico);
-      setMensagens((ms) => [...(ms ?? []), resposta]);
+      setMensagens((ms) => [...ms, resposta]);
     } catch {
       setMensagens(historico);
       setTexto(limpa);
@@ -89,8 +92,6 @@ export function ChatTurma({ turma }: { turma: Turma }) {
     setFalhou(false);
   }
 
-  // Microfone: grava um áudio curto, manda pro backend transcrever (Whisper) e joga o
-  // texto na caixa de pergunta, para a professora revisar antes de enviar.
   async function alternarGravacao() {
     if (gravando) {
       gravador.current?.stop();
@@ -123,7 +124,6 @@ export function ChatTurma({ turma }: { turma: Turma }) {
       mr.start();
       setGravando(true);
     } catch {
-      // Permissão de microfone negada ou navegador sem suporte.
       setErroVoz(true);
     }
   }

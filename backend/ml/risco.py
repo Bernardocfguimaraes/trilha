@@ -1,26 +1,3 @@
-"""Previsão: risco de uma habilidade cair para "alerta" nas próximas sessões.
-
-O diagnóstico (ml/treinar.py) classifica o estado ATUAL. Este segundo modelo olha para a
-FRENTE: dado o histórico até hoje, qual a chance de o nível do aluno nas próximas 3 sessões
-ficar abaixo de 55 (faixa de alerta)? Serve para o professor agir antes de o aluno travar.
-
-Dataset: trajetórias simuladas mais longas, cortadas em "passado" (o que o modelo vê) e
-"futuro" (de onde sai o rótulo). O passado é gerado como o app gera (ml/simulacao.py: 1 ou
-2 respostas por sessão, pontos fixos por nível). O rótulo vem do nível latente futuro, que
-é o que o diagnóstico tenta estimar: com tão poucas respostas por dia, a média observada
-de 3 sessões futuras seria em boa parte ruído.
-
-Recorte: só habilidades que HOJE ainda não estão em alerta (média recente ≥ 55). É para elas
-que a previsão é útil (quem já está em alerta já aparece no painel), e é o caso difícil: quem
-já está mal tende a continuar mal, o que inflaria as métricas sem ajudar ninguém.
-
-Modelo: Random Forest binário (classes balanceadas, hiperparâmetros por validação cruzada,
-otimizando ROC AUC) e ponto de corte escolhido também na validação cruzada: o menor em que
-mais da metade dos avisos se confirma (poucos avisos, mas confiáveis), em vez do 0,5 fixo. Exportado para app/modelo_risco.json e lido em Python puro (app/risco.py).
-Baseline para comparação: "tendência negativa e média recente abaixo de 70".
-
-Uso: python -m ml.risco   (requer ml/requirements-treino.txt)
-"""
 from __future__ import annotations
 
 import json
@@ -43,17 +20,17 @@ METRICAS_JSON = os.path.join(AQUI, os.pardir, "app", "modelo_risco_metricas.json
 RELATORIO = os.path.join(AQUI, "relatorio_risco.txt")
 SEMENTE = 7
 N_AMOSTRAS = 5000
-FUTURO = 3          # sessões à frente
-LIMIAR_ALERTA = 55  # nível futuro abaixo disso = caiu para alerta
-PRECISAO_MINIMA = 0.59  # dos avisos dados, quantos precisam se confirmar (escolha do corte)
+FUTURO = 3
+LIMIAR_ALERTA = 55
+PRECISAO_MINIMA = 0.59
 
 
 def gerar_uma(rng: random.Random):
     proficiencia = rng.uniform(30, 95)
-    tendencia = rng.uniform(-30, 20)          # por bimestre; quedas um pouco mais frequentes
+    tendencia = rng.uniform(-30, 20)
     n_passado = rng.randint(3, 10)
     niveis, serie = trajetoria(rng, proficiencia, tendencia, n_passado + FUTURO)
-    futuro = niveis[n_passado:]  # nível latente nas próximas sessões
+    futuro = niveis[n_passado:]
     return extrair(serie[:n_passado]), int(sum(futuro) / FUTURO < LIMIAR_ALERTA)
 
 
@@ -68,7 +45,7 @@ def treinar() -> dict:
     pares = []
     while len(pares) < N_AMOSTRAS:
         x, rotulo = gerar_uma(rng)
-        if x[ir] >= LIMIAR_ALERTA:  # só quem hoje ainda não está em alerta
+        if x[ir] >= LIMIAR_ALERTA:
             pares.append((x, rotulo))
     X = np.array([p[0] for p in pares])
     y = np.array([p[1] for p in pares])
@@ -82,10 +59,6 @@ def treinar() -> dict:
         n_jobs=-1,
     ).fit(Xtr, ytr)
     rf = busca.best_estimator_
-    # Ponto de corte, nas probabilidades da validação cruzada (só treino): o menor corte em que
-    # pelo menos PRECISAO_MINIMA dos avisos se confirmam. O corte de maior F1 avisava 1 em cada
-    # 4 habilidades — praticamente toda habilidade em "atenção" —, e aviso demais vira ruído que
-    # a professora aprende a ignorar. Preferimos poucos avisos confiáveis.
     prob_cv = cross_val_predict(
         RandomForestClassifier(n_estimators=150, random_state=SEMENTE, n_jobs=-1, class_weight="balanced", **busca.best_params_),
         Xtr, ytr, cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=SEMENTE), method="predict_proba", n_jobs=-1,

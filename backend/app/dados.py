@@ -1,14 +1,3 @@
-"""Conteúdo e dados de demonstração.
-
-Conteúdo (vale para todas as turmas):
-- Catálogo por ano: disciplinas com caminho BNCC (app/bncc/caminhos/AA-disc.json) usam o
-  código BNCC como id; no 4º ano, Matemática, Geografia, Ciências e Inglês ainda usam o
-  catálogo antigo, escrito à mão. Um ano só fica disponível para turmas novas se tiver
-  questões em pelo menos uma disciplina (ANOS_COM_CONTEUDO).
-- BANCO: todas as questões de todos os anos (ids únicos).
-
-Demonstração (seed): a turma "4º ano B" com histórico e a turma de teste "8º ano A".
-"""
 from __future__ import annotations
 
 from . import catalogo
@@ -16,7 +5,6 @@ from . import catalogo
 TURMA = {"id": "t1", "nome": "4º ano B", "codigo": "SABIA4", "ano": 4}
 ANOS = [4, 5, 6, 7, 8, 9]
 
-# Ordem em que as disciplinas aparecem para o aluno.
 DISCIPLINAS = [
     {"id": "por", "nome": "Português"},
     {"id": "mat", "nome": "Matemática"},
@@ -34,12 +22,7 @@ def nome_disciplina(id_: str) -> str | None:
     return None
 
 
-def id_disciplina(nome: str) -> str | None:
-    return next((d["id"] for d in DISCIPLINAS if d["nome"] == nome), None)
-
-
 def _legado(id_: str, nome: str, disciplina: str, descricao: str) -> dict:
-    """Habilidade do catálogo antigo (ainda sem caminho BNCC)."""
     return {"id": id_, "codigoBncc": None, "nome": nome, "disciplina": disciplina, "descricao": descricao,
             "ano": None, "unidade": None, "avaliavel": True, "dica": None}
 
@@ -65,15 +48,12 @@ _LEGADO = {
     ],
 }
 
-# Ordem da matriz do painel.
 ORDEM_MATRIZ = ["mat", "por", "geo", "cie", "his", "ing"]
 
 _CATALOGOS: dict[int, list[dict]] = {}
 
 
 def catalogo_do_ano(ano: int) -> list[dict]:
-    """Catálogo inteiro do ano, inclusive habilidades "em sala" (não avaliáveis): é o que o
-    professor vê na configuração do caminho. O catálogo antigo só existe no 4º ano."""
     if ano not in _CATALOGOS:
         saida: list[dict] = []
         for did in ORDEM_MATRIZ:
@@ -86,31 +66,22 @@ def catalogo_do_ano(ano: int) -> list[dict]:
 
 
 def habilidades_do_ano(ano: int) -> list[dict]:
-    """Só as avaliáveis: entram no quiz, no diagnóstico e na matriz do painel."""
     return [h for h in catalogo_do_ano(ano) if h["avaliavel"]]
 
 
-# Todas as habilidades conhecidas, de todos os anos (ids únicos: código BNCC ou id antigo).
 HAB_POR_ID: dict[str, dict] = {h["id"]: h for ano in ANOS for h in catalogo_do_ano(ano)}
 
-# Compatibilidade: o 4º ano é o da turma de demonstração com histórico.
 CATALOGO = catalogo_do_ano(4)
 HABILIDADES = habilidades_do_ano(4)
 
 
 def ordem_caminho(ano: int, disciplina_id: str) -> list[str] | None:
-    """Ids do caminho BNCC da disciplina que o aluno consegue praticar (avaliáveis e com
-    questões no banco), em ordem; None se ainda é catálogo antigo. Habilidade sem questão
-    fica de fora para o caminho não travar nela (a sessão não teria o que perguntar)."""
     if not catalogo.tem_caminho(ano, disciplina_id):
         return None
     nome = nome_disciplina(disciplina_id)
     return [h["id"] for h in habilidades_do_ano(ano) if h["disciplina"] == nome and h["id"] in COM_PERGUNTAS]
 
 
-# Status de exemplo da demo (o: ok, a: atenção, x: alerta). Matemática, Geografia, Ciências e
-# Inglês seguem as strings originais (ordem _ORDEM_LEGADA); Português agora é por código BNCC.
-# Habilidade sem status = ainda não praticada (fica adiante no caminho).
 _ORDEM_LEGADA = ["mat-adicao", "mat-mult", "mat-fracoes", "mat-problemas", None, None, None,
                  "geo-orientacao", "geo-paisagem", "cie-seres-vivos", "cie-materia", "ing-vocabulario", "ing-frases"]
 ALUNOS = [
@@ -147,7 +118,6 @@ def _status_inicial(a: dict) -> dict[str, str]:
     return saida
 
 
-# alunoId -> {habilidadeId: status} — só habilidades já praticadas na demo.
 STATUS_INICIAL = {a["id"]: _status_inicial(a) for a in ALUNOS}
 
 PINS_INICIAIS = {
@@ -169,10 +139,7 @@ TEXTOS = {
     "ing-frases": "Entende cumprimentos, mas ainda não reconhece perguntas sobre si mesmo (\"How old are you?\"). Diálogos curtos em dupla, com as mesmas três perguntas toda semana, criam a segurança para responder sem traduzir.",
 }
 
-# Banco de perguntas: id, nivel, enunciado, opções (resposta certa sempre primeiro),
-# extra opcional {apoio, certa}. A ordem é embaralhada de forma determinística em BANCO.
 _BANCO_POR_HABILIDADE: dict[str, list] = {
-    # Matemática
     "mat-adicao": [
         ["ad1", "facil", "Quanto é 5 + 3?", ["8", "7", "9", "6"], {}],
         ["ad2", "facil", "Quantas maçãs tem ao todo?", ["5", "4", "6", "3"], {"apoio": "🍎🍎🍎 + 🍎🍎"}],
@@ -205,9 +172,6 @@ _BANCO_POR_HABILIDADE: dict[str, list] = {
         ["pr5", "dificil", "Uma escola tem 4 turmas com 28 alunos cada. Quantos alunos são ao todo?", ["112", "102", "32", "122"], {}],
         ["pr6", "dificil", "Maria comprou 3 cadernos de 7 reais e pagou com 50 reais. Quanto recebeu de troco?", ["29", "43", "21", "31"], {}],
     ],
-    # Português (4º ano, BNCC). Questões do banco antigo remapeadas para o código da habilidade.
-    # Saíram do 4º ano: "or5" (proparoxítona, é EF05LP03) e "pt1", "pt3", "pt5" (produção de
-    # texto, que fica "em sala" no caminho).
     "EF15LP03": [
         ["le1", "facil", "\"Lia tem um cachorro chamado Bolinha.\" Qual é o nome do cachorro?", ["Bolinha", "Lia", "Totó", "Rex"], {}],
         ["le2", "facil", "\"O sol estava forte, então Caio usou boné.\" Por que Caio usou boné?", ["Porque o sol estava forte", "Porque estava chovendo", "Porque estava com frio", "Porque ganhou de presente"], {}],
@@ -232,7 +196,6 @@ _BANCO_POR_HABILIDADE: dict[str, list] = {
         ["pt4", "medio", "Qual sinal termina uma pergunta?", ["?", ".", "!", ","], {}],
         ["pt6", "dificil", "Qual frase usa a vírgula certinho?", ["Comprei pão, leite e ovos.", "Comprei, pão leite e ovos.", "Comprei pão leite, e ovos.", "Comprei pão leite e, ovos."], {}],
     ],
-    # Geografia
     "geo-orientacao": [
         ["go1", "facil", "Para que serve um mapa?", ["Mostrar onde ficam os lugares", "Contar histórias", "Medir a temperatura", "Fazer contas"], {}],
         ["go2", "facil", "De que lado o sol nasce?", ["Leste", "Oeste", "Norte", "Sul"], {"apoio": "🌅"}],
@@ -249,7 +212,6 @@ _BANCO_POR_HABILIDADE: dict[str, list] = {
         ["gp5", "dificil", "Por que cortar as árvores da beira de um rio prejudica o rio?", ["A terra escorre para o rio e ele fica raso", "O rio fica mais limpo", "A água fica mais gelada", "Os peixes ficam maiores"], {}],
         ["gp6", "dificil", "Uma cidade asfaltou muitas ruas. O que pode acontecer quando chove forte?", ["Alagamentos, porque a água não entra no chão", "Nada muda", "O sol aparece mais rápido", "Os rios secam"], {}],
     ],
-    # Ciências
     "cie-seres-vivos": [
         ["cs1", "facil", "Qual destes é um ser vivo?", ["Árvore", "Pedra", "Cadeira", "Bola"], {}],
         ["cs2", "facil", "Do que uma planta precisa para crescer?", ["Água e luz", "Chocolate", "Escuridão total", "Plástico"], {"apoio": "🌱"}],
@@ -266,7 +228,6 @@ _BANCO_POR_HABILIDADE: dict[str, list] = {
         ["cm5", "dificil", "Por que aparecem gotinhas do lado de fora de um copo com água gelada?", ["O vapor do ar esfria e vira água", "O copo está furado", "A água atravessa o vidro", "O gelo pula para fora"], {}],
         ["cm6", "dificil", "Complete a ordem: gelo → ??? → vapor", ["Água líquida", "Areia", "Fumaça", "Sal"], {}],
     ],
-    # Inglês
     "ing-vocabulario": [
         ["iv1", "facil", "Como se diz \"gato\" em inglês?", ["cat", "dog", "bird", "fish"], {"apoio": "🐱"}],
         ["iv2", "facil", "Qual é a cor \"red\"?", ["Vermelho", "Azul", "Verde", "Amarelo"], {}],
@@ -287,7 +248,6 @@ _BANCO_POR_HABILIDADE: dict[str, list] = {
 
 
 def _embaralhar(id_: str, opcoes: list[str]) -> dict:
-    """Mesma rotação determinística do frontend (mock-perguntas.ts)."""
     giro = sum(ord(c) for c in id_) % len(opcoes)
     return {"opcoes": opcoes[giro:] + opcoes[:giro], "certa": (len(opcoes) - giro) % len(opcoes)}
 
@@ -308,22 +268,17 @@ def _construir_banco() -> list[dict]:
     return banco
 
 
-# Banco curado (catálogo antigo) + questões dos caminhos BNCC (app/bncc/perguntas/), de todos os anos.
 BANCO = _construir_banco() + [p for p in catalogo.perguntas_geradas() if p["habilidadeId"] in HAB_POR_ID]
 COM_PERGUNTAS = {p["habilidadeId"] for p in BANCO}
 
 
 def disciplinas_com_conteudo(ano: int) -> list[str]:
-    """Disciplinas do ano com pelo menos uma habilidade que tem questões."""
     ids_ano = {h["id"] for h in habilidades_do_ano(ano)} & COM_PERGUNTAS
     return [d["id"] for d in DISCIPLINAS if any(HAB_POR_ID[h]["disciplina"] == d["nome"] for h in ids_ano)]
 
 
-# Anos em que já dá para criar turma (têm atividades em pelo menos uma disciplina).
 ANOS_COM_CONTEUDO = [ano for ano in ANOS if disciplinas_com_conteudo(ano)]
 
-
-# --- Turma de teste do 8º ano (sem histórico: começa do zero) ------------------
 
 TURMA_8 = {"id": "t8", "nome": "8º ano A", "codigo": "TUCANO8", "ano": 8}
 ALUNOS_8 = [

@@ -1,5 +1,3 @@
-// Respostas de exemplo usadas apenas enquanto NEXT_PUBLIC_API_URL não está definida.
-// Simula o backend para desenvolver a interface — não é lógica de produção.
 import { estadoInicialAdaptacao, NIVEIS, registrarResposta } from "./adaptacao";
 import { ApiError } from "./api";
 import { responderChat, type RetratoTurma } from "./mock-chat";
@@ -61,7 +59,6 @@ import type {
 
 const TURMA = { id: "t1", nome: "4º ano B", codigo: "SABIA4", ano: 4 };
 
-// Ordem em que as disciplinas aparecem para o aluno
 const DISCIPLINAS = [
   { id: "por", nome: "Português" },
   { id: "mat", nome: "Matemática" },
@@ -71,12 +68,9 @@ const DISCIPLINAS = [
 ];
 const nomeDisciplina = (id: string) => DISCIPLINAS.find((d) => d.id === id)?.nome;
 
-// Catálogo do 4º ano B — mesma montagem do backend (dados.py + catalogo.py): Português
-// vem do caminho BNCC; as demais disciplinas, do catálogo antigo (LEGADO, em mock-turmas).
 interface ArquivoCaminho {
   unidades: { nome: string; habilidades: { codigo: string; nome: string; avaliavel?: boolean }[] }[];
 }
-// Caminhos BNCC do ano da turma (TURMA.ano), por disciplina.
 const CAMINHOS: Record<string, ArquivoCaminho> = { por: caminho04Por };
 const OFICIAL: Record<string, string> = oficialEf.habilidades;
 
@@ -93,23 +87,16 @@ const doCaminho = (did: string): HabilidadeCatalogo[] =>
     })),
   );
 
-// Ordem da matriz do painel: Matemática, Português, Geografia, Ciências, Inglês.
 const CATALOGO = ["mat", "por", "geo", "cie", "ing"].flatMap((did) => (CAMINHOS[did] ? doCaminho(did) : (LEGADO[did] ?? [])));
 const HABILIDADES = CATALOGO.filter((h) => h.avaliavel);
 const HAB_POR_ID = new Map(HABILIDADES.map((h) => [h.id, h]));
 
-/**
- * Ids do caminho BNCC que dá para praticar (avaliáveis e com questões no banco), em ordem;
- * null se ainda é catálogo antigo. Igual ao backend: sem questão, o caminho travaria ali.
- */
 const COM_PERGUNTAS = new Set(BANCO.map((p) => p.habilidadeId));
 const ordemCaminho = (did: string) =>
   CAMINHOS[did]
     ? HABILIDADES.filter((h) => h.disciplina === nomeDisciplina(did) && COM_PERGUNTAS.has(h.id)).map((h) => h.id)
     : null;
 
-// Regras do caminho — port de backend/app/caminho.py. Concluída = "ok" com pelo menos
-// 3 dias de prática; a sessão trabalha as 3 próximas pendentes + 1 revisão em alerta.
 const REGISTROS_PARA_CONCLUIR = 3;
 const TAMANHO_FRENTE = 3;
 type InfoCaminho = Map<string, { status: Status | undefined; dias: number }>;
@@ -130,40 +117,35 @@ const refHabilidade = (id: string) => {
   return { habilidadeId: id, nome: h.nome, codigoBncc: h.codigoBncc };
 };
 
-// Estado mutável do mock. Fica em globalThis para que o route handler /api/mock
-// (chamadas do navegador) e os Server Components vejam os mesmos dados.
 interface SessaoMock {
   acertos: number;
   alunoId: string;
   total: number;
   habilidades: string[];
   usadas: Set<string>;
-  servidas: Set<string>; // perguntas entregues a esta sessão (só elas podem ser respondidas)
+  servidas: Set<string>;
   adaptacao: EstadoAdaptacao;
   respostas: { perguntaId: string; habilidadeId: string; nivel: Nivel; correta: boolean }[];
   concluida?: boolean;
 }
 
-// Uma linha por sessão concluída: desempenho (0–100) em cada habilidade trabalhada.
-// O histórico só cresce — nenhuma sessão sobrescreve a anterior.
 interface RegistroSessao {
   data: string;
   desempenho: Record<string, number>;
 }
 
 interface EstadoMock {
-  registros: Map<string, RegistroSessao[]>; // alunoId -> sessões, em ordem
-  statusAtual: Map<string, Status>; // "alunoId:habilidadeId" -> status recalculado após sessões novas
-  ultimaAtividade: Map<string, string>; // alunoId -> data da última sessão feita na demo
+  registros: Map<string, RegistroSessao[]>;
+  statusAtual: Map<string, Status>;
+  ultimaAtividade: Map<string, string>;
   ativas: Set<string>;
   disciplinasAtivas: Set<string>;
   sessoes: Map<string, SessaoMock>;
-  pins: Map<string, string>; // alunoId -> PIN
-  acessos: Map<string, string>; // credencial de acesso -> alunoId
+  pins: Map<string, string>;
+  acessos: Map<string, string>;
   tentativas: Map<string, { erros: number; bloqueadoAte: number }>;
 }
 
-// PINs fake. Ana (a1) usa 1234; os demais aparecem em Painel > Turma.
 const PINS_INICIAIS: Record<string, string> = {
   a1: "1234", a2: "2580", a3: "3141", a4: "4072", a5: "5319",
   a6: "6248", a7: "7105", a8: "8463", a9: "9026", a10: "1357",
@@ -183,15 +165,11 @@ function estadoInicial(): EstadoMock {
   };
 }
 
-// Suba VERSAO ao mudar o formato ou os dados iniciais: em dev, o estado antigo é descartado.
 const VERSAO = 7;
 const g = globalThis as typeof globalThis & { __trilhaMock?: EstadoMock & { versao: number } };
 if (g.__trilhaMock?.versao !== VERSAO) g.__trilhaMock = { ...estadoInicial(), versao: VERSAO };
 const estado: EstadoMock = g.__trilhaMock;
 
-// Status de exemplo (o: ok, a: atenção, x: alerta) — igual ao backend (dados.py).
-// Matemática, Geografia, Ciências e Inglês seguem as strings originais (ordem ORDEM_LEGADA);
-// Português é por código BNCC. Habilidade sem status = ainda não praticada (adiante no caminho).
 const ORDEM_LEGADA = ["mat-adicao", "mat-mult", "mat-fracoes", "mat-problemas", null, null, null,
   "geo-orientacao", "geo-paisagem", "cie-seres-vivos", "cie-materia", "ing-vocabulario", "ing-frases"];
 const ALUNOS: { id: string; nome: string; ultima: string | null; status: string; por: Record<string, string> }[] = [
@@ -218,7 +196,6 @@ const ALUNOS: { id: string; nome: string; ultima: string | null; status: string;
 
 const STATUS: Record<string, Status> = { o: "ok", a: "atencao", x: "alerta" };
 
-/** alunoId -> {habilidadeId: status}, só das habilidades já praticadas na demo. */
 const STATUS_INICIAL = new Map(
   ALUNOS.map((a) => {
     const st = new Map<string, Status>();
@@ -253,7 +230,6 @@ const TEXTOS: Record<string, string> = {
     "Entende cumprimentos, mas ainda não reconhece perguntas sobre si mesmo (\"How old are you?\"). Diálogos curtos em dupla, com as mesmas três perguntas toda semana, criam a segurança para responder sem traduzir.",
 };
 
-/** Status recalculado pelas sessões da demo ou o inicial; undefined = nunca praticada. */
 const statusDe = (alunoId: string, hid: string) => estado.statusAtual.get(`${alunoId}:${hid}`) ?? STATUS_INICIAL.get(alunoId)?.get(hid);
 
 function praticadasNaTurma() {
@@ -262,10 +238,6 @@ function praticadasNaTurma() {
   return praticadas;
 }
 
-/**
- * Colunas da matriz: habilidades ativas que alguém da turma já praticou (as que ficam
- * adiante no caminho só aparecem quando a turma chega nelas). `iniciada` é por aluno.
- */
 function habilidadesDe(a: (typeof ALUNOS)[number]): HabilidadeStatus[] {
   const disciplinasAtivas = new Set(DISCIPLINAS.filter((d) => estado.disciplinasAtivas.has(d.id)).map((d) => d.nome));
   const praticadas = praticadasNaTurma();
@@ -280,7 +252,6 @@ function habilidadesDe(a: (typeof ALUNOS)[number]): HabilidadeStatus[] {
 const infoCaminho = (a: (typeof ALUNOS)[number], ordem: string[]): InfoCaminho =>
   new Map(ordem.map((h) => [h, { status: statusDe(a.id, h), dias: serie(a, h).length }]));
 
-/** Progresso do aluno em cada caminho BNCC ativo. */
 function caminhosDe(a: (typeof ALUNOS)[number]): ProgressoCaminho[] {
   return DISCIPLINAS.flatMap((d) => {
     const ordem = ordemCaminho(d.id)?.filter((h) => estado.ativas.has(h));
@@ -320,12 +291,8 @@ function detalhe(a: (typeof ALUNOS)[number]): AlunoDetalhe {
   return { ...resumo(a), recomendacoes, caminhos: caminhosDe(a) };
 }
 
-/**
- * Sessões de exemplo anteriores à demo, coerentes com o status de cada habilidade.
- * Bruno (a2) é o aluno de exemplo com sessões mais frequentes (duas por semana).
- */
 function sessoesIniciais(a: (typeof ALUNOS)[number]): RegistroSessao[] {
-  if (!a.ultima) return []; // quem nunca fez atividade não tem histórico
+  if (!a.ultima) return [];
   const datas: string[] = [];
   const passo = a.id === "a2" ? [3, 4] : [7];
   for (let d = new Date("2026-08-24T00:00:00Z"), i = 0; d <= new Date(`${a.ultima}T00:00:00Z`); i++) {
@@ -338,7 +305,7 @@ function sessoesIniciais(a: (typeof ALUNOS)[number]): RegistroSessao[] {
     const desempenho: Record<string, number> = {};
     HABILIDADES.forEach((h, hi) => {
       const status = STATUS_INICIAL.get(a.id)?.get(h.id);
-      if (!status) return; // ainda não praticada na demo: sem histórico
+      if (!status) return;
       const inicio = status === "ok" ? 58 + (hi % 3) * 6 : status === "atencao" ? 55 : 60;
       const ruido = ((hi * 7 + i * 13) % 9) - 4;
       desempenho[h.id] = Math.max(0, Math.min(100, Math.round(inicio + (alvo[status] - inicio) * t + ruido)));
@@ -353,7 +320,6 @@ function registrosDe(a: (typeof ALUNOS)[number]) {
   return r;
 }
 
-/** Série de uma habilidade: todas as sessões, uma por dia (média quando houve mais de uma no mesmo dia). */
 function serie(a: (typeof ALUNOS)[number], habilidadeId: string) {
   const porDia = new Map<string, number[]>();
   for (const r of registrosDe(a)) {
@@ -374,14 +340,12 @@ function historico(a: (typeof ALUNOS)[number]): HistoricoHabilidade[] {
   }));
 }
 
-// Pontuação de exemplo por resposta: acertar uma difícil vale mais; errar uma difícil pesa menos.
 const PONTOS_RESPOSTA: Record<Nivel, { certa: number; errada: number }> = {
   facil: { certa: 60, errada: 0 },
   medio: { certa: 80, errada: 20 },
   dificil: { certa: 100, errada: 40 },
 };
 
-/** Acrescenta a sessão concluída ao histórico do aluno e recalcula o status das habilidades tocadas. */
 function registrarSessao(s: SessaoMock) {
   const aluno = ALUNOS.find((a) => a.id === s.alunoId);
   if (!aluno || s.respostas.length === 0) return;
@@ -398,7 +362,6 @@ function registrarSessao(s: SessaoMock) {
   registrosDe(aluno).push({ data: hoje, desempenho });
   estado.ultimaAtividade.set(aluno.id, hoje);
 
-  // Status = média dos 3 últimos dias com atividade na habilidade
   for (const id of pontos.keys()) {
     const ultimos = serie(aluno, id).slice(-3);
     const media = ultimos.reduce((s, p) => s + p.desempenho, 0) / ultimos.length;
@@ -407,14 +370,12 @@ function registrarSessao(s: SessaoMock) {
 }
 
 function config(): TurmaConfig {
-  // Ordem do painel: Matemática e Português primeiro, como já era, depois as demais
   const ordem = ["mat", "por", "geo", "cie", "ing"];
   const disciplinas = ordem.map((id) => nomeDisciplina(id)!).map((nome, i) => ({
     id: ordem[i],
     nome,
     ativa: estado.disciplinasAtivas.has(ordem[i]),
     caminhoBncc: ordemCaminho(ordem[i]) !== null,
-    // Catálogo inteiro, inclusive as habilidades "em sala" (não avaliáveis)
     habilidades: CATALOGO.filter((h) => h.disciplina === nome).map((h) => ({
       id: h.id,
       nome: h.nome,
@@ -430,12 +391,6 @@ function config(): TurmaConfig {
 
 const PERGUNTAS_POR_SESSAO = 6;
 
-
-/**
- * Habilidades que entram numa sessão: ativas, com perguntas, de disciplina ativa e (se pedida)
- * da disciplina escolhida. Em disciplina com caminho BNCC, e sabendo o aluno, só a frente do
- * caminho dele (próximas pendentes + uma revisão em alerta).
- */
 function habilidadesDaSessao(disciplinaId?: string, aluno?: (typeof ALUNOS)[number]) {
   return DISCIPLINAS.filter((d) => estado.disciplinasAtivas.has(d.id) && (!disciplinaId || d.id === disciplinaId)).flatMap((d) => {
     const habs = HABILIDADES.filter((h) => h.disciplina === d.nome && estado.ativas.has(h.id) && COM_PERGUNTAS.has(h.id)).map((h) => h.id);
@@ -443,10 +398,6 @@ function habilidadesDaSessao(disciplinaId?: string, aluno?: (typeof ALUNOS)[numb
   });
 }
 
-/**
- * Próxima pergunta não usada: de preferência no nível pedido e na habilidade da vez
- * (as habilidades se revezam); se faltar, a de nível mais próximo.
- */
 function escolherPergunta(habilidades: string[], nivel: Nivel, usadas: Set<string>, vez: number) {
   const alvo = habilidades[vez % habilidades.length];
   const custo = (p: PerguntaBanco) =>
@@ -475,7 +426,7 @@ const cadastro = (a: { id: string; nome: string }): AlunoCadastro => ({ id: a.id
 function novoPin(anterior?: string) {
   let pin: string;
   do pin = String(Math.floor(Math.random() * 10000)).padStart(4, "0");
-  while (pin === anterior || new Set(pin).size === 1); // evita repetir o anterior e 0000, 1111…
+  while (pin === anterior || new Set(pin).size === 1);
   return pin;
 }
 
@@ -500,7 +451,6 @@ function validarPin({ alunoId, pin }: PedidoPin): ResultadoPin {
   return { valido: true, acesso, bloqueado: false };
 }
 
-/** Retrato da turma fake que alimenta as respostas de exemplo do chat. */
 function retratoTurma(): RetratoTurma {
   const curto = (nome: string) => nome.split(" ")[0] + " " + nome.split(" ").at(-1)![0] + ".";
   const porAluno = ALUNOS.map((a) => ({ a, habilidades: habilidadesDe(a) }));
@@ -526,17 +476,13 @@ function retratoTurma(): RetratoTurma {
   };
 }
 
-// Login do professor no mock: mesmas regras do backend (conta vinda do ambiente do
-// servidor, token aleatório, rotas do painel exigem o token).
 const CONTA_MOCK = {
   nome: process.env.PROFESSOR_NOME ?? "Profa. Marina",
   email: (process.env.PROFESSOR_EMAIL ?? "professora@trilha.app").toLowerCase(),
   senha: process.env.PROFESSOR_SENHA ?? "trilha-demo",
 };
-// Em globalThis, como o estado: a rota de login e as páginas do servidor carregam cópias
-// separadas deste módulo, e o token criado numa tem de valer na outra.
 const gTokens = globalThis as typeof globalThis & { __trilhaMockTokens?: Map<string, number> };
-const tokensMock = (gTokens.__trilhaMockTokens ??= new Map<string, number>()); // token -> expira (ms)
+const tokensMock = (gTokens.__trilhaMockTokens ??= new Map<string, number>());
 const ROTAS_PROFESSOR = [
   /^\/anos$/,
   /^\/modelo$/,
@@ -547,7 +493,6 @@ const ROTAS_PROFESSOR = [
   /^\/voz\//,
 ];
 
-/** O mock tem uma turma só (a de demonstração): traduz as rotas por turma para as dele. */
 function rotaDaTurma(path: string, method: string): string {
   const partes = path.split("/").filter(Boolean);
   if (partes[0] === "turmas" && partes.length === 3 && partes[2] !== "chat") {
@@ -561,10 +506,6 @@ function rotaDaTurma(path: string, method: string): string {
   return path;
 }
 
-/**
- * Rotas do professor para as turmas extras (8º ano A e as criadas na demonstração).
- * Devolve undefined quando a rota não é de uma turma ou aluno extra.
- */
 function rotaTurmaExtra(caminho: string, method: string, body: unknown): unknown {
   const partes = caminho.split("/").filter(Boolean);
   if (partes[0] === "turmas" && partes.length === 3) {
@@ -629,9 +570,7 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
   }
   const extra = rotaTurmaExtra(caminho, method, body);
   if (extra !== undefined) return extra;
-  // Métricas do modelo: o mesmo arquivo que o backend gera ao treinar.
   if (caminho === "/modelo") return { ...metricasModelo, professores: { avaliacoes: 0, concordancia: null }, risco: metricasRisco, llm: avaliacaoLlm };
-  // Explicação por habilidade precisa do modelo de ML, que roda no backend.
   if (/^\/alunos\/[^/]+\/diagnostico$/.test(caminho)) return [];
   if (/^\/turmas\/[^/]+\/grupos$/.test(caminho)) {
     const g: GruposTurma = { turma: TURMA.nome, grupos: [], k: 0, silhueta: null, alunosConsiderados: 0, observacao: "Os grupos são formados pelo backend (k-means)." };
@@ -658,7 +597,6 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
     return { nome: CONTA_MOCK.nome, email: CONTA_MOCK.email };
   }
 
-  // Chat da turma: placeholder. A resposta real vem do backend (LLM sobre os dados da turma).
   if (partes[0] === "turmas" && partes[2] === "chat" && method === "POST") {
     if (partes[1] !== TURMA.id) throw new ApiError(404, "Turma não encontrada");
     const { pergunta } = body as PedidoChatTurma;
@@ -674,7 +612,6 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
   if (path === "/acesso/pin" && method === "POST") return validarPin(body as PedidoPin);
 
   if (path === "/responsavel/progresso" && method === "POST") {
-    // O aluno vem da credencial, nunca do cliente (igual ao backend).
     const alunoId = estado.acessos.get((body as PedidoProgresso).acesso);
     if (alunoId && alunoExtra(alunoId)) {
       const extra: ProgressoResponsavel = { aluno: detalheAlunoExtra(alunoId), historico: [] };
@@ -693,7 +630,6 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
     if (!aluno) throw new ApiError(404, "Aluno não encontrado");
     estado.pins.set(aluno.id, novoPin(estado.pins.get(aluno.id)));
     estado.tentativas.delete(aluno.id);
-    // O PIN antigo deixa de valer, inclusive para quem já tinha entrado com ele.
     for (const [acesso, alunoId] of estado.acessos) if (alunoId === aluno.id) estado.acessos.delete(acesso);
     return cadastro(aluno);
   }
@@ -709,7 +645,7 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
   if (path === "/turma/configuracao") {
     if (method === "PUT") {
       const pedido = body as PedidoTurmaConfig;
-      estado.ativas = new Set(pedido.habilidadesAtivas.filter((id) => HAB_POR_ID.has(id))); // "em sala" fora do quiz
+      estado.ativas = new Set(pedido.habilidadesAtivas.filter((id) => HAB_POR_ID.has(id)));
       if (pedido.disciplinasAtivas) estado.disciplinasAtivas = new Set(pedido.disciplinasAtivas);
     }
     return config();
@@ -730,7 +666,6 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
 
   if (path === "/sessoes" && method === "POST") {
     const pedido = body as PedidoSessao;
-    // Sem a credencial do PIN, ninguém abre sessão em nome de outro aluno.
     if (!pedido.acesso || estado.acessos.get(pedido.acesso) !== pedido.alunoId) {
       throw new ApiError(401, "Confirme o PIN do aluno antes de começar");
     }
@@ -738,8 +673,6 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
     const habilidades = habilidadesDaSessao(pedido.disciplinaId, ALUNOS.find((a) => a.id === pedido.alunoId));
     if (habilidades.length === 0) throw new ApiError(404, "Nenhuma habilidade ativa nesta disciplina");
 
-    // A lista sai toda no nível inicial; a partir da 2ª, cada resposta traz a `proxima`
-    // no nível ajustado, que substitui a da lista. Só a 1ª conta como usada agora.
     const adaptacao = estadoInicialAdaptacao();
     const reservadas = new Set<string>();
     const perguntas: PerguntaBanco[] = [];
@@ -750,7 +683,7 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
       perguntas.push(p);
     }
 
-    const sessaoId = `s${crypto.randomUUID()}`; // impossível de adivinhar, como no backend
+    const sessaoId = `s${crypto.randomUUID()}`;
     estado.sessoes.set(sessaoId, {
       acertos: 0,
       alunoId: pedido.alunoId,
@@ -767,7 +700,6 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
 
   if (partes[0] === "sessoes" && partes[2] === "respostas") {
     const { perguntaId, opcaoId } = body as { perguntaId: string; opcaoId: string };
-    // Só dentro de uma sessão aberta e só perguntas entregues a ela (senão vira gabarito).
     const s = estado.sessoes.get(partes[1]);
     if (!s) throw new ApiError(404, "Sessão não encontrada");
     if (!s.servidas.has(perguntaId)) throw new ApiError(403, "Esta pergunta não faz parte da sessão");
@@ -776,7 +708,7 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
     const certaId = `${p.id}-${p.certa}`;
     const correta = opcaoId === certaId;
     const primeira = !s.respostas.some((q) => q.perguntaId === p.id);
-    if (primeira && correta) s.acertos++; // responder de novo não soma estrela
+    if (primeira && correta) s.acertos++;
     const r: ResultadoResposta = {
       correta,
       opcaoCorretaId: certaId,
@@ -821,7 +753,6 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
 }
 
 export async function mockRequest<T>(path: string, method: string, body: unknown, token?: string | null): Promise<T> {
-  // O chat demora um pouco mais, como uma resposta de LLM de verdade
   const espera = path.endsWith("/chat") ? 900 + Math.random() * 900 : 150;
   await new Promise((r) => setTimeout(r, espera));
   return structuredClone(rotear(path, method, body, token)) as T;

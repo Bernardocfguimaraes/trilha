@@ -1,14 +1,3 @@
-"""Grupos de reforço: k-means sobre o perfil de desempenho dos alunos (aprendizado não
-supervisionado — não há rótulo; o algoritmo encontra perfis parecidos sozinho).
-
-Cada aluno vira um vetor: a média recente (últimos 3 dias) em cada habilidade que a turma
-já praticou. Onde o aluno ainda não praticou, usamos a média da turma naquela habilidade
-(não puxa o aluno para nenhum grupo). O número de grupos (2 a 4) é escolhido pelo maior
-coeficiente de silhueta. Cada grupo é descrito pelas habilidades em que ele fica bem abaixo
-da turma — é o foco do reforço.
-
-Python puro (sem scikit-learn), determinístico (semente fixa), para turmas de sala de aula.
-"""
 from __future__ import annotations
 
 import math
@@ -27,7 +16,6 @@ def _media(vs: list[list[float]]) -> list[float]:
 
 
 def kmeans(pontos: list[list[float]], k: int, iteracoes: int = 100) -> list[int]:
-    """k-means com inicialização k-means++ e semente fixa. Devolve o grupo de cada ponto."""
     rng = random.Random(SEMENTE)
     centros = [pontos[rng.randrange(len(pontos))]]
     while len(centros) < k:
@@ -55,8 +43,6 @@ def kmeans(pontos: list[list[float]], k: int, iteracoes: int = 100) -> list[int]
 
 
 def silhueta(pontos: list[list[float]], rotulos: list[int]) -> float:
-    """Coeficiente de silhueta médio (−1 a 1): quanto cada aluno está mais perto do próprio
-    grupo do que do grupo vizinho."""
     grupos = set(rotulos)
     if len(grupos) < 2:
         return -1.0
@@ -76,8 +62,6 @@ def silhueta(pontos: list[list[float]], rotulos: list[int]) -> float:
 
 
 def formar_grupos(alunos: list[dict], habilidades: list[dict]) -> dict:
-    """alunos: [{id, nome, recentes: {habilidadeId: média recente}}]
-    habilidades: [{habilidadeId, nome, disciplina}] (as que a turma já praticou)."""
     com_dados = [a for a in alunos if a["recentes"]]
     if len(com_dados) < MIN_ALUNOS or not habilidades:
         return {"grupos": [], "k": 0, "silhueta": None, "alunosConsiderados": len(com_dados),
@@ -108,7 +92,6 @@ def formar_grupos(alunos: list[dict], habilidades: list[dict]) -> dict:
     for g in range(k):
         membros = [a for a, r in zip(com_dados, rotulos) if r == g]
         centro = _media([p for p, r in zip(pontos, rotulos) if r == g])
-        # Foco: habilidades em que o grupo fica bem abaixo da turma e abaixo de 70.
         foco = sorted(
             (
                 {**por_id[hid], "mediaGrupo": round(c), "mediaTurma": round(media_turma[hid])}
@@ -122,7 +105,6 @@ def formar_grupos(alunos: list[dict], habilidades: list[dict]) -> dict:
             "foco": foco,
             "mediaGeral": round(sum(centro) / len(centro)),
         })
-    # Quem mais precisa primeiro.
     grupos.sort(key=lambda g: (len(g["foco"]) == 0, g["mediaGeral"]))
     for i, g in enumerate(grupos, 1):
         g["nome"] = f"Grupo {i}"

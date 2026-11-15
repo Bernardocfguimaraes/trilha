@@ -6,8 +6,6 @@ import { turmasDoProfessor } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "Nova turma" };
 
-// Página própria para criar turma. No primeiro acesso (professor sem turmas) é para cá que
-// o painel leva, com boas-vindas; depois, fica no "Nova turma" da barra lateral.
 export default async function NovaTurmaPage() {
   const { professor, turmas } = await turmasDoProfessor();
   const anos = await api.anos(professor.token);

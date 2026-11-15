@@ -1,4 +1,3 @@
-"""Responsável: só o progresso do próprio filho, pela credencial do PIN."""
 from tests.conftest import entrar_como_aluno
 
 
@@ -15,5 +14,5 @@ def test_credencial_invalida_ou_revogada(cliente, auth):
     assert cliente.post("/responsavel/progresso", json={"acesso": "inventada"}).status_code == 401
     acesso = entrar_como_aluno(cliente, auth, "t1", "a6")
     assert cliente.post("/responsavel/progresso", json={"acesso": acesso}).status_code == 200
-    cliente.post("/alunos/a6/pin", headers=auth)  # o professor troca o PIN
+    cliente.post("/alunos/a6/pin", headers=auth)
     assert cliente.post("/responsavel/progresso", json={"acesso": acesso}).status_code == 401

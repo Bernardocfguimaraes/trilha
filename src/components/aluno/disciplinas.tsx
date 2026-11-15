@@ -2,7 +2,6 @@ import { BookOpen, Calculator, FlaskConical, Globe, Landmark, Languages, Sparkle
 import type { DisciplinaPublica } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-// Cor e ícone de cada disciplina no lado do aluno (por id do contrato).
 const VISUAL: Record<string, { icone: LucideIcon; cartao: string; frase: string }> = {
   por: { icone: BookOpen, cartao: "bg-coral text-white shadow-[0_6px_0_var(--color-coral-escuro)]", frase: "Ler e escrever" },
   mat: { icone: Calculator, cartao: "bg-sol text-tinta shadow-[0_6px_0_var(--color-sol-escuro)]", frase: "Contas e números" },

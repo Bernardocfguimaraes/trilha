@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-/** "← Destino" discreto, no topo das páginas do painel e de login. */
 export function LinkVoltar({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) {
   return (
     <Link
@@ -21,11 +20,6 @@ export function LinkVoltar({ href, children, className }: { href: string; childr
 const CLASSES_ALUNO =
   "grid size-11 shrink-0 place-items-center rounded-full text-pedra outline-none hover:bg-superficie/70 focus-visible:ring-4 focus-visible:ring-grafite/30";
 
-/**
- * Seta redonda do lado do aluno: alvo grande para dedos pequenos. Vira link quando tem
- * `href` e botão quando tem `onClick` (etapas da jornada que não mudam de página).
- * O rótulo diz para onde volta, para o leitor de tela.
- */
 export function VoltarAluno({
   rotulo,
   href,

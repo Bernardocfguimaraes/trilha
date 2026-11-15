@@ -7,10 +7,6 @@ import { cn } from "@/lib/utils";
 const TAMANHO = 4;
 const TECLAS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "apagar"] as const;
 
-/**
- * Número secreto de 4 dígitos, com teclado grande na tela (e o teclado físico também vale).
- * Envia sozinho ao completar. Para limpar depois de um erro, o pai troca a `key`.
- */
 export function EntradaPin({
   onCompleto,
   desabilitado,
