@@ -6,6 +6,8 @@ import "./globals.css";
 const atkinson = Atkinson_Hyperlegible_Next({
   variable: "--font-atkinson",
   subsets: ["latin"],
+  adjustFontFallback: false,
+  fallback: ["Verdana", "system-ui", "sans-serif"],
 });
 
 const baloo = Baloo_2({
