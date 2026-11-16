@@ -235,7 +235,7 @@
    "id": "ef35lp04-m2",
    "habilidadeId": "EF35LP04",
    "nivel": "medio",
-   "enunciado": "\"Carlos saiu de casa e viu que a rua estava molhada, as calçadas brilhavam ao sol e as pessoas carregavam sacolas de compras vazias. Ele ouviu o barulho de um carro passando rápido e sentiu o cheiro de gasolina no ar.\" O que Carlos pode estar pensando que aconteceu recentemente?",
+   "enunciado": "\"Carlos saiu de casa e viu a rua molhada, poças nas calçadas e guarda-chuvas fechados nas mãos das pessoas. O sol já brilhava entre as nuvens.\" O que Carlos pode concluir?",
    "apoio": null,
    "opcoes": [
     "Que há um incêndio perto de onde ele está",
@@ -244,7 +244,7 @@
     "Que começou a nevar na cidade toda"
    ],
    "certa": 1,
-   "explicacao": "A rua molhada, calçadas brilhantes e cheiro de gasolina indicam que acabou de chover e o sol já apareceu, permitindo a inferência correta.",
+   "explicacao": "A rua molhada, as poças e os guarda-chuvas mostram que choveu; o sol entre as nuvens indica que a chuva acabou de passar.",
    "origem": "ia"
   },
   {
