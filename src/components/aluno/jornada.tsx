@@ -328,6 +328,8 @@ function Tela({ children, centro, voltar }: { children: React.ReactNode; centro?
 
 type ClienteSessao = Pick<typeof api, "responder" | "concluirSessao">;
 
+const tipoDeErro = (e: unknown) => (e instanceof ApiError && (e.status === 404 || e.status === 410) ? "interrompida" : "rede");
+
 export function Quiz({
   sessaoId,
   perguntas,
@@ -347,7 +349,7 @@ export function Quiz({
   const [resultado, setResultado] = useState<ResultadoResposta | null>(null);
   const [marcos, setMarcos] = useState<Marco[]>(() => perguntas.map(() => "pendente"));
   const [enviando, setEnviando] = useState(false);
-  const [erro, setErro] = useState(false);
+  const [erro, setErro] = useState<"rede" | "interrompida" | null>(null);
   const [confirmarSaida, setConfirmarSaida] = useState(false);
   const fala = useFala();
   const comecou = marcos.some((m) => m !== "pendente");
@@ -366,15 +368,15 @@ export function Quiz({
   async function conferir() {
     if (!escolha) return;
     setEnviando(true);
-    setErro(false);
+    setErro(null);
     try {
       const r = await cliente.responder(sessaoId, pergunta.id, escolha);
       setResultado(r);
       setMarcos((ms) => ms.map((m, i) => (i === indice ? (r.correta ? "acerto" : "erro") : m)));
       const proxima = r.proxima;
       if (proxima && indice + 1 < lista.length) setLista((l) => l.map((p, i) => (i === indice + 1 ? proxima : p)));
-    } catch {
-      setErro(true);
+    } catch (e) {
+      setErro(tipoDeErro(e));
     } finally {
       setEnviando(false);
     }
@@ -390,8 +392,8 @@ export function Quiz({
     setEnviando(true);
     try {
       onFim(await cliente.concluirSessao(sessaoId), marcos);
-    } catch {
-      setErro(true);
+    } catch (e) {
+      setErro(tipoDeErro(e));
       setEnviando(false);
     }
   }
@@ -521,12 +523,16 @@ export function Quiz({
               {resultado.mensagem}
             </p>
           )}
-          {erro && !resultado && (
+          {erro && (erro === "interrompida" || !resultado) && (
             <p role="alert" className="font-display text-lg font-semibold text-grafite">
-              Não deu para conferir agora. Aperte de novo.
+              {erro === "interrompida" ? "Esta trilha foi interrompida. Vamos começar de novo." : "Não deu para conferir agora. Aperte de novo."}
             </p>
           )}
-          {resultado ? (
+          {erro === "interrompida" ? (
+            <BotaoGrande onClick={onSair} autoFocus className="w-full sm:ml-auto sm:w-auto sm:min-w-56">
+              Recomeçar
+            </BotaoGrande>
+          ) : resultado ? (
             <BotaoGrande
               cor={resultado.correta ? "broto" : "coral"}
               onClick={continuar}
