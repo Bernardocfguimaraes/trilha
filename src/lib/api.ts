@@ -118,10 +118,10 @@ export const api = {
       body: { pergunta, historico } satisfies PedidoChatTurma,
       professor: true,
     }),
-  gerarExercicio: (habilidadeId: string, nivel: Nivel = "facil") =>
+  gerarExercicio: (habilidadeId: string, nivel: Nivel = "facil", evitar: string[] = []) =>
     request<Exercicio>("/exercicios/gerar", {
       method: "POST",
-      body: { habilidadeId, nivel } satisfies PedidoExercicio,
+      body: { habilidadeId, nivel, evitar } satisfies PedidoExercicio,
       professor: true,
     }),
 

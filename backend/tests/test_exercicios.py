@@ -84,3 +84,34 @@ def test_recomendacao_sem_ia_e_util_e_cita_a_habilidade(cliente, auth):
     detalhe = cliente.get("/alunos/a2", headers=auth).json()
     assert detalhe["recomendacoes"]
     assert all("preparação" not in r["texto"] and len(r["texto"]) > 60 for r in detalhe["recomendacoes"])
+
+
+def test_gerar_outro_nao_repete_o_exercicio_anterior(cliente, auth, monkeypatch):
+    monkeypatch.setattr(exercicios.llm, "disponivel", lambda: False)
+    vistos = []
+    for _ in range(4):
+        r = cliente.post("/exercicios/gerar", json={"habilidadeId": "mat-fracoes", "nivel": "facil", "evitar": vistos}, headers=auth)
+        assert r.status_code == 200
+        vistos.append(r.json()["enunciado"])
+    assert len(set(vistos)) == 4
+
+
+def test_ia_recebe_os_exercicios_a_evitar(cliente, auth, monkeypatch):
+    chamadas = _simular_llm(monkeypatch, aprova=True)
+    pedidos = []
+    original = exercicios.llm.gerar
+
+    def espiar(sistema, mensagens, temperatura=0.4, max_tokens=500, papel="geral"):
+        if papel != "revisor":
+            pedidos.append(mensagens[-1]["content"])
+        return original(sistema, mensagens, temperatura, max_tokens, papel)
+
+    monkeypatch.setattr(exercicios.llm, "gerar", espiar)
+    r = cliente.post("/exercicios/gerar", json={"habilidadeId": "EF05MA04", "nivel": "facil", "evitar": ["Quanto é metade de 8?"]}, headers=auth)
+    assert r.status_code == 200 and chamadas["revisor"] >= 1
+    assert "Quanto é metade de 8?" in pedidos[0]
+
+
+def test_lista_a_evitar_tem_limite(cliente, auth):
+    r = cliente.post("/exercicios/gerar", json={"habilidadeId": "mat-fracoes", "evitar": ["x"] * 13}, headers=auth)
+    assert r.status_code == 422

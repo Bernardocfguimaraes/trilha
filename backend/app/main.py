@@ -223,7 +223,7 @@ def post_regenerar_pin(aluno_id: str, professor: dict = Professor):
 @app.post("/exercicios/gerar", dependencies=PROFESSOR)
 def post_exercicio(pedido: PedidoExercicio):
     try:
-        return exercicios.gerar_exercicio(pedido.habilidadeId, pedido.nivel, revisar=True)
+        return exercicios.gerar_exercicio(pedido.habilidadeId, pedido.nivel, evitar=pedido.evitar, revisar=True)
     except ValueError as e:
         return JSONResponse(str(e), status_code=404)
 

@@ -32,11 +32,13 @@ import type {
   AlunoDetalhe,
   AlunoResumo,
   EstadoAdaptacao,
+  Exercicio,
   HabilidadeStatus,
   HistoricoHabilidade,
   MensagemChat,
   Nivel,
   PedidoChatTurma,
+  PedidoExercicio,
   GruposTurma,
   PedidoNovaTurma,
   PedidoLogin,
@@ -499,6 +501,30 @@ const ROTAS_PROFESSOR = [
   /^\/voz\//,
 ];
 
+function exercicioDoBanco({ habilidadeId, nivel = "medio", evitar = [] }: PedidoExercicio): Exercicio {
+  const hab = HAB_POR_ID.get(habilidadeId);
+  const candidatas = BANCO.filter((p) => p.habilidadeId === habilidadeId);
+  if (!hab || !candidatas.length) throw new ApiError(404, "Sem exercício para esta habilidade");
+  const novas = candidatas.filter((p) => !evitar.includes(p.enunciado));
+  const restantes = novas.length ? novas : candidatas;
+  const noNivel = restantes.filter((p) => p.nivel === nivel);
+  const lista = noNivel.length ? noNivel : restantes;
+  const p = lista[Math.floor(Math.random() * lista.length)];
+  return {
+    habilidadeId,
+    habilidade: hab.nome,
+    disciplina: hab.disciplina,
+    codigoBncc: hab.codigoBncc ?? null,
+    nivel,
+    enunciado: p.enunciado,
+    opcoes: [...p.opcoes],
+    indiceCorreta: p.certa,
+    explicacao: "",
+    apoio: p.apoio ?? null,
+    origem: "banco",
+  };
+}
+
 function rotaDaTurma(path: string, method: string): string {
   const partes = path.split("/").filter(Boolean);
   if (partes[0] === "turmas" && partes.length === 3 && partes[2] !== "chat") {
@@ -669,6 +695,8 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
     };
     return publica;
   }
+
+  if (path === "/exercicios/gerar" && method === "POST") return exercicioDoBanco(body as PedidoExercicio);
 
   if (path === "/sessoes" && method === "POST") {
     const pedido = body as PedidoSessao;

@@ -72,3 +72,4 @@ class PedidoChatTurma(BaseModel):
 class PedidoExercicio(BaseModel):
     habilidadeId: Id
     nivel: Nivel = "medio"
+    evitar: list[Annotated[str, Field(max_length=600)]] = Field(default=[], max_length=12)

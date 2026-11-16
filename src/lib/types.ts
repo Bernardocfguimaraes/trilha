@@ -222,6 +222,7 @@ export interface PedidoChatTurma {
 export interface PedidoExercicio {
   habilidadeId: string;
   nivel?: Nivel;
+  evitar?: string[];
 }
 
 export interface Exercicio {

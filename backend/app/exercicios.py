@@ -136,10 +136,12 @@ def _valido(dados: dict) -> bool:
     return True
 
 
-def _do_banco(habilidade_id: str, nivel: str) -> dict | None:
+def _do_banco(habilidade_id: str, nivel: str, evitar: list[str] | None = None) -> dict | None:
     candidatas = [p for p in BANCO if p["habilidadeId"] == habilidade_id]
     if not candidatas:
         return None
+    vistas = set(evitar or [])
+    candidatas = [p for p in candidatas if p["enunciado"] not in vistas] or candidatas
     no_nivel = [p for p in candidatas if p["nivel"] == nivel]
     p = random.choice(no_nivel or candidatas)
     return {
@@ -249,7 +251,7 @@ def gerar_exercicio(habilidade_id: str, nivel: str = "medio", evitar: list[str] 
     if gerado is None and not usar_banco:
         raise ValueError(f"A IA não gerou questão válida para {habilidade_id} ({nivel})")
     if gerado is None:
-        base = _do_banco(habilidade_id, nivel)
+        base = _do_banco(habilidade_id, nivel, evitar)
         if base is None:
             raise ValueError(f"Sem exercício disponível para {habilidade_id}")
         gerado = {**base, "origem": "banco"}

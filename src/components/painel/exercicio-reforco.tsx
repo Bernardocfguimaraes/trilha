@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
@@ -20,13 +20,16 @@ export function ExercicioReforco({ habilidadeId, status }: { habilidadeId: strin
   const [exercicio, setExercicio] = useState<Exercicio | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [falhou, setFalhou] = useState(false);
+  const vistos = useRef<string[]>([]);
 
   async function gerar() {
     if (carregando) return;
     setCarregando(true);
     setFalhou(false);
     try {
-      setExercicio(await api.gerarExercicio(habilidadeId, nivel));
+      const novo = await api.gerarExercicio(habilidadeId, nivel, vistos.current.slice(-12));
+      vistos.current = [...vistos.current, novo.enunciado];
+      setExercicio(novo);
     } catch {
       setFalhou(true);
     } finally {
