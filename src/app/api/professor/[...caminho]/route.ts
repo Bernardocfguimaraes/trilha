@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { COOKIE_PROFESSOR } from "@/lib/auth";
+import type { PlanilhaMock } from "@/lib/mock";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || undefined;
 const PERMITIDAS = [
@@ -25,10 +26,15 @@ async function repassar(request: NextRequest, ctx: RouteContext<"/api/professor/
   const multipart = request.headers.get("content-type")?.startsWith("multipart/form-data");
   if (!API_URL) {
     if (multipart) return new NextResponse("Transcrição de voz precisa do backend", { status: 503 });
-    if (rota.endsWith(".csv")) return new NextResponse("A planilha precisa do backend", { status: 503 });
     const { mockRequest } = await import("@/lib/mock");
     const { ApiError } = await import("@/lib/api");
     try {
+      if (rota.endsWith(".csv")) {
+        const { nome, conteudo } = await mockRequest<PlanilhaMock>("/" + rota, "GET", undefined, token);
+        return new NextResponse(conteudo, {
+          headers: { "Content-Type": "text/csv; charset=utf-8", "Content-Disposition": `attachment; filename="${nome}"` },
+        });
+      }
       const body = request.method === "GET" ? undefined : await request.json().catch(() => undefined);
       return NextResponse.json(await mockRequest("/" + rota, request.method, body, token));
     } catch (e) {

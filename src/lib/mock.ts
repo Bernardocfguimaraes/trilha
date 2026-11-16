@@ -495,7 +495,7 @@ const ROTAS_PROFESSOR = [
   /^\/anos$/,
   /^\/modelo$/,
   /^\/turmas$/,
-  /^\/turmas\/[^/]+\/(alunos|cadastros|configuracao|diagnostico|chat|grupos)$/,
+  /^\/turmas\/[^/]+\/(alunos|cadastros|configuracao|diagnostico|chat|grupos|relatorio\.csv)$/,
   /^\/alunos/,
   /^\/exercicios\//,
   /^\/voz\//,
@@ -523,6 +523,41 @@ function exercicioDoBanco({ habilidadeId, nivel = "medio", evitar = [] }: Pedido
     apoio: p.apoio ?? null,
     origem: "banco",
   };
+}
+
+const ROTULO_STATUS: Record<Status, string> = { ok: "Ok", atencao: "Atenção", alerta: "Alerta" };
+
+export interface PlanilhaMock {
+  nome: string;
+  conteudo: string;
+}
+
+function planilha(turmaId: string): PlanilhaMock {
+  const celula = (v: string) => (/[;"\r\n]/.test(v) ? `"${v.replaceAll('"', '""')}"` : v);
+  const linhas: string[][] = [
+    ["Aluno", "Disciplina", "Habilidade", "Código BNCC", "Status", "Confiança do modelo", "Pode cair para alerta", "Dias com atividade", "Última atividade"],
+  ];
+  let nomeTurma: string;
+  if (turmaId === TURMA.id) {
+    nomeTurma = TURMA.nome;
+    for (const a of ALUNOS) {
+      const praticadas = habilidadesDe(a)
+        .filter((h) => h.iniciada)
+        .map((h) => ({ h, dias: serie(a, h.habilidadeId).length }))
+        .filter((x) => x.dias > 0);
+      if (!praticadas.length) linhas.push([a.nome, "", "", "", "Sem atividades", "", "", "0", ""]);
+      for (const { h, dias } of praticadas) {
+        linhas.push([a.nome, h.disciplina, h.nome, h.codigoBncc ?? "", ROTULO_STATUS[h.status], "", h.emRisco ? "Sim" : "Não", String(dias), ultimaDe(a) ?? ""]);
+      }
+    }
+  } else {
+    const t = turmaExtra(turmaId);
+    if (!t) throw new ApiError(404, "Turma não encontrada");
+    nomeTurma = t.nome;
+    for (const a of t.alunos) linhas.push([a.nome, "", "", "", "Sem atividades", "", "", "0", ""]);
+  }
+  const nome = `trilha-${nomeTurma.toLowerCase().replaceAll(" ", "-").replaceAll("º", "")}-${hojeLocal()}.csv`;
+  return { nome, conteudo: "﻿" + linhas.map((l) => l.map(celula).join(";")).join("\r\n") + "\r\n" };
 }
 
 function rotaDaTurma(path: string, method: string): string {
@@ -600,6 +635,8 @@ function rotear(caminho: string, method: string, body: unknown, token?: string |
     const { nome, ano, alunos } = body as PedidoNovaTurma;
     return criarTurmaExtra(nome, ano, alunos ?? [], [TURMA.codigo], () => novoPin(), estado.pins);
   }
+  const csv = caminho.match(/^\/turmas\/([^/]+)\/relatorio\.csv$/);
+  if (csv) return planilha(csv[1]);
   const extra = rotaTurmaExtra(caminho, method, body);
   if (extra !== undefined) return extra;
   if (caminho === "/modelo") return { ...metricasModelo, professores: { avaliacoes: 0, concordancia: null }, risco: metricasRisco, llm: avaliacaoLlm };
