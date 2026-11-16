@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowUp, Mic, Sparkles, Square, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { api } from "@/lib/api";
+import { api, ApiError } from "@/lib/api";
 import type { MensagemChat, Turma } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { TextoFormatado } from "@/components/texto-formatado";
@@ -36,6 +36,12 @@ const semAssinatura = () => () => {};
 
 const hora = new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" });
 
+const MENSAGEM_ERRO_VOZ = {
+  microfone: "Não consegui usar o microfone. Verifique a permissão do navegador e tente de novo.",
+  transcricao: "Não consegui transcrever o áudio agora. Digite a pergunta ou grave de novo em instantes.",
+  longo: "A gravação ficou longa demais. Grave uma pergunta mais curta.",
+};
+
 export function ChatTurma({ turma }: { turma: Turma }) {
   const noNavegador = useSyncExternalStore(semAssinatura, () => true, () => false);
   const [proprias, setProprias] = useState<{ turmaId: string; lista: MensagemChat[] } | null>(null);
@@ -45,7 +51,7 @@ export function ChatTurma({ turma }: { turma: Turma }) {
   const [falhou, setFalhou] = useState(false);
   const [gravando, setGravando] = useState(false);
   const [transcrevendo, setTranscrevendo] = useState(false);
-  const [erroVoz, setErroVoz] = useState(false);
+  const [erroVoz, setErroVoz] = useState<keyof typeof MENSAGEM_ERRO_VOZ | null>(null);
   const fim = useRef<HTMLDivElement>(null);
   const gravador = useRef<MediaRecorder | null>(null);
   const pedacos = useRef<Blob[]>([]);
@@ -98,7 +104,7 @@ export function ChatTurma({ turma }: { turma: Turma }) {
       gravador.current?.stop();
       return;
     }
-    setErroVoz(false);
+    setErroVoz(null);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mr = new MediaRecorder(stream);
@@ -115,8 +121,8 @@ export function ChatTurma({ turma }: { turma: Turma }) {
         try {
           const { texto: transcrito } = await api.transcrever(audio);
           if (transcrito) setTexto((t) => (t ? `${t} ${transcrito}` : transcrito));
-        } catch {
-          setErroVoz(true);
+        } catch (e) {
+          setErroVoz(e instanceof ApiError && e.status === 413 ? "longo" : "transcricao");
         } finally {
           setTranscrevendo(false);
         }
@@ -125,7 +131,7 @@ export function ChatTurma({ turma }: { turma: Turma }) {
       mr.start();
       setGravando(true);
     } catch {
-      setErroVoz(true);
+      setErroVoz("microfone");
     }
   }
 
@@ -249,9 +255,7 @@ export function ChatTurma({ turma }: { turma: Turma }) {
             ) : transcrevendo ? (
               <span className="text-pedra">Transcrevendo o áudio…</span>
             ) : (
-              <span className="font-semibold text-alerta">
-                Não consegui usar o microfone. Verifique a permissão do navegador e tente de novo.
-              </span>
+              <span className="font-semibold text-alerta">{erroVoz && MENSAGEM_ERRO_VOZ[erroVoz]}</span>
             )}
           </p>
         )}
