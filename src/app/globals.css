@@ -8,20 +8,20 @@
   --color-mata: #0f6e50;
   --color-mata-escura: #0a523b;
   --color-mata-clara: #e4f1ec;
-  --color-broto: #1dbe7f;
-  --color-broto-escuro: #12925f;
+  --color-broto: #139a66;
+  --color-broto-escuro: #0c7a4e;
   --color-ceu: #e3f4fb;
   --color-ceu-forte: #bfe6f6;
   --color-sol: #ffc23d;
   --color-sol-escuro: #e0a01a;
-  --color-coral: #ff7a59;
+  --color-coral: #e35b3a;
   --color-coral-claro: #ffe6de;
   --color-papel: #f6f7f5;
   --color-grafite: #1e2a25;
   --color-pedra: #5d6b65;
   --color-atencao: #b7791f;
   --color-atencao-clara: #fbf1dd;
-  --color-alerta: #c62f2f;
+  --color-alerta: #b82a2a;
   --color-alerta-clara: #f8e3df;
 
   --color-superficie: #ffffff;
@@ -30,7 +30,7 @@
   --color-agua-clara: #d8effa;
   --color-agua-escura: #1f6f99;
   --color-broto-clara: #d6f5e6;
-  --color-coral-escuro: #d9583a;
+  --color-coral-escuro: #b5432a;
   --color-atencao-texto: #7a4f12;
   --color-desligado: #d5dde0;
   --color-desligado-texto: #8a979c;
@@ -97,7 +97,7 @@
   --color-mata: #4cc492;
   --color-mata-escura: #9ae3c3;
   --color-mata-clara: #173a2e;
-  --color-broto-escuro: #0e7a50;
+  --color-broto-escuro: #0a6342;
   --color-ceu: #0e1c24;
   --color-ceu-forte: #24404f;
   --color-coral-claro: #3d2520;
@@ -113,7 +113,7 @@
   --color-agua-clara: #133349;
   --color-agua-escura: #0f5a80;
   --color-broto-clara: #12392a;
-  --color-coral-escuro: #b8452b;
+  --color-coral-escuro: #96361f;
   --color-atencao-texto: #f2c97c;
   --color-desligado: #2b3835;
   --color-desligado-texto: #73867e;
@@ -126,7 +126,7 @@
   --card-foreground: #e7efea;
   --popover: #182723;
   --popover-foreground: #e7efea;
-  --primary: #1a8f60;
+  --primary: #167f56;
   --primary-foreground: #ffffff;
   --secondary: #1f302b;
   --secondary-foreground: #e7efea;

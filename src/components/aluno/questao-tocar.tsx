@@ -56,7 +56,7 @@ export function QuestaoTocar({
                   "relative inline-block rounded-lg px-1 py-0.5 align-baseline leading-tight font-bold outline-none",
                   "transition-[background-color,color,box-shadow] duration-150 focus-visible:ring-4 focus-visible:ring-agua/40",
                   !resultado && !marcada && "bg-ceu/70 underline decoration-agua/50 decoration-dotted decoration-[3px] underline-offset-[6px] hover:bg-ceu-forte",
-                  marcada && !resultado && "bg-agua text-white shadow-[0_3px_0_var(--color-agua-escura)]",
+                  marcada && !resultado && "bg-agua text-white shadow-[0_3px_0_var(--color-agua-escura)] dark:text-tinta",
                   certa && "animate-estoura bg-broto text-white shadow-[0_3px_0_var(--color-broto-escuro)]",
                   errada && "animate-balanca bg-coral text-white line-through decoration-white/80 decoration-[3px]",
                   resultado && !certa && !errada && "text-grafite/70",

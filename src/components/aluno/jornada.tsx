@@ -40,7 +40,7 @@ type Etapa =
     }
   | { tipo: "fim"; aluno: AlunoPublico; acesso: string; resultado: ResultadoSessao; marcos: Marco[] };
 
-const CORES_AVATAR = ["bg-broto", "bg-sol", "bg-coral", "bg-[#4bb3e6]", "bg-[#9b7fe6]"];
+const CORES_AVATAR = ["bg-broto text-white", "bg-sol text-tinta", "bg-coral text-white", "bg-[#2f8fc4] text-white", "bg-[#7d5fd6] text-white"];
 
 export function Jornada({ turma }: { turma: TurmaPublica }) {
   const [etapa, setEtapa] = useState<Etapa>({ tipo: "quem" });
@@ -83,7 +83,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
               >
                 <span
                   className={cn(
-                    "grid size-14 place-items-center rounded-full font-display text-3xl font-extrabold text-white",
+                    "grid size-14 place-items-center rounded-full font-display text-3xl font-extrabold",
                     CORES_AVATAR[i % CORES_AVATAR.length],
                   )}
                   aria-hidden
@@ -440,7 +440,7 @@ export function Quiz({
             {fala.disponivel && (
               <button
                 onClick={() => fala.falar(paraOuvir)}
-                className="relative mt-2 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 -ml-2 font-display text-lg font-semibold text-agua outline-none hover:bg-ceu focus-visible:ring-4 focus-visible:ring-agua/30"
+                className="relative mt-2 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 -ml-2 font-display text-lg font-semibold text-agua-escura outline-none hover:bg-ceu dark:text-agua focus-visible:ring-4 focus-visible:ring-agua/30"
               >
                 <Volume2 className="size-5" strokeWidth={2.5} />
                 Ouvir

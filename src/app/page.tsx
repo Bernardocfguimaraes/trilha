@@ -84,7 +84,7 @@ function Cabecalho() {
           </Link>
           <Link
             href="/aluno"
-            className="inline-flex h-10 items-center rounded-xl bg-broto px-4 font-display text-lg font-bold text-white shadow-[0_4px_0_var(--color-broto-escuro)] outline-none transition-[transform,box-shadow] duration-75 focus-visible:ring-4 focus-visible:ring-grafite/30 active:translate-y-1 active:shadow-none"
+            className="inline-flex h-10 items-center rounded-xl bg-broto px-4 font-display text-[1.1875rem] font-bold text-white shadow-[0_4px_0_var(--color-broto-escuro)] outline-none transition-[transform,box-shadow] duration-75 focus-visible:ring-4 focus-visible:ring-grafite/30 active:translate-y-1 active:shadow-none"
           >
             Sou aluno
           </Link>

@@ -425,10 +425,10 @@ function MatrizConfusao({ m }: { m: MetricasModelo }) {
                       key={j}
                       title={`Era ${rotuloStatus(classes[i] as Status).toLowerCase()}, previu ${rotuloStatus(classes[j] as Status).toLowerCase()}: ${n} casos (${pct(f)} da linha)`}
                       className={cn("h-16 rounded-md text-center align-middle", forte ? "text-sobre-mata" : "text-grafite")}
-                      style={{ background: `color-mix(in oklab, var(--color-mata) ${Math.round(8 + f * 82)}%, var(--color-superficie))` }}
+                      style={{ background: `color-mix(in oklab, var(--color-mata) ${forte ? Math.round(72 + f * 28) : Math.round(6 + f * 30)}%, var(--color-superficie))` }}
                     >
                       <span className="block text-base font-bold tabular-nums">{pct(f)}</span>
-                      <span className={cn("block text-xs tabular-nums", forte ? "opacity-90" : "text-pedra")}>{n} casos</span>
+                      <span className="block text-xs tabular-nums">{n} casos</span>
                     </td>
                   );
                 })}

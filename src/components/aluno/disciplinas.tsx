@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 const VISUAL: Record<string, { icone: LucideIcon; cartao: string; frase: string }> = {
   por: { icone: BookOpen, cartao: "bg-coral text-white shadow-[0_6px_0_var(--color-coral-escuro)]", frase: "Ler e escrever" },
   mat: { icone: Calculator, cartao: "bg-sol text-tinta shadow-[0_6px_0_var(--color-sol-escuro)]", frase: "Contas e números" },
-  geo: { icone: Globe, cartao: "bg-[#4bb3e6] text-white shadow-[0_6px_0_var(--color-agua)]", frase: "Mapas e lugares" },
+  geo: { icone: Globe, cartao: "bg-[#2f8fc4] text-white shadow-[0_6px_0_#1f6f9b]", frase: "Mapas e lugares" },
   cie: { icone: FlaskConical, cartao: "bg-broto text-white shadow-[0_6px_0_var(--color-broto-escuro)]", frase: "Bichos, plantas e água" },
   his: { icone: Landmark, cartao: "bg-[#c97b3f] text-white shadow-[0_6px_0_#9a5a28]", frase: "Povos, tempos e lugares" },
   ing: { icone: Languages, cartao: "bg-[#9b7fe6] text-white shadow-[0_6px_0_#7a5fc4]", frase: "Palavras em inglês" },
@@ -41,7 +41,7 @@ export function CartaoDisciplina({
       </span>
       <span>
         <span className="block font-display text-3xl leading-none font-extrabold">{disciplina.nome}</span>
-        {frase && <span className="mt-1 block font-display text-lg font-semibold opacity-90">{frase}</span>}
+        {frase && <span className="mt-1 block font-display text-[1.1875rem] font-bold">{frase}</span>}
       </span>
     </button>
   );
