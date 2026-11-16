@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff, RefreshCw, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
@@ -8,6 +9,7 @@ import type { AlunoCadastro } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 export function PinsAlunos({ turmaId, alunos: iniciais }: { turmaId: string; alunos: AlunoCadastro[] }) {
+  const router = useRouter();
   const [alunos, setAlunos] = useState(iniciais);
   const [visiveis, setVisiveis] = useState(false);
   const [gerando, setGerando] = useState<string | null>(null);
@@ -28,6 +30,7 @@ export function PinsAlunos({ turmaId, alunos: iniciais }: { turmaId: string; alu
       setAlunos((lista) => [...lista, criado].sort((a, b) => a.nome.localeCompare(b.nome)));
       setNovo(criado.id);
       setNome("");
+      router.refresh();
     } catch {
       setErroNovo(true);
     } finally {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Check, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -9,6 +10,7 @@ import type { HabilidadeConfig, TurmaConfig } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 export function FormTurma({ config }: { config: TurmaConfig }) {
+  const router = useRouter();
   const inicial = config.disciplinas.flatMap((d) => d.habilidades.filter((h) => h.ativa).map((h) => h.id));
   const [salvas, setSalvas] = useState(() => new Set(inicial));
   const [ativas, setAtivas] = useState(() => new Set(inicial));
@@ -47,6 +49,7 @@ export function FormTurma({ config }: { config: TurmaConfig }) {
       setSalvas(new Set(ativas));
       setDisciplinasSalvas(new Set(disciplinas));
       setEstado("salvo");
+      router.refresh();
     } catch {
       setEstado("erro");
     }
@@ -182,7 +185,7 @@ export function CodigoTurma({ codigo }: { codigo: string }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg bg-primary p-5 text-primary-foreground">
       <div>
-        <p className="text-sm text-primary-foreground/80">Código para os alunos entrarem</p>
+        <p className="text-sm text-primary-foreground">Código para os alunos entrarem</p>
         <p className="mt-1 font-display text-4xl leading-none font-extrabold tracking-[0.15em]">{codigo}</p>
       </div>
       <Button variant="secondary" onClick={copiar} className="h-10 px-4 text-base">
