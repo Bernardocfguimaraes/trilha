@@ -3,7 +3,7 @@ import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { connection } from "next/server";
-import { api } from "./api";
+import { api, ApiError } from "./api";
 import type { TurmaResumo } from "./types";
 
 export const COOKIE_PROFESSOR = "trilha_sessao";
@@ -25,8 +25,9 @@ export const professorAtual = cache(async (): Promise<Professor | null> => {
   try {
     const eu = await api.eu(token);
     return { ...eu, token };
-  } catch {
-    return null;
+  } catch (e) {
+    if (e instanceof ApiError && (e.status === 401 || e.status === 403)) return null;
+    throw e;
   }
 });
 
