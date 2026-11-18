@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+import time
+from contextvars import ContextVar
 
 from pathlib import Path
 
@@ -50,6 +52,22 @@ if url.startswith("sqlite"):
         cur.close()
 else:
     engine = create_engine(url, pool_pre_ping=True, future=True, connect_args={"connect_timeout": 10, "prepare_threshold": None})
+medicao: ContextVar[dict | None] = ContextVar("medicao", default=None)
+
+
+@event.listens_for(engine, "before_cursor_execute")
+def _inicio_consulta(conexao, *_):
+    conexao.info["inicio_consulta"] = time.perf_counter()
+
+
+@event.listens_for(engine, "after_cursor_execute")
+def _fim_consulta(conexao, *_):
+    atual = medicao.get()
+    if atual is not None:
+        atual["consultas"] += 1
+        atual["banco_s"] += time.perf_counter() - conexao.info.pop("inicio_consulta", time.perf_counter())
+
+
 SessionLocal = sessionmaker(bind=engine, expire_on_commit=False, future=True)
 
 

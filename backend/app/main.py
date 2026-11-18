@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import time
 
 from fastapi import Depends, FastAPI, File, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -62,7 +63,17 @@ app.add_middleware(
 
 @app.middleware("http")
 async def _cabecalhos_seguranca(request: Request, call_next):
-    resposta = await call_next(request)
+    medida = {"consultas": 0, "banco_s": 0.0}
+    marca = bd.medicao.set(medida)
+    inicio = time.perf_counter()
+    try:
+        resposta = await call_next(request)
+    finally:
+        bd.medicao.reset(marca)
+    resposta.headers["Server-Timing"] = (
+        f'banco;desc="{medida["consultas"]} consultas";dur={medida["banco_s"] * 1000:.0f}, '
+        f"total;dur={(time.perf_counter() - inicio) * 1000:.0f}"
+    )
     resposta.headers.setdefault("X-Content-Type-Options", "nosniff")
     resposta.headers.setdefault("X-Frame-Options", "DENY")
     resposta.headers.setdefault("Referrer-Policy", "no-referrer")
