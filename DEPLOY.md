@@ -26,7 +26,7 @@ navegador ──► trilha.vercel.app ─┬─► serviço "site" (Next.js)  �
 
 | Arquivo | Para que serve |
 |---|---|
-| `vercel.json` | Os dois serviços (`site` na raiz e `api` em `backend/`), a rota `/backend/*` para a API e a ligação interna |
+| `vercel.json` | Os dois serviços (`site` na raiz e `api` em `backend/`), a rota `/backend/*` para a API, a ligação interna e a região das funções (`gru1`, São Paulo) |
 | `.vercelignore` | Deixa de fora a `.venv`, o banco local, os testes e o treino dos modelos |
 | `backend/.python-version` | Python 3.12 na API |
 
@@ -39,11 +39,11 @@ Não precisa instalar nada: `npx vercel` baixa o CLI na hora.
    npx vercel login
    npx vercel link --project trilha
    ```
-2. **Criar o banco** (Neon, plano gratuito, na mesma região das funções). Na primeira vez a
+2. **Criar o banco** (Neon, plano gratuito, em São Paulo, a mesma região das funções). Na primeira vez a
    Vercel pede para aceitar os termos do Neon no navegador. `--no-env-pull` evita sobrescrever o
    `.env.local` usado na apresentação local.
    ```bash
-   npx vercel integration add neon --billing-plan free_v3 --meta region=iad1 --meta auth=false --name trilha-db --no-env-pull
+   npx vercel integration add neon --billing-plan free_v3 --meta region=gru1 --meta auth=false --name trilha-db-sp --no-env-pull
    ```
    Isso cria `DATABASE_URL` (com pool) e `DATABASE_URL_UNPOOLED` (direta) no projeto.
 3. **Variáveis da aplicação** (produção e preview):
@@ -82,6 +82,13 @@ Não precisa instalar nada: `npx vercel` baixa o CLI na hora.
 - [ ] Página **Diagnóstico** mostra as métricas do modelo.
 - [ ] Com `LLM_API_KEY`: a **Conversa** responde com IA, o exercício gerado aparece e a
       pergunta por voz é transcrita.
+
+## Região
+
+Funções e banco ficam em **São Paulo** (`gru1` na Vercel, `sa-east-1` no Neon). Com os dois na
+mesma região, cada consulta ao banco leva poucos milissegundos, e quem acessa do Brasil fica
+perto do servidor. Cada resposta da API traz o cabeçalho `Server-Timing` com a duração total e o
+tempo gasto no banco, para conferir isso nas ferramentas do navegador.
 
 ## Como o plano gratuito se comporta
 
