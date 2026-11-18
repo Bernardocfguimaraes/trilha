@@ -31,6 +31,9 @@ import type {
 } from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || undefined;
+const API_INTERNA = process.env.API_INTERNAL_URL || undefined;
+
+export const urlDaApiNoServidor = () => API_INTERNA ?? API_URL;
 
 export class ApiError extends Error {
   constructor(
@@ -56,7 +59,7 @@ async function request<T>(path: string, { method = "GET", body, token, professor
     return mockRequest<T>(path, method, body, token);
   }
 
-  const base = noNavegador() && professor ? "/api/professor" : (API_URL ?? "/api/mock");
+  const base = noNavegador() ? (professor ? "/api/professor" : (API_URL ?? "/api/mock")) : urlDaApiNoServidor();
   const res = await fetch(`${base}${path}`, {
     method,
     headers: {

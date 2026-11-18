@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const dev = process.env.NODE_ENV !== "production";
-const api = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+const api = process.env.NEXT_PUBLIC_API_URL?.startsWith("http") ? process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "") : undefined;
 
 const csp = [
   "default-src 'self'",

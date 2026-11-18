@@ -1,0 +1,9 @@
+node_modules
+.next
+backend/.venv
+backend/trilha.db*
+backend/tests
+backend/ml
+backend/scripts
+backend/**/__pycache__
+tests

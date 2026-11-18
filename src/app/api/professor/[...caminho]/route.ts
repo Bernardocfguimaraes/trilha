@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { COOKIE_PROFESSOR } from "@/lib/auth";
 import type { PlanilhaMock } from "@/lib/mock";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || undefined;
+const API_URL = process.env.NEXT_PUBLIC_API_URL ? (process.env.API_INTERNAL_URL ?? process.env.NEXT_PUBLIC_API_URL) : undefined;
 const PERMITIDAS = [
   /^anos$/,
   /^modelo$/,
