@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/marca";
@@ -6,6 +7,8 @@ import { BotaoTema } from "@/components/tema";
 import { cookies } from "next/headers";
 import { SeletorTurma } from "@/components/painel/seletor-turma";
 import { COOKIE_TURMA, turmasDoProfessor } from "@/lib/auth";
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default function PainelLayout({ children }: LayoutProps<"/painel">) {
   return (

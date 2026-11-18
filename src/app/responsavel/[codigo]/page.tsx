@@ -5,7 +5,7 @@ import { EntradaResponsavel } from "@/components/responsavel/entrada-responsavel
 import { api, ApiError } from "@/lib/api";
 import type { TurmaPublica } from "@/lib/types";
 
-export const metadata: Metadata = { title: "Acompanhar meu filho" };
+export const metadata: Metadata = { title: "Acompanhar meu filho", robots: { index: false, follow: false } };
 
 export default async function TurmaResponsavelPage({ params }: PageProps<"/responsavel/[codigo]">) {
   const { codigo } = await params;

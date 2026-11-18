@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { BookOpenCheck, KeyRound, LockKeyhole, ShieldCheck } from "lucide-react";
 import { Logo, Sabia, StatusSelo } from "@/components/marca";
@@ -37,6 +38,8 @@ const CUIDADOS = [
     texto: "Conteúdo alinhado à BNCC, com as questões revisadas por pessoas antes de chegar ao aluno.",
   },
 ];
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function Home() {
   return (

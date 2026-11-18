@@ -9,7 +9,7 @@ import { dataLonga } from "@/lib/formato";
 import { COOKIE_RESPONSAVEL } from "@/lib/responsavel";
 import type { ProgressoResponsavel } from "@/lib/types";
 
-export const metadata: Metadata = { title: "Progresso" };
+export const metadata: Metadata = { title: "Progresso", robots: { index: false, follow: false } };
 
 export default async function ProgressoResponsavelPage() {
   await connection();

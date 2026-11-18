@@ -5,7 +5,11 @@ import { Sabia } from "@/components/marca";
 import { classesBotaoGrande } from "@/components/aluno/botao-grande";
 import { BotaoTema } from "@/components/tema";
 
-export const metadata: Metadata = { title: "Entrar na turma" };
+export const metadata: Metadata = {
+  title: "Entrar na turma",
+  description: "Digite o código da turma para começar a trilha do dia: perguntas curtas, com áudio e no seu ritmo.",
+  alternates: { canonical: "/aluno" },
+};
 
 export default async function AlunoPage({ searchParams }: PageProps<"/aluno">) {
   const { erro } = await searchParams;

@@ -5,7 +5,7 @@ import { Jornada } from "@/components/aluno/jornada";
 import { api, ApiError } from "@/lib/api";
 import type { TurmaPublica } from "@/lib/types";
 
-export const metadata: Metadata = { title: "Trilha de hoje" };
+export const metadata: Metadata = { title: "Trilha de hoje", robots: { index: false, follow: false } };
 
 export default async function TurmaAlunoPage({ params }: PageProps<"/aluno/[codigo]">) {
   const { codigo } = await params;

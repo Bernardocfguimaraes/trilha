@@ -3,7 +3,11 @@ import { LinkVoltar } from "@/components/voltar";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Acompanhar meu filho" };
+export const metadata: Metadata = {
+  title: "Acompanhar meu filho",
+  description: "Com o código da turma e o PIN do seu filho, veja o progresso e as recomendações para apoiar em casa.",
+  alternates: { canonical: "/responsavel" },
+};
 
 const ERROS: Record<string, string> = {
   codigo: "Esse código de turma não existe. Confira as letras e tente de novo.",

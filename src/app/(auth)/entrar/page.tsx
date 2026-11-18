@@ -2,7 +2,11 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { FormAuth } from "@/components/form-auth";
 
-export const metadata: Metadata = { title: "Entrar" };
+export const metadata: Metadata = {
+  title: "Entrar no painel",
+  description: "Painel do professor: diagnóstico de cada habilidade, grupos de reforço e recomendações por aluno.",
+  alternates: { canonical: "/entrar" },
+};
 
 export default function EntrarPage({ searchParams }: PageProps<"/entrar">) {
   return (
