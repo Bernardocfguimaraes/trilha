@@ -10,6 +10,7 @@ import time
 
 from fastapi import Header
 
+from . import estado
 from .regras import ApiErro
 
 ITERACOES = 200_000
@@ -77,24 +78,26 @@ def professor_atual(authorization: str | None = Header(default=None)) -> dict:
     return dados
 
 
-_tentativas: dict[str, dict] = {}
+def _chave_login(email: str) -> str:
+    return "login:" + email
 
 
 def bloqueado(email: str) -> bool:
-    t = _tentativas.get(email)
+    t = estado.ler(_chave_login(email))
     return bool(t and t["ate"] > time.time())
 
 
 def registrar_erro(email: str) -> None:
-    t = _tentativas.setdefault(email, {"erros": 0, "ate": 0.0})
+    t = estado.ler(_chave_login(email)) or {"erros": 0, "ate": 0.0}
     t["erros"] += 1
     if t["erros"] >= MAX_ERROS_LOGIN:
         t["erros"] = 0
         t["ate"] = time.time() + ESPERA_BLOQUEIO_S
+    estado.gravar(_chave_login(email), t, ESPERA_BLOQUEIO_S + 3600)
 
 
 def limpar_erros(email: str) -> None:
-    _tentativas.pop(email, None)
+    estado.apagar(_chave_login(email))
 
 
 def professor_do_env() -> dict | None:

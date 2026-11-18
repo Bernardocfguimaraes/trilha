@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import random
 import secrets
+from dataclasses import asdict
 from datetime import date, datetime, timedelta, timezone
 
 from sqlalchemy import delete, distinct, func, select
 
-from . import bd, caminho, chat, credenciais, diagnostico, grupos, risco
+from . import bd, caminho, chat, credenciais, diagnostico, estado, grupos, risco
 from . import recomendacoes as rec
-from .adaptacao import estado_inicial_adaptacao, registrar_resposta
+from .adaptacao import EstadoAdaptacao, estado_inicial_adaptacao, registrar_resposta
 from .dados import (
     ANOS_COM_CONTEUDO,
     BANCO,
@@ -52,8 +53,23 @@ from .regras import (
     para_cliente,
 )
 
-_sessoes: dict[str, dict] = {}
-_tentativas: dict[str, dict] = {}
+VALIDADE_SESSAO_S = 8 * 60 * 60
+
+
+def _chave_pin(aluno_id: str) -> str:
+    return "pin:" + aluno_id
+
+
+def _guardar_sessao(sessao_id: str, sess: dict) -> None:
+    dados = {**sess, "usadas": sorted(sess["usadas"]), "servidas": sorted(sess["servidas"]), "adaptacao": asdict(sess["adaptacao"])}
+    estado.gravar("sessao:" + sessao_id, dados, VALIDADE_SESSAO_S, dono=sess["alunoId"])
+
+
+def _carregar_sessao(sessao_id: str) -> dict:
+    dados = estado.ler("sessao:" + sessao_id)
+    if not dados:
+        raise ApiErro(404, "Sessão não encontrada")
+    return {**dados, "usadas": set(dados["usadas"]), "servidas": set(dados["servidas"]), "adaptacao": EstadoAdaptacao(**dados["adaptacao"])}
 
 _NAO_ENCONTRADA = "Turma não encontrada"
 
@@ -449,7 +465,7 @@ def regenerar_pin(email: str, aluno_id: str) -> dict:
         a.pin = novo_pin(a.pin)
         s.commit()
         resposta = {"id": a.id, "nome": a.nome, "pin": a.pin}
-    _tentativas.pop(aluno_id, None)
+    estado.apagar(_chave_pin(aluno_id))
     credenciais.revogar_aluno(aluno_id)
     return resposta
 
@@ -548,7 +564,7 @@ def turma_publica(codigo: str) -> dict:
 def validar_pin(aluno_id: str, pin: str) -> dict:
     with bd.SessionLocal() as s:
         a = _buscar_aluno(s, aluno_id)
-        t = _tentativas.get(aluno_id, {"erros": 0, "bloqueadoAte": 0})
+        t = estado.ler(_chave_pin(aluno_id)) or {"erros": 0, "bloqueadoAte": 0}
         if t["bloqueadoAte"] > agora_ms():
             return {"valido": False, "acesso": None, "bloqueado": True}
         if a.pin != pin:
@@ -556,9 +572,9 @@ def validar_pin(aluno_id: str, pin: str) -> dict:
             if t["erros"] >= MAX_ERROS_PIN:
                 t["erros"] = 0
                 t["bloqueadoAte"] = agora_ms() + ESPERA_BLOQUEIO_MS
-            _tentativas[aluno_id] = t
+            estado.gravar(_chave_pin(aluno_id), t, ESPERA_BLOQUEIO_MS / 1000 + 3600)
             return {"valido": False, "acesso": None, "bloqueado": t["bloqueadoAte"] > agora_ms()}
-        _tentativas.pop(aluno_id, None)
+        estado.apagar(_chave_pin(aluno_id))
         return {"valido": True, "acesso": credenciais.emitir(aluno_id), "bloqueado": False}
 
 
@@ -586,18 +602,16 @@ def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id
         reservadas.add(p["id"])
         perguntas.append(p)
     sessao_id = credenciais.novo_id_sessao()
-    _sessoes[sessao_id] = {
+    _guardar_sessao(sessao_id, {
         "acertos": 0, "alunoId": aluno_id, "total": len(perguntas), "habilidades": habilidades,
         "usadas": {perguntas[0]["id"]}, "servidas": {p["id"] for p in perguntas}, "adaptacao": adaptacao,
         "respostas": [], "concluida": False,
-    }
+    })
     return {"sessaoId": sessao_id, "perguntas": [para_cliente(p) for p in perguntas]}
 
 
 def responder(sessao_id: str, pergunta_id: str, opcao_id: str) -> dict:
-    sess = _sessoes.get(sessao_id)
-    if not sess:
-        raise ApiErro(404, "Sessão não encontrada")
+    sess = _carregar_sessao(sessao_id)
     if pergunta_id not in sess["servidas"]:
         raise ApiErro(403, "Esta pergunta não faz parte da sessão")
     p = next((q for q in BANCO if q["id"] == pergunta_id), None)
@@ -623,15 +637,15 @@ def responder(sessao_id: str, pergunta_id: str, opcao_id: str) -> dict:
                 sess["usadas"].add(proxima["id"])
                 sess["servidas"].add(proxima["id"])
                 r["proxima"] = para_cliente(proxima)
+        _guardar_sessao(sessao_id, sess)
     return r
 
 
 def concluir_sessao(sessao_id: str) -> dict:
-    sess = _sessoes.get(sessao_id)
-    if not sess:
-        raise ApiErro(404, "Sessão não encontrada")
+    sess = _carregar_sessao(sessao_id)
     if not sess["concluida"]:
         sess["concluida"] = True
+        _guardar_sessao(sessao_id, sess)
         _registrar_sessao(sess)
     acertos, total = sess["acertos"], sess["total"]
     return {

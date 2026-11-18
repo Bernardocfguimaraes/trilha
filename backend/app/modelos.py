@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import ForeignKey, Integer, String, Text
+from sqlalchemy import Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
@@ -89,3 +89,11 @@ class RotuloProfessor(Base):
     status_modelo: Mapped[str] = mapped_column(String)
     professor_email: Mapped[str] = mapped_column(String)
     criado_em: Mapped[str] = mapped_column(String)
+
+
+class EstadoTemporario(Base):
+    __tablename__ = "estado_temporario"
+    chave: Mapped[str] = mapped_column(String, primary_key=True)
+    dono: Mapped[str | None] = mapped_column(String, nullable=True, index=True)
+    valor: Mapped[str] = mapped_column(Text)
+    expira_em: Mapped[float] = mapped_column(Float, index=True)
