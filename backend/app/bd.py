@@ -49,7 +49,7 @@ if url.startswith("sqlite"):
             cur.execute("PRAGMA journal_mode=WAL")
         cur.close()
 else:
-    engine = create_engine(url, pool_pre_ping=True, future=True, connect_args={"connect_timeout": 10})
+    engine = create_engine(url, pool_pre_ping=True, future=True, connect_args={"connect_timeout": 10, "prepare_threshold": None})
 SessionLocal = sessionmaker(bind=engine, expire_on_commit=False, future=True)
 
 
