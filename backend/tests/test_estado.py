@@ -48,3 +48,17 @@ def test_estado_vencido_some(monkeypatch):
     agora = time.time()
     monkeypatch.setattr(time, "time", lambda: agora + 120)
     assert estado.ler("teste:x") is None
+
+
+def test_recomendacao_da_ia_fica_no_banco_e_nao_chama_a_ia_de_novo(monkeypatch):
+    from app import recomendacoes
+
+    chamadas = []
+    monkeypatch.setattr(recomendacoes.llm, "disponivel", lambda: True)
+    monkeypatch.setattr(recomendacoes.llm, "gerar", lambda *a, **k: chamadas.append(1) or f"Texto {len(chamadas)}")
+    pedidos = [("hab-x", "Hab X", "Matemática", "alerta"), ("hab-y", "Hab Y", "Ciências", "atencao")]
+    primeira = recomendacoes.textos_para(pedidos)
+    assert len(chamadas) == 2 and sorted(primeira) == ["Texto 1", "Texto 2"]
+    recomendacoes._cache.clear()
+    assert recomendacoes.textos_para(pedidos) == primeira
+    assert len(chamadas) == 2

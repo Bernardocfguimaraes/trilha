@@ -190,18 +190,16 @@ def _resumo(s, turma: Turma, aluno: Aluno, ctx=None) -> dict:
 
 def _detalhe(s, turma: Turma, a: Aluno) -> dict:
     habilidades = _habilidades_de(s, turma, a.id)
-    recomendacoes = []
-    for h in habilidades:
-        if not h["iniciada"]:
-            continue
-        if h["status"] == "alerta" or (h["status"] == "atencao" and TEXTOS.get(h["habilidadeId"])):
-            recomendacoes.append({
-                "habilidadeId": h["habilidadeId"],
-                "habilidade": h["nome"],
-                "status": h["status"],
-                "texto": rec.texto_para(h["habilidadeId"], h["nome"], h["disciplina"], h["status"]),
-                "geradaEm": a.ultima_atividade or hoje(),
-            })
+    escolhidas = [h for h in habilidades if h["iniciada"] and (
+        h["status"] == "alerta" or (h["status"] == "atencao" and TEXTOS.get(h["habilidadeId"])))]
+    textos = rec.textos_para([(h["habilidadeId"], h["nome"], h["disciplina"], h["status"]) for h in escolhidas])
+    recomendacoes = [{
+        "habilidadeId": h["habilidadeId"],
+        "habilidade": h["nome"],
+        "status": h["status"],
+        "texto": texto,
+        "geradaEm": a.ultima_atividade or hoje(),
+    } for h, texto in zip(escolhidas, textos)]
     return {**_resumo(s, turma, a), "recomendacoes": recomendacoes, "caminhos": _caminhos(s, turma, a.id)}
 
 
