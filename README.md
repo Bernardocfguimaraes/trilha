@@ -213,7 +213,7 @@ flowchart LR
 - **API (`backend/app/`)**: FastAPI e SQLAlchemy, com uma camada única de dados (`repo.py`) e
   regras puras e testáveis (`regras.py`).
 - **Banco**: **SQLite em arquivo** (padrão para apresentar, sem depender da rede), Postgres do
-  Supabase (para produção) ou memória (para testes). Num banco que já existia, a API acrescenta
+  Neon (produção na Vercel) ou memória (para testes). Num banco que já existia, a API acrescenta
   sozinha o catálogo novo ao subir, sem apagar turmas.
 - **Modelos**: treinados offline com scikit-learn (`backend/ml/`) e exportados para JSON. A API
   faz a inferência **em Python puro**, sem scikit-learn em produção, com resultado idêntico ao do
@@ -480,11 +480,11 @@ Dados de crianças pedem cuidado. Foram tratados:
 |---|---|
 | **Front** | Next.js 16 (App Router, Server Components, Cache Components, Turbopack), React 19, TypeScript, Tailwind CSS 4, componentes no estilo shadcn/ui, lucide-react |
 | **API** | FastAPI, Pydantic, SQLAlchemy 2, Uvicorn |
-| **Banco** | SQLite (arquivo ou memória), PostgreSQL (Supabase) |
+| **Banco** | SQLite (arquivo ou memória), PostgreSQL (Neon) |
 | **Machine Learning** | scikit-learn (treino), NumPy; inferência em Python puro |
 | **IA** | Groq (gpt-oss-120b, qwen3.8-27b, Whisper), API compatível com a da OpenAI, sem dependências extras |
 | **Qualidade** | pytest, `node --test`, ESLint, `tsc`, GitHub Actions |
-| **Deploy** | Vercel (front), Render (API), Supabase (opcional), tudo em planos gratuitos |
+| **Deploy** | Vercel (site e API no mesmo projeto, com Vercel Services) e Neon (Postgres), em planos gratuitos |
 
 ---
 
@@ -583,13 +583,17 @@ backend (Python 3.12) e, no front (Node 24), testes, geração de tipos de rota,
 
 ## ☁️ Deploy
 
-Tudo em **planos gratuitos**, sem cartão:
+Tudo em **planos gratuitos**, sem cartão, num único projeto da Vercel:
 
 | Parte | Serviço |
 |---|---|
-| Front | **Vercel** |
-| API | **Render** (o `render.yaml` na raiz já configura o serviço) |
-| Banco persistente *(opcional)* | **Supabase** (Postgres) |
+| Site | **Vercel** (serviço `site`, Next.js) |
+| API | **Vercel** (serviço `api`, FastAPI em Python, no caminho `/backend`) |
+| Banco | **Neon** (Postgres), criado pela integração da Vercel |
+
+O `vercel.json` na raiz define os dois serviços. Como cada requisição pode cair numa instância
+diferente da API, a trilha em andamento, a credencial do PIN, as tentativas de senha e as
+recomendações da IA ficam no banco, e não na memória.
 
 O passo a passo completo, com variáveis de ambiente, checklist e problemas comuns, está em
 [`DEPLOY.md`](DEPLOY.md).
@@ -637,7 +641,7 @@ trilha/
 │   ├── scripts/                  #   ferramentas de conteúdo: extração da BNCC e geração de questões
 │   └── tests/                    #   testes da API
 ├── tests/                        # Testes do front
-├── render.yaml                   # Blueprint do Render
+├── vercel.json                   # Site e API no mesmo projeto da Vercel (Vercel Services)
 └── DEPLOY.md                     # Guia de deploy
 ```
 
@@ -695,8 +699,8 @@ detalhes em [`backend/README.md`](backend/README.md).
   Matemática, Geografia, Ciências e Inglês ainda usam um catálogo antigo, sem código BNCC.
 - **A IA depende da cota gratuita da Groq.** Quando ela acaba, o app volta aos textos prontos.
 - **Grupos de reforço em turmas pequenas** tendem a ter silhueta baixa (a tela avisa).
-- **No plano gratuito do Render**, a API dorme depois de 15 minutos sem uso e o SQLite é apagado
-  a cada reinício (a demo é recriada sozinha).
+- **No plano gratuito da Vercel e do Neon**, a primeira visita depois de um tempo sem uso leva
+  alguns segundos a mais, enquanto a API e o banco acordam.
 
 ## 🔭 Próximos passos
 

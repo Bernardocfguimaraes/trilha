@@ -1,108 +1,101 @@
-# Deploy da Trilha (planos gratuitos)
+# Deploy da Trilha (Vercel, plano gratuito)
 
-Tudo aqui usa planos gratuitos, sem cartão: **Vercel** para o front (Next.js), **Render** para
-a API (FastAPI) e, se quiser guardar dados de verdade, **Supabase** para o Postgres. A IA
-continua no plano gratuito da Groq.
+O site e a API ficam num único projeto da Vercel, com **Vercel Services**, e os dados num
+Postgres gratuito do **Neon**, criado pela própria Vercel. A IA continua no plano gratuito da
+Groq.
 
 ```
-navegador ──► Vercel (Next.js) ──► Render (FastAPI) ──► SQLite no disco do serviço
-   │              │ ponte /api/professor                 ou Postgres do Supabase
-   └──────────────┴────────────────► Render (rotas do aluno e do responsável)
+navegador ──► trilha.vercel.app ─┬─► serviço "site" (Next.js)  ──┐ ligação interna
+                                 │                               ▼ (API_INTERNAL_URL)
+                                 └─► /backend/* ──► serviço "api" (FastAPI) ──► Neon (Postgres)
 ```
 
-O painel do professor fala com a API pelo servidor do Vercel (o token fica num cookie
-httpOnly). As telas do aluno e do responsável chamam a API direto do navegador, por isso a API
-precisa liberar o endereço do front no CORS.
+- O painel do professor fala com a API pelo servidor do Next, por uma ligação interna entre os
+  serviços; o token fica num cookie httpOnly.
+- As telas do aluno e do responsável chamam a API pelo caminho relativo `/backend`, no mesmo
+  endereço do site, então não precisa de CORS.
+- Cada requisição pode cair numa instância diferente da API. Por isso tudo o que precisa
+  durar entre requisições fica no banco: turmas e histórico, e também a trilha em andamento, a
+  credencial do PIN, as tentativas de senha e as recomendações já geradas pela IA.
 
 > **Para a apresentação na faculdade, o plano principal continua sendo rodar local com
 > SQLite** (`backend/trilha.db`): não depende da rede. O deploy é para mostrar o projeto
 > online e para a banca acessar depois.
 
-## 1. API no Render
+## Arquivos de configuração
 
-1. Crie uma conta em <https://render.com> (dá para entrar com o GitHub).
-2. **New > Blueprint** e escolha o repositório `trilha`. O Render lê o `render.yaml` da raiz.
-3. Preencha os valores que ele pedir:
+| Arquivo | Para que serve |
+|---|---|
+| `vercel.json` | Os dois serviços (`site` na raiz e `api` em `backend/`), a rota `/backend/*` para a API e a ligação interna |
+| `.vercelignore` | Deixa de fora a `.venv`, o banco local, os testes e o treino dos modelos |
+| `backend/.python-version` | Python 3.12 na API |
+
+## Passo a passo (CLI)
+
+Não precisa instalar nada: `npx vercel` baixa o CLI na hora.
+
+1. **Entrar e ligar a pasta ao projeto**
+   ```bash
+   npx vercel login
+   npx vercel link --project trilha
+   ```
+2. **Criar o banco** (Neon, plano gratuito, na mesma região das funções). Na primeira vez a
+   Vercel pede para aceitar os termos do Neon no navegador. `--no-env-pull` evita sobrescrever o
+   `.env.local` usado na apresentação local.
+   ```bash
+   npx vercel integration add neon --billing-plan free_v3 --meta region=iad1 --meta auth=false --name trilha-db --no-env-pull
+   ```
+   Isso cria `DATABASE_URL` (com pool) e `DATABASE_URL_UNPOOLED` (direta) no projeto.
+3. **Variáveis da aplicação** (produção e preview):
 
    | Variável | O que colocar |
    |---|---|
-   | `PROFESSOR_EMAIL` | e-mail do login do professor |
-   | `PROFESSOR_SENHA` | uma senha forte (é ela que você vai digitar no painel) |
-   | `TRILHA_CORS` | endereço do front no Vercel, ex.: `https://trilha.vercel.app` (preencha depois do passo 2, se ainda não souber) |
-   | `TRILHA_CORS_REGEX` | opcional, para as prévias do Vercel: `https://trilha(-[a-z0-9-]+)?\.vercel\.app` |
-   | `LLM_API_KEY` | chave da Groq (<https://console.groq.com> > API Keys). Pode ficar vazia: aí a IA usa os textos prontos |
+   | `NEXT_PUBLIC_API_URL` | `/backend` |
+   | `PROFESSOR_EMAIL`, `PROFESSOR_NOME`, `PROFESSOR_SENHA` | Conta do painel |
+   | `TRILHA_SEGREDO` | Segredo longo e aleatório que assina os logins |
+   | `LLM_API_KEY` | Chave da Groq (pode ficar vazia: a IA usa os textos prontos) |
+   | `LLM_BASE_URL`, `LLM_MODEL`, `LLM_REASONING_EFFORT`, `LLM_REVISOR_MODEL` | Iguais ao `backend/.env.example` |
 
-   `TRILHA_SEGREDO` é gerado pelo próprio Render. O resto já vem preenchido.
-4. Espere o primeiro deploy e abra `https://<seu-servico>.onrender.com/saude`. Deve aparecer
-   `{"ok":true,"banco":"sqlite"}`.
-
-**Como o plano gratuito se comporta:**
-- O serviço **dorme depois de 15 minutos sem uso**. A primeira visita depois disso demora
-  uns 50 segundos. Antes de mostrar para alguém, abra `/saude` e espere responder.
-- O disco é apagado a cada deploy ou reinício. Com SQLite, a API recria a demo sozinha ao
-  subir: o 4º ano B com histórico e o 8º ano A vazio. O que for feito durante o uso se perde
-  quando o serviço reinicia.
-
-## 2. Front no Vercel
-
-1. Crie uma conta em <https://vercel.com> com o GitHub.
-2. **Add New > Project** e importe o repositório `trilha`. O Vercel reconhece o Next.js;
-   deixe a pasta raiz como está.
-3. Em **Environment Variables**, adicione:
-
-   | Variável | Valor |
-   |---|---|
-   | `NEXT_PUBLIC_API_URL` | o endereço da API, ex.: `https://trilha-api.onrender.com` (sem barra no fim) |
-
-4. Clique em **Deploy**. Quando terminar, copie o endereço do site (ex.:
-   `https://trilha.vercel.app`) e coloque em `TRILHA_CORS` lá no Render (**Environment**).
-   O Render faz um novo deploy sozinho.
-5. Abra o site, entre em **Sou professor** com o e-mail e a senha do passo 1 e confira o
-   painel. Depois, numa aba anônima, entre como aluno com o código `SABIA4`.
-
-`NEXT_PUBLIC_API_URL` entra no código no momento do build: se mudar o endereço da API, faça
-um novo deploy no Vercel (**Deployments > Redeploy**).
-
-## 3. Opcional: dados que não somem (Supabase)
-
-1. Crie um projeto gratuito em <https://supabase.com>.
-2. **Project Settings > Database > Connection string > URI**: copie a URL e troque
-   `[YOUR-PASSWORD]` pela senha do banco.
-3. No Render, troque `DATABASE_URL` por essa URL.
-4. Crie as tabelas e a demo **uma vez**, da sua máquina, apontando para o Supabase:
    ```bash
-   cd backend
-   DATABASE_URL="postgresql://..." python -m app.seed
+   npx vercel env add PROFESSOR_SENHA production --sensitive
    ```
-   (No PowerShell: `$env:DATABASE_URL="postgresql://..."; python -m app.seed`.)
-5. Abra `/saude` de novo: deve aparecer `"banco":"postgresql"`.
-
-O plano gratuito do Supabase pausa o projeto depois de uma semana sem uso. Para reativar, é
-só entrar no painel do Supabase e clicar em **Restore**.
-
-## 4. Opcional: só o front, sem API
-
-Sem `NEXT_PUBLIC_API_URL`, o site roda com dados de exemplo (o modo usado para desenvolver a
-interface): o 4º ano B completo, o 8º ano A e as turmas que você criar, tudo na memória do
-servidor. As atividades das turmas novas e a IA precisam da API.
-
-Nesse modo, **defina `PROFESSOR_SENHA`** (e, se quiser, `PROFESSOR_EMAIL` e `PROFESSOR_NOME`)
-nas variáveis do Vercel. Sem isso, o login usa a senha de exemplo do código, que é pública.
+4. **Criar as tabelas e a demonstração** uma vez, da sua máquina, pela conexão direta:
+   ```bash
+   npx vercel env pull .env.producao --environment=production
+   cd backend
+   DATABASE_URL="<DATABASE_URL_UNPOOLED do .env.producao>" python -m app.seed
+   ```
+   (No PowerShell: `$env:DATABASE_URL="..."; python -m app.seed`.) Apague o `.env.producao`
+   depois. O mesmo comando recria a demonstração do zero quando quiser.
+5. **Publicar**
+   ```bash
+   npx vercel deploy --prod
+   ```
+   Com o repositório ligado (`npx vercel git connect`), cada envio à `master` publica sozinho.
 
 ## Conferir que está tudo certo
 
-- [ ] `https://<api>/saude` responde `ok: true`.
+- [ ] `https://<projeto>.vercel.app/backend/saude` responde `{"ok":true,"banco":"postgresql"}`.
 - [ ] Login do professor funciona e o painel mostra o 4º ano B.
 - [ ] Aluno entra com `SABIA4` e um PIN (os PINs aparecem em **Painel > Turma**), faz uma
       trilha e a atividade aparece no painel.
 - [ ] Página **Diagnóstico** mostra as métricas do modelo.
-- [ ] Com `LLM_API_KEY`: a **Conversa** responde com IA e o exercício gerado aparece.
+- [ ] Com `LLM_API_KEY`: a **Conversa** responde com IA, o exercício gerado aparece e a
+      pergunta por voz é transcrita.
+
+## Como o plano gratuito se comporta
+
+- **Primeira visita mais lenta:** depois de um tempo sem uso, a primeira requisição acorda a
+  API (alguns segundos). As seguintes são rápidas.
+- **Neon:** o banco também adormece sem uso e acorda na primeira consulta, em menos de um
+  segundo. Os dados não se perdem.
+- **Prévias** usam o mesmo banco da produção.
 
 ## Problemas comuns
 
 | Sintoma | Causa provável |
 |---|---|
-| Tela do aluno: "não deu para conferir agora" | CORS: o endereço do front não está em `TRILHA_CORS` (confira `https` e sem barra no fim) |
-| Painel demora quase um minuto para abrir | A API estava dormindo (plano gratuito); depois da primeira visita fica rápido |
-| Login recusa a senha certa | `PROFESSOR_SENHA` foi alterada e a API ainda não reiniciou; faça **Manual Deploy** no Render |
-| Os dados sumiram | Reinício do Render com SQLite; use o Supabase (passo 3) se precisar guardar |
+| `/backend/saude` mostra `"banco":"memória"` | `DATABASE_URL` não chegou ao serviço `api`; confira as variáveis e publique de novo |
+| Login recusa a senha certa | A API atualiza a conta quando sobe: depois de mudar `PROFESSOR_SENHA`, publique de novo (`npx vercel deploy --prod`) |
+| Painel mostra "Algo deu errado" | A API não respondeu; veja os logs em **Deployments > Functions** |
+| Recomendações e conversa sem IA | `LLM_API_KEY` ausente ou cota diária da Groq esgotada (o app usa os textos prontos) |

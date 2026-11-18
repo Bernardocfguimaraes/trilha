@@ -38,11 +38,11 @@ Todas as variáveis ficam em `backend/.env` (modelo em `.env.example`; o `.env` 
 
 | Variável | Obrigatória | Para que serve |
 |---|:---:|---|
-| `DATABASE_URL` | não | `sqlite:///trilha.db` (arquivo local), `postgresql://...` (Supabase) ou vazia (memória) |
+| `DATABASE_URL` | não | `sqlite:///trilha.db` (arquivo local), `postgresql://...` (Neon, na Vercel) ou vazia (memória) |
 | `PROFESSOR_NOME`, `PROFESSOR_EMAIL`, `PROFESSOR_SENHA` | sim | Conta do painel. É gravada no banco ao subir a API, com a senha em hash |
 | `TRILHA_SEGREDO` | sim | Assina os logins. Gere com `python -c "import secrets; print(secrets.token_hex(32))"` |
 | `TRILHA_CORS` | não | Origens do front autorizadas (padrão: `http://localhost:3000,http://127.0.0.1:3000`) |
-| `TRILHA_CORS_REGEX` | não | Padrão de origens aceitas, para deploy (ex.: as prévias do Vercel) |
+| `TRILHA_CORS_REGEX` | não | Padrão de origens aceitas, quando o front fica em outro domínio |
 | `LLM_API_KEY` | não | Chave da Groq. Sem ela, a API usa textos prontos e o banco curado |
 | `LLM_BASE_URL`, `LLM_MODEL`, `LLM_REASONING_EFFORT` | não | Provedor e modelo gerador (padrão: Groq, `openai/gpt-oss-120b`) |
 | `LLM_REVISOR_MODEL` | não | Modelo que revisa as questões geradas (padrão do `.env.example`: `qwen/qwen3.8-27b`) |
@@ -55,7 +55,7 @@ O mesmo código (`app/repo.py`, tabelas em `app/modelos.py`) serve aos três mod
 | `DATABASE_URL` | Modo | Quando usar |
 |---|---|---|
 | `sqlite:///trilha.db` | Arquivo `backend/trilha.db` | Apresentações e uso local: não depende da rede |
-| `postgresql://...` | Postgres (Supabase) | Produção com dados que não somem |
+| `postgresql://...` | Postgres (Neon) | Produção na Vercel, com dados que não somem |
 | vazia | SQLite em memória | Testes; reinicia do zero a cada restart |
 
 - **SQLite:** se o arquivo não existir, a API cria as tabelas e a demo ao subir. Para recomeçar
