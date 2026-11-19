@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BrainCircuit, House, LogOut, MessagesSquare, Settings2, Shapes, Users } from "lucide-react";
+import { BrainCircuit, House, LogOut, MessagesSquare, Route, Settings2, Shapes, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function NavPainel() {
@@ -14,6 +14,7 @@ export function NavPainel() {
       icone: Users,
       ativo: pathname === "/painel" || pathname.startsWith("/painel/alunos"),
     },
+    { href: "/painel/trilhas", rotulo: "Trilhas", icone: Route, ativo: pathname.startsWith("/painel/trilhas") },
     { href: "/painel/grupos", rotulo: "Grupos", icone: Shapes, ativo: pathname.startsWith("/painel/grupos") },
     {
       href: "/painel/conversa",

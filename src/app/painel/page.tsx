@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Download, MessagesSquare, TrendingDown, UserPlus } from "lucide-react";
+import { Download, MessagesSquare, Route, TrendingDown, UserPlus } from "lucide-react";
 import { StatusSelo, rotuloStatus } from "@/components/marca";
 import { api } from "@/lib/api";
 import { dataCurta } from "@/lib/formato";
@@ -64,6 +64,13 @@ export default async function PainelPage({ searchParams }: PageProps<"/painel">)
                 .join(" e ") + "."}
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2">
+          <Link
+            href="/painel/trilhas/nova"
+            className="inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-mata outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            <Route className="size-4" />
+            Montar trilha da semana
+          </Link>
           <Link
             href="/painel/conversa"
             className="inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-mata outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"

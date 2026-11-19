@@ -7,7 +7,10 @@ const PERMITIDAS = [
   /^anos$/,
   /^modelo$/,
   /^turmas$/,
-  /^turmas\/[\w-]+\/(alunos|cadastros|configuracao|diagnostico|chat|grupos)$/,
+  /^turmas\/[\w-]+\/(alunos|cadastros|configuracao|diagnostico|chat|grupos|conteudos|banco|perguntas|trilhas)$/,
+  /^turmas\/[\w-]+\/perguntas\/rascunhos$/,
+  /^perguntas\/[\w-]+(\/(excluir|revisar))?$/,
+  /^trilhas\/[\w-]+(\/(lancar|encerrar|excluir))?$/,
   /^turmas\/[\w-]+\/relatorio\.csv$/,
   /^alunos\/[\w-]+(\/(historico|pin|diagnostico))?$/,
   /^alunos\/[\w-]+\/diagnostico\/[\w-]+$/,
@@ -43,7 +46,7 @@ async function repassar(request: NextRequest, ctx: RouteContext<"/api/professor/
     }
   }
 
-  const resposta = await fetch(`${API_URL}/${rota}`, {
+  const resposta = await fetch(`${API_URL}/${rota}${request.nextUrl.search}`, {
     method: request.method,
     headers: {
       Authorization: `Bearer ${token}`,

@@ -16,7 +16,7 @@ modelo diz isso e age antes da prova.**
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite_|_Postgres-banco-003B57?logo=sqlite&logoColor=white)
 ![Groq](https://img.shields.io/badge/LLM-Groq_(gratuito)-F55036)
-![Testes](https://img.shields.io/badge/testes-87_passando-2ea44f)
+![Testes](https://img.shields.io/badge/testes-101_passando-2ea44f)
 ![BNCC](https://img.shields.io/badge/BNCC-4º_ao_9º_ano-1f6f4a)
 
 *Projeto final do Nanodegree em Inteligência Artificial e Machine Learning*
@@ -91,7 +91,7 @@ integradas no mesmo produto.
 | **Aplicação com LLMs** | Geração de exercícios com revisor independente, recomendações, conversa sobre a turma e perguntas por voz (Whisper). |
 | **Avaliação rigorosa** | Comparação com regra simples (*baseline*), validação cruzada estratificada, matriz de confusão, métricas por classe, **verificação de que treino e produção têm a mesma origem de dados** e avaliação do revisor de IA com erros plantados. |
 | **Produto utilizável** | Aplicação web completa para três públicos (aluno, professora e responsável), com login, várias turmas e conteúdo do 4º ao 9º ano. |
-| **Qualidade de engenharia** | 87 testes automatizados, integração contínua, modelo exportado com inferência em Python puro e guia de deploy em planos gratuitos. |
+| **Qualidade de engenharia** | 101 testes automatizados, integração contínua, modelo exportado com inferência em Python puro e guia de deploy em planos gratuitos. |
 
 ---
 
@@ -109,6 +109,10 @@ integradas no mesmo produto.
 - Feedback imediato, estrelas e um mascote (o Sabiá) que reage aos acertos e erros.
 - Segue um **caminho BNCC** em ordem: as próximas habilidades pendentes e uma revisão do que está
   em alerta.
+- **Trilha da semana:** quando a professora lança uma trilha, o cartão da matéria ganha um selo e
+  o aluno responde exatamente as perguntas dela, numa ordem só sua. Depois de fazer, pode
+  **revisar** a trilha ou **praticar mais** no mesmo conteúdo. A trilha normal continua
+  disponível.
 
 ### 👩‍🏫 Professora
 - **Login seguro** e **várias turmas** por professora (4º ao 9º ano). No primeiro acesso, uma
@@ -126,6 +130,14 @@ integradas no mesmo produto.
   indicadores, comparação de modelos e avaliação da IA.
 - **Conversa com IA sobre a turma**, por texto ou por voz.
 - **Exercícios de reforço gerados por IA** para qualquer habilidade e nível.
+- **Trilhas da semana:** a professora escolhe a matéria e o conteúdo que está em sala (unidade e
+  habilidade da BNCC), junta as perguntas e lança para a turma com data de fim. As perguntas vêm
+  de quatro jeitos, misturáveis: **pedir à IA** contando o que trabalhou na aula (a IA escreve
+  rascunhos e outro modelo confere cada resposta), **escrever** (múltipla escolha ou completar a
+  frase), **reusar** as perguntas já salvas da turma ou **puxar do banco**. Antes de lançar, ela
+  vê a trilha exatamente como o aluno vê. Depois, acompanha quantos alunos já fizeram. Várias
+  matérias podem ter trilha ao mesmo tempo, e as perguntas da professora também entram na trilha
+  normal, como revisão.
 - **Relatório para reunião com a família**, em linguagem simples, com botão para imprimir ou
   salvar em PDF.
 - **Planilha da turma** (CSV) que abre direto no Excel em português.
@@ -403,6 +415,7 @@ Tudo roda no **plano gratuito da Groq**, com provedor de reserva opcional (Gemin
 | Recurso | Como funciona |
 |---|---|
 | **Exercícios de reforço** | O professor escolhe habilidade e nível. O **gerador** (`openai/gpt-oss-120b`) cria a questão no mesmo formato do banco curado. Um **checador em Python** confere o formato (exatamente 4 opções distintas, sem opções equivalentes como 1/2 e 2/4, enunciado com pergunta). Um **revisor de outro modelo** (`qwen/qwen3.8-27b`) resolve a questão **sem ver o gabarito** e só aprova se chegar à mesma resposta, sem ambiguidade e sem erro de conteúdo. Se algo falhar, entra uma questão do banco curado. |
+| **Rascunhos da trilha da semana** | A professora conta o que trabalhou na aula e escolhe o conteúdo. O gerador escreve de 2 a 6 questões nesse contexto (múltipla escolha e completar a frase) numa só chamada, e o revisor confere todas numa segunda chamada, sem ver o gabarito. Cada rascunho chega com o veredito; quando o revisor discorda, ele mostra o motivo e a professora decide. Perguntas escritas à mão podem ser revisadas com um clique. |
 | **Recomendações pedagógicas** | Texto de orientação para cada habilidade em alerta ou atenção, com cache por habilidade e status para não gastar cota à toa. |
 | **Conversa sobre a turma** | O LLM recebe um retrato real da turma (quem está em alerta, quem evoluiu, quem parou de praticar) e responde à professora em linguagem natural. |
 | **Perguntas por voz** | A professora grava a pergunta e o Whisper (Groq) transcreve. |
@@ -563,7 +576,7 @@ python -m ml.avaliar_llm     # avaliação do revisor de IA (precisa de LLM_API_
 
 ```bash
 npm test                 # front: questões interativas e formatação das respostas da IA e datas (15 testes)
-npm run test:backend     # API: 72 testes (pytest)
+npm run test:backend     # API: 86 testes (pytest)
 ```
 
 | Área | O que é testado |
@@ -663,6 +676,8 @@ trilha/
 | `PUT` | `/alunos/{id}/diagnostico/{habilidade}` | Professora confirma ou corrige o diagnóstico |
 | `GET` | `/modelo` | Métricas do diagnóstico, da previsão e da avaliação do LLM |
 | `POST` | `/exercicios/gerar` | Exercício de reforço gerado por IA |
+| `GET` · `POST` | `/turmas/{id}/trilhas` · `/trilhas/{id}` | Trilhas da semana: criar, editar, lançar, encerrar |
+| `GET` · `POST` | `/turmas/{id}/perguntas` · `/turmas/{id}/perguntas/rascunhos` | Perguntas da professora e rascunhos da IA |
 | `POST` | `/voz/transcrever` | Transcrição de áudio (Whisper) |
 | `GET` | `/turmas/{codigo}` | Dados públicos da turma (para o aluno entrar) |
 | `POST` | `/acesso/pin` | Valida o PIN e devolve a credencial |

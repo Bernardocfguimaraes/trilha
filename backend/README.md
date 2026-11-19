@@ -170,11 +170,15 @@ biblioteca padrão. Qualquer falha (sem chave, cota, rede) cai em textos prontos
 | Recurso | Módulo | Como funciona |
 |---|---|---|
 | Exercícios de reforço | `app/exercicios.py` | O gerador cria a questão; um checador em Python confere o formato; um revisor de outro modelo resolve sem ver o gabarito e só aprova se concordar. Se falhar, entra uma questão do banco curado |
+| Rascunhos da trilha da semana | `app/exercicios.py` · `app/trilhas.py` | Uma chamada gera até 6 questões a partir da descrição da aula; outra revisa todas. A revisão manual de uma pergunta é uma chamada |
 | Recomendações | `app/recomendacoes.py` | Texto pedagógico para habilidades em alerta ou atenção, com cache por habilidade e status |
 | Conversa sobre a turma | `app/chat.py` | O LLM recebe um retrato da turma (alertas, evolução, quem parou) e o histórico da conversa |
 | Voz | `app/voz.py` | Transcrição com Whisper na Groq |
 
-Na Groq o limite gratuito é por modelo; por isso o revisor usa outro modelo, com cota própria.
+Na Groq o limite gratuito é por modelo; por isso o revisor usa outro modelo, com cota própria. O
+revisor tem limite de 1.000 tokens de saída por minuto: cada revisão pede no máximo 950 (a do lote,
+1.000) e, se o limite do minuto estiver gasto, a API espera o tempo indicado pela Groq (até 25 s) e
+tenta de novo uma vez.
 
 **Avaliação do revisor** (`python -m ml.avaliar_llm`): 20 questões curadas e as mesmas com o
 gabarito trocado, revisadas pelo próprio gerador e pelo outro modelo, mais 12 gerações ao vivo.
@@ -225,10 +229,19 @@ execução.
 | POST | `/alunos/{id}/pin` | Gera um PIN novo |
 | GET | `/modelo` | Métricas dos modelos e da avaliação do LLM |
 | POST | `/exercicios/gerar` | Exercício de reforço |
+| GET | `/turmas/{id}/conteudos` | Unidades e habilidades do ano, com quantas perguntas cada uma tem |
+| GET | `/turmas/{id}/banco` | Perguntas do banco dos conteúdos pedidos (`?habilidades=a,b`) |
+| GET · POST | `/turmas/{id}/perguntas` | Perguntas da professora; cria uma (múltipla escolha ou completar a frase) |
+| PUT | `/perguntas/{id}` | Edita uma pergunta da professora |
+| POST | `/perguntas/{id}/revisar` · `/perguntas/{id}/excluir` | Revisão pela IA (uma chamada) ou exclusão |
+| POST | `/turmas/{id}/perguntas/rascunhos` | Rascunhos da IA a partir da descrição da aula (duas chamadas) |
+| GET · POST | `/turmas/{id}/trilhas` | Trilhas da semana da turma; cria um rascunho |
+| GET · PUT | `/trilhas/{id}` | Detalhe ou edição da trilha |
+| POST | `/trilhas/{id}/lancar` · `/encerrar` · `/excluir` | Lança para a turma, encerra ou exclui |
 | POST | `/voz/transcrever` | Transcrição de áudio |
 | GET | `/turmas/{codigo}` | Dados públicos da turma (para o aluno entrar) |
 | POST | `/acesso/pin` | Valida o PIN e devolve a credencial |
-| POST | `/sessoes` | Abre uma sessão de atividades |
+| POST | `/sessoes` | Abre uma sessão: `modo` normal, semana (as perguntas da trilha, embaralhadas), revisao ou praticar (adaptativo no conteúdo da trilha) |
 | POST | `/sessoes/{id}/respostas` | Registra a resposta e devolve a próxima pergunta |
 | POST | `/sessoes/{id}/concluir` | Fecha a sessão e grava no histórico |
 | POST | `/responsavel/progresso` | Progresso do aluno dono da credencial |
@@ -242,7 +255,7 @@ pip install -r requirements-dev.txt -r ml/requirements-treino.txt
 python -m pytest
 ```
 
-72 testes, com a API inteira em memória (sem rede e sem LLM): segurança, turmas e conteúdo
+86 testes, com a API inteira em memória (sem rede e sem LLM): segurança, turmas e conteúdo
 por ano, qualidade das questões, acesso do responsável, relatórios, revisão dos exercícios gerados por IA e modelos (paridade com o
 scikit-learn, métricas acima da regra, simulador igual ao app, k-means). A integração contínua
 (`.github/workflows/testes.yml`) roda tudo a cada push.

@@ -19,10 +19,12 @@ export function CartaoDisciplina({
   disciplina,
   onEscolher,
   desabilitado,
+  selo,
 }: {
   disciplina: DisciplinaPublica;
   onEscolher: () => void;
   desabilitado?: boolean;
+  selo?: string;
 }) {
   const { icone: Icone, cartao, frase } = visualDisciplina(disciplina.id);
   return (
@@ -30,7 +32,7 @@ export function CartaoDisciplina({
       onClick={onEscolher}
       disabled={desabilitado}
       className={cn(
-        "flex min-h-28 w-full items-center gap-4 rounded-3xl px-5 py-4 text-left outline-none",
+        "relative flex min-h-28 w-full items-center gap-4 rounded-3xl px-5 py-4 text-left outline-none",
         "transition-[transform,box-shadow] duration-150 focus-visible:ring-4 focus-visible:ring-grafite/40",
         "hover:-translate-y-0.5 active:translate-y-[6px] active:shadow-none active:duration-75 disabled:opacity-60",
         cartao,
@@ -43,6 +45,11 @@ export function CartaoDisciplina({
         <span className="block font-display text-3xl leading-none font-extrabold">{disciplina.nome}</span>
         {frase && <span className="mt-1 block font-display text-[1.1875rem] font-bold">{frase}</span>}
       </span>
+      {selo && (
+        <span className="absolute -top-3 right-4 rounded-full bg-superficie px-3 py-1 font-display text-sm font-extrabold text-grafite shadow-[0_3px_0_var(--color-ceu-forte)] ring-2 ring-sol">
+          ★ {selo}
+        </span>
+      )}
     </button>
   );
 }

@@ -249,11 +249,20 @@ export interface DisciplinaPublica {
   nome: string;
 }
 
+export interface TrilhaPublica {
+  id: string;
+  disciplinaId: string;
+  titulo: string;
+  total: number;
+  fim: string;
+}
+
 export interface TurmaPublica {
   codigo: string;
   nome: string;
   alunos: AlunoPublico[];
   disciplinas: DisciplinaPublica[];
+  trilhas?: TrilhaPublica[];
 }
 
 export interface PedidoPin {
@@ -286,13 +295,18 @@ export interface ResultadoPin {
   valido: boolean;
   acesso: string | null;
   bloqueado: boolean;
+  trilhasFeitas?: string[];
 }
+
+export type ModoSessao = "normal" | "semana" | "revisao" | "praticar";
 
 export interface PedidoSessao {
   codigo: string;
   alunoId: string;
   acesso?: string;
   disciplinaId?: string;
+  trilhaId?: string;
+  modo?: ModoSessao;
 }
 
 export interface AlunoCadastro {
@@ -340,4 +354,110 @@ export interface ResultadoSessao {
   estrelas: number;
   total: number;
   mensagem: string;
+  trilhaId?: string | null;
+}
+
+export type TipoPergunta = "escolha" | "lacuna";
+
+export interface RevisaoIa {
+  aprovada: boolean;
+  problema: string;
+  respostaIa: number | null;
+}
+
+export interface HabilidadeInfo {
+  id: string;
+  nome: string;
+  codigoBncc: string | null;
+  unidade: string | null;
+}
+
+export interface PerguntaProfessora {
+  id: string;
+  habilidade: HabilidadeInfo;
+  nivel: Nivel;
+  tipo: TipoPergunta;
+  enunciado: string;
+  instrucao: string | null;
+  frase: string | null;
+  opcoes: string[];
+  certa: number;
+  explicacao: string;
+  origem: "professora" | "ia" | "banco";
+  revisao: RevisaoIa | null;
+  criadaEm: string | null;
+}
+
+export interface PedidoPerguntaTurma {
+  tipo: TipoPergunta;
+  habilidadeId: string;
+  nivel: Nivel;
+  enunciado?: string | null;
+  instrucao?: string | null;
+  frase?: string | null;
+  opcoes: string[];
+  certa: number;
+  explicacao?: string;
+  origem?: "professora" | "ia";
+  revisao?: RevisaoIa | null;
+}
+
+export interface RascunhoIa extends Omit<PedidoPerguntaTurma, "origem" | "revisao"> {
+  enunciado: string;
+  revisao: RevisaoIa | null;
+}
+
+export interface PedidoRascunhos {
+  habilidadeId: string;
+  descricao: string;
+  quantidade: number;
+  nivel: Nivel;
+  tipo: TipoPergunta | "misto";
+}
+
+export interface PerguntaSalva {
+  pergunta: PerguntaProfessora;
+  avisos: string[];
+}
+
+export type SituacaoTrilha = "rascunho" | "lancada" | "encerrada";
+
+export interface TrilhaResumo {
+  id: string;
+  titulo: string;
+  disciplinaId: string;
+  disciplina: string | null;
+  habilidades: HabilidadeInfo[];
+  totalPerguntas: number;
+  inicio: string | null;
+  fim: string;
+  situacao: SituacaoTrilha;
+  feitos: number;
+  alunos: number;
+  criadaEm: string;
+}
+
+export interface TrilhaDetalhe extends TrilhaResumo {
+  perguntas: PerguntaProfessora[];
+}
+
+export interface PedidoTrilha {
+  disciplinaId: string;
+  titulo: string;
+  habilidades: string[];
+  perguntas: string[];
+  fim: string;
+}
+
+export interface ConteudoHabilidade {
+  id: string;
+  codigoBncc: string | null;
+  nome: string;
+  noBanco: number;
+  daTurma: number;
+}
+
+export interface ConteudosTurma {
+  turma: { id: string; nome: string; ano: number };
+  disciplinas: { id: string; nome: string; unidades: { nome: string; habilidades: ConteudoHabilidade[] }[] }[];
 }

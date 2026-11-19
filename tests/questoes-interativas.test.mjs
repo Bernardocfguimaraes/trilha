@@ -54,3 +54,15 @@ test("questões curadas entram no banco testado, com a resposta certa preservada
   assert.equal(mu1.opcoes[mu1.certa], "8");
   for (const p of curadas) assert.ok(p.certa >= 0 && p.certa < p.opcoes.length, p.id);
 });
+
+test("lacuna montada pela tela da professora é reconhecida pela trilha do aluno", () => {
+  const padrao = extrairLacuna(comoCliente({ id: "pt1", enunciado: 'Complete a frase: "Metade de uma receita é ___ da receita."', opcoes: ["1/2", "1/3", "1/4"] }));
+  assert.ok(padrao);
+  assert.equal(padrao.instrucao, "Complete a frase");
+  assert.equal(fraseCompleta(padrao, { id: "pt1-0", texto: "1/2" }), "Metade de uma receita é 1/2 da receita.");
+  const comando = extrairLacuna(comoCliente({ id: "pt2", enunciado: "Complete com a fração certa: \"Um quarto é ___.\"", opcoes: ["1/4", "1/2"] }));
+  assert.equal(comando.instrucao, "Complete com a fração certa");
+  const duas = extrairLacuna(comoCliente({ id: "pt3", enunciado: 'Complete a frase: "O ___ é maior que o ___."', opcoes: ["1/2 / 1/3", "1/3 / 1/2"] }));
+  assert.deepEqual(duas.partes["pt3-0"], ["1/2", "1/3"]);
+});
+

@@ -7,11 +7,14 @@ import { api, ApiError } from "@/lib/api";
 import type {
   AlunoPublico,
   DisciplinaPublica,
+  ModoSessao,
   Pergunta,
   ResultadoResposta,
   ResultadoSessao,
+  TrilhaPublica,
   TurmaPublica,
 } from "@/lib/types";
+import { dataComDia } from "@/lib/formato";
 import { cn } from "@/lib/utils";
 import { extrairLacuna, fraseCompleta } from "@/lib/lacuna";
 import { Sabia } from "@/components/marca";
@@ -35,6 +38,7 @@ type Etapa =
       disciplina: DisciplinaPublica;
       sessaoId: string;
       perguntas: Pergunta[];
+      modo: ModoSessao;
     }
   | { tipo: "fim"; aluno: AlunoPublico; acesso: string; resultado: ResultadoSessao; marcos: Marco[] };
 
@@ -42,21 +46,23 @@ const CORES_AVATAR = ["bg-broto text-white", "bg-sol text-tinta", "bg-coral text
 
 export function Jornada({ turma }: { turma: TurmaPublica }) {
   const [etapa, setEtapa] = useState<Etapa>({ tipo: "quem" });
-  const [carregando, setCarregando] = useState(false);
+  const [carregando, setCarregando] = useState<string | null>(null);
   const [erro, setErro] = useState<string | null>(null);
+  const [feitas, setFeitas] = useState<Set<string>>(() => new Set());
+  const trilhasDe = (disciplinaId: string) => (turma.trilhas ?? []).filter((t) => t.disciplinaId === disciplinaId);
 
-  async function comecar(aluno: AlunoPublico, acesso: string, disciplina: DisciplinaPublica) {
-    setCarregando(true);
+  async function comecar(aluno: AlunoPublico, acesso: string, disciplina: DisciplinaPublica, modo: ModoSessao = "normal", trilhaId?: string) {
+    setCarregando(`${modo}-${trilhaId ?? ""}`);
     setErro(null);
     try {
-      const sessao = await api.iniciarSessao(turma.codigo, aluno.id, { acesso, disciplinaId: disciplina.id });
-      setEtapa({ tipo: "pergunta", aluno, acesso, disciplina, sessaoId: sessao.sessaoId, perguntas: sessao.perguntas });
+      const sessao = await api.iniciarSessao(turma.codigo, aluno.id, { acesso, disciplinaId: disciplina.id, modo, trilhaId });
+      setEtapa({ tipo: "pergunta", aluno, acesso, disciplina, sessaoId: sessao.sessaoId, perguntas: sessao.perguntas, modo });
     } catch (e) {
       if (e instanceof ApiError && e.status === 401) setEtapa({ tipo: "pin", aluno });
-      else if (e instanceof ApiError && e.status === 503 && e.message) setErro(e.message);
+      else if (e instanceof ApiError && (e.status === 503 || e.status === 410) && e.message) setErro(e.message);
       else setErro("A trilha não carregou. Aperte o botão de novo.");
     } finally {
-      setCarregando(false);
+      setCarregando(null);
     }
   }
 
@@ -101,7 +107,10 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
     return (
       <ConfirmarPin
         aluno={etapa.aluno}
-        onEntrar={(acesso) => setEtapa({ tipo: "disciplina", aluno: etapa.aluno, acesso })}
+        onEntrar={(acesso, jaFeitas) => {
+          setFeitas(new Set(jaFeitas));
+          setEtapa({ tipo: "disciplina", aluno: etapa.aluno, acesso });
+        }}
         onVoltar={() => setEtapa({ tipo: "quem" })}
       />
     );
@@ -131,7 +140,11 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
               >
                 <CartaoDisciplina
                   disciplina={d}
-                  onEscolher={() => setEtapa({ tipo: "inicio", aluno: etapa.aluno, acesso: etapa.acesso, disciplina: d })}
+                  selo={trilhasDe(d.id).length ? "Trilha da semana" : undefined}
+                  onEscolher={() => {
+                    setErro(null);
+                    setEtapa({ tipo: "inicio", aluno: etapa.aluno, acesso: etapa.acesso, disciplina: d });
+                  }}
                 />
               </li>
             ))}
@@ -143,6 +156,46 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
         >
           Não sou {primeiroNome}
         </button>
+      </Tela>
+    );
+  }
+
+  if (etapa.tipo === "inicio" && trilhasDe(etapa.disciplina.id).length > 0) {
+    const { aluno, acesso, disciplina } = etapa;
+    return (
+      <Tela key="escolher-trilha"
+        voltar={
+          <VoltarAluno onClick={() => setEtapa({ tipo: "disciplina", aluno, acesso })} rotulo="Voltar e escolher outra matéria" />
+        }
+      >
+        <div className="flex items-center gap-4">
+          <IconeDisciplina id={disciplina.id} className="size-16 shrink-0 -rotate-6" />
+          <h1 className="font-display text-4xl leading-none font-extrabold text-grafite">Vamos de {disciplina.nome}!</h1>
+        </div>
+        {erro && (
+          <p role="alert" className="mt-5 rounded-xl bg-coral-claro px-4 py-2 font-display text-lg text-grafite">
+            {erro}
+          </p>
+        )}
+        <ul className="mt-6 space-y-4">
+          {trilhasDe(disciplina.id).map((t) => (
+            <li key={t.id}>
+              <CartaoTrilhaSemana
+                trilha={t}
+                feita={feitas.has(t.id)}
+                carregando={carregando}
+                onComecar={(modo) => comecar(aluno, acesso, disciplina, modo, t.id)}
+              />
+            </li>
+          ))}
+        </ul>
+        <div className="mt-8 flex flex-col items-center gap-3 text-center">
+          <p className="font-display text-lg font-semibold text-pedra">ou</p>
+          <BotaoGrande cor="branco" className="w-full max-w-sm" disabled={carregando !== null} onClick={() => comecar(aluno, acesso, disciplina)}>
+            {carregando === "normal-" ? "Abrindo…" : "Trilha normal"}
+          </BotaoGrande>
+          <p className="max-w-[30ch] font-display text-base text-pedra">Perguntas do banco que se ajustam ao seu ritmo.</p>
+        </div>
       </Tela>
     );
   }
@@ -173,7 +226,7 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
             {erro}
           </p>
         )}
-        <BotaoGrande className="mt-8 w-full max-w-xs" disabled={carregando} onClick={() => comecar(etapa.aluno, etapa.acesso, etapa.disciplina)}>
+        <BotaoGrande className="mt-8 w-full max-w-xs" disabled={carregando !== null} onClick={() => comecar(etapa.aluno, etapa.acesso, etapa.disciplina)}>
           {carregando ? "Abrindo…" : "Começar"}
         </BotaoGrande>
         <button
@@ -192,9 +245,11 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
         sessaoId={etapa.sessaoId}
         perguntas={etapa.perguntas}
         onSair={() => setEtapa({ tipo: "disciplina", aluno: etapa.aluno, acesso: etapa.acesso })}
-        onFim={(resultado, marcos) =>
-          setEtapa({ tipo: "fim", aluno: etapa.aluno, acesso: etapa.acesso, resultado, marcos })
-        }
+        onFim={(resultado, marcos) => {
+          const concluida = resultado.trilhaId;
+          if (etapa.modo === "semana" && concluida) setFeitas((atual) => new Set(atual).add(concluida));
+          setEtapa({ tipo: "fim", aluno: etapa.aluno, acesso: etapa.acesso, resultado, marcos });
+        }}
       />
     );
   }
@@ -245,6 +300,48 @@ export function Jornada({ turma }: { turma: TurmaPublica }) {
   );
 }
 
+function CartaoTrilhaSemana({
+  trilha,
+  feita,
+  carregando,
+  onComecar,
+}: {
+  trilha: TrilhaPublica;
+  feita: boolean;
+  carregando: string | null;
+  onComecar: (modo: ModoSessao) => void;
+}) {
+  const abrindo = (modo: ModoSessao) => carregando === `${modo}-${trilha.id}`;
+  return (
+    <div className="rounded-3xl bg-superficie p-5 shadow-[0_5px_0_var(--color-ceu-forte)] ring-2 ring-sol">
+      <p className="font-display text-sm font-extrabold tracking-wide text-tinta uppercase">
+        <span className="rounded-full bg-sol px-2.5 py-0.5">★ Trilha da semana</span>
+      </p>
+      <h2 className="mt-3 font-display text-3xl leading-tight font-extrabold text-grafite">{trilha.titulo}</h2>
+      <p className="mt-1 font-display text-lg text-pedra">
+        {trilha.total > 0 ? `${trilha.total} ${trilha.total === 1 ? "pergunta" : "perguntas"} · ` : ""}até {dataComDia(trilha.fim)}
+      </p>
+      {feita ? (
+        <>
+          <p className="mt-3 font-display text-xl font-bold text-mata">✓ Você já fez esta trilha!</p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <BotaoGrande disabled={carregando !== null} onClick={() => onComecar("revisao")}>
+              {abrindo("revisao") ? "Abrindo…" : "Revisar"}
+            </BotaoGrande>
+            <BotaoGrande cor="branco" disabled={carregando !== null} onClick={() => onComecar("praticar")}>
+              {abrindo("praticar") ? "Abrindo…" : "Praticar mais"}
+            </BotaoGrande>
+          </div>
+        </>
+      ) : (
+        <BotaoGrande className="mt-4 w-full" disabled={carregando !== null} onClick={() => onComecar("semana")}>
+          {abrindo("semana") ? "Abrindo…" : "Começar"}
+        </BotaoGrande>
+      )}
+    </div>
+  );
+}
+
 type ErroPin = "errado" | "bloqueado" | "rede" | null;
 
 const MENSAGENS_PIN: Record<Exclude<ErroPin, null>, string> = {
@@ -259,7 +356,7 @@ function ConfirmarPin({
   onVoltar,
 }: {
   aluno: AlunoPublico;
-  onEntrar: (acesso: string) => void;
+  onEntrar: (acesso: string, trilhasFeitas: string[]) => void;
   onVoltar: () => void;
 }) {
   const [conferindo, setConferindo] = useState(false);
@@ -272,7 +369,7 @@ function ConfirmarPin({
     setErroPin(null);
     try {
       const r = await api.validarPin(aluno.id, pin);
-      if (r.valido && r.acesso) return onEntrar(r.acesso);
+      if (r.valido && r.acesso) return onEntrar(r.acesso, r.trilhasFeitas ?? []);
       setErroPin(r.bloqueado ? "bloqueado" : "errado");
     } catch {
       setErroPin("rede");

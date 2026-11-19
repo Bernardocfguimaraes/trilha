@@ -28,6 +28,15 @@ import type {
   TurmaConfig,
   TurmaResumo,
   TurmaPublica,
+  ConteudosTurma,
+  PedidoPerguntaTurma,
+  PedidoRascunhos,
+  PedidoTrilha,
+  PerguntaProfessora,
+  PerguntaSalva,
+  RascunhoIa,
+  TrilhaDetalhe,
+  TrilhaResumo,
 } from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || undefined;
@@ -127,6 +136,37 @@ export const api = {
       body: { habilidadeId, nivel, evitar } satisfies PedidoExercicio,
       professor: true,
     }),
+
+  conteudos: (turmaId: string, token?: string | null) =>
+    request<ConteudosTurma>(`/turmas/${turmaId}/conteudos`, { token, professor: true }),
+  bancoDe: (turmaId: string, habilidades: string[]) =>
+    request<PerguntaProfessora[]>(`/turmas/${turmaId}/banco?habilidades=${encodeURIComponent(habilidades.join(","))}`, { professor: true }),
+  perguntasDaTurma: (turmaId: string, habilidades: string[] = []) =>
+    request<PerguntaProfessora[]>(`/turmas/${turmaId}/perguntas?habilidades=${encodeURIComponent(habilidades.join(","))}`, { professor: true }),
+  criarPergunta: (turmaId: string, pedido: PedidoPerguntaTurma) =>
+    request<PerguntaSalva>(`/turmas/${turmaId}/perguntas`, { method: "POST", body: pedido, professor: true }),
+  editarPergunta: (perguntaId: string, pedido: PedidoPerguntaTurma) =>
+    request<PerguntaSalva>(`/perguntas/${perguntaId}`, { method: "PUT", body: pedido, professor: true }),
+  excluirPergunta: (perguntaId: string) =>
+    request<{ ok: boolean }>(`/perguntas/${perguntaId}/excluir`, { method: "POST", professor: true }),
+  revisarPergunta: (perguntaId: string) =>
+    request<PerguntaProfessora>(`/perguntas/${perguntaId}/revisar`, { method: "POST", professor: true }),
+  gerarRascunhos: (turmaId: string, pedido: PedidoRascunhos) =>
+    request<{ rascunhos: RascunhoIa[] }>(`/turmas/${turmaId}/perguntas/rascunhos`, { method: "POST", body: pedido, professor: true }),
+  trilhas: (turmaId: string, token?: string | null) =>
+    request<TrilhaResumo[]>(`/turmas/${turmaId}/trilhas`, { token, professor: true }),
+  trilha: (trilhaId: string, token?: string | null) =>
+    request<TrilhaDetalhe>(`/trilhas/${trilhaId}`, { token, professor: true }),
+  criarTrilha: (turmaId: string, pedido: PedidoTrilha) =>
+    request<TrilhaDetalhe>(`/turmas/${turmaId}/trilhas`, { method: "POST", body: pedido, professor: true }),
+  salvarTrilha: (trilhaId: string, pedido: PedidoTrilha) =>
+    request<TrilhaDetalhe>(`/trilhas/${trilhaId}`, { method: "PUT", body: pedido, professor: true }),
+  lancarTrilha: (trilhaId: string) =>
+    request<TrilhaDetalhe>(`/trilhas/${trilhaId}/lancar`, { method: "POST", professor: true }),
+  encerrarTrilha: (trilhaId: string) =>
+    request<TrilhaDetalhe>(`/trilhas/${trilhaId}/encerrar`, { method: "POST", professor: true }),
+  excluirTrilha: (trilhaId: string) =>
+    request<{ ok: boolean }>(`/trilhas/${trilhaId}/excluir`, { method: "POST", professor: true }),
 
   transcrever: async (audio: Blob): Promise<{ texto: string }> => {
     const form = new FormData();

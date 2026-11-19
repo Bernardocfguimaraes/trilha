@@ -11,5 +11,9 @@ export const somarDias = (iso: string, dias: number) =>
 export const diasEntre = (de: string, ate: string) =>
   Math.round((Date.parse(`${ate}T00:00:00Z`) - Date.parse(`${de}T00:00:00Z`)) / 86_400_000);
 
+const diaDaSemana = new Intl.DateTimeFormat("pt-BR", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
+
+export const dataComDia = (iso: string) => diaDaSemana.format(new Date(`${iso}T12:00:00Z`));
+
 export const dataCurta = (iso: string) => dia.format(new Date(iso)).replace(".", "");
 export const dataLonga = (iso: string) => diaLongo.format(new Date(iso));
