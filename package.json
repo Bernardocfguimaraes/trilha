@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON --test tests/",
+    "test": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON --test \"tests/**/*.test.mjs\"",
     "test:backend": "cd backend && python -m pytest"
   },
   "dependencies": {

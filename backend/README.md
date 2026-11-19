@@ -242,7 +242,7 @@ pip install -r requirements-dev.txt -r ml/requirements-treino.txt
 python -m pytest
 ```
 
-65 testes, com a API inteira em memória (sem rede e sem LLM): segurança, turmas e conteúdo
+72 testes, com a API inteira em memória (sem rede e sem LLM): segurança, turmas e conteúdo
 por ano, qualidade das questões, acesso do responsável, relatórios, revisão dos exercícios gerados por IA e modelos (paridade com o
 scikit-learn, métricas acima da regra, simulador igual ao app, k-means). A integração contínua
 (`.github/workflows/testes.yml`) roda tudo a cada push.
