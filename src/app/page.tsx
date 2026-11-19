@@ -217,7 +217,7 @@ function ParaQuem() {
         <Linha
           id="alunos"
           titulo="Para alunos: aprender brincando"
-          texto="Peças para arrastar até a frase, palavras para tocar no texto, estrelas a cada acerto e o Sabiá acompanhando o caminho. Quando erra, a criança vê a resposta certa na hora."
+          texto="Peças para arrastar até a frase, estrelas a cada acerto e o Sabiá acompanhando o caminho. Quando erra, a criança vê a resposta certa na hora."
         >
           <div className="w-full max-w-sm rounded-[1.5rem] bg-ceu px-5 pt-3 pb-6">
             <TrilhaProgresso marcos={["acerto", "acerto", "erro", "acerto", "pendente", "pendente"]} atual={4} className="mt-8" />

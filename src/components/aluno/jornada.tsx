@@ -14,7 +14,6 @@ import type {
 } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { extrairLacuna, fraseCompleta } from "@/lib/lacuna";
-import { extrairTocar } from "@/lib/tocar";
 import { Sabia } from "@/components/marca";
 import { VoltarAluno } from "@/components/voltar";
 import { BotaoTema } from "@/components/tema";
@@ -22,7 +21,6 @@ import { BotaoGrande, classesBotaoGrande } from "./botao-grande";
 import { CartaoDisciplina, IconeDisciplina } from "./disciplinas";
 import { EntradaPin } from "./entrada-pin";
 import { QuestaoLacuna } from "./questao-lacuna";
-import { QuestaoTocar } from "./questao-tocar";
 import { Brilhos, Estrela, TrilhaProgresso, type Marco } from "./trilha-progresso";
 
 type Etapa =
@@ -358,8 +356,7 @@ export function Quiz({
   const estrelas = marcos.filter((m) => m === "acerto").length;
   const curtas = pergunta.opcoes.every((o) => o.texto.length <= 8);
   const lacuna = extrairLacuna(pergunta);
-  const tocar = lacuna ? null : extrairTocar(pergunta);
-  const enunciado = lacuna?.instrucao ?? tocar?.instrucao ?? pergunta.enunciado;
+  const enunciado = lacuna?.instrucao ?? pergunta.enunciado;
   const paraOuvir = lacuna ? `${lacuna.instrucao} ${fraseCompleta(lacuna, undefined, "…")}` : pergunta.enunciado;
 
   const { parar } = fala;
@@ -466,8 +463,6 @@ export function Quiz({
             onEscolher={setEscolha}
             resultado={resultado}
           />
-        ) : tocar ? (
-          <QuestaoTocar tocar={tocar} escolha={escolha} onEscolher={setEscolha} resultado={resultado} />
         ) : (
         <div
           role="radiogroup"

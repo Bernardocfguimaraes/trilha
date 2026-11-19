@@ -408,38 +408,6 @@
    "origem": "ia"
   },
   {
-   "id": "ef35lp06-m1",
-   "habilidadeId": "EF35LP06",
-   "nivel": "medio",
-   "enunciado": "Leia o texto: \"No parque, o senhor encontrou um objeto brilhante no chão. Ele o pegou, limpou‑o e guardou‑o na bolsa para mostrar ao neto. O item reluzente despertou a curiosidade da criança.\" Qual palavra do texto substitui o substantivo \"objeto\"?",
-   "apoio": null,
-   "opcoes": [
-    "brilhante",
-    "item",
-    "Ele",
-    "neto"
-   ],
-   "certa": 1,
-   "explicacao": "A palavra \"item\" é sinônimo de \"objeto\" e substitui o substantivo no texto",
-   "origem": "ia"
-  },
-  {
-   "id": "ef35lp06-m2",
-   "habilidadeId": "EF35LP06",
-   "nivel": "medio",
-   "enunciado": "Leia o texto: \"Pedro encontrou um gato preto no quintal. O felino estava assustado e ele o ajudou a encontrar um abrigo seguro.\" Qual palavra do texto substitui o substantivo \"gato\"?",
-   "apoio": null,
-   "opcoes": [
-    "ele",
-    "Pedro",
-    "abrigo",
-    "felino"
-   ],
-   "certa": 3,
-   "explicacao": "A palavra \"felino\" é um sinônimo que substitui \"gato\" no texto",
-   "origem": "ia"
-  },
-  {
    "id": "ef35lp06-d1",
    "habilidadeId": "EF35LP06",
    "nivel": "dificil",
@@ -470,6 +438,22 @@
    "certa": 0,
    "explicacao": "A palavra \"o\" é o pronome que substitui o substantivo \"relógio\"",
    "origem": "ia"
+  },
+  {
+   "id": "ef35lp06-m3",
+   "habilidadeId": "EF35LP06",
+   "nivel": "medio",
+   "enunciado": "Leia: \"O cachorro de Pedro fugiu ontem. À noite, o animal voltou para casa sozinho.\" Na segunda frase, a expressão \"o animal\" retoma qual termo?",
+   "apoio": null,
+   "opcoes": [
+    "o cachorro de Pedro",
+    "o vizinho que mora ao lado",
+    "a casa de Pedro",
+    "a noite de ontem"
+   ],
+   "certa": 0,
+   "explicacao": "\"O animal\" é uma forma de retomar \"o cachorro de Pedro\" sem repetir as mesmas palavras.",
+   "origem": "curada"
   },
   {
    "id": "ef15lp01-f1",
@@ -2600,22 +2584,6 @@
    "origem": "curada"
   },
   {
-   "id": "ef35lp22-f1",
-   "habilidadeId": "EF35LP22",
-   "nivel": "facil",
-   "enunciado": "Leia: \"— Cuidado com o degrau! — gritou a professora.\" Qual palavra mostra como a professora falou?",
-   "apoio": null,
-   "opcoes": [
-    "gritou",
-    "cuidado",
-    "degrau",
-    "professora"
-   ],
-   "certa": 0,
-   "explicacao": "Gritou é o verbo de fala (de enunciação).",
-   "origem": "curada"
-  },
-  {
    "id": "ef35lp22-f2",
    "habilidadeId": "EF35LP22",
    "nivel": "facil",
@@ -3765,197 +3733,6 @@
    ],
    "certa": 3,
    "explicacao": "\"Alegre\" tem sentido parecido com \"contente\"; as outras dizem o contrário ou outra coisa.",
-   "origem": "curada"
-  },
-  {
-   "id": "ef35lp14-f4",
-   "habilidadeId": "EF35LP14",
-   "nivel": "facil",
-   "enunciado": "Leia: \"Rafael ganhou um cachorro. Ele adora brincar com o novo amigo.\" Qual palavra retoma \"Rafael\"?",
-   "apoio": null,
-   "opcoes": [
-    "Ele",
-    "amigo",
-    "brincar",
-    "cachorro"
-   ],
-   "certa": 0,
-   "explicacao": "\"Ele\" retoma \"Rafael\" para não repetir o nome. \"Amigo\" se refere ao cachorro.",
-   "origem": "curada"
-  },
-  {
-   "id": "ef35lp06-m3",
-   "habilidadeId": "EF35LP06",
-   "nivel": "medio",
-   "enunciado": "Leia: \"A tartaruga atravessou a estrada devagar. O réptil chegou ao lago no fim da tarde.\" Qual palavra retoma \"tartaruga\"?",
-   "apoio": null,
-   "opcoes": [
-    "estrada",
-    "lago",
-    "réptil",
-    "tarde"
-   ],
-   "certa": 2,
-   "explicacao": "\"Réptil\" é outra forma de chamar a tartaruga, para não repetir a palavra.",
-   "origem": "curada"
-  },
-  {
-   "id": "ef35lp22-f4",
-   "habilidadeId": "EF35LP22",
-   "nivel": "facil",
-   "enunciado": "Leia: \"— Vamos logo! — apressou a mãe, olhando o relógio.\" Qual palavra mostra como a mãe falou?",
-   "apoio": null,
-   "opcoes": [
-    "Vamos",
-    "relógio",
-    "olhando",
-    "apressou"
-   ],
-   "certa": 3,
-   "explicacao": "\"Apressou\" é o verbo de fala: mostra que a mãe falou com pressa.",
-   "origem": "curada"
-  },
-  {
-   "id": "ef04lp15-m3",
-   "habilidadeId": "EF04LP15",
-   "nivel": "medio",
-   "enunciado": "Leia: \"O museu abriu ontem e é o lugar mais bonito da cidade.\" Qual palavra mostra uma opinião?",
-   "apoio": null,
-   "opcoes": [
-    "cidade",
-    "ontem",
-    "bonito",
-    "museu"
-   ],
-   "certa": 2,
-   "explicacao": "Achar o lugar \"bonito\" é uma opinião: outra pessoa pode achar diferente. Que o museu abriu ontem é um fato.",
-   "origem": "curada"
-  },
-  {
-   "id": "ef35lp05-m4",
-   "habilidadeId": "EF35LP05",
-   "nivel": "medio",
-   "enunciado": "Leia: \"Depois da corrida, Léo estava exausto e dormiu cedo.\" Qual palavra quer dizer \"muito cansado\"?",
-   "apoio": null,
-   "opcoes": [
-    "dormiu",
-    "cedo",
-    "corrida",
-    "exausto"
-   ],
-   "certa": 3,
-   "explicacao": "Pelo contexto (depois da corrida, dormiu cedo), \"exausto\" quer dizer muito cansado.",
-   "origem": "curada"
-  },
-  {
-   "id": "ef04lp07-d4",
-   "habilidadeId": "EF04LP07",
-   "nivel": "dificil",
-   "enunciado": "Leia: \"As casas amarelas e o jardim florido enfeitam a rua.\" Qual palavra concorda com \"casas\"?",
-   "apoio": null,
-   "opcoes": [
-    "rua",
-    "amarelas",
-    "florido",
-    "jardim"
-   ],
-   "certa": 1,
-   "explicacao": "\"Amarelas\" está no feminino plural, como \"casas\". \"Florido\" concorda com \"jardim\".",
-   "origem": "curada"
-  },
-  {
-   "id": "ef04lp06-m4",
-   "habilidadeId": "EF04LP06",
-   "nivel": "medio",
-   "enunciado": "Leia: \"Os passarinhos cantam cedo, e a coruja dorme de dia.\" Qual palavra é o verbo que combina com \"passarinhos\"?",
-   "apoio": null,
-   "opcoes": [
-    "coruja",
-    "cantam",
-    "cedo",
-    "dorme"
-   ],
-   "certa": 1,
-   "explicacao": "\"Cantam\" está no plural, como \"passarinhos\". \"Dorme\" combina com \"a coruja\".",
-   "origem": "curada"
-  },
-  {
-   "id": "ef04lp04-d3",
-   "habilidadeId": "EF04LP04",
-   "nivel": "dificil",
-   "enunciado": "Leia: \"O táxi parou perto da árvore e do café.\" Qual palavra é paroxítona e tem acento?",
-   "apoio": null,
-   "opcoes": [
-    "árvore",
-    "parou",
-    "café",
-    "táxi"
-   ],
-   "certa": 3,
-   "explicacao": "Em \"táxi\" a sílaba forte é a penúltima (TÁ-xi), e paroxítonas terminadas em I levam acento. \"Árvore\" é proparoxítona e \"café\" é oxítona.",
-   "origem": "curada"
-  },
-  {
-   "id": "ef35lp26-f3",
-   "habilidadeId": "EF35LP26",
-   "nivel": "facil",
-   "enunciado": "Leia: \"Na floresta, a raposa encontrou um coelho perdido ao anoitecer.\" Qual palavra diz quando a história acontece?",
-   "apoio": null,
-   "opcoes": [
-    "anoitecer",
-    "floresta",
-    "coelho",
-    "raposa"
-   ],
-   "certa": 0,
-   "explicacao": "\"Anoitecer\" indica o tempo. \"Floresta\" é o lugar, e raposa e coelho são personagens.",
-   "origem": "curada"
-  },
-  {
-   "id": "ef04lp14-m3",
-   "habilidadeId": "EF04LP14",
-   "nivel": "medio",
-   "enunciado": "Leia: \"Ontem, bombeiros resgataram um gato no alto de uma árvore em Recife.\" Qual palavra diz onde o fato aconteceu?",
-   "apoio": null,
-   "opcoes": [
-    "gato",
-    "Recife",
-    "Ontem",
-    "bombeiros"
-   ],
-   "certa": 1,
-   "explicacao": "Numa notícia, o lugar responde à pergunta \"onde?\": em Recife. \"Ontem\" responde \"quando?\".",
-   "origem": "curada"
-  },
-  {
-   "id": "ef35lp23-d3",
-   "habilidadeId": "EF35LP23",
-   "nivel": "dificil",
-   "enunciado": "Leia o verso: \"O peixe dourado nadou apressado.\" Qual palavra rima com \"dourado\"?",
-   "apoio": null,
-   "opcoes": [
-    "apressado",
-    "nadou",
-    "peixe"
-   ],
-   "certa": 0,
-   "explicacao": "\"Apressado\" termina com o mesmo som de \"dourado\" (-ado).",
-   "origem": "curada"
-  },
-  {
-   "id": "ef35lp31-d3",
-   "habilidadeId": "EF35LP31",
-   "nivel": "dificil",
-   "enunciado": "Leia: \"A lua era uma moeda de prata no céu escuro.\" Com qual palavra o poeta compara a lua?",
-   "apoio": null,
-   "opcoes": [
-    "escuro",
-    "lua",
-    "céu",
-    "moeda"
-   ],
-   "certa": 3,
-   "explicacao": "O verso compara a lua a uma moeda (redonda e brilhante). É uma metáfora.",
    "origem": "curada"
   }
  ]

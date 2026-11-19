@@ -36,22 +36,6 @@
    "origem": "curada"
   },
   {
-   "id": "ef67lp04-m1",
-   "habilidadeId": "EF67LP04",
-   "nivel": "medio",
-   "enunciado": "Em \"Infelizmente, o show foi adiado para domingo\", qual palavra mostra a opinião de quem escreve?",
-   "apoio": null,
-   "opcoes": [
-    "show",
-    "Infelizmente",
-    "adiado",
-    "domingo"
-   ],
-   "certa": 1,
-   "explicacao": "\"Infelizmente\" revela como quem escreve avalia o fato.",
-   "origem": "curada"
-  },
-  {
    "id": "ef67lp04-m2",
    "habilidadeId": "EF67LP04",
    "nivel": "medio",

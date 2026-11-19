@@ -103,8 +103,8 @@ integradas no mesmo produto.
 - Escolhe a matéria e faz uma **trilha de 6 perguntas**, apresentadas como um caminho a percorrer.
 - **Dificuldade adaptativa silenciosa:** dois acertos seguidos sobem o nível e dois erros descem.
   O aluno nunca vê o nível, para não se sentir rotulado.
-- **Tipos de questão interativos:** múltipla escolha, **completar a frase** (a lacuna é preenchida
-  na própria frase) e **tocar no texto** (o aluno toca a palavra certa num trecho).
+- **Dois tipos de questão:** múltipla escolha e **completar a frase** (a peça certa é arrastada
+  ou tocada até a lacuna, na própria frase).
 - Botão **"Ouvir"**, que lê o enunciado em voz alta para quem ainda lê com dificuldade.
 - Feedback imediato, estrelas e um mascote (o Sabiá) que reage aos acertos e erros.
 - Segue um **caminho BNCC** em ordem: as próximas habilidades pendentes e uma revisão do que está
@@ -574,7 +574,7 @@ npm run test:backend     # API: 72 testes (pytest)
 | **Machine Learning** | Paridade com o scikit-learn, métricas acima da regra simples, simulador de treino igual ao app, modelo vencendo a regra em dados novos como os do app, coerência da explicação, previsão de risco, k-means recuperando perfis conhecidos |
 | **IA** | Exercício pedido no painel passa pelo revisor de outro modelo; com recusa, entra uma questão do banco curado; o checador recusa alternativa que entrega a resposta pelo tamanho |
 | **Relatórios e responsável** | Planilha CSV, acesso só ao próprio filho |
-| **Front** | Lacuna e "tocar no texto" reconhecidos a partir do enunciado; respostas da IA exibidas com negrito e listas, sem símbolos crus |
+| **Front** | Lacuna reconhecida a partir do enunciado; respostas da IA exibidas com negrito e listas, sem símbolos crus |
 
 A **integração contínua** (`.github/workflows/testes.yml`) roda tudo a cada push: testes do
 backend (Python 3.12) e, no front (Node 24), testes, geração de tipos de rota, `tsc` e ESLint.

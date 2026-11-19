@@ -231,16 +231,16 @@
    "id": "ef09lp09-d1",
    "habilidadeId": "EF09LP09",
    "nivel": "dificil",
-   "enunciado": "Em \"A cidade onde nasci é pequena\", qual palavra introduz a oração adjetiva?",
+   "enunciado": "Compare \"Os alunos que estudaram passaram\" com \"Os alunos, que estudaram, passaram\". O que a segunda frase afirma?",
    "apoio": null,
    "opcoes": [
-    "pequena",
-    "onde",
-    "cidade",
-    "nasci"
+    "Todos os alunos estudaram e passaram",
+    "Só uma parte dos alunos estudou e passou",
+    "Nenhum aluno estudou, mas todos passaram",
+    "Os alunos passaram sem precisar estudar"
    ],
-   "certa": 1,
-   "explicacao": "Onde retoma cidade e introduz a oração que a caracteriza.",
+   "certa": 0,
+   "explicacao": "Entre vírgulas, a oração é explicativa e vale para todos os alunos; sem vírgulas, ela restringe aos que estudaram.",
    "origem": "curada"
   },
   {
