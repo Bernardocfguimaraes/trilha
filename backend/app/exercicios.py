@@ -210,6 +210,142 @@ def _revisar(hab: dict, q: dict) -> bool:
     )
 
 
+def _contexto_habilidade(hab: dict) -> str:
+    return (
+        f"Habilidade ({hab.get('codigoBncc') or hab['nome']}): {hab['descricao']}\n"
+        f"Ano: {hab.get('ano') or _ANO_LEGADO}º ano do ensino fundamental.\n"
+        + (f"Nota do especialista sobre a habilidade: {hab['dica']}\n" if hab.get("dica") else "")
+    )
+
+
+def _veredito(r: dict, indice: int) -> dict:
+    aprovada = (
+        r.get("resposta") == indice
+        and r.get("unicaCorreta") is True
+        and r.get("conteudoCorreto") is True
+        and r.get("avaliaHabilidade") is True
+    )
+    problema = str(r.get("problema") or "").strip()
+    if not aprovada and not problema:
+        problema = "A IA revisora chegou a outra resposta." if r.get("resposta") != indice else "A IA revisora apontou um problema."
+    resposta = r.get("resposta")
+    return {"aprovada": aprovada, "problema": "" if aprovada else problema[:300],
+            "respostaIa": resposta if isinstance(resposta, int) and not isinstance(resposta, bool) else None}
+
+
+def revisar_uma(habilidade_id: str, q: dict) -> dict | None:
+    hab = _habilidade(habilidade_id)
+    if hab is None or not llm.disponivel():
+        return None
+    opcoes = "\n".join(f"{i}. {o}" for i, o in enumerate(q["opcoes"]))
+    prompt = _contexto_habilidade(hab) + f"\nQuestão: {q['enunciado']}\n{opcoes}"
+    bruto = llm.gerar(_SISTEMA_REVISOR, [{"role": "user", "content": prompt}], temperatura=0.0, max_tokens=4000, papel="revisor")
+    r = _extrair_json(bruto or "")
+    return _veredito(r, q["indiceCorreta"]) if isinstance(r, dict) else None
+
+
+_TIPOS_LOTE = {
+    "escolha": "Todas as questões são de múltipla escolha.",
+    "lacuna": "Todas as questões são de completar a frase.",
+    "misto": "Misture os dois tipos: cerca de metade de cada.",
+}
+
+
+def _sistema_lote(ano: int) -> str:
+    etapa = "anos iniciais" if ano <= 5 else "anos finais"
+    return (
+        f"Você ajuda uma professora do {ano}º ano do ensino fundamental ({etapa}, cerca de {ano + 5} anos) a montar "
+        "a trilha de exercícios da semana. Ela conta o que trabalhou em sala; crie questões sobre ESSE conteúdo, "
+        "usando o contexto que ela descreveu, para a habilidade da BNCC informada. Português do Brasil, linguagem "
+        "adequada à idade, sem pegadinha. Responda SOMENTE com JSON válido, sem markdown, no formato "
+        '{"perguntas": [ ... ]}, em que cada item é de um destes tipos:\n'
+        '- múltipla escolha: {"tipo": "escolha", "enunciado": "...", "opcoes": ["...", "...", "...", "..."], '
+        '"indiceCorreta": 0, "explicacao": "..."}\n'
+        '- completar a frase: {"tipo": "lacuna", "instrucao": "Complete a frase", "frase": "Frase com ___ no lugar da '
+        'resposta.", "opcoes": ["...", "...", "...", "..."], "indiceCorreta": 0, "explicacao": "..."}\n'
+        "Regras para todas: exatamente 4 opções, todas diferentes; APENAS UMA correta e as outras de fato erradas; "
+        "nada de opções equivalentes (1/2 e 2/4, 0,5 e 1/2); a correta NÃO pode ser a mais longa nem a mais completa; "
+        "varie a posição da correta (indiceCorreta de 0 a 3); não numere nem rotule as opções; nunca peça para olhar "
+        "imagem, mapa ou gráfico que não esteja escrito. Na múltipla escolha, o enunciado termina com a pergunta "
+        "(ponto de interrogação) ou com dois-pontos. No completar a frase, a frase tem exatamente uma lacuna ___ e "
+        "cada opção é uma palavra ou expressão curta que encaixa na lacuna; só uma deixa a frase correta. "
+        "explicacao: por que a certa está certa, em uma frase, para a professora. Não repita questões entre si."
+    )
+
+
+def _rascunho(item: dict, habilidade_id: str, nivel: str) -> dict | None:
+    if not isinstance(item, dict):
+        return None
+    opcoes = item.get("opcoes")
+    indice = item.get("indiceCorreta")
+    if not isinstance(opcoes, list) or len(opcoes) != 4 or any(not isinstance(o, str) or not o.strip() for o in opcoes):
+        return None
+    opcoes = [o.strip() for o in opcoes]
+    if len({o.lower() for o in opcoes}) != 4 or _tem_opcoes_equivalentes(opcoes):
+        return None
+    if not isinstance(indice, int) or isinstance(indice, bool) or not 0 <= indice <= 3 or _entrega_pelo_tamanho(opcoes, indice):
+        return None
+    explicacao = str(item.get("explicacao") or "").strip()[:400]
+    base = {"habilidadeId": habilidade_id, "nivel": nivel, "opcoes": opcoes, "certa": indice, "explicacao": explicacao}
+    if item.get("tipo") == "lacuna":
+        frase = str(item.get("frase") or "").strip().replace('"', "'")
+        if len(re.findall(r"_{2,}", frase)) != 1:
+            return None
+        instrucao = str(item.get("instrucao") or "").strip().replace('"', "'").rstrip(":. ") or None
+        return {**base, "tipo": "lacuna", "instrucao": instrucao, "frase": frase,
+                "enunciado": f'{instrucao or "Complete a frase"}: "{frase}"'}
+    enunciado = str(item.get("enunciado") or "").strip()
+    if not enunciado or not _tem_pergunta(enunciado):
+        return None
+    return {**base, "tipo": "escolha", "instrucao": None, "frase": None, "enunciado": enunciado}
+
+
+_SISTEMA_REVISOR_LOTE = (
+    _SISTEMA_REVISOR.replace("Responda SOMENTE com JSON", "Você recebe VÁRIAS questões numeradas e revisa cada uma. Responda SOMENTE com JSON")
+    .replace('{"analise"', '{"revisoes": [{"numero": <número da questão>, "analise"')
+    .replace('"problema": "..."}\n', '"problema": "..."}, ...]}\n')
+)
+
+
+def _revisar_lote(hab: dict, rascunhos: list[dict]) -> list[dict | None]:
+    blocos = []
+    for n, q in enumerate(rascunhos, start=1):
+        opcoes = "\n".join(f"{i}. {o}" for i, o in enumerate(q["opcoes"]))
+        blocos.append(f"Questão {n}: {q['enunciado']}\n{opcoes}")
+    prompt = _contexto_habilidade(hab) + "\n" + "\n\n".join(blocos)
+    bruto = llm.gerar(_SISTEMA_REVISOR_LOTE, [{"role": "user", "content": prompt}], temperatura=0.0,
+                      max_tokens=min(12000, 2500 + 1500 * len(rascunhos)), papel="revisor")
+    dados = _extrair_json(bruto or "")
+    revisoes = dados.get("revisoes") if isinstance(dados, dict) else None
+    if not isinstance(revisoes, list):
+        return [None] * len(rascunhos)
+    por_numero = {r.get("numero"): r for r in revisoes if isinstance(r, dict)}
+    return [_veredito(por_numero[n], q["certa"]) if n in por_numero else None for n, q in enumerate(rascunhos, start=1)]
+
+
+def gerar_lote(habilidade_id: str, descricao: str, quantidade: int, nivel: str, tipo: str) -> list[dict] | None:
+    hab = _habilidade(habilidade_id)
+    if hab is None or not llm.disponivel():
+        return None
+    prompt = (
+        _contexto_habilidade(hab)
+        + f"\nO que a professora trabalhou na aula: {descricao}\n"
+        + f"Crie {quantidade} questões de {_NIVEL_DESC.get(nivel, 'nível médio')}. {_TIPOS_LOTE.get(tipo, _TIPOS_LOTE['misto'])}"
+    )
+    bruto = llm.gerar(_sistema_lote(hab.get("ano") or _ANO_LEGADO), [{"role": "user", "content": prompt}],
+                      temperatura=0.5, max_tokens=min(9000, 2500 + 900 * quantidade))
+    dados = _extrair_json(bruto or "")
+    itens = dados.get("perguntas") if isinstance(dados, dict) else None
+    if not isinstance(itens, list):
+        return None
+    rascunhos = [r for r in (_rascunho(i, habilidade_id, nivel) for i in itens[:quantidade]) if r]
+    if not rascunhos:
+        return None
+    for r, revisao in zip(rascunhos, _revisar_lote(hab, rascunhos)):
+        r["revisao"] = revisao
+    return rascunhos
+
+
 _AVALIACAO = os.path.join(os.path.dirname(__file__), "avaliacao_llm.json")
 
 

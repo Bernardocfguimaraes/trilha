@@ -54,7 +54,7 @@ def habilidade_config(h: dict, ativas: set[str]) -> dict:
     }
 
 
-def escolher_pergunta(habilidades: list[str], nivel: str, usadas: set[str], vez: int) -> dict | None:
+def escolher_pergunta(habilidades: list[str], nivel: str, usadas: set[str], vez: int, extras: list[dict] = ()) -> dict | None:
     if not habilidades:
         return None
     alvo = habilidades[vez % len(habilidades)]
@@ -62,7 +62,7 @@ def escolher_pergunta(habilidades: list[str], nivel: str, usadas: set[str], vez:
     def custo(p: dict) -> float:
         return abs(NIVEIS.index(p["nivel"]) - NIVEIS.index(nivel)) * 10 + (0 if p["habilidadeId"] == alvo else 1) + random.random() * 0.5
 
-    candidatas = [p for p in BANCO if p["habilidadeId"] in habilidades and p["id"] not in usadas]
+    candidatas = [p for p in (*BANCO, *extras) if p["habilidadeId"] in habilidades and p["id"] not in usadas]
     if not candidatas:
         return None
     return min(candidatas, key=custo)

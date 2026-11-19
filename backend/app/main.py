@@ -7,7 +7,7 @@ from fastapi import Depends, FastAPI, File, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse, Response
 
-from . import bd, diagnostico, exercicios, risco, seguranca, voz
+from . import bd, diagnostico, exercicios, risco, seguranca, trilhas, voz
 from . import repo as fonte
 from .esquemas import (
     PedidoAvaliacao,
@@ -16,10 +16,13 @@ from .esquemas import (
     PedidoLogin,
     PedidoNovaTurma,
     PedidoNovoAluno,
+    PedidoPerguntaTurma,
     PedidoPin,
     PedidoProgresso,
+    PedidoRascunhos,
     PedidoResposta,
     PedidoSessao,
+    PedidoTrilha,
     PedidoTurmaConfig,
 )
 from .regras import ApiErro
@@ -275,7 +278,84 @@ def post_progresso_responsavel(pedido: PedidoProgresso):
 
 @app.post("/sessoes")
 def post_sessao(pedido: PedidoSessao):
-    return fonte.iniciar_sessao(pedido.codigo, pedido.alunoId, pedido.acesso, pedido.disciplinaId)
+    return fonte.iniciar_sessao(pedido.codigo, pedido.alunoId, pedido.acesso, pedido.disciplinaId, pedido.trilhaId, pedido.modo)
+
+
+@app.get("/turmas/{turma_id}/conteudos")
+def get_conteudos(turma_id: str, professor: dict = Professor):
+    return trilhas.conteudos(professor["sub"], turma_id)
+
+
+@app.get("/turmas/{turma_id}/banco")
+def get_banco(turma_id: str, habilidades: str = "", professor: dict = Professor):
+    return trilhas.banco_para(professor["sub"], turma_id, [h for h in habilidades.split(",") if h][:20])
+
+
+@app.get("/turmas/{turma_id}/perguntas")
+def get_perguntas_turma(turma_id: str, habilidades: str = "", professor: dict = Professor):
+    return trilhas.listar_perguntas(professor["sub"], turma_id, [h for h in habilidades.split(",") if h][:20] or None)
+
+
+@app.post("/turmas/{turma_id}/perguntas", status_code=201)
+def post_pergunta_turma(turma_id: str, pedido: PedidoPerguntaTurma, professor: dict = Professor):
+    dados = pedido.model_dump()
+    revisao = dados.pop("revisao")
+    return trilhas.criar_pergunta(professor["sub"], turma_id, dados, dados.pop("origem"), revisao)
+
+
+@app.put("/perguntas/{pergunta_id}")
+def put_pergunta_turma(pergunta_id: str, pedido: PedidoPerguntaTurma, professor: dict = Professor):
+    return trilhas.editar_pergunta(professor["sub"], pergunta_id, pedido.model_dump())
+
+
+@app.post("/perguntas/{pergunta_id}/excluir")
+def post_excluir_pergunta(pergunta_id: str, professor: dict = Professor):
+    return trilhas.excluir_pergunta(professor["sub"], pergunta_id)
+
+
+@app.post("/perguntas/{pergunta_id}/revisar")
+def post_revisar_pergunta(pergunta_id: str, professor: dict = Professor):
+    return trilhas.revisar_pergunta(professor["sub"], pergunta_id)
+
+
+@app.post("/turmas/{turma_id}/perguntas/rascunhos")
+def post_rascunhos(turma_id: str, pedido: PedidoRascunhos, professor: dict = Professor):
+    return trilhas.gerar_rascunhos(professor["sub"], turma_id, pedido.model_dump())
+
+
+@app.get("/turmas/{turma_id}/trilhas")
+def get_trilhas(turma_id: str, professor: dict = Professor):
+    return trilhas.listar_trilhas(professor["sub"], turma_id)
+
+
+@app.post("/turmas/{turma_id}/trilhas", status_code=201)
+def post_trilha(turma_id: str, pedido: PedidoTrilha, professor: dict = Professor):
+    return trilhas.criar_trilha(professor["sub"], turma_id, pedido.model_dump())
+
+
+@app.get("/trilhas/{trilha_id}")
+def get_trilha(trilha_id: str, professor: dict = Professor):
+    return trilhas.detalhe_trilha(professor["sub"], trilha_id)
+
+
+@app.put("/trilhas/{trilha_id}")
+def put_trilha(trilha_id: str, pedido: PedidoTrilha, professor: dict = Professor):
+    return trilhas.salvar_trilha(professor["sub"], trilha_id, pedido.model_dump())
+
+
+@app.post("/trilhas/{trilha_id}/lancar")
+def post_lancar_trilha(trilha_id: str, professor: dict = Professor):
+    return trilhas.lancar_trilha(professor["sub"], trilha_id)
+
+
+@app.post("/trilhas/{trilha_id}/encerrar")
+def post_encerrar_trilha(trilha_id: str, professor: dict = Professor):
+    return trilhas.encerrar_trilha(professor["sub"], trilha_id)
+
+
+@app.post("/trilhas/{trilha_id}/excluir")
+def post_excluir_trilha(trilha_id: str, professor: dict = Professor):
+    return trilhas.excluir_trilha(professor["sub"], trilha_id)
 
 
 @app.post("/sessoes/{sessao_id}/respostas")

@@ -45,6 +45,8 @@ class PedidoSessao(BaseModel):
     alunoId: Id
     acesso: Optional[str] = Field(default=None, max_length=128)
     disciplinaId: Optional[str] = Field(default=None, max_length=64)
+    trilhaId: Optional[Id] = None
+    modo: Literal["normal", "semana", "revisao", "praticar"] = "normal"
 
 
 class PedidoResposta(BaseModel):
@@ -73,3 +75,42 @@ class PedidoExercicio(BaseModel):
     habilidadeId: Id
     nivel: Nivel = "medio"
     evitar: list[Annotated[str, Field(max_length=600)]] = Field(default=[], max_length=12)
+
+
+Texto = Annotated[str, Field(max_length=800)]
+
+
+class RevisaoIa(BaseModel):
+    aprovada: bool
+    problema: str = Field(default="", max_length=400)
+    respostaIa: Optional[int] = None
+
+
+class PedidoPerguntaTurma(BaseModel):
+    tipo: Literal["escolha", "lacuna"]
+    habilidadeId: Id
+    nivel: Nivel = "medio"
+    enunciado: Optional[Texto] = None
+    instrucao: Optional[Texto] = None
+    frase: Optional[Texto] = None
+    opcoes: list[Annotated[str, Field(max_length=200)]] = Field(min_length=2, max_length=4)
+    certa: int = Field(ge=0, le=3)
+    explicacao: Optional[Texto] = None
+    origem: Literal["professora", "ia"] = "professora"
+    revisao: Optional[RevisaoIa] = None
+
+
+class PedidoTrilha(BaseModel):
+    disciplinaId: Id
+    titulo: str = Field(max_length=120)
+    habilidades: list[Id] = Field(default=[], max_length=30)
+    perguntas: list[Id] = Field(default=[], max_length=40)
+    fim: str = Field(max_length=10)
+
+
+class PedidoRascunhos(BaseModel):
+    habilidadeId: Id
+    descricao: str = Field(min_length=1, max_length=800)
+    quantidade: int = Field(default=4, ge=1, le=6)
+    nivel: Nivel = "medio"
+    tipo: Literal["escolha", "lacuna", "misto"] = "misto"

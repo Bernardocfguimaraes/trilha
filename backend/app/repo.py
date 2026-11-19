@@ -7,12 +7,11 @@ from datetime import date, datetime, timedelta, timezone
 
 from sqlalchemy import delete, distinct, func, select
 
-from . import bd, caminho, chat, credenciais, diagnostico, estado, grupos, risco
+from . import bd, caminho, chat, credenciais, diagnostico, estado, grupos, risco, trilhas
 from . import recomendacoes as rec
 from .adaptacao import EstadoAdaptacao, estado_inicial_adaptacao, registrar_resposta
 from .dados import (
     ANOS_COM_CONTEUDO,
-    BANCO,
     COM_PERGUNTAS,
     DISCIPLINAS,
     HAB_POR_ID,
@@ -529,11 +528,12 @@ def responder_chat_turma(email: str, turma_id: str, pergunta: str, historico: li
 
 def _habilidades_da_sessao(s, turma: Turma, disciplina_id: str | None, aluno_id: str | None = None) -> list[str]:
     disc_ativas, hab_ativas, _, habs = _contexto(s, turma)
+    com_perguntas = COM_PERGUNTAS | trilhas.habilidades_com_perguntas_da_turma(s, turma.id)
     ids = []
     for d in DISCIPLINAS:
         if d["id"] not in disc_ativas or (disciplina_id and d["id"] != disciplina_id):
             continue
-        da_disc = [h.id for h in habs if h.disciplina_id == d["id"] and h.id in hab_ativas and h.id in COM_PERGUNTAS]
+        da_disc = [h.id for h in habs if h.disciplina_id == d["id"] and h.id in hab_ativas and h.id in com_perguntas]
         if aluno_id is not None and ordem_caminho(turma.ano, d["id"]) is not None:
             da_disc = caminho.frente(da_disc, _info_caminho(s, aluno_id, da_disc))
         ids.extend(da_disc)
@@ -550,12 +550,16 @@ def _turma_por_codigo(s, codigo: str) -> Turma:
 def turma_publica(codigo: str) -> dict:
     with bd.SessionLocal() as s:
         t = _turma_por_codigo(s, codigo)
-        disciplinas = [{"id": d["id"], "nome": d["nome"]} for d in DISCIPLINAS if _habilidades_da_sessao(s, t, d["id"])]
+        semanais = trilhas.publicas(s, t)
+        com_trilha = {x["disciplinaId"] for x in semanais}
+        disciplinas = [{"id": d["id"], "nome": d["nome"]} for d in DISCIPLINAS
+                       if d["id"] in com_trilha or _habilidades_da_sessao(s, t, d["id"])]
         return {
             "codigo": t.codigo,
             "nome": t.nome,
             "alunos": [{"id": a.id, "nome": curto(a.nome)} for a in _alunos(s, t)],
             "disciplinas": disciplinas,
+            "trilhas": semanais,
         }
 
 
@@ -573,37 +577,60 @@ def validar_pin(aluno_id: str, pin: str) -> dict:
             estado.gravar(_chave_pin(aluno_id), t, ESPERA_BLOQUEIO_MS / 1000 + 3600)
             return {"valido": False, "acesso": None, "bloqueado": t["bloqueadoAte"] > agora_ms()}
         estado.apagar(_chave_pin(aluno_id))
-        return {"valido": True, "acesso": credenciais.emitir(aluno_id), "bloqueado": False}
+        turma = s.get(Turma, a.turma_id)
+        feitas = trilhas.feitas_por(s, a.id, [x.id for x in trilhas.disponiveis(s, turma)]) if turma else []
+        return {"valido": True, "acesso": credenciais.emitir(aluno_id), "bloqueado": False, "trilhasFeitas": feitas}
 
 
 def aluno_do_acesso(acesso: str) -> str | None:
     return credenciais.dono(acesso)
 
 
-def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id: str | None) -> dict:
+MODOS_SESSAO = ("normal", "semana", "revisao", "praticar")
+
+
+def iniciar_sessao(codigo: str, aluno_id: str, acesso: str | None, disciplina_id: str | None,
+                   trilha_id: str | None = None, modo: str = "normal") -> dict:
     if credenciais.dono(acesso) != aluno_id:
         raise ApiErro(401, "Confirme o PIN do aluno antes de começar")
+    if modo not in MODOS_SESSAO or (modo != "normal" and not trilha_id):
+        raise ApiErro(422, "Modo de trilha inválido")
+    fixas: list[dict] = []
     with bd.SessionLocal() as s:
         t = _turma_por_codigo(s, codigo)
         if _buscar_aluno(s, aluno_id).turma_id != t.id:
             raise ApiErro(404, "Aluno não encontrado nesta turma")
-        habilidades = _habilidades_da_sessao(s, t, disciplina_id, aluno_id)
-    if len(habilidades) == 0:
+        if modo == "normal":
+            habilidades = _habilidades_da_sessao(s, t, disciplina_id, aluno_id)
+            extras = trilhas.perguntas_extras(s, t.id, habilidades)
+        else:
+            semanal = trilhas.trilha_disponivel(s, t, trilha_id)
+            habilidades = trilhas.habilidades_da_trilha(s, semanal)
+            extras = trilhas.perguntas_extras(s, t.id, habilidades)
+            if modo in ("semana", "revisao"):
+                fixas = trilhas.perguntas_da_trilha(s, semanal)
+    if not fixas and len(habilidades) == 0:
         raise ApiErro(404, "Nenhuma habilidade ativa nesta disciplina")
     adaptacao = estado_inicial_adaptacao()
-    reservadas: set[str] = set()
-    perguntas: list[dict] = []
-    for i in range(PERGUNTAS_POR_SESSAO):
-        p = escolher_pergunta(habilidades, adaptacao.nivel, reservadas, i)
-        if not p:
-            break
-        reservadas.add(p["id"])
-        perguntas.append(p)
+    if fixas:
+        perguntas = random.sample(fixas, len(fixas))
+    else:
+        reservadas: set[str] = set()
+        perguntas = []
+        for i in range(PERGUNTAS_POR_SESSAO):
+            p = escolher_pergunta(habilidades, adaptacao.nivel, reservadas, i, extras)
+            if not p:
+                break
+            reservadas.add(p["id"])
+            perguntas.append(p)
+    if not perguntas:
+        raise ApiErro(404, "Ainda não há perguntas para esta trilha")
     sessao_id = credenciais.novo_id_sessao()
     _guardar_sessao(sessao_id, {
         "acertos": 0, "alunoId": aluno_id, "total": len(perguntas), "habilidades": habilidades,
         "usadas": {perguntas[0]["id"]}, "servidas": {p["id"] for p in perguntas}, "adaptacao": adaptacao,
-        "respostas": [], "concluida": False,
+        "respostas": [], "concluida": False, "turmaId": t.id, "trilhaId": trilha_id if modo != "normal" else None,
+        "modo": modo, "fixa": bool(fixas),
     })
     return {"sessaoId": sessao_id, "perguntas": [para_cliente(p) for p in perguntas]}
 
@@ -612,7 +639,9 @@ def responder(sessao_id: str, pergunta_id: str, opcao_id: str) -> dict:
     sess = _carregar_sessao(sessao_id)
     if pergunta_id not in sess["servidas"]:
         raise ApiErro(403, "Esta pergunta não faz parte da sessão")
-    p = next((q for q in BANCO if q["id"] == pergunta_id), None)
+    with bd.SessionLocal() as s:
+        p = trilhas.pergunta_servida(s, pergunta_id, sess.get("turmaId"))
+        extras = trilhas.perguntas_extras(s, sess["turmaId"], sess["habilidades"]) if sess.get("turmaId") and not sess.get("fixa") else []
     if not p:
         raise ApiErro(404, "Pergunta não encontrada")
     certa_id = f"{p['id']}-{p['certa']}"
@@ -629,8 +658,8 @@ def responder(sessao_id: str, pergunta_id: str, opcao_id: str) -> dict:
         sess["usadas"].add(p["id"])
         sess["respostas"].append({"perguntaId": p["id"], "habilidadeId": p["habilidadeId"], "nivel": p["nivel"], "correta": correta})
         sess["adaptacao"] = registrar_resposta(sess["adaptacao"], correta)
-        if len(sess["respostas"]) < sess["total"]:
-            proxima = escolher_pergunta(sess["habilidades"], sess["adaptacao"].nivel, sess["usadas"], len(sess["respostas"]))
+        if len(sess["respostas"]) < sess["total"] and not sess.get("fixa"):
+            proxima = escolher_pergunta(sess["habilidades"], sess["adaptacao"].nivel, sess["usadas"], len(sess["respostas"]), extras)
             if proxima:
                 sess["usadas"].add(proxima["id"])
                 sess["servidas"].add(proxima["id"])
@@ -645,11 +674,14 @@ def concluir_sessao(sessao_id: str) -> dict:
         sess["concluida"] = True
         _guardar_sessao(sessao_id, sess)
         _registrar_sessao(sess)
+        if sess.get("modo") == "semana" and sess.get("trilhaId") and sess["respostas"]:
+            trilhas.registrar_conclusao(sess["trilhaId"], sess["alunoId"], sess["acertos"], sess["total"])
     acertos, total = sess["acertos"], sess["total"]
     return {
         "estrelas": acertos,
         "total": total,
         "mensagem": "Você chegou ao fim da trilha voando!" if acertos >= total - 1 else "Você chegou ao fim da trilha!",
+        "trilhaId": sess.get("trilhaId"),
     }
 
 

@@ -97,3 +97,48 @@ class EstadoTemporario(Base):
     dono: Mapped[str | None] = mapped_column(String, nullable=True, index=True)
     valor: Mapped[str] = mapped_column(Text)
     expira_em: Mapped[float] = mapped_column(Float, index=True)
+
+
+class PerguntaTurma(Base):
+    __tablename__ = "perguntas_turma"
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    turma_id: Mapped[str] = mapped_column(ForeignKey("turmas.id"), index=True)
+    habilidade_id: Mapped[str] = mapped_column(ForeignKey("habilidades.id"))
+    nivel: Mapped[str] = mapped_column(String)
+    tipo: Mapped[str] = mapped_column(String)
+    enunciado: Mapped[str] = mapped_column(Text)
+    instrucao: Mapped[str | None] = mapped_column(Text, nullable=True)
+    frase: Mapped[str | None] = mapped_column(Text, nullable=True)
+    opcoes: Mapped[str] = mapped_column(Text)
+    certa: Mapped[int] = mapped_column(Integer)
+    explicacao: Mapped[str] = mapped_column(Text, default="")
+    origem: Mapped[str] = mapped_column(String)
+    revisao: Mapped[str | None] = mapped_column(Text, nullable=True)
+    autor_email: Mapped[str] = mapped_column(String)
+    criada_em: Mapped[str] = mapped_column(String)
+
+
+class Trilha(Base):
+    __tablename__ = "trilhas"
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    turma_id: Mapped[str] = mapped_column(ForeignKey("turmas.id"), index=True)
+    disciplina_id: Mapped[str] = mapped_column(String)
+    titulo: Mapped[str] = mapped_column(String)
+    habilidades: Mapped[str] = mapped_column(Text)
+    perguntas: Mapped[str] = mapped_column(Text)
+    inicio: Mapped[str | None] = mapped_column(String, nullable=True)
+    fim: Mapped[str] = mapped_column(String)
+    status: Mapped[str] = mapped_column(String)
+    autor_email: Mapped[str] = mapped_column(String)
+    criada_em: Mapped[str] = mapped_column(String)
+
+
+class TrilhaConclusao(Base):
+    __tablename__ = "trilhas_conclusoes"
+    trilha_id: Mapped[str] = mapped_column(ForeignKey("trilhas.id"), primary_key=True)
+    aluno_id: Mapped[str] = mapped_column(ForeignKey("alunos.id"), primary_key=True)
+    concluida_em: Mapped[str] = mapped_column(String)
+    acertos: Mapped[int] = mapped_column(Integer)
+    total: Mapped[int] = mapped_column(Integer)
+    vezes: Mapped[int] = mapped_column(Integer, default=1)
+
