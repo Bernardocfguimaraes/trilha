@@ -11,6 +11,8 @@ from .dados import BANCO, HAB_POR_ID
 _ANO_LEGADO = 4
 
 NIVEIS = ("facil", "medio", "dificil")
+ESPERA_REVISOR_S = 25
+ESPERA_REVISOR_EXERCICIO_S = 15
 
 _RE_FRACAO = re.compile(r"^-?\d+/\d+$")
 
@@ -198,7 +200,7 @@ def _revisar(hab: dict, q: dict) -> bool:
         + f"\nQuestão: {q['enunciado']}\n{opcoes}"
     )
     bruto = llm.gerar(_SISTEMA_REVISOR, [{"role": "user", "content": prompt}], temperatura=0.0,
-                      max_tokens=4000, papel="revisor")
+                      max_tokens=950, papel="revisor", espera_max=ESPERA_REVISOR_EXERCICIO_S)
     r = _extrair_json(bruto or "")
     if not isinstance(r, dict):
         return False
@@ -239,7 +241,7 @@ def revisar_uma(habilidade_id: str, q: dict) -> dict | None:
         return None
     opcoes = "\n".join(f"{i}. {o}" for i, o in enumerate(q["opcoes"]))
     prompt = _contexto_habilidade(hab) + f"\nQuestão: {q['enunciado']}\n{opcoes}"
-    bruto = llm.gerar(_SISTEMA_REVISOR, [{"role": "user", "content": prompt}], temperatura=0.0, max_tokens=4000, papel="revisor")
+    bruto = llm.gerar(_SISTEMA_REVISOR, [{"role": "user", "content": prompt}], temperatura=0.0, max_tokens=950, papel="revisor", espera_max=ESPERA_REVISOR_S)
     r = _extrair_json(bruto or "")
     return _veredito(r, q["indiceCorreta"]) if isinstance(r, dict) else None
 
@@ -285,6 +287,9 @@ def _rascunho(item: dict, habilidade_id: str, nivel: str) -> dict | None:
         return None
     if not isinstance(indice, int) or isinstance(indice, bool) or not 0 <= indice <= 3 or _entrega_pelo_tamanho(opcoes, indice):
         return None
+    certa = opcoes[indice]
+    random.shuffle(opcoes)
+    indice = opcoes.index(certa)
     explicacao = str(item.get("explicacao") or "").strip()[:400]
     base = {"habilidadeId": habilidade_id, "nivel": nivel, "opcoes": opcoes, "certa": indice, "explicacao": explicacao}
     if item.get("tipo") == "lacuna":
@@ -301,7 +306,7 @@ def _rascunho(item: dict, habilidade_id: str, nivel: str) -> dict | None:
 
 
 _SISTEMA_REVISOR_LOTE = (
-    _SISTEMA_REVISOR.replace("Responda SOMENTE com JSON", "Você recebe VÁRIAS questões numeradas e revisa cada uma. Responda SOMENTE com JSON")
+    _SISTEMA_REVISOR.replace("Responda SOMENTE com JSON", "Você recebe VÁRIAS questões numeradas e revisa cada uma. Seja breve: a análise de cada questão tem no máximo duas frases. Responda SOMENTE com JSON")
     .replace('{"analise"', '{"revisoes": [{"numero": <número da questão>, "analise"')
     .replace('"problema": "..."}\n', '"problema": "..."}, ...]}\n')
 )
@@ -314,7 +319,7 @@ def _revisar_lote(hab: dict, rascunhos: list[dict]) -> list[dict | None]:
         blocos.append(f"Questão {n}: {q['enunciado']}\n{opcoes}")
     prompt = _contexto_habilidade(hab) + "\n" + "\n\n".join(blocos)
     bruto = llm.gerar(_SISTEMA_REVISOR_LOTE, [{"role": "user", "content": prompt}], temperatura=0.0,
-                      max_tokens=min(12000, 2500 + 1500 * len(rascunhos)), papel="revisor")
+                      max_tokens=1000, papel="revisor", espera_max=ESPERA_REVISOR_S)
     dados = _extrair_json(bruto or "")
     revisoes = dados.get("revisoes") if isinstance(dados, dict) else None
     if not isinstance(revisoes, list):
@@ -333,7 +338,7 @@ def gerar_lote(habilidade_id: str, descricao: str, quantidade: int, nivel: str, 
         + f"Crie {quantidade} questões de {_NIVEL_DESC.get(nivel, 'nível médio')}. {_TIPOS_LOTE.get(tipo, _TIPOS_LOTE['misto'])}"
     )
     bruto = llm.gerar(_sistema_lote(hab.get("ano") or _ANO_LEGADO), [{"role": "user", "content": prompt}],
-                      temperatura=0.5, max_tokens=min(9000, 2500 + 900 * quantidade))
+                      temperatura=0.5, max_tokens=min(5000, 2000 + 500 * quantidade))
     dados = _extrair_json(bruto or "")
     itens = dados.get("perguntas") if isinstance(dados, dict) else None
     if not isinstance(itens, list):

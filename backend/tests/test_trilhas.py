@@ -151,7 +151,7 @@ def test_trilha_normal_tambem_usa_as_perguntas_da_turma():
 def _llm_falso(monkeypatch, respostas):
     chamadas = []
 
-    def gerar(sistema, mensagens, temperatura=0.4, max_tokens=500, papel="geral"):
+    def gerar(sistema, mensagens, temperatura=0.4, max_tokens=500, papel="geral", **_):
         chamadas.append(papel)
         return respostas[papel]
 
@@ -160,7 +160,18 @@ def _llm_falso(monkeypatch, respostas):
     return chamadas
 
 
+def test_rascunho_embaralha_as_alternativas_e_acompanha_o_gabarito():
+    item = {"tipo": "escolha", "enunciado": "Quanto é metade de 10?", "opcoes": ["5", "2", "20", "8"], "indiceCorreta": 0}
+    posicoes = set()
+    for _ in range(40):
+        r = exercicios._rascunho(item, "mat-fracoes", "facil")
+        assert r["opcoes"][r["certa"]] == "5"
+        posicoes.add(r["certa"])
+    assert len(posicoes) > 1
+
+
 def test_ia_gera_rascunhos_da_aula_em_duas_chamadas(cliente, auth, monkeypatch):
+    monkeypatch.setattr(exercicios.random, "shuffle", lambda lista: None)
     lote = {"perguntas": [
         {"tipo": "escolha", "enunciado": "Numa receita de bolo, usamos metade de 4 xícaras. Quantas xícaras?", "opcoes": ["2", "4", "1", "3"], "indiceCorreta": 0, "explicacao": "Metade de 4 é 2."},
         {"tipo": "lacuna", "instrucao": "Complete a frase", "frase": "Um quarto da receita é ___ do total.", "opcoes": ["1/4", "1/2", "3/4", "2/3"], "indiceCorreta": 0, "explicacao": "Um quarto é 1/4."},

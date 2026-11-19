@@ -54,7 +54,7 @@ def revisar(cache: dict, revisor: str, hab: dict, q: dict) -> dict | None:
     chave = _chave("revisar", modelo, prompt)
     if chave not in cache:
         bruto = llm.gerar(exercicios._SISTEMA_REVISOR, [{"role": "user", "content": prompt}], temperatura=0.0,
-                          max_tokens=4000, papel=papel)
+                          max_tokens=950, papel=papel)
         if bruto is None:
             return None
         cache[chave] = bruto

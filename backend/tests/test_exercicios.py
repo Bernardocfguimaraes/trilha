@@ -19,7 +19,7 @@ def test_checador_recusa_resposta_que_se_entrega_pelo_tamanho():
 def _simular_llm(monkeypatch, aprova: bool):
     chamadas = {"gerador": 0, "revisor": 0}
 
-    def gerar(sistema, mensagens, temperatura=0.4, max_tokens=500, papel="geral"):
+    def gerar(sistema, mensagens, temperatura=0.4, max_tokens=500, papel="geral", **_):
         if papel == "revisor":
             chamadas["revisor"] += 1
             return json.dumps({"analise": "ok", "resposta": 0 if aprova else 1, "unicaCorreta": aprova,
@@ -63,7 +63,7 @@ def test_conversa_envia_habilidades_por_aluno_e_temperatura_baixa(monkeypatch):
     assert "- Bruno F.: alerta em Frações simples (Matemática); atenção em Multiplicação (Matemática)" in linhas
     enviado = {}
 
-    def gerar(sistema, mensagens, temperatura=0.4, max_tokens=500, papel="geral"):
+    def gerar(sistema, mensagens, temperatura=0.4, max_tokens=500, papel="geral", **_):
         enviado.update(sistema=sistema, temperatura=temperatura)
         return "ok"
 
@@ -101,7 +101,7 @@ def test_ia_recebe_os_exercicios_a_evitar(cliente, auth, monkeypatch):
     pedidos = []
     original = exercicios.llm.gerar
 
-    def espiar(sistema, mensagens, temperatura=0.4, max_tokens=500, papel="geral"):
+    def espiar(sistema, mensagens, temperatura=0.4, max_tokens=500, papel="geral", **_):
         if papel != "revisor":
             pedidos.append(mensagens[-1]["content"])
         return original(sistema, mensagens, temperatura, max_tokens, papel)

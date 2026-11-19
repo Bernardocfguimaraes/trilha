@@ -84,7 +84,7 @@ def _cota_diaria(e: urllib.error.HTTPError, espera: float) -> bool:
     return espera > _ESPERA_MAXIMA or "per day" in corpo or "daily" in corpo or "per_day" in corpo
 
 
-def _chamar(p: Provedor, corpo: dict) -> str | None:
+def _chamar(p: Provedor, corpo: dict, espera_max: float = 0.0) -> str | None:
     if p.raciocinio:
         corpo = {**corpo, "reasoning_effort": p.raciocinio}
     req = urllib.request.Request(
@@ -97,7 +97,7 @@ def _chamar(p: Provedor, corpo: dict) -> str | None:
         },
         method="POST",
     )
-    for tentativa in range(8 if ESPERAR_LIMITE else 1):
+    for tentativa in range(8 if ESPERAR_LIMITE else 2):
         try:
             with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
                 dados = json.loads(resp.read().decode("utf-8"))
@@ -111,7 +111,10 @@ def _chamar(p: Provedor, corpo: dict) -> str | None:
                 p.esgotado = True
                 return None
             if not ESPERAR_LIMITE:
-                return None
+                if tentativa > 0 or espera > espera_max:
+                    return None
+                time.sleep(espera + 0.5)
+                continue
             time.sleep(espera + 1)
         except Exception:
             return None
@@ -119,7 +122,7 @@ def _chamar(p: Provedor, corpo: dict) -> str | None:
 
 
 def gerar(sistema: str, mensagens: list[dict], temperatura: float = 0.4, max_tokens: int = 500,
-          papel: str = "geral") -> str | None:
+          papel: str = "geral", espera_max: float = 0.0) -> str | None:
     provedores = _REVISOR if papel == "revisor" else _GERAL
     corpo = {
         "messages": [{"role": "system", "content": sistema}, *mensagens],
@@ -129,7 +132,7 @@ def gerar(sistema: str, mensagens: list[dict], temperatura: float = 0.4, max_tok
     for p in provedores:
         if p.esgotado:
             continue
-        texto = _chamar(p, corpo)
+        texto = _chamar(p, corpo, espera_max)
         if texto:
             return texto
     if ESPERAR_LIMITE and provedores and all(p.esgotado for p in provedores):
