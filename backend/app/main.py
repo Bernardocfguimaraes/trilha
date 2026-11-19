@@ -44,6 +44,13 @@ if bd.engine.dialect.name == "sqlite":
 if not bd.EM_MEMORIA:
     from sqlalchemy import inspect as _inspecionar
 
+    from .modelos import Base as _Base
+
+    try:
+        _Base.metadata.create_all(bd.engine)
+    except Exception as _erro:
+        print(f"[trilha] Não foi possível criar as tabelas novas agora: {_erro}")
+
     if _inspecionar(bd.engine).has_table("habilidades"):
         from .seed import sincronizar_catalogo
 
