@@ -21,6 +21,8 @@ modelo diz isso e age antes da prova.**
 
 *Projeto final do Nanodegree em Inteligência Artificial e Machine Learning*
 
+**🔗 Demonstração online: [trilha-murex.vercel.app](https://trilha-murex.vercel.app)**
+
 </div>
 
 ---
@@ -72,8 +74,12 @@ A Trilha transforma a prática diária do aluno em **dados por habilidade da BNC
 | **Quem pode piorar nas próximas semanas?** | Previsão (Random Forest com ponto de corte calibrado) | "Pode cair para alerta" antes de o aluno travar |
 | **Quem tem dificuldades parecidas?** | Aprendizado não supervisionado (k-means) | Grupos de reforço com o foco de cada um |
 
-**LLMs** completam o ciclo: geram exercícios de reforço (conferidos por um revisor de outro
-modelo), escrevem recomendações pedagógicas e conversam com a professora sobre a turma.
+**LLMs** completam o ciclo: geram exercícios de reforço e rascunhos para as trilhas da semana
+(conferidos por um revisor de outro modelo), escrevem recomendações pedagógicas e conversam com a
+professora sobre a turma.
+
+A professora também monta a **trilha da semana**: escolhe o conteúdo que está em sala, junta
+perguntas escritas por ela, pedidas à IA ou tiradas do banco, e lança para a turma com data de fim.
 
 ---
 
@@ -88,7 +94,7 @@ integradas no mesmo produto.
 | **Ingerir dados** | Cada sessão do aluno vira histórico por habilidade (desempenho de 0 a 100 por dia). A professora confirma ou corrige o diagnóstico, e isso vira um **rótulo real**. |
 | **Modelo que faz previsões** | Três modelos: diagnóstico (F1 macro **0,61** contra 0,57 da regra, encontrando 2,5× mais alunos em "atenção"), previsão de risco (AUC **0,90**) e agrupamento (k-means com silhueta). |
 | **Previsões que orientam decisões** | O painel mostra quem ajudar, em quê, quem pode piorar e como agrupar a turma, e explica o porquê de cada status. |
-| **Aplicação com LLMs** | Geração de exercícios com revisor independente, recomendações, conversa sobre a turma e perguntas por voz (Whisper). |
+| **Aplicação com LLMs** | Geração de exercícios e de rascunhos para as trilhas da semana com revisor independente, recomendações, conversa sobre a turma e perguntas por voz (Whisper). |
 | **Avaliação rigorosa** | Comparação com regra simples (*baseline*), validação cruzada estratificada, matriz de confusão, métricas por classe, **verificação de que treino e produção têm a mesma origem de dados** e avaliação do revisor de IA com erros plantados. |
 | **Produto utilizável** | Aplicação web completa para três públicos (aluno, professora e responsável), com login, várias turmas e conteúdo do 4º ao 9º ano. |
 | **Qualidade de engenharia** | 101 testes automatizados, integração contínua, modelo exportado com inferência em Python puro e guia de deploy em planos gratuitos. |
@@ -153,19 +159,23 @@ integradas no mesmo produto.
 
 ## 📚 Conteúdo pedagógico (BNCC)
 
-São **921 questões** e **6 matérias** (Português, Matemática, Geografia, Ciências, História e
+São **906 questões** no banco curado e **6 matérias** (Português, Matemática, Geografia, Ciências, História e
 Inglês), do **4º ao 9º ano**.
 
 | Ano | Matérias | Habilidades | Questões |
 |:---:|---|:---:|:---:|
-| 4º | Português (caminho BNCC completo), História, Matemática, Geografia, Ciências e Inglês | 49 | 341 |
+| 4º | Português (caminho BNCC completo), História, Matemática, Geografia, Ciências e Inglês | 49 | 327 |
 | 5º | Português, Matemática, Geografia, Ciências e História* | 20 | 100 |
-| 6º | As seis matérias | 24 | 120 |
+| 6º | As seis matérias | 24 | 119 |
 | 7º | As seis matérias | 24 | 120 |
 | 8º | As seis matérias | 24 | 120 |
 | 9º | As seis matérias | 24 | 120 |
 
 <sub>* Na BNCC, Língua Inglesa começa no 6º ano; por isso o 5º tem cinco matérias.</sub>
+
+Além do banco, cada turma tem as **perguntas da própria professora** (escritas por ela ou pedidas
+à IA e aprovadas por ela), que entram nas trilhas da semana e também na trilha normal, como
+revisão.
 
 **Cuidados com o conteúdo:**
 - **Texto oficial da BNCC.** Cada habilidade usa o código e a descrição do documento do MEC
@@ -417,8 +427,13 @@ Tudo roda no **plano gratuito da Groq**, com provedor de reserva opcional (Gemin
 | **Exercícios de reforço** | O professor escolhe habilidade e nível. O **gerador** (`openai/gpt-oss-120b`) cria a questão no mesmo formato do banco curado. Um **checador em Python** confere o formato (exatamente 4 opções distintas, sem opções equivalentes como 1/2 e 2/4, enunciado com pergunta). Um **revisor de outro modelo** (`qwen/qwen3.8-27b`) resolve a questão **sem ver o gabarito** e só aprova se chegar à mesma resposta, sem ambiguidade e sem erro de conteúdo. Se algo falhar, entra uma questão do banco curado. |
 | **Rascunhos da trilha da semana** | A professora conta o que trabalhou na aula e escolhe o conteúdo. O gerador escreve de 2 a 6 questões nesse contexto (múltipla escolha e completar a frase) numa só chamada, e o revisor confere todas numa segunda chamada, sem ver o gabarito. Cada rascunho chega com o veredito; quando o revisor discorda, ele mostra o motivo e a professora decide. Perguntas escritas à mão podem ser revisadas com um clique. |
 | **Recomendações pedagógicas** | Texto de orientação para cada habilidade em alerta ou atenção, com cache por habilidade e status para não gastar cota à toa. |
-| **Conversa sobre a turma** | O LLM recebe um retrato real da turma (quem está em alerta, quem evoluiu, quem parou de praticar) e responde à professora em linguagem natural. |
+| **Conversa sobre a turma** | O LLM recebe um retrato real da turma, aluno por aluno (quem está em alerta, quem evoluiu, quem parou de praticar), com temperatura baixa (0,2) e a instrução de responder só com esses dados. Numa auditoria das respostas contra os dados da turma, **76 afirmações foram conferidas e nenhuma era inventada**. |
 | **Perguntas por voz** | A professora grava a pergunta e o Whisper (Groq) transcreve. |
+
+**Cabe no plano gratuito.** Os rascunhos da trilha (até 6 perguntas) custam só 2 chamadas: uma
+para gerar e outra para revisar todas. As recomendações ficam guardadas por habilidade e status.
+O revisor respeita o limite de 1.000 tokens de saída por minuto da Groq. Quando o limite por
+minuto estoura, a API espera alguns segundos e tenta de novo, em vez de falhar.
 
 **Funciona com ou sem IA.** Sem chave, ou quando a cota acaba, tudo volta aos textos prontos
 (com um texto de apoio por matéria para cada habilidade) e ao banco curado. A demonstração nunca
@@ -466,6 +481,9 @@ Dados de crianças pedem cuidado. Foram tratados:
   navegador antes de o aluno responder, só perguntas entregues à sessão podem ser respondidas e
   responder de novo não soma estrela.
 - **Responsável só lê o progresso do próprio filho** e não abre nenhuma rota do professor.
+- **Trilha da semana com prazo de verdade:** depois da data de fim, ou quando a professora encerra,
+  a API recusa novas sessões daquela trilha. Pergunta que está numa trilha lançada não pode ser
+  apagada.
 - **Validação de entrada** com limites de tamanho em todos os campos, **CSP** e cabeçalhos de
   segurança, e **CORS** restrito às origens do front (teste garante que domínios parecidos,
   como `trilha.vercel.app.golpe.com`, são recusados).
@@ -556,6 +574,9 @@ Abra **http://localhost:3000**:
 | 🧒 Aluno | Código **`SABIA4`** (4º ano B, com histórico) ou **`TUCANO8`** (8º ano A, começando do zero). Os PINs aparecem em **Painel > Turma** |
 | 👨‍👩‍👧 Responsável | O mesmo código da turma e o PIN do filho |
 
+Para ver a trilha da semana: no painel, **Trilhas > Nova trilha**. Depois de lançada, ela aparece
+no cartão da matéria para os alunos da turma.
+
 > 💡 **Sem a API:** sem `NEXT_PUBLIC_API_URL`, o front roda sozinho com dados de exemplo (login
 > `professora@trilha.app` / `trilha-demo`, ou o valor de `PROFESSOR_SENHA`).
 
@@ -585,9 +606,10 @@ npm run test:backend     # API: 86 testes (pytest)
 | **Turmas e conteúdo** | Criação de turma, conteúdo de cada ano na sessão do aluno, validação de entrada, sincronização de catálogo em banco antigo |
 | **Qualidade das questões** | Formato, códigos BNCC oficiais e do ano certo, alternativa correta sem viés de tamanho, enunciados completos, posição da resposta sorteada |
 | **Machine Learning** | Paridade com o scikit-learn, métricas acima da regra simples, simulador de treino igual ao app, modelo vencendo a regra em dados novos como os do app, coerência da explicação, previsão de risco, k-means recuperando perfis conhecidos |
-| **IA** | Exercício pedido no painel passa pelo revisor de outro modelo; com recusa, entra uma questão do banco curado; o checador recusa alternativa que entrega a resposta pelo tamanho |
+| **IA** | Exercício pedido no painel passa pelo revisor de outro modelo; com recusa, entra uma questão do banco curado; o checador recusa alternativa que entrega a resposta pelo tamanho; rascunhos em lote com a resposta certa em posição sorteada; espera curta e limitada quando a Groq atinge o limite por minuto |
+| **Trilhas da semana** | Criar, lançar e encerrar; o aluno recebe exatamente as perguntas da professora, embaralhadas; trilha vencida ou encerrada fica indisponível; conclusão registrada, com revisão e praticar mais; perguntas da professora entram na trilha normal; pergunta em trilha lançada não pode ser apagada; rotas exigem login |
 | **Relatórios e responsável** | Planilha CSV, acesso só ao próprio filho |
-| **Front** | Lacuna reconhecida a partir do enunciado; respostas da IA exibidas com negrito e listas, sem símbolos crus |
+| **Front** | Lacuna reconhecida a partir do enunciado (inclusive a montada no formulário da professora); respostas da IA exibidas com negrito e listas, sem símbolos crus |
 
 A **integração contínua** (`.github/workflows/testes.yml`) roda tudo a cada push: testes do
 backend (Python 3.12) e, no front (Node 24), testes, geração de tipos de rota, `tsc` e ESLint.
@@ -596,7 +618,8 @@ backend (Python 3.12) e, no front (Node 24), testes, geração de tipos de rota,
 
 ## ☁️ Deploy
 
-Tudo em **planos gratuitos**, sem cartão, num único projeto da Vercel:
+Em produção em **[trilha-murex.vercel.app](https://trilha-murex.vercel.app)**, região São Paulo. Tudo em
+**planos gratuitos**, sem cartão, num único projeto da Vercel:
 
 | Parte | Serviço |
 |---|---|
@@ -629,6 +652,7 @@ trilha/
 │   │   │   ├── grupos/           #     grupos de reforço
 │   │   │   ├── modelo/           #     "Como o diagnóstico funciona"
 │   │   │   ├── conversa/         #     conversa com IA
+│   │   │   ├── trilhas/          #     trilhas da semana (lista, nova, editar)
 │   │   │   └── turma/, turmas/   #     configuração e criação de turma
 │   │   ├── responsavel/          #   acesso do responsável
 │   │   └── api/                  #   ponte do professor, login, modo demonstração
@@ -643,7 +667,9 @@ trilha/
 │   │   ├── diagnostico.py        #   inferência e explicação do diagnóstico
 │   │   ├── risco.py              #   inferência da previsão de risco
 │   │   ├── grupos.py             #   k-means e silhueta
-│   │   ├── exercicios.py         #   geração e revisão de exercícios com LLM
+│   │   ├── exercicios.py         #   geração e revisão de exercícios com LLM (um a um e em lote)
+│   │   ├── trilhas.py            #   trilhas da semana e perguntas da professora
+│   │   ├── estado.py             #   sessões, credenciais e tentativas guardadas no banco
 │   │   ├── llm.py · chat.py · voz.py · recomendacoes.py
 │   │   └── bncc/                 #   texto oficial da BNCC, caminhos e questões por ano
 │   ├── ml/                       #   treino e avaliação
@@ -678,10 +704,11 @@ trilha/
 | `POST` | `/exercicios/gerar` | Exercício de reforço gerado por IA |
 | `GET` · `POST` | `/turmas/{id}/trilhas` · `/trilhas/{id}` | Trilhas da semana: criar, editar, lançar, encerrar |
 | `GET` · `POST` | `/turmas/{id}/perguntas` · `/turmas/{id}/perguntas/rascunhos` | Perguntas da professora e rascunhos da IA |
+| `GET` | `/turmas/{id}/conteudos` · `/turmas/{id}/banco` | Conteúdos da turma por matéria e perguntas do banco para a trilha |
 | `POST` | `/voz/transcrever` | Transcrição de áudio (Whisper) |
 | `GET` | `/turmas/{codigo}` | Dados públicos da turma (para o aluno entrar) |
 | `POST` | `/acesso/pin` | Valida o PIN e devolve a credencial |
-| `POST` | `/sessoes` · `/sessoes/{id}/respostas` · `/sessoes/{id}/concluir` | Trilha do aluno, com dificuldade adaptativa |
+| `POST` | `/sessoes` · `/sessoes/{id}/respostas` · `/sessoes/{id}/concluir` | Trilha do aluno: normal (adaptativa), da semana, revisão ou praticar mais |
 | `POST` | `/responsavel/progresso` | Progresso do filho (só leitura) |
 
 A documentação interativa fica em `http://127.0.0.1:8000/docs`, gerada pelo FastAPI. Mais
@@ -701,6 +728,8 @@ detalhes em [`backend/README.md`](backend/README.md).
 | **Revisor de outra família de modelo** | Um modelo revisando a si mesmo repete os próprios erros, e na Groq cada modelo tem cota gratuita separada. |
 | **SQLite como padrão** | A rede da faculdade bloqueia o Postgres externo; com SQLite a apresentação não depende de rede. |
 | **Professora no controle** | O status é apoio à decisão. A professora pode corrigir o modelo, e essa correção vira dado. |
+| **Trilha da semana montada pela professora** | O banco cobre a BNCC, mas a professora sabe o que trabalhou na semana. Ela escolhe as perguntas; a IA só sugere rascunhos, e nada chega ao aluno sem ela aprovar. A trilha adaptativa continua disponível ao lado. |
+| **Gerar e revisar em lote** | Pedir várias perguntas numa chamada e revisar todas na seguinte economiza cota gratuita e cabe no limite por minuto do revisor. |
 | **Honestidade nas métricas** | Métricas medidas em dados como os do app (mesmo que menores), recorte que evita AUC inflada, silhueta baixa mostrada na tela, empate do revisor de IA relatado como empate. |
 
 ---
@@ -724,6 +753,7 @@ detalhes em [`backend/README.md`](backend/README.md).
   teste com gabarito trocado não alcança.
 - **Ampliar o conteúdo** para o caminho BNCC completo de cada ano e matéria.
 - **Previsão por aluno** (não só por habilidade) e acompanhamento ao longo do ano letivo.
+- **Resultado por pergunta da trilha da semana**, para a professora ver quais questões a turma mais errou.
 
 ---
 
